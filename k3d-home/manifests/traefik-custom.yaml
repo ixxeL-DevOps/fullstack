@@ -1,0 +1,124 @@
+# ---
+# apiVersion: helm.cattle.io/v1
+# kind: HelmChart
+# metadata:
+#   name: traefik
+#   namespace: kube-system
+# spec:
+#   targetNamespace: traefik
+#   createNamespace: true
+#   version: 34.3.0
+#   chart: traefik
+#   repo: https://traefik.github.io/charts
+#   valuesContent: |-
+#     podDisruptionBudget
+#       enabled: true
+#       minAvailable: 1
+#     ingressClass:
+#       enabled: true
+#       isDefaultClass: true
+#       name: "traefik"
+
+#     experimental:
+#       kubernetesGateway:
+#         enabled: false
+
+#     gateway:
+#       enabled: true
+#       name: ""
+#       namespace: ""
+#       annotations: {}
+#       infrastructure: {}
+#       listeners:
+#         web:
+#           port: 8000
+#           hostname: ""
+#           protocol: HTTP
+#           namespacePolicy:
+#     gatewayClass:
+#       enabled: true
+#       name: ""
+
+#     ingressRoute:
+#       dashboard:
+#         enabled: true
+#         annotations: {}
+#         labels: {}
+#         matchRule: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+#         services:
+#           - name: api@internal
+#             kind: TraefikService
+#         entryPoints: ["traefik"]
+#         middlewares: []
+#         tls: {}
+#       healthcheck:
+#         enabled: true
+#         annotations: {}
+#         labels: {}
+#         matchRule: PathPrefix(`/ping`)
+#         services:
+#           - name: ping@internal
+#             kind: TraefikService
+#         entryPoints: ["traefik"]
+#         middlewares: []
+#         tls: {}
+
+#     providers:
+#       kubernetesCRD:
+#         enabled: true
+#         allowCrossNamespace: true
+#         allowExternalNameServices: true
+#         allowEmptyServices: true
+#       kubernetesIngress:
+#         enabled: true
+#         allowExternalNameServices: true
+#         allowEmptyServices: true
+#         publishedService:
+#           enabled: true
+
+#     logs:
+#       general:
+#         level: "INFO"  # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
+
+#     globalArguments:
+#     - "--global.checknewversion"
+#     - "--global.sendanonymoususage"
+#     additionalArguments: []
+#     #  - "--providers.kubernetesingress.ingressclass=traefik-internal"
+#     #  - "--log.level=DEBUG"
+
+#     service:
+#       enabled: true
+#       single: true
+#       type: LoadBalancer
+#       loadBalancerSourceRanges: []
+#       # - 192.168.0.1/32
+#       # - 172.16.0.0/16
+#       externalIPs: []
+#       # - 1.2.3.4
+#       ipFamilyPolicy: PreferDualStack
+#       # ipFamilies:
+#       #   - IPv4
+#       #   - IPv6
+
+#     autoscaling:
+#       enabled: true
+#       maxReplicas: 3
+#       metrics:
+#       - type: Resource
+#         resource:
+#           name: cpu
+#           target:
+#             type: Utilization
+#             averageUtilization: 80
+
+#     priorityClassName: "system-cluster-critical"
+#     tolerations:
+#     - key: "CriticalAddonsOnly"
+#       operator: "Exists"
+#     - key: "node-role.kubernetes.io/control-plane"
+#       operator: "Exists"
+#       effect: "NoSchedule"
+#     - key: "node-role.kubernetes.io/master"
+#       operator: "Exists"
+#       effect: "NoSchedule"
