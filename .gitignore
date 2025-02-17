@@ -1,3 +1,6 @@
+*.key
+*.crt
+k3d-home/local-storage/adguard-data/work/data
 k3d-home/manifests/ccm.yaml
 k3d-home/manifests/coredns.yaml
 k3d-home/manifests/local-storage.yaml
