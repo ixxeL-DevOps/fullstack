@@ -34,7 +34,10 @@ options:
     disableRollback: false
   k3s:
     extraArgs:
-      - arg: --no-deploy=traefik
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      - arg: --disable=metrics-server
         nodeFilters:
           - server:*
       - arg: --tls-san=127.0.0.1
