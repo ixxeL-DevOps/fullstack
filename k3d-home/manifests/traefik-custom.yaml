@@ -41,22 +41,11 @@ spec:
         enabled: true
         annotations: {}
         labels: {}
-        matchRule: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+        matchRule: Host(`traefik.fullstack.fredcorp.com`)
         services:
           - name: api@internal
             kind: TraefikService
-        entryPoints: ["traefik"]
-        middlewares: []
-        tls: {}
-      healthcheck:
-        enabled: true
-        annotations: {}
-        labels: {}
-        matchRule: PathPrefix(`/ping`)
-        services:
-          - name: ping@internal
-            kind: TraefikService
-        entryPoints: ["traefik"]
+        entryPoints: ["web","websecure"]
         middlewares: []
         tls: {}
     providers:
@@ -75,7 +64,7 @@ spec:
         enabled: false
     logs:
       general:
-        level: "INFO"  # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
+        level: "DEBUG"  # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
     globalArguments:
     - "--global.checknewversion"
     - "--global.sendanonymoususage"
