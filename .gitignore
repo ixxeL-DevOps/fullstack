@@ -1,4 +1,3 @@
-k3d-home/local-storage
 k3d-home/manifests/ccm.yaml
 k3d-home/manifests/coredns.yaml
 k3d-home/manifests/local-storage.yaml
