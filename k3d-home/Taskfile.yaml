@@ -19,3 +19,15 @@ tasks:
     vars:
       PWD:
         sh: pwd
+
+  nc:wireguard:
+    desc: "Test wireguard UDP port"
+    cmds:
+    - |
+      nc -zv -u 127.0.0.1 51820
+
+  nc:dns:
+    desc: "Test DNS UDP port"
+    cmds:
+    - |
+      nc -zv -u 127.0.0.1 53
