@@ -66,8 +66,7 @@ spec:
       dns:
         enabled: true
         type: LoadBalancer
-        externalTrafficPolicy:
-        loadBalancerIP:
+        externalTrafficPolicy: Local
         tcp:
           port: 53
           nodePort:
@@ -77,7 +76,7 @@ spec:
       dnsOverTls:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP:
+        externalTrafficPolicy: Local
         port: 853
       dnsOverQuic:
         enabled: true
@@ -88,13 +87,11 @@ spec:
         port2:
           port: 8853
           nodePort:
-        externalTrafficPolicy:
-        loadBalancerIP:
+        externalTrafficPolicy: Local
       dnscrypt:
         enabled: false
         type: LoadBalancer
-        externalTrafficPolicy:
-        loadBalancerIP:
+        externalTrafficPolicy: Local
         tcp:
           port: 5443
           nodePort:
