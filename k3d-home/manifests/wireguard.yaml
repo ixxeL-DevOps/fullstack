@@ -1,0 +1,203 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wireguard
+---
+# Source: wg-portal/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: wg-portal
+  labels:
+    helm.sh/chart: wg-portal-0.7.0
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/instance: wg-portal
+    app.kubernetes.io/version: "v2"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: wg-portal/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wg-portal
+  labels:
+    helm.sh/chart: wg-portal-0.7.0
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/instance: wg-portal
+    app.kubernetes.io/version: "v2"
+    app.kubernetes.io/managed-by: Helm
+stringData:
+  config.yml: |
+    advanced:
+      start_listen_port: 51820
+    statistics:
+      listening_address: :8787
+    web:
+      external_url: http://wireguard.fullstack.fredcorp.com
+      listening_address: :8888
+---
+# Source: wg-portal/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    helm.sh/chart: wg-portal-0.7.0
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/instance: wg-portal
+    app.kubernetes.io/version: "v2"
+    app.kubernetes.io/managed-by: Helm
+  name: wg-portal
+spec:
+  ports:
+    - appProtocol: http
+      name: web
+      port: 8888
+      protocol: TCP
+      targetPort: web
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/instance: wg-portal
+---
+# Source: wg-portal/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    helm.sh/chart: wg-portal-0.7.0
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/instance: wg-portal
+    app.kubernetes.io/version: "v2"
+    app.kubernetes.io/managed-by: Helm
+  name: wg-portal-wireguard
+spec:
+  ports:
+    - name: wg0
+      port: 51820
+      protocol: UDP
+      targetPort: wg0
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/instance: wg-portal
+---
+# Source: wg-portal/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wg-portal
+  labels:
+    helm.sh/chart: wg-portal-0.7.0
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/instance: wg-portal
+    app.kubernetes.io/version: "v2"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wg-portal
+      app.kubernetes.io/instance: wg-portal
+  template:
+    metadata:
+      annotations:
+        checksum/config: 6a5ff8a57a071b9a2b7e11140130c0fc46904dea6959e3ab6782f15543e31b26
+        kubectl.kubernetes.io/default-container: wg-portal
+      labels:
+        app.kubernetes.io/instance: wg-portal
+        app.kubernetes.io/name: wg-portal
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: wg-portal
+          image: "ghcr.io/h44z/wg-portal:v2"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: metrics
+              containerPort: 8787
+              protocol: TCP
+            - name: web
+              containerPort: 8888
+              protocol: TCP
+            - name: wg0
+              containerPort: 51820
+              protocol: UDP
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+              readOnly: true
+            - name: data
+              mountPath: /app/data
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: wg-portal
+      volumes:
+        - name: config
+          secret:
+            secretName: wg-portal
+        - name: data
+          emptyDir: {}
+---
+# Source: wg-portal/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wg-portal
+  labels:
+    helm.sh/chart: wg-portal-0.7.0
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/instance: wg-portal
+    app.kubernetes.io/version: "v2"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: wireguard.fullstack.fredcorp.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: wg-portal
+                port:
+                  name: web
+
+# ---
+# apiVersion: helm.cattle.io/v1
+# kind: HelmChart
+# metadata:
+#   name: wireguard
+#   namespace: kube-system
+# spec:
+#   targetNamespace: wireguard
+#   createNamespace: true
+#   # version: 0.7.0
+#   chart: ghcr.io/h44z/charts/wg-portal:0.7.0
+#   # repo: oci://ghcr.io/h44z/charts/wg-portal
+#   valuesContent: |-
+#     service:
+#       mixed:
+#         enabled: false
+#         type: LoadBalancer
+#       web:
+#         type: ClusterIP
+#         port: 8888
+#         appProtocol: http
+#       wireguard:
+#         type: LoadBalancer
+#         ports:
+#           - 51820
+#       metrics:
+#         port: 8787
+
+#     ingress:
+#       enabled: true
+#       className: "traefik"
+#       tls: false
