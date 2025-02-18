@@ -31,6 +31,12 @@ ports:
   - port: 53:53/udp
     nodeFilters:
       - loadbalancer
+  - port: 784:784/udp
+    nodeFilters:
+      - loadbalancer
+  - port: 853:853/udp
+    nodeFilters:
+      - loadbalancer
 options:
   k3d:
     wait: true
