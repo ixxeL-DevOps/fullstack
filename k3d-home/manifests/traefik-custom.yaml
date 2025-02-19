@@ -72,7 +72,10 @@ spec:
     service:
       enabled: true
       single: true
+      # annotations:
+      #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
       type: LoadBalancer
+      # loadBalancerIP: 172.18.0.2
       loadBalancerSourceRanges: []
       ipFamilyPolicy: PreferDualStack
     autoscaling:

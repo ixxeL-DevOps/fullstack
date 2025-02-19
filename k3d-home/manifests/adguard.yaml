@@ -66,7 +66,10 @@ spec:
       dns:
         enabled: true
         type: LoadBalancer
+        # annotations:
+        #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
         externalTrafficPolicy: Local
+        # loadBalancerIP: 172.18.0.2
         tcp:
           port: 53
           nodePort:
@@ -76,11 +79,16 @@ spec:
       dnsOverTls:
         enabled: true
         type: LoadBalancer
+        # annotations:
+        #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
         externalTrafficPolicy: Local
+        # loadBalancerIP: 172.18.0.2
         port: 853
       dnsOverQuic:
         enabled: true
         type: LoadBalancer
+        # annotations:
+        #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
         port1:
           port: 784
           nodePort:
@@ -88,10 +96,14 @@ spec:
           port: 8853
           nodePort:
         externalTrafficPolicy: Local
+        # loadBalancerIP: 172.18.0.2
       dnscrypt:
         enabled: false
         type: LoadBalancer
+        # annotations:
+        #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
         externalTrafficPolicy: Local
+        # loadBalancerIP: 172.18.0.2
         tcp:
           port: 5443
           nodePort:
