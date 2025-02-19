@@ -12,7 +12,7 @@ spec:
   source:
     directory:
       recurse: true
-    path: k0s-home/applications
+    path: k0s-home/core
     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
     targetRevision: main
   syncPolicy:
