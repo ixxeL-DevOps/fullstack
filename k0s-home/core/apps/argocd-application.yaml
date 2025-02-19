@@ -2,15 +2,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: external-secrets-k0s
+  name: argocd-apps
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
-    namespace: external-secrets
-  project: infra-security
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: argocd
   source:
-    path: k0s-home/manifests/external-secrets
+    directory:
+      recurse: true
+    path: k0s-home/applications
     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
     targetRevision: main
   syncPolicy:

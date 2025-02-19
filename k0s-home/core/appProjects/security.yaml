@@ -1,0 +1,19 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infra-security
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  description: Security Project
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  sourceRepos:
+    - '*'
