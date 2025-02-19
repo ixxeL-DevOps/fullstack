@@ -1,0 +1,8 @@
+external-secrets:
+  installCRDs: true
+  crds:
+    createClusterExternalSecret: true
+    createClusterSecretStore: true
+    createPushSecret: true
+    conversion:
+      enabled: true
