@@ -19,4 +19,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - k3d-k3d-home-server-0
+                - fullstack
