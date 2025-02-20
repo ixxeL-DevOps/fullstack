@@ -26,7 +26,7 @@ vault:
       pathType: Prefix
       activeService: true
       hosts:
-        - host: vault.fullstack.fredcorp.com
+        - host: vault.k0s-fullstack.fredcorp.com
           paths: []
       tls: []
       #  - secretName: chart-example-tls
