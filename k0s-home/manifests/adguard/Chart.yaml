@@ -1,8 +1,8 @@
 apiVersion: v2
-name: vault
+name: adguard-home
 version: 1.0.0
 dependencies:
-- name: vault
-  version: 0.29.1
-  repository: https://helm.releases.hashicorp.com
+- name: adguard-home
+  version: 0.19.0
+  repository: https://helm-charts.rm3l.org
 
