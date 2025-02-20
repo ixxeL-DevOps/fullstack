@@ -5,12 +5,12 @@ namespace: argocd
 resources:
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/crds/application-crd.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/crds/appproject-crd.yaml
-- https://github.com/argoproj/argo-cd/tree/master/manifests/cluster-rbac/?timeout=120&ref=v2.7.2
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/cluster-rbac/application-controller/?timeout=120&ref=v2.7.2
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/base/config/?timeout=120&ref=v2.7.2
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/base/application-controller/?timeout=120&ref=v2.7.2
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/base/repo-server/?timeout=120&ref=v2.7.2
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/base/redis/?timeout=120&ref=v2.7.2
+- github.com/argoproj/argo-cd/manifests/cluster-rbac/?timeout=120&ref=v2.7.2
+- github.com/argoproj/argo-cd/manifests/cluster-rbac/application-controller/?timeout=120&ref=v2.7.2
+- github.com/argoproj/argo-cd/manifests/base/config/?timeout=120&ref=v2.7.2
+- github.com/argoproj/argo-cd/manifests/base/application-controller/?timeout=120&ref=v2.7.2
+- github.com/argoproj/argo-cd/manifests/base/repo-server/?timeout=120&ref=v2.7.2
+- github.com/argoproj/argo-cd/manifests/base/redis/?timeout=120&ref=v2.7.2
 
 
 # # This is an auto-generated file. DO NOT EDIT
