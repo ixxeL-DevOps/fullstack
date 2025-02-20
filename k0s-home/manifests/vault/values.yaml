@@ -14,6 +14,8 @@ vault:
       storageClass: local-path-retain
       accessMode: ReadWriteOnce
 
+    affinity: "" # set empty to allow single node scheduling
+
     persistentVolumeClaimRetentionPolicy:
       whenDeleted: Retain
       whenScaled: Retain
