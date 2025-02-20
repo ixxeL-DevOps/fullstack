@@ -29,7 +29,7 @@ traefik:
       enabled: true
       annotations: {}
       labels: {}
-      matchRule: Host(`traefik.fullstack.fredcorp.com`)
+      matchRule: Host(`traefik.k0s-fullstack.fredcorp.com`)
       services:
         - name: api@internal
           kind: TraefikService
