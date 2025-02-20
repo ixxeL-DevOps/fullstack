@@ -10,8 +10,8 @@ spec:
     server: https://kubernetes.default.svc
   project: argocd
   source:
-    directory:
-      recurse: true
+    # directory:
+    #   recurse: true
     path: k0s-home/bootstrap
     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
     targetRevision: main
