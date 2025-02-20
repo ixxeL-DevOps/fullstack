@@ -2,15 +2,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vault-k0s
+  name: adguard-k0s
   namespace: argocd
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: vault
-  project: infra-security
+    namespace: adguard
+  project: infra-network
   source:
-    path: k0s-home/manifests/vault
+    path: k0s-home/manifests/adguard
     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
     targetRevision: main
   syncPolicy:

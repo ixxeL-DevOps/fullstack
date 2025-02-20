@@ -1,5 +1,6 @@
 *.key
 *.crt
+k0s-home/local-storage/adguard-data/work/data
 k3d-home/local-storage/adguard-data/work/data
 k3d-home/local-storage/authentik-data
 k3d-home/manifests/ccm.yaml
