@@ -18,10 +18,10 @@ adguard-home:
     dns:
       enabled: true
       type: LoadBalancer
-      # annotations:
-      #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
-      externalTrafficPolicy: Local
-      # loadBalancerIP: 172.18.0.2
+      annotations:
+        metallb.universe.tf/allow-shared-ip: "192.168.1.195-ip"
+      # externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.1.195
       tcp:
         port: 53
         nodePort:
@@ -31,31 +31,31 @@ adguard-home:
     dnsOverTls:
       enabled: true
       type: LoadBalancer
-      # annotations:
-      #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
-      externalTrafficPolicy: Local
-      # loadBalancerIP: 172.18.0.2
+      annotations:
+        metallb.universe.tf/allow-shared-ip: "192.168.1.195-ip"
+      # externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.1.195
       port: 853
     dnsOverQuic:
       enabled: true
       type: LoadBalancer
-      # annotations:
-      #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
+      annotations:
+        metallb.universe.tf/allow-shared-ip: "192.168.1.195-ip"
+      # externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.1.195
       port1:
         port: 784
         nodePort:
       port2:
         port: 8853
         nodePort:
-      externalTrafficPolicy: Local
-      # loadBalancerIP: 172.18.0.2
     dnscrypt:
       enabled: false
       type: LoadBalancer
-      # annotations:
-      #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
-      externalTrafficPolicy: Local
-      # loadBalancerIP: 172.18.0.2
+      annotations:
+        metallb.universe.tf/allow-shared-ip: "192.168.1.195-ip"
+      # externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.1.195
       tcp:
         port: 5443
         nodePort:
