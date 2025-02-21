@@ -12,7 +12,7 @@ authentik:
       enabled: true
       ingressClassName: "traefik"
       hosts: 
-        - authentik.fullstack.fredcorp.com
+        - authentik.k0s-fullstack.fredcorp.com
       pathType: Prefix
       tls: []
         # - secretName: authentik-tls
