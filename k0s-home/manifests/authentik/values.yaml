@@ -1,0 +1,44 @@
+authentik:
+  authentik:
+    log_level: info
+    secret_key: "authentik"
+    error_reporting:
+      enabled: false
+    postgresql:
+        password: "authentik"
+
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: "traefik"
+      hosts: 
+        - authentik.fullstack.fredcorp.com
+      pathType: Prefix
+      tls: []
+        # - secretName: authentik-tls
+        #   hosts:
+        #     - authentik.domain.tld
+      # -- uses `server.service.servicePortHttps` instead of `server.service.servicePortHttp`
+      https: false
+
+  postgresql:
+    enabled: true
+    auth:
+      password: "authentik"
+    primary:
+      persistence:
+        existingClaim: pvc-authentik-pgsql-data
+        storageClass: "local-path"
+        size: 8Gi
+  redis:
+    enabled: true
+    master:
+      persistence:
+        enabled: true
+        sizeLimit: ""
+        path: /data
+        storageClass: "local-path"
+        accessModes:
+          - ReadWriteOnce
+        size: 7Gi
+        existingClaim: "pvc-authentik-redis-data"
