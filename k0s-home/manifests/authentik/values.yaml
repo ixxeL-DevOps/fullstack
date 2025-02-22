@@ -1,4 +1,13 @@
 authentik:
+  global:
+    volumeMounts:
+      - name: secrets
+        mountPath: /secrets
+    volumes:
+      - name: secrets
+        secret:
+          secretName: authentik-key
+
   authentik:
     log_level: info
     secret_key: file:///secrets/secret-key
