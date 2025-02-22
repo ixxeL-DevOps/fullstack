@@ -200,9 +200,6 @@ metadata:
   name: vault-k0s
   namespace: default
 spec:
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Retain
-    whenScaled: Retain
   podManagementPolicy: Parallel
   replicas: 1
   selector:
