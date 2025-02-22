@@ -1,7 +1,0 @@
-{
-  "repoURL": "https://github.com/ixxeL-DevOps/fullstack.git",
-  "drySha": "692d63725ba753f1642618ce6557f016f8b1ac94",
-  "commands": [
-    "helm template . --name-template vault-k0s --include-crds"
-  ]
-}
