@@ -7,6 +7,11 @@ vault:
 
   server:
     enabled: true
+
+    statefulSet:
+      annotations:
+        argocd.argoproj.io/sync-wave: "1"
+
     dataStorage:
       enabled: true
       size: 10Gi
