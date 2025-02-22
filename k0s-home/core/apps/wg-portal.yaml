@@ -17,8 +17,8 @@ spec:
     syncSource:
       targetBranch: deploy/k0s
       path: k0s-home/manifests/wireguard
-    hydrateTo:
-      targetBranch: deploy/k0s-preview
+    # hydrateTo:
+    #   targetBranch: deploy/k0s-preview
   syncPolicy:
     automated:
       prune: true
