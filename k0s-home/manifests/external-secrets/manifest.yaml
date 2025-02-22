@@ -18619,7 +18619,7 @@ spec:
             name: eso-auth
             namespace: external-secrets
       path: admin
-      server: http://vault.k0s-fullstack.fredcorp.com
+      server: https://vault.k0s-fullstack.fredcorp.com
       version: v2
 ---
 apiVersion: admissionregistration.k8s.io/v1
