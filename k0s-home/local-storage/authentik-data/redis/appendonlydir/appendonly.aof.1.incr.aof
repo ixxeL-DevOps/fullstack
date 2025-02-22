@@ -7044,3 +7044,35 @@ $4
 PXAT
 $13
 1740225610203
+*5
+$3
+SET
+$124
+public:authentik_cache:1:goauthentik.io/outposts/state/b870daa1968e4d0a8cef729983f1e68a/40ae608d-064a-4390-8a68-897efa50f9ee
+$1613
+€•B      }”(Œuid”Œ$40ae608d-064a-4390-8a68-897efa50f9ee”Œ	last_seen”Œdatetime”Œdatetime”“”C
+é s”…”R”Œversion”Œ	2024.12.3”Œversion_should”Œpackaging.version”ŒVersion”“”)”}”(Œ_version”hŒ_Version”“”(K MèKK‡”NNNNt””Œ_key”(K MèKK‡”Œpackaging._structures”ŒInfinityType”“”)”hŒNegativeInfinityType”“”)”hh t”ubŒ
+build_hash”Œ ”Œgolang_version”Œgo1.23.5 X:systemcrypto”Œopenssl_enabled”ˆŒopenssl_version”ŒOOpenSSL 3.0.9+ak-fips 30 May 2023 (Library: OpenSSL 3.0.9+ak-fips 30 May 2023)
+”Œfips_enabled”ˆŒhostname”Œ%authentik-k0s-server-77d6689f47-6lpps”Œargs”}”Œuuid”Œ$40ae608d-064a-4390-8a68-897efa50f9ee”sŒ_outpost”Œdjango.db.models.base”Œmodel_unpickle”“”Œauthentik_outposts”ŒOutpost”†”…”R”}”(Œ_state”h1Œ
+ModelState”“”)”}”(Œfields_cache”}”Œadding”‰Œdb”Œdefault”ubŒmanaged”Œ goauthentik.io/outposts/embedded”Œuuid”hFŒUUID”“”)”}”Œint”ŠŠæñƒ™rïŒ
+M–¡Úp¸ sbŒname”Œauthentik Embedded Outpost”Œtype”Œproxy”Œservice_connection_id”hH)”}”hKŠ¦_‹«6‹€•şEÆY{_sbŒ_config”}”(Œ	log_level”Œinfo”Œdocker_labels”NŒauthentik_host”h#Œdocker_network”NŒcontainer_image”NŒdocker_map_ports”ˆŒrefresh_interval”Œ	minutes=5”Œkubernetes_replicas”KŒkubernetes_namespace”Œ	authentik”Œauthentik_host_browser”h#Œobject_naming_template”Œak-outpost-%(name)s”Œauthentik_host_insecure”‰Œkubernetes_json_patches”NŒkubernetes_service_type”Œ	ClusterIP”Œkubernetes_image_pull_secrets”]”Œkubernetes_ingress_class_name”NŒkubernetes_disabled_components”]”Œkubernetes_ingress_annotations”}”Œkubernetes_ingress_secret_name”Œauthentik-outpost-tls”uŒ_django_version”Œ5.0.10”ubu.
+$4
+PXAT
+$13
+1740225620202
+*5
+$3
+SET
+$124
+public:authentik_cache:1:goauthentik.io/outposts/state/b870daa1968e4d0a8cef729983f1e68a/40ae608d-064a-4390-8a68-897efa50f9ee
+$1613
+€•B      }”(Œuid”Œ$40ae608d-064a-4390-8a68-897efa50f9ee”Œ	last_seen”Œdatetime”Œdatetime”“”C
+é İ”…”R”Œversion”Œ	2024.12.3”Œversion_should”Œpackaging.version”ŒVersion”“”)”}”(Œ_version”hŒ_Version”“”(K MèKK‡”NNNNt””Œ_key”(K MèKK‡”Œpackaging._structures”ŒInfinityType”“”)”hŒNegativeInfinityType”“”)”hh t”ubŒ
+build_hash”Œ ”Œgolang_version”Œgo1.23.5 X:systemcrypto”Œopenssl_enabled”ˆŒopenssl_version”ŒOOpenSSL 3.0.9+ak-fips 30 May 2023 (Library: OpenSSL 3.0.9+ak-fips 30 May 2023)
+”Œfips_enabled”ˆŒhostname”Œ%authentik-k0s-server-77d6689f47-6lpps”Œargs”}”Œuuid”Œ$40ae608d-064a-4390-8a68-897efa50f9ee”sŒ_outpost”Œdjango.db.models.base”Œmodel_unpickle”“”Œauthentik_outposts”ŒOutpost”†”…”R”}”(Œ_state”h1Œ
+ModelState”“”)”}”(Œfields_cache”}”Œadding”‰Œdb”Œdefault”ubŒmanaged”Œ goauthentik.io/outposts/embedded”Œuuid”hFŒUUID”“”)”}”Œint”ŠŠæñƒ™rïŒ
+M–¡Úp¸ sbŒname”Œauthentik Embedded Outpost”Œtype”Œproxy”Œservice_connection_id”hH)”}”hKŠ¦_‹«6‹€•şEÆY{_sbŒ_config”}”(Œ	log_level”Œinfo”Œdocker_labels”NŒauthentik_host”h#Œdocker_network”NŒcontainer_image”NŒdocker_map_ports”ˆŒrefresh_interval”Œ	minutes=5”Œkubernetes_replicas”KŒkubernetes_namespace”Œ	authentik”Œauthentik_host_browser”h#Œobject_naming_template”Œak-outpost-%(name)s”Œauthentik_host_insecure”‰Œkubernetes_json_patches”NŒkubernetes_service_type”Œ	ClusterIP”Œkubernetes_image_pull_secrets”]”Œkubernetes_ingress_class_name”NŒkubernetes_disabled_components”]”Œkubernetes_ingress_annotations”}”Œkubernetes_ingress_secret_name”Œauthentik-outpost-tls”uŒ_django_version”Œ5.0.10”ubu.
+$4
+PXAT
+$13
+1740225630202
