@@ -1,7 +1,6 @@
 ---
 name: Auto create PR for Hydrator
 on:
-  workflow_dispatch:
   push:
     branches:
     - 'deploy/k0s-preview'
