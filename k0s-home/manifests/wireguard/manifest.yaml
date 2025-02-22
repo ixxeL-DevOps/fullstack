@@ -1,0 +1,197 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: wireguard-k0s
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/version: v2
+    helm.sh/chart: wg-portal-0.7.0
+  name: wireguard-k0s-wg-portal
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    app.kubernetes.io/instance: wireguard-k0s
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/version: v2
+    helm.sh/chart: wg-portal-0.7.0
+  name: wireguard-k0s-wg-portal
+stringData:
+  config.yml: |
+    advanced:
+      start_listen_port: 51820
+    statistics:
+      listening_address: :8787
+    web:
+      external_url: http://wireguard.k0s-fullstack.fredcorp.com
+      listening_address: :8888
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    app.kubernetes.io/instance: wireguard-k0s
+  name: pv-vault-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  local:
+    path: /home/fred/git/github/ixxeL-GitOps/fullstack/k0s-home/local-storage/vault-data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - fullstack
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-path-retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: wireguard-k0s
+  name: data-vault-k0s-0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: local-path-retain
+  volumeName: pv-vault-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: wireguard-k0s
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/version: v2
+    helm.sh/chart: wg-portal-0.7.0
+  name: wireguard-k0s-wg-portal
+spec:
+  ports:
+    - appProtocol: http
+      name: web
+      port: 8888
+      protocol: TCP
+      targetPort: web
+  selector:
+    app.kubernetes.io/instance: wireguard-k0s
+    app.kubernetes.io/name: wg-portal
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: wireguard-k0s
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/version: v2
+    helm.sh/chart: wg-portal-0.7.0
+  name: wireguard-k0s-wg-portal-wireguard
+spec:
+  ports:
+    - name: wg0
+      port: 51820
+      protocol: UDP
+      targetPort: wg0
+  selector:
+    app.kubernetes.io/instance: wireguard-k0s
+    app.kubernetes.io/name: wg-portal
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: wireguard-k0s
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/version: v2
+    helm.sh/chart: wg-portal-0.7.0
+  name: wireguard-k0s-wg-portal
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: wireguard-k0s
+      app.kubernetes.io/name: wg-portal
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/config: b281dc15922608c7bb24e55d1547cb68d395db665bdf6bfd2ca6b0405b768f78
+        kubectl.kubernetes.io/default-container: wg-portal
+      labels:
+        app.kubernetes.io/instance: wireguard-k0s
+        app.kubernetes.io/name: wg-portal
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: ghcr.io/h44z/wg-portal:v2
+          imagePullPolicy: IfNotPresent
+          name: wg-portal
+          ports:
+            - containerPort: 8787
+              name: metrics
+              protocol: TCP
+            - containerPort: 8888
+              name: web
+              protocol: TCP
+            - containerPort: 51820
+              name: wg0
+              protocol: UDP
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          volumeMounts:
+            - mountPath: /app/config
+              name: config
+              readOnly: true
+            - mountPath: /app/data
+              name: data
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: wireguard-k0s-wg-portal
+      volumes:
+        - name: config
+          secret:
+            secretName: wireguard-k0s-wg-portal
+        - emptyDir: {}
+          name: data
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/instance: wireguard-k0s
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: wg-portal
+    app.kubernetes.io/version: v2
+    helm.sh/chart: wg-portal-0.7.0
+  name: wireguard-k0s-wg-portal
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: wireguard.k0s-fullstack.fredcorp.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: wireguard-k0s-wg-portal
+                port:
+                  name: web
+            path: /
+            pathType: ImplementationSpecific
