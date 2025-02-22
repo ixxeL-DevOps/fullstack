@@ -53,7 +53,8 @@ authentik:
   postgresql:
     enabled: true
     auth:
-      username: "pgsql"
+      username: authentik
+      database: authentik
       existingSecret: "authentik-pgsql-creds"
     primary:
       persistence:
