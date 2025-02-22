@@ -7,6 +7,6 @@ To hydrate the manifests in this repository, run the following commands:
 
 git clone https://github.com/ixxeL-DevOps/fullstack.git
 # cd into the cloned directory
-git checkout eecd1ba30a9029ec516f63ff464e842f2c26926f
+git checkout abff0244a5f9dd497215b9bfc3bb7362459f4a55
 helm template . --name-template wireguard-k0s --include-crds
 ```
