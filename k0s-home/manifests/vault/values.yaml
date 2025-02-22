@@ -35,10 +35,9 @@ vault:
       hosts:
         - host: vault.k0s-fullstack.fredcorp.com
           paths: []
-      tls: []
-      #  - secretName: chart-example-tls
-      #    hosts:
-      #      - chart-example.local
+      tls:
+       -  hosts:
+           - vault.k0s-fullstack.fredcorp.com
 
   standalone:
     enabled: true
