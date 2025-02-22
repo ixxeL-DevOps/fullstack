@@ -21,9 +21,9 @@ vault:
 
     affinity: "" # set empty to allow single node scheduling
 
-    persistentVolumeClaimRetentionPolicy:
-      whenDeleted: Retain
-      whenScaled: Retain
+    # persistentVolumeClaimRetentionPolicy:
+    #   whenDeleted: Retain
+    #   whenScaled: Retain
 
     ingress:
       enabled: true
