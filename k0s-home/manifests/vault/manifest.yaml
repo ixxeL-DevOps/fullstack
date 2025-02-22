@@ -56,6 +56,8 @@ metadata:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   labels:
     app.kubernetes.io/instance: vault-k0s
   name: pv-vault-data
@@ -80,6 +82,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   labels:
     app.kubernetes.io/instance: vault-k0s
   name: data-vault-k0s-0
@@ -187,6 +191,8 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   labels:
     app.kubernetes.io/instance: vault-k0s
     app.kubernetes.io/managed-by: Helm
