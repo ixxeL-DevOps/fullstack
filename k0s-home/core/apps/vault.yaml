@@ -9,16 +9,10 @@ spec:
     server: https://kubernetes.default.svc
     namespace: vault
   project: infra-security
-  sourceHydrator:
-    drySource:
-      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-      path: k0s-home/manifests/vault
-      targetRevision: main
-    syncSource:
-      targetBranch: deploy/k0s
-      path: k0s-home/manifests/vault
-    hydrateTo:
-      targetBranch: deploy/k0s-preview
+  source:
+    path: k0s-home/manifests/vault
+    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
