@@ -39,6 +39,13 @@ traefik:
       defaultCertificate:
         secretName: k0s-fullstack-wildcard
 
+  ports:
+    web:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
   ingressRoute:
     dashboard:
       enabled: true
