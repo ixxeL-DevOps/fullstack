@@ -25,3 +25,8 @@ spec:
       - ApplyOutOfSyncOnly=true
       - CreateNamespace=true
       - ServerSideApply=true
+  ignoreDifferences:
+  - group: apps
+    kind: StatefulSet
+    jqPathExpressions:
+    - .spec.volumeClaimTemplates
