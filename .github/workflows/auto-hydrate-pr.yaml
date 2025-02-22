@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - 'deploy/k0s-preview'
+  workflow_dispatch:
 
 permissions:
   pull-requests: write
