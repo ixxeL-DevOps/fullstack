@@ -1,0 +1,24 @@
+wg-portal:
+  service:
+    mixed:
+      enabled: false
+      type: LoadBalancer
+    web:
+      type: ClusterIP
+      port: 8888
+      appProtocol: http
+    wireguard:
+      type: LoadBalancer
+      ports:
+        - 51820
+    metrics:
+      port: 8787
+
+  config:
+    web:
+      external_url: http://wireguard.k0s-fullstack.fredcorp.com
+
+  ingress:
+    enabled: true
+    className: "traefik"
+    tls: false
