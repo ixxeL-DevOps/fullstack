@@ -18618,9 +18618,37 @@ spec:
           serviceAccountRef:
             name: eso-auth
             namespace: external-secrets
+      caProvider:
+        key: ca.crt
+        name: root-ca-chain
+        namespace: external-secrets
+        type: Secret
       path: admin
       server: https://vault.k0s-fullstack.fredcorp.com
       version: v2
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  labels:
+    app.kubernetes.io/instance: external-secrets-k0s
+  name: root-ca-chain
+spec:
+  data:
+    - remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: wildcard/root-ca
+        metadataPolicy: None
+        property: cert
+      secretKey: ca.crt
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: admin
+  target:
+    creationPolicy: Owner
+    name: root-ca-chain
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
