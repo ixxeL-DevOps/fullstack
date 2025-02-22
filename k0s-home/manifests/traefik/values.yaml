@@ -24,6 +24,21 @@ traefik:
   gatewayClass:
     enabled: true
     name: ""
+
+  # tlsOptions:
+  #   default:
+  #     labels: {}
+  #     sniStrict: true
+  #   custom-options:
+  #     labels: {}
+  #     curvePreferences:
+  #       - CurveP521
+  #       - CurveP384
+  # tlsStore:
+  #   default:
+  #     defaultCertificate:
+  #       secretName: wildcard-example-com-tls
+
   ingressRoute:
     dashboard:
       enabled: true
