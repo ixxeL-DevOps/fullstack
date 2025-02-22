@@ -25,3 +25,8 @@ spec:
       - ApplyOutOfSyncOnly=true
       - CreateNamespace=true
       - ServerSideApply=true
+  ignoreDifferences:
+  - group: traefik.io
+    kind: IngressRoute
+    jqPathExpressions:
+    - .metadata.annotations
