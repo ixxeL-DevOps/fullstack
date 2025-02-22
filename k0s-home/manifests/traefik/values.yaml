@@ -37,7 +37,7 @@ traefik:
   tlsStore:
     default:
       defaultCertificate:
-        secretName: fredcorp-wildcard
+        secretName: k0s-fullstack-wildcard
 
   ingressRoute:
     dashboard:
