@@ -1,7 +1,7 @@
 authentik:
-  # blueprints:
-  #   configMaps:
-  #     - authentik-blueprints
+  blueprints:
+    configMaps:
+      - authentik-blueprints
   global:
     env:
       - name: AUTHENTIK_BOOTSTRAP_PASSWORD

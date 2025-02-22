@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+# yamllint disable
+---
+version: 1
+metadata:
+  name: Vault2
+entries:
+  - id: provider
+    model: authentik_providers_oauth2.oauth2provider
+    identifiers:
+      name: k0s-fullstack-vault
+    attrs:
+      authorization_flow:
+        !Find [
+          authentik_flows.flow,
+          [slug, "default-provider-authorization-implicit-consent"],
+        ]
+      signing_key:
+        !Find [
+          authentik_crypto.certificatekeypair,
+          [name, "authentik Self-signed Certificate"],
+        ]
+
+      client_type: confidential
+      redirect_uris:
+        - url: https://vault.k0s-fullstack.fredcorp.com/oidc/callback
+          matching_mode: strict
+        - url: https://vault.k0s-fullstack.fredcorp.com/ui/vault/auth/oidc/oidc/callback
+          matching_mode: strict
+
+      access_code_validity: minutes=1
+      access_token_validity: hours=1
+      refresh_token_validity: days=30
+
+      sub_mode: hashed_user_id
+      property_mappings:
+        - !Find [
+            authentik_core.propertymapping,
+            [name, "authentik default OAuth Mapping: OpenID 'openid'"],
+          ]
+        - !Find [
+            authentik_core.propertymapping,
+            [name, "authentik default OAuth Mapping: OpenID 'profile'"],
+          ]
+        - !Find [
+            authentik_core.propertymapping,
+            [name, "OAuth mapping: OpenID 'email' with mailPrimaryAddress"],
+          ]
+
+  - id: application
+    model: authentik_core.application
+    identifiers:
+      slug: vault-slug2
+    attrs:
+      name: Vault2
+      group: Infrastructure
+      meta_description: HashiCorp Vault 
+      provider: !KeyOf provider
+      policy_engine_mode: any
+
