@@ -2,8 +2,8 @@
 *.crt
 k0s-home/local-storage/adguard-data/work/data
 k0s-home/local-storage/authentik-data/
-k0s-home/local-storage/authentik-data/pgsql
-k0s-home/local-storage/authentik-data/redis
+k0s-home/local-storage/authentik-data/pgsql/
+k0s-home/local-storage/authentik-data/redis/
 k3d-home/local-storage/adguard-data/work/data
 k3d-home/local-storage/authentik-data
 k3d-home/manifests/ccm.yaml
