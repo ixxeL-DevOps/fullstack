@@ -34,10 +34,10 @@ traefik:
   #     curvePreferences:
   #       - CurveP521
   #       - CurveP384
-  # tlsStore:
-  #   default:
-  #     defaultCertificate:
-  #       secretName: wildcard-example-com-tls
+  tlsStore:
+    default:
+      defaultCertificate:
+        secretName: fredcorp-wildcard
 
   ingressRoute:
     dashboard:
