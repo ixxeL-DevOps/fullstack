@@ -1,27 +1,27 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: crowdsec-k0s
-  namespace: argocd
-spec:
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: crowdsec
-  project: infra-security
-  source:
-    path: k0s-home/manifests/crowdsec
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - Validate=true
-      - PruneLast=false
-      - RespectIgnoreDifferences=true
-      - Replace=false
-      - ApplyOutOfSyncOnly=true
-      - CreateNamespace=true
-      - ServerSideApply=true
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: crowdsec-k0s
+#   namespace: argocd
+# spec:
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: crowdsec
+#   project: infra-security
+#   source:
+#     path: k0s-home/manifests/crowdsec
+#     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+#     targetRevision: main
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - Validate=true
+#       - PruneLast=false
+#       - RespectIgnoreDifferences=true
+#       - Replace=false
+#       - ApplyOutOfSyncOnly=true
+#       - CreateNamespace=true
+#       - ServerSideApply=true
