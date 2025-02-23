@@ -1,0 +1,18 @@
+homarr:
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+    hosts:
+      - host: homarr.k0s-fullstack.fredcorp.com
+        paths:
+          - path: /
+    tls:
+      - hosts:
+         - homarr.k0s-fullstack.fredcorp.com
+
+  persistence:
+    homarrDatabase:
+      enabled: true
+      storageClassName: "local-path-retain"
+      size: "2Gi"
+      volumeClaimName: pv-homarr-data

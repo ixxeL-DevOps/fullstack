@@ -1,0 +1,27 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homarr-k0s
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: homarr
+  project: infra-tools
+  source:
+    path: k0s-home/manifests/homarr
+    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - PruneLast=false
+      - RespectIgnoreDifferences=true
+      - Replace=false
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
