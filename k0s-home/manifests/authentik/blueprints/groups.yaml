@@ -11,3 +11,10 @@ entries:
     attrs:
       users:
         - !Find [authentik_core.user, [username, "ixxel"]]
+  - model: authentik_core.group
+    identifiers:
+      name: "Homarr admins"
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, "ixxel"]]
+
