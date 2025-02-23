@@ -8,3 +8,4 @@ configMapGenerator:
   - name: authentik-blueprints
     files:
       - ./oidc-vault.yaml
+      - ./groups.yaml
