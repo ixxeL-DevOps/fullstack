@@ -16,7 +16,7 @@ entries:
       signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
       client_type: confidential
       redirect_uris:
-        - url: https://homar.k0s-fullstack.fredcorp.com/api/auth/callback/oidc
+        - url: https://homarr.k0s-fullstack.fredcorp.com/api/auth/callback/oidc
           matching_mode: strict
 
       access_code_validity: minutes=1

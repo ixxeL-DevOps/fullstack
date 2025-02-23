@@ -6,7 +6,8 @@ homarr:
     AUTH_OIDC_CLIENT_NAME: "Authentik"
     AUTH_OIDC_SCOPE_OVERWRITE: "openid email profile groups"
     AUTH_OIDC_GROUPS_ATTRIBUTE: "groups"
-
+    AUTH_LOGOUT_REDIRECT_URL: "https://homarr.k0s-fullstack.fredcorp.com/auth/login"
+    
   envSecrets:
     authOidcCredentials:
       existingSecret: "auth-oidc-secret"
