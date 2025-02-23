@@ -18,7 +18,7 @@ spec:
         labels:
           argocd.argoproj.io/secret-type: repository-write
       data:
-        url: https://github.com/ixxeL-DevOps/GitOps-fullstack.git
+        url: https://github.com/ixxeL-DevOps/fullstack.git
         type: git
         githubAppID: "{{ .appid }}"
         githubAppInstallationID: "{{ .installid }}"
