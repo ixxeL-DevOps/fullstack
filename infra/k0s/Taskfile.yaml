@@ -1,0 +1,8 @@
+---
+version: '3'
+
+tasks:
+  k0s-apply:
+    cmds:
+      - |
+        k0sctl apply --config fullstack.yaml
