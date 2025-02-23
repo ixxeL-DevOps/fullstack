@@ -1,4 +1,0 @@
-#a generic context for bruteforce based scenarios
-context:
-  target_user:
-    - evt.Meta.target_user
