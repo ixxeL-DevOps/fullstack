@@ -1,0 +1,63 @@
+vault:
+  global:
+    enabled: true
+
+  injector:
+    enabled: false
+
+  server:
+    enabled: true
+
+    statefulSet:
+      annotations:
+        argocd.argoproj.io/sync-wave: "1"
+
+    dataStorage:
+      enabled: true
+      size: 10Gi
+      mountPath: "/vault/data"
+      storageClass: local-path-retain
+      accessMode: ReadWriteOnce
+
+    affinity: "" # set empty to allow single node scheduling
+
+    # persistentVolumeClaimRetentionPolicy:
+    #   whenDeleted: Retain
+    #   whenScaled: Retain
+
+    ingress:
+      enabled: true
+      labels: {}
+      annotations: {}
+      ingressClassName: "traefik"
+      pathType: Prefix
+      activeService: true
+      hosts:
+        - host: vault.k0s-fullstack.fredcorp.com
+          paths: []
+      tls:
+       -  hosts:
+           - vault.k0s-fullstack.fredcorp.com
+
+  standalone:
+    enabled: true
+    config: |-
+      ui = true
+
+      listener "tcp" {
+        tls_disable = 1
+        address = "[::]:8200"
+        cluster_address = "[::]:8201"
+      }
+      storage "file" {
+        path = "/vault/data"
+      }
+
+  ui:
+    enabled: true
+    publishNotReadyAddresses: true
+    activeVaultPodOnly: false
+    serviceType: "ClusterIP"
+    serviceNodePort: null
+    externalPort: 8200
+    targetPort: 8200

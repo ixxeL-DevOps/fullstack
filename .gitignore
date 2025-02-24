@@ -1,11 +1,17 @@
 *.key
 *.crt
+gitops/local-storage/adguard-data/work/data
+gitops/local-storage/authentik-data/
+gitops/local-storage/authentik-data/pgsql/
+gitops/local-storage/authentik-data/redis/
+gitops/local-storage/homarr-data/
 k0s-home/local-storage/adguard-data/work/data
 k0s-home/local-storage/authentik-data/
 k0s-home/local-storage/authentik-data/pgsql/
 k0s-home/local-storage/authentik-data/redis/
 k3d-home/local-storage/adguard-data/work/data
 k3d-home/local-storage/authentik-data
+k3d-home/local-storage/homarr-data/
 k3d-home/manifests/ccm.yaml
 k3d-home/manifests/coredns.yaml
 k3d-home/manifests/local-storage.yaml

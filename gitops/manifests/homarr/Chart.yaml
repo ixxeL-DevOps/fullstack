@@ -1,0 +1,8 @@
+apiVersion: v2
+name: homarr
+version: 1.0.0
+dependencies:
+- name: homarr
+  version: 2.8.0
+  repository: https://homarr-labs.github.io/charts
+

@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+# yamllint disable
+---
+version: 1
+metadata:
+  name: Groups
+entries:
+  - model: authentik_core.group
+    identifiers:
+      name: "Vault admins"
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, "ixxel"]]
+  - model: authentik_core.group
+    identifiers:
+      name: "Homarr admins"
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, "ixxel"]]
+
