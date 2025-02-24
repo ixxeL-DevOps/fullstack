@@ -1,0 +1,75 @@
+authentik:
+  blueprints:
+    configMaps:
+      - authentik-blueprints
+  global:
+    env:
+      - name: AUTHENTIK_BOOTSTRAP_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-bootstrap
+            key: password
+      - name: AUTHENTIK_BOOTSTRAP_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: authentik-bootstrap
+            key: token
+    volumeMounts:
+      - name: secrets
+        mountPath: /secrets
+      - name: pgsql-creds
+        mountPath: /pgsql-creds
+    volumes:
+      - name: secrets
+        secret:
+          secretName: authentik-key
+      - name: pgsql-creds
+        secret:
+          secretName: authentik-pgsql-creds
+
+  authentik:
+    log_level: debug
+    secret_key: file:///secrets/secret-key
+    error_reporting:
+      enabled: false
+    postgresql:
+      user: file:///pgsql-creds/username
+      password: file:///pgsql-creds/password
+
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: "traefik"
+      hosts: 
+        - authentik.k0s-fullstack.fredcorp.com
+      pathType: Prefix
+      tls: []
+        # - secretName: authentik-tls
+        #   hosts:
+        #     - authentik.domain.tld
+      # -- uses `server.service.servicePortHttps` instead of `server.service.servicePortHttp`
+      https: false
+
+  postgresql:
+    enabled: true
+    auth:
+      username: authentik
+      database: authentik
+      existingSecret: "authentik-pgsql-creds"
+    primary:
+      persistence:
+        existingClaim: pvc-authentik-pgsql-data
+        storageClass: "local-path"
+        size: 8Gi
+  redis:
+    enabled: true
+    master:
+      persistence:
+        enabled: true
+        sizeLimit: ""
+        path: /data
+        storageClass: "local-path"
+        accessModes:
+          - ReadWriteOnce
+        size: 7Gi
+        existingClaim: "pvc-authentik-redis-data"

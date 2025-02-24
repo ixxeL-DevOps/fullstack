@@ -1,0 +1,23 @@
+---
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-adguard-data
+spec:
+  capacity:
+    storage: 11Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-path-retain
+  local:
+    path: /home/fred/git/github/ixxeL-GitOps/fullstack/gitops/local-storage/adguard-data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - fullstack
