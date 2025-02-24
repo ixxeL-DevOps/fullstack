@@ -1,4 +1,7 @@
 homarr:
+  image:
+    tag: "use-certificates-for-oidc"
+
   env:
     AUTH_PROVIDERS: "credentials,oidc"
     AUTH_SESSION_EXPIRY_TIME: "1h"
