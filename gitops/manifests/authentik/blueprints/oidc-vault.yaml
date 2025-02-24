@@ -23,7 +23,7 @@ entries:
 
       access_code_validity: minutes=1
       access_token_validity: hours=1
-      refresh_token_validity: days=30
+      refresh_token_validity: hours=2
 
       sub_mode: hashed_user_id
       property_mappings:
