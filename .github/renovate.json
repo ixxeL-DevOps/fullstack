@@ -1,0 +1,74 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "mergeConfidence:all-badges",
+    "config:recommended"
+  ],
+  "enabledManagers": ["helmv3", "github-actions"],
+  "dependencyDashboard": true,
+  "prHourlyLimit": 60,
+  "prConcurrentLimit": 60,
+  "branchConcurrentLimit": 60,
+  "automergeStrategy": "squash",
+  "rebaseWhen": "behind-base-branch",
+  "platformAutomerge": true,
+  "ignorePaths": [
+    "docs/**",
+    "infra/**"
+  ],
+  "helmv3": {
+    "fileMatch": [
+        "(^|/)Chart\\.ya?ml$"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "Global rules for version detection",
+      "matchManagers": ["helmv3"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "labels": ["{{updateType}}"]
+    },
+    {
+      "description": "Manual merge GHA for major release",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "additionalBranchPrefix": "gha/",
+      "matchFileNames": [".github/**"],
+      "addLabels": ["MANUAL-REVIEW"],
+      "automerge": false
+    },
+    {
+      "description": "Automerge GHA for patch/minor release",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "additionalBranchPrefix": "gha/",
+      "matchFileNames": [".github/**"],
+      "addLabels": ["AUTO-MERGE"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Automerge for Tooling instance patch updates",
+      "matchManagers": ["helmv3"],
+      "matchUpdateTypes": ["patch"],
+      "additionalBranchPrefix": "helm/",      
+      "matchFileNames": ["gitops/manifests/**"],
+      "addLabels": ["AUTO-MERGE", "{{ lookup (split packageFileDir '/') 2 }}"],
+      "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Manual merge for Tooling instance major and minor updates",
+      "matchManagers": ["helmv3"],
+      "matchUpdateTypes": ["major", "minor"],
+      "additionalBranchPrefix": "helm/", 
+      "matchFileNames": ["gitops/manifests/**"],
+      "addLabels": ["MANUAL-REVIEW", "{{ lookup (split packageFileDir '/') 2 }}"],
+      "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
+      "automerge": false
+    }
+  ]
+}
