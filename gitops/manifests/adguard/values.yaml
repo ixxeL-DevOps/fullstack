@@ -79,6 +79,8 @@ adguard-home:
     http:
       enabled: true
       className: "traefik"
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
       hosts:
         - host: adguard.k0s-fullstack.fredcorp.com
           paths:
