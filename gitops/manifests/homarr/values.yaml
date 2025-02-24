@@ -41,7 +41,7 @@ homarr:
       size: "2Gi"
       volumeClaimName: pv-homarr-data
     homarrTrustedCerts:
-      enabled: false
+      enabled: true
       type: secret
       existingSecret: "homarr-trusted-certs"
       certificates:
