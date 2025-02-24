@@ -1,5 +1,5 @@
 <div align="center">
-<p align="center"><img style="display: block; margin: auto; width: 175px;"  src="docs/src/pictures/k8s-home.png"></p>
+<p align="center"><img style="display: block; margin: auto; width: 220px;"  src="docs/src/pictures/k8s-home2.png"></p>
 
 <!-- markdownlint-disable no-trailing-punctuation -->
 
