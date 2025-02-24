@@ -48,15 +48,17 @@ traefik:
 
   ingressRoute:
     dashboard:
-      enabled: true
+      enabled: false
       annotations: {}
       labels: {}
       matchRule: Host(`traefik.k0s-fullstack.fredcorp.com`)
+      middlewares:
+      - name: authentik
+        namespace: authentik
       services:
         - name: api@internal
           kind: TraefikService
       entryPoints: ["web","websecure"]
-      middlewares: []
       tls: {}
   providers:
     kubernetesCRD:
