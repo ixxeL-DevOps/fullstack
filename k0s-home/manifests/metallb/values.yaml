@@ -1,5 +1,0 @@
-metallb:
-  rbac:
-    create: true
-  crds:
-    enabled: true
