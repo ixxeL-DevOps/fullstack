@@ -7,6 +7,6 @@ To hydrate the manifests in this repository, run the following commands:
 
 git clone https://github.com/ixxeL-DevOps/fullstack.git
 # cd into the cloned directory
-git checkout b69c8f663d61969641bae7c91eae0d546cd61245
+git checkout 0f2448d1da3af1ce8250a5b1401394aaa28d7b4c
 helm template . --name-template external-secrets-k0s --include-crds
 ```
