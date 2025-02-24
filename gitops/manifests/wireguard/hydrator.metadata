@@ -1,6 +1,6 @@
 {
   "repoURL": "https://github.com/ixxeL-DevOps/fullstack.git",
-  "drySha": "f3e770048d430dbd061a3c3eb149176724887e59",
+  "drySha": "504182688dbf81d1e71a3076865d2e507ecc4f2d",
   "commands": [
     "helm template . --name-template wireguard-k0s --include-crds"
   ]
