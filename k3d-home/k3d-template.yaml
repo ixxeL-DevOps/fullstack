@@ -1,0 +1,66 @@
+---
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: k3d-home
+servers: 1
+agents: 0
+kubeAPI:
+  # host: "k3d-home.fredcorp.com"
+  hostIP: "0.0.0.0"
+  hostPort: "6446"
+image: rancher/k3s:v1.32.1-k3s1
+volumes:
+  - volume: ${PWD}/manifests/:/var/lib/rancher/k3s/server/manifests/
+    nodeFilters:
+      - server:*
+  - volume: ${PWD}/local-storage/:/var/lib/rancher/k3s/storage
+    nodeFilters:
+      - server:*
+      - agent:*
+ports:
+  - port: 80:80
+    nodeFilters:
+      - loadbalancer
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
+  - port: 51820:51820/udp
+    nodeFilters:
+      - loadbalancer
+  - port: 53:53/udp
+    nodeFilters:
+      - loadbalancer
+  - port: 784:784/udp
+    nodeFilters:
+      - loadbalancer
+  - port: 853:853/udp
+    nodeFilters:
+      - loadbalancer
+options:
+  k3d:
+    wait: true
+    timeout: 2m0s
+    disableLoadbalancer: false
+    disableImageVolume: false
+    disableRollback: false
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      # - arg: --disable=servicelb
+      #   nodeFilters:
+      #     - server:*
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*
+      - arg: --tls-san=127.0.0.1
+        nodeFilters:
+          - server:*
+      - arg: --tls-san=k3d-home.fredcorp.com
+        nodeFilters:
+          - server:*
+  kubeconfig:
+    updateDefaultKubeconfig: true
+    switchCurrentContext: true

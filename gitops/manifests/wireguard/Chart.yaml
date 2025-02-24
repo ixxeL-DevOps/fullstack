@@ -1,8 +1,0 @@
-apiVersion: v2
-name: wg-portal
-version: 1.0.0
-dependencies:
-- name: wg-portal
-  version: 0.7.0
-  repository: oci://ghcr.io/h44z/charts
-

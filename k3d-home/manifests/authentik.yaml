@@ -1,0 +1,142 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-authentik-pgsql-data
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-path
+  local:
+    path: /var/lib/rancher/k3s/storage/authentik-data/pgsql
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3d-k3d-home-server-0
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-authentik-redis-data
+spec:
+  capacity:
+    storage: 7Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-path
+  local:
+    path: /var/lib/rancher/k3s/storage/authentik-data/redis
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3d-k3d-home-server-0
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-authentik-redis-data
+  namespace: authentik
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 7Gi
+  storageClassName: local-path
+  volumeName: pv-authentik-redis-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-authentik-pgsql-data
+  namespace: authentik
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: local-path
+  volumeName: pv-authentik-pgsql-data
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: authentik
+  namespace: kube-system
+spec:
+  targetNamespace: authentik
+  createNamespace: true
+  version: 2024.12.3
+  chart: authentik
+  repo: https://charts.goauthentik.io
+  valuesContent: |-
+    authentik:
+      log_level: info
+      secret_key: "authentik"
+      error_reporting:
+        enabled: false
+      postgresql:
+          password: "authentik"
+
+    server:
+      ingress:
+        enabled: true
+        ingressClassName: "traefik"
+        hosts: 
+          - authentik.fullstack.fredcorp.com
+        pathType: Prefix
+        extraPaths: []
+          # - path: /*
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: ssl-redirect
+          #       port:
+          #         name: use-annotation
+        tls: []
+          # - secretName: authentik-tls
+          #   hosts:
+          #     - authentik.domain.tld
+        # -- uses `server.service.servicePortHttps` instead of `server.service.servicePortHttp`
+        https: false
+
+    postgresql:
+      enabled: true
+      auth:
+        password: "authentik"
+      primary:
+        persistence:
+          existingClaim: pvc-authentik-pgsql-data
+          storageClass: "local-path"
+          size: 8Gi
+    redis:
+      enabled: true
+      master:
+        persistence:
+          enabled: true
+          sizeLimit: ""
+          path: /data
+          storageClass: "local-path"
+          accessModes:
+            - ReadWriteOnce
+          size: 7Gi
+          existingClaim: "pvc-authentik-redis-data"
+
+
+
+
+
+

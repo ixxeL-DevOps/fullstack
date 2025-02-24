@@ -1,0 +1,100 @@
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  targetNamespace: traefik
+  createNamespace: true
+  version: 34.3.0
+  chart: traefik
+  repo: https://traefik.github.io/charts
+  valuesContent: |-
+    podDisruptionBudget:
+      enabled: true
+      minAvailable: 1
+    ingressClass:
+      enabled: true
+      isDefaultClass: true
+      name: "traefik"
+    experimental:
+      kubernetesGateway:
+        enabled: false
+    gateway:
+      enabled: true
+      name: ""
+      namespace: ""
+      annotations: {}
+      infrastructure: {}
+      listeners:
+        web:
+          port: 8000
+          hostname: ""
+          protocol: HTTP
+          namespacePolicy:
+    gatewayClass:
+      enabled: true
+      name: ""
+    ingressRoute:
+      dashboard:
+        enabled: true
+        annotations: {}
+        labels: {}
+        matchRule: Host(`traefik.fullstack.fredcorp.com`)
+        services:
+          - name: api@internal
+            kind: TraefikService
+        entryPoints: ["web","websecure"]
+        middlewares: []
+        tls: {}
+    providers:
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true
+        allowExternalNameServices: true
+        allowEmptyServices: true
+      kubernetesIngress:
+        enabled: true
+        allowExternalNameServices: true
+        allowEmptyServices: true
+        publishedService:
+          enabled: true
+      kubernetesGateway:
+        enabled: false
+    logs:
+      general:
+        level: "DEBUG"  # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
+    globalArguments:
+    - "--global.checknewversion"
+    - "--global.sendanonymoususage"
+    additionalArguments: []
+    service:
+      enabled: true
+      single: true
+      # annotations:
+      #   metallb.universe.tf/allow-shared-ip: "172.18.0.2-ip"
+      type: LoadBalancer
+      # loadBalancerIP: 172.18.0.2
+      loadBalancerSourceRanges: []
+      ipFamilyPolicy: PreferDualStack
+    autoscaling:
+      enabled: true
+      maxReplicas: 3
+      metrics:
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 80
+    priorityClassName: "system-cluster-critical"
+    tolerations:
+    - key: "CriticalAddonsOnly"
+      operator: "Exists"
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"

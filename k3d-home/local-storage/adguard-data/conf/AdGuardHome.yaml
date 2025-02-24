@@ -4,9 +4,9 @@ http:
     enabled: false
   address: 0.0.0.0:80
   session_ttl: 720h
-users: []
-  # - name: admin
-  #   password: $2a$10$Ncc6MKcD96ZbYyJPaWus9OvhxR6QefF7Hz.ZCBXQwE8SwTRWDWsia
+users:
+  - name: admin
+    password: $2a$10$Ncc6MKcD96ZbYyJPaWus9OvhxR6QefF7Hz.ZCBXQwE8SwTRWDWsia
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
@@ -81,8 +81,8 @@ dns:
   serve_plain_dns: true
   hostsfile_enabled: true
 tls:
-  enabled: false
-  server_name: adguard.k0s-fullstack.fredcorp.com
+  enabled: true
+  server_name: adguard.fredcorp.com
   force_https: false
   port_https: 443
   port_dns_over_tls: 853
@@ -195,6 +195,8 @@ filtering:
   rewrites:
     - domain: qnap.fredcorp.com
       answer: 192.168.1.250
+    - domain: heimdall.fredcorp.com
+      answer: 192.168.1.200
     - domain: adguard.fredcorp.com
       answer: 192.168.1.200
     - domain: box.fredcorp.com
@@ -203,24 +205,60 @@ filtering:
       answer: 192.168.1.200
     - domain: homarr.fredcorp.com
       answer: 192.168.1.200
+    - domain: overseerr.fredcorp.com
+      answer: 192.168.1.210
+    - domain: plex.fredcorp.com
+      answer: 192.168.1.210
+    - domain: radarr.fredcorp.com
+      answer: 192.168.1.210
+    - domain: sonarr.fredcorp.com
+      answer: 192.168.1.210
+    - domain: lidarr.fredcorp.com
+      answer: 192.168.1.210
+    - domain: prowlarr.fredcorp.com
+      answer: 192.168.1.210
+    - domain: bazarr.fredcorp.com
+      answer: 192.168.1.210
     - domain: traefik-servarr.fredcorp.com
+      answer: 192.168.1.210
+    - domain: qbittorrent.fredcorp.com
+      answer: 192.168.1.210
+    - domain: flaresolverr.fredcorp.com
       answer: 192.168.1.210
     - domain: whatsupdocker.fredcorp.com
       answer: 192.168.1.200
     - domain: wud-rpi.fredcorp.com
       answer: 192.168.1.200
+    - domain: wud-servarr.fredcorp.com
+      answer: 192.168.1.210
+    - domain: rancher.fredcorp.com
+      answer: 192.168.1.210
     - domain: asus-router.fredcorp.com
       answer: 192.168.1.99
+    - domain: tautulli.fredcorp.com
+      answer: 192.168.1.210
     - domain: wireguard.fredcorp.com
       answer: 192.168.1.200
     - domain: proxmox-small.fredcorp.com
       answer: 192.168.1.252
     - domain: traefik-rpi.fredcorp.com
       answer: 192.168.1.200
+    - domain: whisparr.fredcorp.com
+      answer: 192.168.1.210
     - domain: proxmox-big.fredcorp.com
       answer: 192.168.1.251
+    - domain: rke2.k8s.fredcorp.com
+      answer: 192.168.1.100
+    - domain: jfrog.fredcorp.com
+      answer: 192.168.1.150
+    - domain: speedtest.fredcorp.com
+      answer: 192.168.1.200
+    - domain: k0s-cluster.fredcorp.com
+      answer: 192.168.1.110
     - domain: '*.k8s-app.fredcorp.com'
       answer: 192.168.1.216
+    - domain: homepage.fredcorp.com
+      answer: 192.168.1.200
     - domain: '*.vcluster.fredcorp.com'
       answer: 192.168.1.215
     - domain: '*.k8s-app.gateway.fredcorp.com'
@@ -231,8 +269,6 @@ filtering:
       answer: 192.168.1.200
     - domain: '*.fullstack.fredcorp.com'
       answer: 192.168.1.190
-    - domain: '*.k0s-fullstack.fredcorp.com'
-      answer: 192.168.1.195
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576

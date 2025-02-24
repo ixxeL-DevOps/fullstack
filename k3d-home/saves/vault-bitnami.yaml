@@ -1,0 +1,112 @@
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: vault-server-manual
+#   namespace: vault
+# spec:
+#   ingressClassName: traefik
+#   rules:
+#     - host: vault.fullstack.fredcorp.com
+#       http:
+#         paths:
+#           - backend:
+#               service:
+#                 name: vault-server
+#                 port:
+#                   name: http
+#             path: /
+#             pathType: Prefix
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: pv-vault-data
+# spec:
+#   capacity:
+#     storage: 10Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   storageClassName: local-path
+#   local:
+#     path: /var/lib/rancher/k3s/storage/vault-data
+#   nodeAffinity:
+#     required:
+#       nodeSelectorTerms:
+#         - matchExpressions:
+#             - key: kubernetes.io/hostname
+#               operator: In
+#               values:
+#                 - k3d-k3d-home-server-0
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: pvc-vault-data
+#   namespace: vault
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 10Gi
+#   storageClassName: local-path
+#   volumeName: pv-vault-data
+# ---
+# apiVersion: helm.cattle.io/v1
+# kind: HelmChart
+# metadata:
+#   name: vault
+#   namespace: kube-system
+# spec:
+#   targetNamespace: vault
+#   createNamespace: true
+#   version: 1.6.6
+#   chart: vault
+#   repo: https://charts.bitnami.com/bitnami
+#   valuesContent: |-
+#     injector:
+#       enabled: false
+
+#     server:
+#       enabled: true
+#       # podLabels:
+#       #   vault-active: "true"
+
+#       config: |
+#         disable_mlock = true
+#         ui = true
+#         listener "tcp" {
+#           tls_disable = 1
+#           address = "[::]:8200"
+#           cluster_address = "[::]:8201"
+
+#         }
+#         storage "file" {
+#           path = "/vault/data"
+#         }
+
+#       networkPolicy:
+#         enabled: false
+
+#       ingress:
+#         enabled: true
+#         apiVersion: ""
+#         hostname: vault.fullstack.fredcorp.com
+#         ingressClassName: "traefik"
+#         path: /
+#         annotations: {}
+#         tls: false
+
+#       persistence:
+#         enabled: true
+#         mountPath: /vault/data
+#         storageClass: "local-path"
+#         accessModes:
+#           - ReadWriteOnce
+#         size: 10Gi
+#         dataSource: {}
+#         annotations: {}
+#         selector: {}
+#         existingClaim: "pvc-vault-data"
