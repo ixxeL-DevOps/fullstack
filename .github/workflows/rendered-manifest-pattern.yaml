@@ -1,0 +1,161 @@
+---
+name: Helm Dynamic Rendered Manifest (Chart.yaml)
+on:
+  merge_group:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - main
+    paths:
+      - '**/Chart.yaml'
+      - '**/Chart.yml'
+      - '**/values.yaml'
+      - '**/values.yml'
+
+concurrency:
+  group: auto-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  helm-diff-chart:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find modified Chart.yaml files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            **/Chart.yaml
+            **/Chart.yml
+            **/values.yaml
+            **/values.yml
+
+      - name: Generate diffs for each Chart
+        id: gen-pr-chart
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          VALUES_FILE: values-full.yaml
+        run: |
+          RED="\033[1;31m"
+          GREEN="\033[1;32m"
+          YELLOW="\033[1;33m"
+          BLUE="\033[1;34m"
+          PURPLE="\033[1;35m"
+          CYAN="\033[1;36m"
+          BLANK="\033[0m"
+
+          echo "CHART_FILES=${ALL_CHANGED_FILES}"
+          UNIQ_PATHS_CHANGED=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -v '^$' | awk -F/ '{if (NF > 1) {NF--; print $0}}' OFS='/' | sort -u)
+          echo "UNIQ_PATHS_CHANGED=$UNIQ_PATHS_CHANGED"
+
+          get_latest_version() {
+            local repo=$1
+            local chart=$2
+            local pattern=$3
+            helm search repo "$repo/$chart" --versions | awk 'NR>1 {print $2}' | sed 's/^v//' | grep -E "^${pattern//./\\.}" | sort -V | tail -n1
+          }
+
+          template_version() {
+            local suffix=$1
+            mkdir -p $suffix
+          
+            CHART_NAME=$(yq e '.name' "$path/Chart.yaml")
+            CHART_VERSION=$(yq e '.version' "$path/Chart.yaml")
+            
+            echo -e "${CYAN}[ INFO ] > Directory --> ${PURPLE}${path}${BLANK}"
+            echo -e "${CYAN}[ INFO ] > Chart name --> ${PURPLE}${CHART_NAME}${BLANK}"
+            echo -e "${CYAN}[ INFO ] > Chart version --> ${PURPLE}${CHART_VERSION}${BLANK}"
+          
+            for dep in $(yq e -o=j -I=0 '.dependencies[]' "$path/Chart.yaml")
+            do
+              echo "$dep" | jq -C
+              DEP_NAME=$(echo "$dep" | jq -r '.name')
+              DEP_VERSION=$(echo "$dep" | jq -r '.version')
+              DEP_REPO=$(echo "$dep" | jq -r '.repository')
+          
+              if [[ "$DEP_REPO" =~ ^oci:// ]]
+              then
+                echo -e "${CYAN}[ INFO ] > OCI chart detected for ${PURPLE}${DEP_NAME}${CYAN} with repository ${PURPLE}${DEP_REPO}${CYAN}${BLANK}"
+                OCI_CHART="${DEP_REPO}/${DEP_NAME}"
+                helm pull "$OCI_CHART" --version "$DEP_VERSION" --untar --untardir "$suffix/oci_temp"
+                echo -e "${CYAN}[ INFO ] > Extracted OCI chart to $suffix/oci_temp${BLANK}"
+              else
+                echo -e "${CYAN}[ INFO ] > Adding dependency ${PURPLE}${DEP_NAME}${CYAN} with repo ${PURPLE}${DEP_REPO}${CYAN}${BLANK}"
+                helm repo add "$DEP_NAME" "$DEP_REPO" --force-update
+                helm repo update "$DEP_NAME"
+              fi
+            done
+          
+            helm dependency update "$path" --skip-refresh
+
+            if [ ! -f "${path}/${VALUES_FILE}" ]
+            then
+              VALUES_FILE=$(find "$path" -maxdepth 1 -type f -name '*values*.yaml' | head -n 1 | awk -F '/' '{print $NF}')
+              if [ ! -f "${path}/${VALUES_FILE}" ]
+              then
+              echo -e "${RED}[ ERROR ] > No values.yaml file found"
+              else
+                echo -e "${CYAN}[ INFO ] > Specific values.yaml file found : ${PURPLE}${path}/${VALUES_FILE}${BLANK}"
+              fi
+            else
+              echo -e "${CYAN}[ INFO ] > Detected default values file: ${PURPLE}${path}/${VALUES_FILE}${BLANK}"
+            fi
+
+            echo -e "${YELLOW}[ EXECUTING ] > Rendering for branch : ${GREEN}${suffix}${BLANK}"
+            echo -e "${YELLOW}[ EXECUTING ] > Generating template for ${GREEN}${CHART_NAME}${YELLOW} version ${GREEN}${CHART_VERSION}${YELLOW} with values file ${GREEN}${path}/${VALUES_FILE}${YELLOW} to file ${GREEN}${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml${BLANK}"
+            helm template "$CHART_NAME" "$path" -f ${path}/${VALUES_FILE} > "${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml"
+          
+            if [ -d "$suffix/oci_temp" ]
+            then
+              rm -rf "$suffix/oci_temp"
+              echo -e "${CYAN}[ INFO ] > Cleaned up temporary OCI chart directory${BLANK}"
+            fi
+          }
+
+          for path in ${UNIQ_PATHS_CHANGED}
+          do
+            echo -e "${BLUE}[ STEP ] > Processing path ${YELLOW}${path}${BLANK}"
+
+            template_version "pr"
+
+            git checkout origin/main -- "$path"
+
+            template_version "main"
+            echo ""
+          done
+
+      - name: Generate dyff on release
+        id: dyff-helm
+        uses: ixxeL-DevOps/gha-templates/.github/actions/dyff@main
+        with:
+          source: main/*_manifest_main.yaml
+          target: pr/*_manifest_pr.yaml
+          exclude-regexp: "spec.template.metadata.annotations.checksum"
+  
+      - name: Generate diff on release
+        id: diff-helm
+        uses: ixxeL-DevOps/gha-templates/.github/actions/diff@main
+        with:
+          source: main/*_manifest_main.yaml
+          target: pr/*_manifest_pr.yaml
+
+      - name: Post diff as comment
+        run: |
+          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md --edit-last || \
+          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Kubeconform
+        id: kubeconform
+        continue-on-error: true
+        uses: ixxeL-DevOps/gha-templates/.github/actions/kubeconform@main
+        with:
+          target: pr
