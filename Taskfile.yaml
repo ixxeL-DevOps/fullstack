@@ -6,6 +6,8 @@ set:
 shopt:
   - globstar
 
+silent: true
+
 vars:
   K0S_ROOT: "{{.ROOT_DIR}}/infra/k0s"
   TALOS_ROOT: "{{.ROOT_DIR}}/infra/talos"
@@ -13,6 +15,7 @@ vars:
 
 includes:
   k0s: .taskfiles/k0s
+  pre-commit: .taskfiles/pre-commit
 
 tasks:
   default:

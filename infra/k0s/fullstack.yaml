@@ -6,21 +6,21 @@ metadata:
   user: admin
 spec:
   hosts:
-  - role: single
-    installFlags:
-    - --debug
-    - --disable-components=autopilot,helm,windows-node,konnectivity-server
-    ssh:
-      address: 192.168.1.190
-      user: fred
-      port: 22
-      keyPath: ~/.ssh/id_rsa
-    uploadBinary: false
-    hostname: k0s-fullstack
-    dataDir: /var/lib/k0s
+    - role: single
+      installFlags:
+        - --debug
+        - --disable-components=autopilot,helm,windows-node,konnectivity-server
+      ssh:
+        address: 192.168.1.190
+        user: fred
+        port: 22
+        keyPath: ~/.ssh/id_rsa
+      uploadBinary: false
+      hostname: k0s-fullstack
+      dataDir: /var/lib/k0s
   k0s:
     version: v1.32.1+k0s.0
-    versionChannel: stable 
+    versionChannel: stable
     dynamicConfig: false
     config:
       apiVersion: k0s.k0sproject.io/v1beta1
@@ -37,7 +37,7 @@ spec:
           port: 6443
           k0sApiPort: 9443
           sans:
-          - 192.168.1.190
+            - 192.168.1.190
           externalAddress: k0s.fullstack.fredcorp.com
         network:
           provider: kuberouter
