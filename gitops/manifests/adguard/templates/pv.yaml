@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 11Gi
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-path-retain
   local:
@@ -16,8 +16,8 @@ spec:
   nodeAffinity:
     required:
       nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - fullstack
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - fullstack

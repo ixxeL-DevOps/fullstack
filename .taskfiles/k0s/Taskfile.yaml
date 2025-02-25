@@ -1,103 +1,103 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: "3"
+version: '3'
 
 vars:
-  K0SCTL_FILE: "{{.K0S_ROOT}}/fullstack.yaml"
+  K0SCTL_FILE: '{{.K0S_ROOT}}/fullstack.yaml'
 
 tasks:
   kubeconf:
     desc: display kubeconfig
     preconditions:
-      - which test k0sctl
-      - test -f {{.K0SCTL_FILE}}
-      - test -f ~/.ssh/id_rsa
+    - which test k0sctl
+    - test -f {{.K0SCTL_FILE}}
+    - test -f ~/.ssh/id_rsa
     cmds:
-      - k0sctl kubeconfig --config {{.K0SCTL_FILE}}
+    - k0sctl kubeconfig --config {{.K0SCTL_FILE}}
 
   latest-version:
     desc: Fetch latest k0s release
     preconditions:
-      - which curl jq
+    - which curl jq
     vars:
       LATEST_VERSION:
         sh: curl -s https://api.github.com/repos/k0sproject/k0s/releases/latest | jq -r '.tag_name'
       CLUSTER_VERSION:
         sh: yq e '.spec.k0s.version' "{{.K0SCTL_FILE}}"
     cmds:
-      - echo "Latest version available {{.LATEST_VERSION}}"
-      - echo "Current version {{.CLUSTER_VERSION}}"
+    - echo "Latest version available {{.LATEST_VERSION}}"
+    - echo "Current version {{.CLUSTER_VERSION}}"
 
   upgrade-cluster:
     desc: Upgrade cluster to latest version
     preconditions:
-      - which curl jq yq
+    - which curl jq yq
     vars:
       LATEST_VERSION:
         sh: curl -s https://api.github.com/repos/k0sproject/k0s/releases/latest | jq -r '.tag_name'
     cmds:
-      - task: latest-version
-      - yq -i '.spec.k0s.version = "{{.LATEST_VERSION}}"' {{.K0SCTL_FILE}}
-      - task: apply-config
+    - task: latest-version
+    - yq -i '.spec.k0s.version = "{{.LATEST_VERSION}}"' {{.K0SCTL_FILE}}
+    - task: apply-config
 
   backup:
     desc: display kubeconfig
     cmds:
-      - task: _backup-dry
-      - task: _backup
+    - task: _backup-dry
+    - task: _backup
 
   apply-config:
     desc: apply k0s config
     cmds:
-      - task: _apply-config-dry
-      - task: _apply-config
+    - task: _apply-config-dry
+    - task: _apply-config
 
   _backup-dry:
     internal: true
     desc: Execute backup DRYN RUN
     preconditions:
-      - which test k0sctl
-      - test -f {{.K0SCTL_FILE}}
-      - test -f ~/.ssh/id_rsa
+    - which test k0sctl
+    - test -f {{.K0SCTL_FILE}}
+    - test -f ~/.ssh/id_rsa
     vars:
       DEBUG: '{{.DEBUG | default "false"}}'
     cmds:
-      - k0sctl backup --concurrency=3 --dry-run --debug={{.DEBUG}} --config {{.K0SCTL_FILE}}
+    - k0sctl backup --concurrency=3 --dry-run --debug={{.DEBUG}} --config {{.K0SCTL_FILE}}
 
   _backup:
     internal: true
     desc: Execute backup
     preconditions:
-      - which test k0sctl
-      - test -f {{.K0SCTL_FILE}}
-      - test -f ~/.ssh/id_rsa
+    - which test k0sctl
+    - test -f {{.K0SCTL_FILE}}
+    - test -f ~/.ssh/id_rsa
     vars:
       DEBUG: '{{.DEBUG | default "false"}}'
     prompt: Backup K0s cluster... continue?
     cmds:
-      - k0sctl backup --concurrency=3 --debug={{.DEBUG}} --config {{.K0SCTL_FILE}}
+    - k0sctl backup --concurrency=3 --debug={{.DEBUG}} --config {{.K0SCTL_FILE}}
 
   _apply-config-dry:
     internal: true
     desc: Execute apply config DRYN RUN
     preconditions:
-      - which test k0sctl
-      - test -f {{.K0SCTL_FILE}}
-      - test -f ~/.ssh/id_rsa
+    - which test k0sctl
+    - test -f {{.K0SCTL_FILE}}
+    - test -f ~/.ssh/id_rsa
     vars:
       DEBUG: '{{.DEBUG | default "false"}}'
     cmds:
-      - k0sctl apply --concurrency=3 --debug={{.DEBUG}} --dry-run --config {{.K0SCTL_FILE}}
+    - k0sctl apply --concurrency=3 --debug={{.DEBUG}} --dry-run --config {{.K0SCTL_FILE}}
 
   _apply-config:
     internal: true
     desc: Execute apply config
     preconditions:
-      - which test k0sctl
-      - test -f {{.K0SCTL_FILE}}
-      - test -f ~/.ssh/id_rsa
+    - which test k0sctl
+    - test -f {{.K0SCTL_FILE}}
+    - test -f ~/.ssh/id_rsa
     vars:
       DEBUG: '{{.DEBUG | default "false"}}'
     prompt: Apply current K0s config... continue?
     cmds:
-      - k0sctl apply --concurrency=3 --debug={{.DEBUG}} --dry-run --config {{.K0SCTL_FILE}}
+    - k0sctl apply --concurrency=3 --debug={{.DEBUG}} --dry-run --config {{.K0SCTL_FILE}}

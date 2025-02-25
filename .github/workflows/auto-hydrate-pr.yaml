@@ -3,7 +3,7 @@ name: Auto create PR for Hydrator
 on:
   push:
     branches:
-    - 'deploy/k0s-preview'
+    - deploy/k0s-preview
   workflow_dispatch:
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
         gh --version
 
         gh_pr_up() {
-          gh pr create "$@" || gh pr edit "$@" 
+          gh pr create "$@" || gh pr edit "$@"
         }
 
         gh_pr_up --title "chore(hydrator): deploying into deploy/k0s" \

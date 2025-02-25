@@ -1,8 +1,6 @@
 ---
 extends: default
 rules:
-  truthy:
-    allowed-values: ["true", "false", "on"]
   comments:
     min-spaces-from-content: 1
   line-length: disable
@@ -16,4 +14,3 @@ rules:
     spaces: 2
     indent-sequences: consistent
     check-multi-line-strings: false
-

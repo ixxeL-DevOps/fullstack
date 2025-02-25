@@ -20,8 +20,8 @@ spec:
       data:
         url: https://github.com/ixxeL-DevOps/fullstack.git
         type: git
-        githubAppID: "{{ .appid }}"
-        githubAppInstallationID: "{{ .installid }}"
+        githubAppID: '{{ .appid }}'
+        githubAppInstallationID: '{{ .installid }}'
         githubAppPrivateKey: |-
           {{ .privatekey }}
   data:
@@ -68,8 +68,8 @@ spec:
       data:
         url: https://github.com
         type: git
-        githubAppID: "{{ .appid }}"
-        githubAppInstallationID: "{{ .installid }}"
+        githubAppID: '{{ .appid }}'
+        githubAppInstallationID: '{{ .installid }}'
         githubAppPrivateKey: |-
           {{ .privatekey }}
   data:

@@ -7,7 +7,7 @@ spec:
   capacity:
     storage: 8Gi
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-path-retain
   local:
@@ -15,11 +15,11 @@ spec:
   nodeAffinity:
     required:
       nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - fullstack
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - fullstack
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -29,7 +29,7 @@ spec:
   capacity:
     storage: 7Gi
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-path-retain
   local:
@@ -37,8 +37,8 @@ spec:
   nodeAffinity:
     required:
       nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - fullstack
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - fullstack

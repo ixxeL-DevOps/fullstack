@@ -1,3 +1,4 @@
+---
 wg-portal:
   service:
     mixed:
@@ -10,7 +11,7 @@ wg-portal:
     wireguard:
       type: LoadBalancer
       ports:
-        - 51820
+      - 51820
     metrics:
       port: 8787
 
@@ -20,5 +21,5 @@ wg-portal:
 
   ingress:
     enabled: true
-    className: "traefik"
+    className: traefik
     tls: false

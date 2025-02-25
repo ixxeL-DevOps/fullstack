@@ -1,8 +1,9 @@
+---
 adguard-home:
   image:
     repository: adguard/adguardhome
     pullPolicy: Always
-    tag: "v0.107.56"
+    tag: v0.107.56
 
   services:
     adminPanel:
@@ -19,7 +20,7 @@ adguard-home:
       enabled: true
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/allow-shared-ip: "192.168.1.195-ip"
+        metallb.universe.tf/allow-shared-ip: 192.168.1.195-ip
       # externalTrafficPolicy: Local
       loadBalancerIP: 192.168.1.195
       tcp:
@@ -32,7 +33,7 @@ adguard-home:
       enabled: true
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/allow-shared-ip: "192.168.1.195-ip"
+        metallb.universe.tf/allow-shared-ip: 192.168.1.195-ip
       # externalTrafficPolicy: Local
       loadBalancerIP: 192.168.1.195
       port: 853
@@ -40,7 +41,7 @@ adguard-home:
       enabled: true
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/allow-shared-ip: "192.168.1.195-ip"
+        metallb.universe.tf/allow-shared-ip: 192.168.1.195-ip
       # externalTrafficPolicy: Local
       loadBalancerIP: 192.168.1.195
       port1:
@@ -53,7 +54,7 @@ adguard-home:
       enabled: false
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/allow-shared-ip: "192.168.1.195-ip"
+        metallb.universe.tf/allow-shared-ip: 192.168.1.195-ip
       # externalTrafficPolicy: Local
       loadBalancerIP: 192.168.1.195
       tcp:
@@ -66,38 +67,38 @@ adguard-home:
   ingresses:
     adminPanel:
       enabled: true
-      className: "traefik"
+      className: traefik
       hosts:
-        - host: adguard-admin.k0s-fullstack.fredcorp.com
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
+      - host: adguard-admin.k0s-fullstack.fredcorp.com
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
       tls: []
       #  - secretName: adguard-admin-tls
       #    hosts:
       #      - adguard-admin.k0s-fullstack.fredcorp.com
     http:
       enabled: true
-      className: "traefik"
+      className: traefik
       annotations:
         traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
       hosts:
-        - host: adguard.k0s-fullstack.fredcorp.com
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
+      - host: adguard.k0s-fullstack.fredcorp.com
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
       tls: []
       #  - secretName: chart-example-tls
       #    hosts:
       #      - adguard.k0s-fullstack.fredcorp.com
     https:
       enabled: true
-      className: "traefik"
+      className: traefik
       hosts:
-        - host: adguard-secure.k0s-fullstack.fredcorp.com
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
+      - host: adguard-secure.k0s-fullstack.fredcorp.com
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
       tls: []
       #  - secretName: adguard-secure-tls
       #    hosts:
@@ -107,7 +108,7 @@ adguard-home:
     existingClaim: pvc-adguard-data
     volumeClaimSpec:
       accessModes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       resources:
         requests:
           storage: 1Gi

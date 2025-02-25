@@ -1,17 +1,17 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: "3"
+version: '3'
 set:
-  - pipefail
+- pipefail
 shopt:
-  - globstar
+- globstar
 
 silent: true
 
 vars:
-  K0S_ROOT: "{{.ROOT_DIR}}/infra/k0s"
-  TALOS_ROOT: "{{.ROOT_DIR}}/infra/talos"
-  GITOPS_ROOT: "{{.ROOT_DIR}}/gitops"
+  K0S_ROOT: '{{.ROOT_DIR}}/infra/k0s'
+  TALOS_ROOT: '{{.ROOT_DIR}}/infra/talos'
+  GITOPS_ROOT: '{{.ROOT_DIR}}/gitops'
 
 includes:
   k0s: .taskfiles/k0s
