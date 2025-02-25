@@ -10,21 +10,21 @@ spec:
     namespace: authentik
   project: infra-security
   sources:
-  - path: gitops/manifests/authentik/app
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
-  - path: gitops/manifests/authentik/blueprints
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
+    - path: gitops/manifests/authentik/app
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+    - path: gitops/manifests/authentik/blueprints
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-    - Validate=true
-    - PruneLast=false
-    - RespectIgnoreDifferences=true
-    - Replace=false
-    - ApplyOutOfSyncOnly=true
-    - CreateNamespace=true
-    - ServerSideApply=true
+      - Validate=true
+      - PruneLast=false
+      - RespectIgnoreDifferences=true
+      - Replace=false
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true

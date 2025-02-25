@@ -6,14 +6,14 @@ tasks:
   init:
     desc: Initialize pre-commit hooks
     cmds:
-    - pre-commit install --install-hooks
+      - pre-commit install --install-hooks
 
   update:
     desc: Update pre-commit dependencies
     cmds:
-    - pre-commit autoupdate
+      - pre-commit autoupdate
 
   run:
     desc: Run pre-commit
     cmds:
-    - pre-commit run --all-files
+      - pre-commit run --all-files

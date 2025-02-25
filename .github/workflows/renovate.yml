@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types:
-    - renovate
+      - renovate
   schedule:
-  - cron: 0 2 * * *
-  - cron: 0 3 * * *
+    - cron: 0 2 * * *
+    - cron: 0 3 * * *
 
 concurrency:
   group: auto
@@ -17,26 +17,26 @@ jobs:
   renovate:
     runs-on: ubuntu-24.04
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: GH App get Token
-      id: get-token
-      uses: actions/create-github-app-token@v1
-      with:
-        app-id: ${{ secrets.GHAPP_APP_ID }}
-        private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
+      - name: GH App get Token
+        id: get-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.GHAPP_APP_ID }}
+          private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
 
-    - name: Run Renovate
-      uses: renovatebot/github-action@v41.0.14
-      with:
-        token: ${{ steps.get-token.outputs.token }}
-        docker-volumes: |
-          ${{ github.workspace }}/.npmrc:/github-action/.npmrc
-        env-regex: ^(?:RENOVATE_\w+|LOG_LEVEL|GITHUB_COM_TOKEN|NODE_OPTIONS|NODE_TLS_REJECT_UNAUTHORIZED|NPM_CONFIG_USERCONFIG)$
-      env:
-        LOG_LEVEL: debug
-        RENOVATE_AUTODISCOVER: 'false'
-        RENOVATE_REPOSITORIES: ${{ github.repository }}
-        NODE_TLS_REJECT_UNAUTHORIZED: '0'
-        NPM_CONFIG_USERCONFIG: /github-action/.npmrc
+      - name: Run Renovate
+        uses: renovatebot/github-action@v41.0.14
+        with:
+          token: ${{ steps.get-token.outputs.token }}
+          docker-volumes: |
+            ${{ github.workspace }}/.npmrc:/github-action/.npmrc
+          env-regex: ^(?:RENOVATE_\w+|LOG_LEVEL|GITHUB_COM_TOKEN|NODE_OPTIONS|NODE_TLS_REJECT_UNAUTHORIZED|NPM_CONFIG_USERCONFIG)$
+        env:
+          LOG_LEVEL: debug
+          RENOVATE_AUTODISCOVER: 'false'
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
+          NPM_CONFIG_USERCONFIG: /github-action/.npmrc

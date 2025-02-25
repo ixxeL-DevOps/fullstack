@@ -5,7 +5,7 @@ metadata:
   name: pvc-authentik-redis-data
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 7Gi
@@ -18,7 +18,7 @@ metadata:
   name: pvc-authentik-pgsql-data
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 8Gi

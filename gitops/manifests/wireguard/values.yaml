@@ -11,7 +11,7 @@ wg-portal:
     wireguard:
       type: LoadBalancer
       ports:
-      - 51820
+        - 51820
     metrics:
       port: 8787
 

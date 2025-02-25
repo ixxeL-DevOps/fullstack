@@ -18,15 +18,15 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - Validate=true
-    - PruneLast=false
-    - RespectIgnoreDifferences=true
-    - Replace=false
-    - ApplyOutOfSyncOnly=true
-    - CreateNamespace=true
-    - ServerSideApply=true
+      - Validate=true
+      - PruneLast=false
+      - RespectIgnoreDifferences=true
+      - Replace=false
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
   ignoreDifferences:
-  - group: apps
-    kind: StatefulSet
-    jqPathExpressions:
-    - .spec.volumeClaimTemplates
+    - group: apps
+      kind: StatefulSet
+      jqPathExpressions:
+        - .spec.volumeClaimTemplates

@@ -20,3 +20,4 @@ k3d-home/manifests/rolebindings.yaml
 k3d-home/manifests/runtimes.yaml
 k3d-home/manifests/traefik.yaml
 k3d-home/k3d.yaml
+node_modules

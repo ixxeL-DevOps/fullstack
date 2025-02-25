@@ -34,11 +34,11 @@ vault:
       pathType: Prefix
       activeService: true
       hosts:
-      - host: vault.k0s-fullstack.fredcorp.com
-        paths: []
+        - host: vault.k0s-fullstack.fredcorp.com
+          paths: []
       tls:
-      - hosts:
-        - vault.k0s-fullstack.fredcorp.com
+        - hosts:
+            - vault.k0s-fullstack.fredcorp.com
 
   standalone:
     enabled: true

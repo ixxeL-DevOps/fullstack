@@ -28,12 +28,12 @@ homarr:
     enabled: true
     ingressClassName: traefik
     hosts:
-    - host: homarr.k0s-fullstack.fredcorp.com
-      paths:
-      - path: /
+      - host: homarr.k0s-fullstack.fredcorp.com
+        paths:
+          - path: /
     tls:
-    - hosts:
-      - homarr.k0s-fullstack.fredcorp.com
+      - hosts:
+          - homarr.k0s-fullstack.fredcorp.com
 
   persistence:
     homarrDatabase:

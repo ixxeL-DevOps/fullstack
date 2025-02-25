@@ -6,14 +6,14 @@ metadata:
   namespace: argocd
 spec:
   clusterResourceWhitelist:
-  - group: '*'
-    kind: '*'
+    - group: '*'
+      kind: '*'
   description: Security Project
   destinations:
-  - namespace: '*'
-    server: https://kubernetes.default.svc
+    - namespace: '*'
+      server: https://kubernetes.default.svc
   namespaceResourceWhitelist:
-  - group: '*'
-    kind: '*'
+    - group: '*'
+      kind: '*'
   sourceRepos:
-  - '*'
+    - '*'

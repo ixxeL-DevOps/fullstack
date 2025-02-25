@@ -5,8 +5,8 @@ generatorOptions:
   disableNameSuffixHash: true
 
 configMapGenerator:
-- name: authentik-blueprints
-  files:
-  - ./oidc-vault.yaml
-  - ./oidc-homarr.yaml
-  - ./groups.yaml
+  - name: authentik-blueprints
+    files:
+      - ./oidc-vault.yaml
+      - ./oidc-homarr.yaml
+      - ./groups.yaml

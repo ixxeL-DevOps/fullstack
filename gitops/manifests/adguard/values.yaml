@@ -69,10 +69,10 @@ adguard-home:
       enabled: true
       className: traefik
       hosts:
-      - host: adguard-admin.k0s-fullstack.fredcorp.com
-        paths:
-        - path: /
-          pathType: ImplementationSpecific
+        - host: adguard-admin.k0s-fullstack.fredcorp.com
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
       tls: []
       #  - secretName: adguard-admin-tls
       #    hosts:
@@ -83,10 +83,10 @@ adguard-home:
       annotations:
         traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
       hosts:
-      - host: adguard.k0s-fullstack.fredcorp.com
-        paths:
-        - path: /
-          pathType: ImplementationSpecific
+        - host: adguard.k0s-fullstack.fredcorp.com
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
       tls: []
       #  - secretName: chart-example-tls
       #    hosts:
@@ -95,10 +95,10 @@ adguard-home:
       enabled: true
       className: traefik
       hosts:
-      - host: adguard-secure.k0s-fullstack.fredcorp.com
-        paths:
-        - path: /
-          pathType: ImplementationSpecific
+        - host: adguard-secure.k0s-fullstack.fredcorp.com
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
       tls: []
       #  - secretName: adguard-secure-tls
       #    hosts:
@@ -108,7 +108,7 @@ adguard-home:
     existingClaim: pvc-adguard-data
     volumeClaimSpec:
       accessModes:
-      - ReadWriteOnce
+        - ReadWriteOnce
       resources:
         requests:
           storage: 1Gi

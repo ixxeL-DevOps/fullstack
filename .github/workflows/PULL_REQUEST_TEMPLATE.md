@@ -6,5 +6,5 @@
 
 **PR guidelines**
 
-- [ ] Pull request targets ``main`` branch
+- [ ] Pull request targets `main` branch
 - [ ] Commits follow the [conventional commits guideline](https://www.conventionalcommits.org/en/v1.0.0/)

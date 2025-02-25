@@ -2,31 +2,31 @@
 authentik:
   blueprints:
     configMaps:
-    - authentik-blueprints
+      - authentik-blueprints
   global:
     env:
-    - name: AUTHENTIK_BOOTSTRAP_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: authentik-bootstrap
-          key: password
-    - name: AUTHENTIK_BOOTSTRAP_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: authentik-bootstrap
-          key: token
+      - name: AUTHENTIK_BOOTSTRAP_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-bootstrap
+            key: password
+      - name: AUTHENTIK_BOOTSTRAP_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: authentik-bootstrap
+            key: token
     volumeMounts:
-    - name: secrets
-      mountPath: /secrets
-    - name: pgsql-creds
-      mountPath: /pgsql-creds
+      - name: secrets
+        mountPath: /secrets
+      - name: pgsql-creds
+        mountPath: /pgsql-creds
     volumes:
-    - name: secrets
-      secret:
-        secretName: authentik-key
-    - name: pgsql-creds
-      secret:
-        secretName: authentik-pgsql-creds
+      - name: secrets
+        secret:
+          secretName: authentik-key
+      - name: pgsql-creds
+        secret:
+          secretName: authentik-pgsql-creds
 
   authentik:
     log_level: debug
@@ -42,9 +42,10 @@ authentik:
       enabled: true
       ingressClassName: traefik
       hosts:
-      - authentik.k0s-fullstack.fredcorp.com
+        - authentik.k0s-fullstack.fredcorp.com
       pathType: Prefix
-      tls: []
+      tls:
+        []
         # - secretName: authentik-tls
         #   hosts:
         #     - authentik.domain.tld
@@ -71,6 +72,6 @@ authentik:
         path: /data
         storageClass: local-path
         accessModes:
-        - ReadWriteOnce
+          - ReadWriteOnce
         size: 7Gi
         existingClaim: pvc-authentik-redis-data

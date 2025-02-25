@@ -25,27 +25,27 @@ spec:
         githubAppPrivateKey: |-
           {{ .privatekey }}
   data:
-  - secretKey: appid
-    remoteRef:
-      key: github
-      property: GH_APP_ARGOCD_ID
-      conversionStrategy: Default
-      decodingStrategy: None
-      metadataPolicy: None
-  - secretKey: installid
-    remoteRef:
-      key: github
-      property: GH_APP_ARGOCD_INSTALL_ID
-      conversionStrategy: Default
-      decodingStrategy: None
-      metadataPolicy: None
-  - secretKey: privatekey
-    remoteRef:
-      key: github
-      property: GH_APP_ARGOCD_PRIVATE_KEY
-      conversionStrategy: Default
-      decodingStrategy: Base64
-      metadataPolicy: None
+    - secretKey: appid
+      remoteRef:
+        key: github
+        property: GH_APP_ARGOCD_ID
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+    - secretKey: installid
+      remoteRef:
+        key: github
+        property: GH_APP_ARGOCD_INSTALL_ID
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+    - secretKey: privatekey
+      remoteRef:
+        key: github
+        property: GH_APP_ARGOCD_PRIVATE_KEY
+        conversionStrategy: Default
+        decodingStrategy: Base64
+        metadataPolicy: None
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -73,24 +73,24 @@ spec:
         githubAppPrivateKey: |-
           {{ .privatekey }}
   data:
-  - secretKey: appid
-    remoteRef:
-      key: github
-      property: GH_APP_ARGOCD_ID
-      conversionStrategy: Default
-      decodingStrategy: None
-      metadataPolicy: None
-  - secretKey: installid
-    remoteRef:
-      key: github
-      property: GH_APP_ARGOCD_INSTALL_ID
-      conversionStrategy: Default
-      decodingStrategy: None
-      metadataPolicy: None
-  - secretKey: privatekey
-    remoteRef:
-      key: github
-      property: GH_APP_ARGOCD_PRIVATE_KEY
-      conversionStrategy: Default
-      decodingStrategy: Base64
-      metadataPolicy: None
+    - secretKey: appid
+      remoteRef:
+        key: github
+        property: GH_APP_ARGOCD_ID
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+    - secretKey: installid
+      remoteRef:
+        key: github
+        property: GH_APP_ARGOCD_INSTALL_ID
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+    - secretKey: privatekey
+      remoteRef:
+        key: github
+        property: GH_APP_ARGOCD_PRIVATE_KEY
+        conversionStrategy: Default
+        decodingStrategy: Base64
+        metadataPolicy: None

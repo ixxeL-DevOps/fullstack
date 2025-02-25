@@ -1,4 +1,5 @@
 # OIDC
+
 ## Vault
 
 Blueprint for Vault OIDC auth :
@@ -11,7 +12,7 @@ metadata:
 entries:
   - id: provider
     model: authentik_providers_oauth2.oauth2provider
-    state: "present"
+    state: 'present'
     identifiers:
       name: fullstack-vault
     attrs:
@@ -37,9 +38,9 @@ entries:
 
   - id: application
     model: authentik_core.application
-    state: "present"
+    state: 'present'
     identifiers:
-      name: "fullstack-vault"
+      name: 'fullstack-vault'
     attrs:
       name: fullstack-vault
       group: Infrastructure
@@ -63,6 +64,7 @@ vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com a
 ```
 
 To manage groups, you can configure following:
+
 ```bash
 vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com auth/oidc/role/reader bound_audiences="<authentik-provider-client-id>" allowed_redirect_uris="https://vault.k0s-fullstack.fredcorp.com/ui/vault/auth/oidc/oidc/callback" allowed_redirect_uris="https://vault.k0s-fullstack.fredcorp.com/oidc/callback" us
 er_claim="sub" policies="reader" groups_claim="groups" oidc_scopes=[ "openid profile email" ]
@@ -71,17 +73,20 @@ vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com i
 ```
 
 Access information with:
+
 ```bash
 vault auth list -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com
 vault read -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com identity/group/name/administrator
 ```
 
 Link to Authentik:
+
 ```bash
 vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com identity/group-alias mount_accessor="auth_oidc_b59bc9a6" canonical_id="cbd6e4ac-e516-4424-742a-41a978252bb6" name="group name in authentik"
 ```
 
 You need to Create an Authentik group named `group name in authentik` and a Vault policy for admins like that :
+
 ```hcl
 path "*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]

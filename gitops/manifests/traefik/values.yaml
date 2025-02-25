@@ -54,11 +54,11 @@ traefik:
       labels: {}
       matchRule: Host(`traefik.k0s-fullstack.fredcorp.com`)
       middlewares:
-      - name: authentik
-        namespace: authentik
+        - name: authentik
+          namespace: authentik
       services:
-      - name: api@internal
-        kind: TraefikService
+        - name: api@internal
+          kind: TraefikService
       entryPoints: [web, websecure]
       tls: {}
   providers:
@@ -77,10 +77,10 @@ traefik:
       enabled: false
   logs:
     general:
-      level: INFO    # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
+      level: INFO # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
   globalArguments:
-  - --global.checknewversion
-  - --global.sendanonymoususage
+    - --global.checknewversion
+    - --global.sendanonymoususage
   additionalArguments: []
   service:
     enabled: true
@@ -92,11 +92,11 @@ traefik:
     enabled: false
   priorityClassName: system-cluster-critical
   tolerations:
-  - key: CriticalAddonsOnly
-    operator: Exists
-  - key: node-role.kubernetes.io/control-plane
-    operator: Exists
-    effect: NoSchedule
-  - key: node-role.kubernetes.io/master
-    operator: Exists
-    effect: NoSchedule
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule

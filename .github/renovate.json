@@ -1,9 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "mergeConfidence:all-badges",
-    "config:recommended"
-  ],
+  "extends": ["mergeConfidence:all-badges", "config:recommended"],
   "enabledManagers": ["helmv3", "github-actions"],
   "dependencyDashboard": true,
   "prHourlyLimit": 60,
@@ -12,14 +9,9 @@
   "automergeStrategy": "squash",
   "rebaseWhen": "behind-base-branch",
   "platformAutomerge": true,
-  "ignorePaths": [
-    "docs/**",
-    "infra/**"
-  ],
+  "ignorePaths": ["docs/**", "infra/**"],
   "helmv3": {
-    "fileMatch": [
-        "(^|/)Chart\\.ya?ml$"
-    ]
+    "fileMatch": ["(^|/)Chart\\.ya?ml$"]
   },
   "packageRules": [
     {

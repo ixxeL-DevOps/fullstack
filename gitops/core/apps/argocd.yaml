@@ -18,8 +18,8 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - Validate=true
-    - PruneLast=false
-    - RespectIgnoreDifferences=true
-    - Replace=false
-    - ApplyOutOfSyncOnly=true
+      - Validate=true
+      - PruneLast=false
+      - RespectIgnoreDifferences=true
+      - Replace=false
+      - ApplyOutOfSyncOnly=true
