@@ -1,0 +1,70 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  K0SCTL_FILE: "{{.K0S_ROOT}}/fullstack.yaml"
+
+tasks:
+  kubeconf:
+    desc: display kubeconfig
+    preconditions:
+      - which test k0sctl
+      - test -f {{.K0SCTL_FILE}}
+      - test -f ~/.ssh/id_rsa
+    cmds:
+      - k0sctl kubeconfig --config {{.K0SCTL_FILE}}
+
+  backup:
+    desc: display kubeconfig
+    cmds:
+      - task: _backup-dry
+      - task: _backup
+
+  apply-config:
+    desc: apply k0s config
+    cmds:
+      - task: _apply-config-dry
+      - task: _apply-config
+
+  _backup-dry:
+    internal: true
+    desc: Execute backup DRYN RUN
+    preconditions:
+      - which test k0sctl
+      - test -f {{.K0SCTL_FILE}}
+      - test -f ~/.ssh/id_rsa
+    cmds:
+      - k0sctl backup --concurrency=3 --dry-run --debug --config {{.K0SCTL_FILE}}
+
+  _backup:
+    internal: true
+    desc: Execute backup
+    preconditions:
+      - which test k0sctl
+      - test -f {{.K0SCTL_FILE}}
+      - test -f ~/.ssh/id_rsa
+    prompt: Backup K0s cluster... continue?
+    cmds:
+      - k0sctl backup --concurrency=3 --debug --config {{.K0SCTL_FILE}}
+
+  _apply-config-dry:
+    internal: true
+    desc: Execute apply config DRYN RUN
+    preconditions:
+      - which test k0sctl
+      - test -f {{.K0SCTL_FILE}}
+      - test -f ~/.ssh/id_rsa
+    cmds:
+      - k0sctl apply --concurrency=3 --debug --dry-run --config {{.K0SCTL_FILE}}
+
+  _apply-config:
+    internal: true
+    desc: Execute apply config
+    preconditions:
+      - which test k0sctl
+      - test -f {{.K0SCTL_FILE}}
+      - test -f ~/.ssh/id_rsa
+    prompt: Apply current K0s config... continue?
+    cmds:
+      - k0sctl apply --concurrency=3 --debug --dry-run --config {{.K0SCTL_FILE}}

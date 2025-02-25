@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+set:
+  - pipefail
+shopt:
+  - globstar
+
+vars:
+  K0S_ROOT: "{{.ROOT_DIR}}/infra/k0s"
+  TALOS_ROOT: "{{.ROOT_DIR}}/infra/talos"
+  GITOPS_ROOT: "{{.ROOT_DIR}}/gitops"
+
+includes:
+  k0s: .taskfiles/k0s
+
+tasks:
+  default:
+    silent: true
+    cmd: task -l
+
+  noop:
+    internal: true
+    silent: true
+    cmd: noop() { :; }
