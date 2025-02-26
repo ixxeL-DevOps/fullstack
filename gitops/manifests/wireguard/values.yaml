@@ -27,6 +27,7 @@ wg-portal:
       appProtocol: http
     wireguard:
       type: LoadBalancer
+      externalTrafficPolicy: Local
       ports:
         - 51820
     metrics:
