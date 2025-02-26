@@ -12,6 +12,11 @@ wg-portal:
         value: '1'
   securityContext:
     privileged: true
+    capabilities:
+      add:
+        - NET_ADMIN
+        - SYS_MODULE
+
     # capabilities:
     #   # -- Add capabilities to the container
     #   add:
