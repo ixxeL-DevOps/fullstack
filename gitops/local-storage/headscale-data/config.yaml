@@ -10,13 +10,13 @@
 #
 # https://myheadscale.example.com:443
 #
-server_url: http://headscale.k0s-fullstack.fredcorp.com
+server_url: https://headscale-main.k0s-fullstack.fredcorp.com
 
 # Address to listen to / bind to on the server
 #
 # For production:
 # listen_addr: 0.0.0.0:8080
-listen_addr: 0.0.0.0:8080
+listen_addr: 0.0.0.0:8081
 
 # Address to listen to /metrics, you may want
 # to keep this endpoint private to your internal
