@@ -6,13 +6,13 @@ headscale:
     config:
       enabled: true
       mountPath: /etc/headscale
-      retain: true
+      retain: false
       storageClass: 'local-path-delete'
 
   env:
     # -- Defines the base domain to create the hostnames for MagicDNS.
     # This domain _must_ be different from the server_url domain.
-    HEADSCALE_DNS_BASE_DOMAIN: 'fredcorp.com'
+    HEADSCALE_DNS_BASE_DOMAIN: '.wireguard.fredcorp.com'
 
     # HEADSCALE_OIDC_ISSUER: ""
     # HEADSCALE_OIDC_CLIENT_ID: ""
@@ -64,12 +64,12 @@ headscale:
         - hosts:
             - headscale.k0s-fullstack.fredcorp.com
 
-    main:
-      enabled: true
-      hosts:
-        - host: headscale-main.k0s-fullstack.fredcorp.com
-          paths:
-            - path: /
-      tls:
-        - hosts:
-            - headscale-main.k0s-fullstack.fredcorp.com
+    # main:
+    #   enabled: true
+    #   hosts:
+    #     - host: headscale-main.k0s-fullstack.fredcorp.com
+    #       paths:
+    #         - path: /
+    #   tls:
+    #     - hosts:
+    #         - headscale-main.k0s-fullstack.fredcorp.com
