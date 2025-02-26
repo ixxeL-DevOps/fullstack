@@ -33,6 +33,7 @@ wg-portal:
     wireguard:
       type: NodePort
       externalTrafficPolicy: Local
+      nodePort: 51820
       ports:
         - 51820
     metrics:
