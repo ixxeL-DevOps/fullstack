@@ -101,7 +101,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - image: ghcr.io/h44z/wg-portal:v1.0.19
+        - image: ghcr.io/h44z/wg-portal:1.0.19
           imagePullPolicy: IfNotPresent
           name: wg-portal
           ports:
