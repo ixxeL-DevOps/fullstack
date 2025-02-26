@@ -1,4 +1,7 @@
 ---
+ignore: |
+  gitops/local-storage/
+
 extends: default
 rules:
   truthy:

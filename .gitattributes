@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.json linguist-detectable linguist-language=JSON
+*.md linguist-detectable linguist-language=MARKDOWN
+*.sh linguist-detectable linguist-language=SHELL
+*.toml linguist-detectable linguist-language=TOML
+*.yaml linguist-detectable linguist-language=YAML
+*.yml linguist-detectable linguist-language=YAML
