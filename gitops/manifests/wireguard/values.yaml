@@ -16,8 +16,14 @@ wg-portal:
       port: 8787
 
   config:
+    auth: {}
+    core:
+      admin_user: admin
+      admin_password: password
     web:
       external_url: http://wireguard.k0s-fullstack.fredcorp.com
+    advanced:
+      log_level: debug
 
   ingress:
     enabled: true
