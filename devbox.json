@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
+  "packages": [
+    "yq-go@latest",
+    "go-task@latest",
+    "k0sctl@latest",
+    "pre-commit@latest",
+    "fish@latest",
+    "kubectl@latest",
+    "jq@latest",
+    "kubernetes-helm@latest",
+    "argocd@latest",
+    "krew@latest",
+    "kubectx@latest",
+    "kubectl-neat@latest"
+  ],
+  "env": {
+    "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"
+  },
+  "shell": {
+    "init_hook": ["echo 'Welcome to devbox!' > /dev/null"],
+    "scripts": {
+      "test": ["echo \"Error: no test specified\" && exit 1"]
+    }
+  }
+}
