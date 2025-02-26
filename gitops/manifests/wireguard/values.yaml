@@ -31,9 +31,8 @@ wg-portal:
       port: 8888
       appProtocol: http
     wireguard:
-      type: NodePort
+      type: LoadBalancer
       externalTrafficPolicy: Local
-      nodePort: 51820
       ports:
         - 51820
     metrics:
