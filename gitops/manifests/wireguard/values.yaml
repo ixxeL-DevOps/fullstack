@@ -1,12 +1,9 @@
 ---
 wg-portal:
-  image:
-    # -- Image repository
-    repository: ghcr.io/h44z/wg-portal
-    # -- Image pull policy
-    pullPolicy: IfNotPresent
-    # -- Overrides the image tag whose default is the chart appVersion
-    tag: '1.0.19'
+  # image:
+  #   repository: ghcr.io/h44z/wg-portal
+  #   pullPolicy: IfNotPresent
+  #   tag: '1.0.19'
 
   service:
     mixed:
@@ -29,7 +26,7 @@ wg-portal:
     #   admin_user: admin
     #   admin_password: password
     web:
-      external_url: http://wireguard.k0s-fullstack.fredcorp.com
+      external_url: https://wireguard.k0s-fullstack.fredcorp.com
     advanced:
       log_level: debug
 
