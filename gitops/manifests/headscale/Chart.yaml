@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: headscale
+version: 1.0.0
+dependencies:
+  - name: headscale
+    version: 0.16.0
+    repository: https://charts.gabe565.com
