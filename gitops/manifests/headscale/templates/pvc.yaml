@@ -10,6 +10,6 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 1Gi
   storageClassName: local-path-retain
   volumeName: pv-headscale-data

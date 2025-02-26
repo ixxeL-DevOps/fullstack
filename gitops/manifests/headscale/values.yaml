@@ -6,8 +6,9 @@ headscale:
     config:
       enabled: true
       mountPath: /etc/headscale
-      retain: false
-      storageClass: 'local-path-delete'
+      retain: true
+      storageClass: 'local-path-retain'
+      existingClaim: 'pvc-headscale-data'
 
   env:
     # -- Defines the base domain to create the hostnames for MagicDNS.
