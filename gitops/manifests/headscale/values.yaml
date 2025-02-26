@@ -13,7 +13,7 @@ headscale:
   env:
     # -- Defines the base domain to create the hostnames for MagicDNS.
     # This domain _must_ be different from the server_url domain.
-    HEADSCALE_DNS_BASE_DOMAIN: '.wireguard.fredcorp.com'
+    HEADSCALE_DNS_BASE_DOMAIN: wireguard.fredcorp.com
 
     # HEADSCALE_OIDC_ISSUER: ""
     # HEADSCALE_OIDC_CLIENT_ID: ""
@@ -37,40 +37,40 @@ headscale:
     HEADSCALE_LOG_LEVEL: 'debug'
     HEADSCALE_DISABLE_CHECK_UPDATES: 'true'
 
-  sidecars:
-    ui:
-      image: ghcr.io/gurucomputing/headscale-ui:latest
-      ports:
-        - name: http
-          containerPort: 80
+  # sidecars:
+  #   ui:
+  #     image: ghcr.io/gurucomputing/headscale-ui:latest
+  #     ports:
+  #       - name: http
+  #         containerPort: 80
 
-  service:
-    main:
-      ports:
-        ui:
-          port: 80
+  # service:
+  #   main:
+  #     ports:
+  #       ui:
+  #         port: 80
 
   ingress:
     # -- Enable and configure ingress settings for the chart under this key.
     # @default -- See [values.yaml](./values.yaml)
-    ui:
-      enabled: true
-      hosts:
-        - host: headscale.k0s-fullstack.fredcorp.com
-          paths:
-            - path: /web
-              service:
-                port: 80
-      tls:
-        - hosts:
-            - headscale.k0s-fullstack.fredcorp.com
-
-    # main:
+    # ui:
     #   enabled: true
     #   hosts:
-    #     - host: headscale-main.k0s-fullstack.fredcorp.com
+    #     - host: headscale.k0s-fullstack.fredcorp.com
     #       paths:
-    #         - path: /
+    #         - path: /web
+    #           service:
+    #             port: 80
     #   tls:
     #     - hosts:
-    #         - headscale-main.k0s-fullstack.fredcorp.com
+    #         - headscale.k0s-fullstack.fredcorp.com
+
+    main:
+      enabled: true
+      hosts:
+        - host: headscale-main.k0s-fullstack.fredcorp.com
+          paths:
+            - path: /
+      tls:
+        - hosts:
+            - headscale-main.k0s-fullstack.fredcorp.com
