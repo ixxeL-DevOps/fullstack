@@ -24,9 +24,6 @@ stringData:
     advanced:
       log_level: debug
       start_listen_port: 51820
-    core:
-      admin_password: password
-      admin_user: admin
     statistics:
       listening_address: :8787
     web:
@@ -96,7 +93,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: b83e7c853614c0487288db715a9ca2c49d9dde98e60c2e8c8231d50a9fee2fee
+        checksum/config: a5da1ecdd8108604422e741e95b1578f12212e2183ff989ea2744991e910640a
         kubectl.kubernetes.io/default-container: wg-portal
       labels:
         app.kubernetes.io/instance: wireguard-k0s
@@ -104,7 +101,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - image: ghcr.io/h44z/wg-portal:v2
+        - image: ghcr.io/h44z/wg-portal:v1.0.19
           imagePullPolicy: IfNotPresent
           name: wg-portal
           ports:
