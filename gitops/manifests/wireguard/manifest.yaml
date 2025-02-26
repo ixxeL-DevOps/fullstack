@@ -136,6 +136,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
   labels:
     app.kubernetes.io/instance: wireguard-k0s
     app.kubernetes.io/managed-by: Helm
