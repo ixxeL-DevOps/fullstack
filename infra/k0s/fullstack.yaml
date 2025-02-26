@@ -28,6 +28,12 @@ spec:
       metadata:
         name: k0s-fredcorp
       spec:
+        workerProfiles:
+          - name: wg-sysctl
+            values:
+              allowedUnsafeSysctls:
+                - net.ipv4.ip_forward
+                - net.ipv4.conf.all.src_valid_mark
         storage:
           type: kine
         telemetry:
