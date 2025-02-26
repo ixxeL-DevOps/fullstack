@@ -22,7 +22,11 @@ metadata:
 stringData:
   config.yml: |
     advanced:
+      log_level: debug
       start_listen_port: 51820
+    core:
+      admin_password: password
+      admin_user: admin
     statistics:
       listening_address: :8787
     web:
@@ -92,7 +96,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: b281dc15922608c7bb24e55d1547cb68d395db665bdf6bfd2ca6b0405b768f78
+        checksum/config: b83e7c853614c0487288db715a9ca2c49d9dde98e60c2e8c8231d50a9fee2fee
         kubectl.kubernetes.io/default-container: wg-portal
       labels:
         app.kubernetes.io/instance: wireguard-k0s
