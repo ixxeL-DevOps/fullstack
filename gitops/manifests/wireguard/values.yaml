@@ -82,7 +82,7 @@ wg-portal:
           field_map:
             email: email
             user_identifier: email
-            is_admin: is_admin
+            is_admin: IsAdmin
           registration_enabled: true
 
     web:
