@@ -28,6 +28,7 @@ entries:
         - !Find [authentik_core.propertymapping, [name, "authentik default OAuth Mapping: OpenID 'openid'"]]
         - !Find [authentik_core.propertymapping, [name, "authentik default OAuth Mapping: OpenID 'profile'"]]
         - !Find [authentik_core.propertymapping, [name, "authentik default OAuth Mapping: OpenID 'email'"]]
+        - !Find [authentik_core.propertymapping, [name, "OAuth mapping: OpenID 'is_admin' for Wireguard"]]
 
   - id: application
     model: authentik_core.application
