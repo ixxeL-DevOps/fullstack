@@ -17,33 +17,39 @@ dns:
     - 0.0.0.0
   port: 53
   anonymize_client_ip: false
-  ratelimit: 20
+  ratelimit: 0
   ratelimit_subnet_len_ipv4: 24
   ratelimit_subnet_len_ipv6: 56
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - tls://1.1.1.1
-    - tls://1.0.0.1
-    - tls://1dot1dot1dot1.cloudflare-dns.com
-    - tls://dns.adguard-dns.com
-    - https://dns.cloudflare.com/dns-query
-    - https://dns.adguard-dns.com/dns-query
-    - tls://dns.quad9.net
-    - tls://dns.adguard.com
-    - https://1.1.1.1/dns-query
-    - https://1.0.0.1/dns-query
-    - https://dns.quad9.net/dns-query
-    - quic://dns-unfiltered.adguard.com:784
-    - quic://dns.adguard-dns.com
+    - quic://dns.adguard-dns.com:784
+    - quic://dns.de.futuredns.eu.org
+    - quic://comss.dns.controld.com
+    - quic://dns.jupitrdns.com
+    - quic://ibksturm.synology.me
+    - quic://zero.dns0.eu
+    - quic://comss.dns.controld.com
   upstream_dns_file: ""
   bootstrap_dns:
     - 9.9.9.10
     - 149.112.112.10
     - 2620:fe::10
     - 2620:fe::fe:10
-  fallback_dns: []
-  upstream_mode: load_balance
+  fallback_dns:
+    - tls://dns.nextdns.io
+    - tls://one.one.one.one:853
+    - tls://1.0.0.1:853
+    - tls://adblock.dns.mullvad.net:853
+    - tls://1dot1dot1dot1.cloudflare-dns.com:853
+    - tls://dns.adguard-dns.com:853
+    - tls://dns.quad9.net:853
+    - tls://dns.adguard.com:853
+    - tls://dns.de.futuredns.eu.org
+    - tls://dot.pub
+    - tls://base.dns.mullvad.net
+    - quic://doh.tiar.app
+  upstream_mode: parallel
   fastest_timeout: 1s
   allowed_clients: []
   disallowed_clients: []
@@ -81,7 +87,7 @@ dns:
   serve_plain_dns: true
   hostsfile_enabled: true
 tls:
-  enabled: false
+  enabled: true
   server_name: adguard.k0s-fullstack.fredcorp.com
   force_https: false
   port_https: 443
@@ -92,7 +98,7 @@ tls:
   allow_unencrypted_doh: false
   certificate_chain: ""
   private_key: ""
-  certificate_path: /opt/adguardhome/conf/ca.crt
+  certificate_path: /opt/adguardhome/conf/cert.crt
   private_key_path: /opt/adguardhome/conf/private.key
   strict_sni_check: false
 querylog:
@@ -203,8 +209,6 @@ filtering:
       answer: 192.168.1.200
     - domain: homarr.fredcorp.com
       answer: 192.168.1.200
-    - domain: traefik-servarr.fredcorp.com
-      answer: 192.168.1.210
     - domain: whatsupdocker.fredcorp.com
       answer: 192.168.1.200
     - domain: wud-rpi.fredcorp.com
@@ -232,7 +236,7 @@ filtering:
     - domain: '*.fullstack.fredcorp.com'
       answer: 192.168.1.190
     - domain: '*.k0s-fullstack.fredcorp.com'
-      answer: 192.168.1.195
+      answer: 192.168.1.191
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
