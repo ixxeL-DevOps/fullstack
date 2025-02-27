@@ -9,4 +9,5 @@ configMapGenerator:
     files:
       - ./oidc-vault.yaml
       - ./oidc-homarr.yaml
+      - ./proxy-traefik.yaml
       - ./groups.yaml

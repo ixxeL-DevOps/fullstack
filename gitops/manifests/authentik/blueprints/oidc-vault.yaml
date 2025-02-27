@@ -38,7 +38,7 @@ entries:
       name: fullstack-vault
     attrs:
       name: fullstack-vault
-      group: Infrastructure
+      group: Security
       meta_description: HashiCorp Vault
       provider: !Find [authentik_providers_oauth2.oauth2provider, [name, fullstack-vault]]
       policy_engine_mode: any
