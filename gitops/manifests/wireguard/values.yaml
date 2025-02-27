@@ -80,7 +80,7 @@ wg-portal:
           field_map:
             email: email
             user_identifier: email
-            is_admin: 'true'
+            is_admin: true
           admin_mapping:
             admin_value_regex: ^true$
           registration_enabled: true
