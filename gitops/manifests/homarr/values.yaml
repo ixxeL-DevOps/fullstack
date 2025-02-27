@@ -13,7 +13,7 @@ homarr:
     AUTH_OIDC_GROUPS_ATTRIBUTE: groups
     AUTH_LOGOUT_REDIRECT_URL: https://homarr.k0s-fullstack.fredcorp.com/auth/login
     # NODE_EXTRA_CA_CERTS: "/appdata/trusted-certificates/authentik.crt"
-    NODE_TLS_REJECT_UNAUTHORIZED: '0'
+    # NODE_TLS_REJECT_UNAUTHORIZED: '0'
 
   envSecrets:
     authOidcCredentials:
