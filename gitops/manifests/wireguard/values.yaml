@@ -57,8 +57,8 @@ wg-portal:
 
   config:
     core:
-      admin_user: admin
-      admin_password: admin
+      admin_user: '${ADMIN_USER}'
+      admin_password: '${ADMIN_PASSWORD}'
       import_existing: false
       create_default_peer: true
       self_provisioning_allowed: true
@@ -80,9 +80,7 @@ wg-portal:
           field_map:
             email: email
             user_identifier: email
-            is_admin: true
-          admin_mapping:
-            admin_value_regex: ^true$
+            is_admin: is_admin
           registration_enabled: true
 
     web:
