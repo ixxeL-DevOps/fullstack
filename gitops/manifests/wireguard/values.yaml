@@ -40,6 +40,26 @@ wg-portal:
       port: 8787
 
   config:
+    auth:
+      callback_url_prefix: https://wireguard.k0s-fullstack.fredcorp.com/api/v0
+      oidc:
+        - id: Authentik
+          provider_name: Authentik
+          display_name: Login with Authentik
+          base_url: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-wireguard/
+          client_id: rsWRDGLVwpm0Ey5dVd7b3PMdOZJGabAqE2pUUnBn
+          client_secret: Wd2tec2z9Jf6gmzRicCPae46rmp0L7xME8soddrz0Dss9Yp2QKWg63VYON8plbEUjmT6jLma2igGbKXHrzhNVSfWACZ78A2F7JWm2PDUWlPnmDm9XSOfKuRVIHnznx3B
+          extra_scopes:
+            - profile
+            - email
+            - openid
+            - is_admin
+          field_map:
+            email: email
+            user_identifier: email
+            is_admin: is_admin
+          registration_enabled: true
+
     # auth: {}
     # core:
     #   admin_user: admin
