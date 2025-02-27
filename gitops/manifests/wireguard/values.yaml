@@ -81,6 +81,8 @@ wg-portal:
             email: email
             user_identifier: email
             is_admin: 'true'
+          admin_mapping:
+            admin_value_regex: ^true$
           registration_enabled: true
 
     web:
