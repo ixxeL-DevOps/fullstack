@@ -1,5 +1,6 @@
 *.key
 *.crt
+gitops/local-storage/wireguard-data
 gitops/local-storage/headscale-data/db*
 gitops/local-storage/adguard-data/work/data
 gitops/local-storage/authentik-data/
