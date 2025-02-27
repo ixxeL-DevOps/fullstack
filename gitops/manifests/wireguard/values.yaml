@@ -17,6 +17,22 @@ wg-portal:
         - NET_ADMIN
         # - SYS_MODULE
 
+  # Trusted cert config (OIDC)
+  volumes:
+    - name: trusted-certs
+      secret:
+        defaultMode: 420
+        secretName: wireguard-trusted-certs
+  volumeMounts:
+    - name: trusted-certs
+      mountPath: /etc/ssl/certs/root-ca.crt
+      subPath: root-ca.crt
+      readOnly: true
+  # OIDC secret config
+  envFrom:
+    - secretRef:
+        name: oidc-wireguard
+
   persistence:
     enabled: true
     storageClass: 'local-path-retain'
@@ -39,43 +55,16 @@ wg-portal:
     metrics:
       port: 8787
 
-  # initContainers:
-  #   - name: update-ca
-  #     image: alpine:3.19
-  #     command:
-  #       - /bin/sh
-  #       - -c
-  #       - |
-  #         apk add ca-certificates
-  #         cp /usr/local/share/ca-certificates/root-ca.crt /etc/ssl/certs/root-ca.crt
-  #         update-ca-certificates
-  #     volumeMounts:
-  #       - name: trusted-certs
-  #         mountPath: /usr/local/share/ca-certificates/root-ca.crt
-  #         subPath: root-ca.crt
-
-  volumes:
-    - name: trusted-certs
-      secret:
-        defaultMode: 420
-        secretName: wireguard-trusted-certs
-
-  volumeMounts:
-    - name: trusted-certs
-      mountPath: /etc/ssl/certs/root-ca.crt
-      subPath: root-ca.crt
-      readOnly: true
-
   config:
     auth:
       callback_url_prefix: https://wireguard.k0s-fullstack.fredcorp.com/api/v0
       oidc:
         - id: Authentik
           provider_name: Authentik
-          display_name: Login with Authentik
+          display_name: OIDC Authentik
           base_url: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-wireguard/
-          client_id: rsWRDGLVwpm0Ey5dVd7b3PMdOZJGabAqE2pUUnBn
-          client_secret: Wd2tec2z9Jf6gmzRicCPae46rmp0L7xME8soddrz0Dss9Yp2QKWg63VYON8plbEUjmT6jLma2igGbKXHrzhNVSfWACZ78A2F7JWm2PDUWlPnmDm9XSOfKuRVIHnznx3B
+          client_id: '${OIDC_CLIENT_ID}'
+          client_secret: '${OIDC_CLIENT_SECRET}'
           extra_scopes:
             - profile
             - email
@@ -87,10 +76,6 @@ wg-portal:
             is_admin: is_admin
           registration_enabled: true
 
-    # auth: {}
-    # core:
-    #   admin_user: admin
-    #   admin_password: password
     web:
       external_url: https://wireguard.k0s-fullstack.fredcorp.com
     advanced:

@@ -16,7 +16,7 @@ entries:
       signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
       client_type: confidential
       redirect_uris:
-        - url: https://wireguard.k0s-fullstack.fredcorp.com/oidc/callback
+        - url: https://wireguard.k0s-fullstack.fredcorp.com/api/v0/auth/login/authentik/callback
           matching_mode: strict
 
       access_code_validity: minutes=1
