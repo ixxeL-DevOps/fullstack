@@ -48,4 +48,5 @@ homarr:
       certificates:
         authentik-self-signed.crt: ''
         root-ca.crt: ''
+        int-ca.crt: ''
         fullstack-wildcard.crt: ''

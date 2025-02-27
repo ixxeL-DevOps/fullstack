@@ -25,8 +25,8 @@ wg-portal:
         secretName: wireguard-trusted-certs
   volumeMounts:
     - name: trusted-certs
-      mountPath: /etc/ssl/certs/root-ca.crt
-      subPath: root-ca.crt
+      mountPath: /etc/ssl/certs/root-chain.crt
+      subPath: root-chain.crt
       readOnly: true
   # OIDC secret config
   envFrom:
@@ -82,7 +82,7 @@ wg-portal:
           field_map:
             email: email
             user_identifier: email
-            is_admin: IsAdmin
+            is_admin: is_admin
           registration_enabled: true
 
     web:
