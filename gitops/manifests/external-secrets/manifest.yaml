@@ -18774,7 +18774,7 @@ spec:
         decodingStrategy: None
         key: wildcard/root-ca
         metadataPolicy: None
-        property: cert
+        property: chain
       secretKey: ca.crt
   refreshInterval: 1h
   secretStoreRef:
