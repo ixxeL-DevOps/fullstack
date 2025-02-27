@@ -32,6 +32,8 @@ wg-portal:
   envFrom:
     - secretRef:
         name: oidc-wireguard
+    - secretRef:
+        name: admin-wireguard
 
   persistence:
     enabled: true
