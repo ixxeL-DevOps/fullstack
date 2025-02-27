@@ -84,12 +84,12 @@ wg-portal:
             user_identifier: email
             is_admin: is_admin
           registration_enabled: true
-          log_user_info: true
+          log_user_info: false
 
     web:
       external_url: https://wireguard.k0s-fullstack.fredcorp.com
     advanced:
-      log_level: trace
+      log_level: info
       log_pretty: true
       log_json: false
 

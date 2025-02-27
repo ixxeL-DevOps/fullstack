@@ -177,3 +177,46 @@ path "*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
 ```
+
+## WireGuard Portal
+
+Wiregard portal relies on `is_admin` property to make user admin of the server. This property can be passed as an OIDC claim with a specific script in `Scope Mapping` and then added to the provider:
+
+```py
+return {
+  "is_admin": ak_is_group_member(request.user, name="Wireguard admins")
+}
+```
+
+The configuration need to be made as OIDC :
+
+```yaml
+config:
+  core:
+    admin_user: '${ADMIN_USER}'
+    admin_password: '${ADMIN_PASSWORD}'
+    import_existing: false
+    create_default_peer: true
+    self_provisioning_allowed: true
+
+  auth:
+    callback_url_prefix: https://wireguard.k0s-fullstack.fredcorp.com/api/v0
+    oidc:
+      - id: Authentik
+        provider_name: Authentik
+        display_name: OIDC Authentik
+        base_url: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-wireguard/
+        client_id: '${OIDC_CLIENT_ID}'
+        client_secret: '${OIDC_CLIENT_SECRET}'
+        extra_scopes:
+          - profile
+          - email
+          - openid
+          - is_admin
+        field_map:
+          email: email
+          user_identifier: email
+          is_admin: is_admin
+        registration_enabled: true
+        log_user_info: false
+```
