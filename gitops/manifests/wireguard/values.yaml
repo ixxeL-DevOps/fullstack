@@ -56,9 +56,16 @@ wg-portal:
       port: 8787
 
   config:
+    core:
+      admin_user: admin
+      admin_password: admin
+      import_existing: false
+      create_default_peer: true
+      self_provisioning_allowed: true
+
     auth:
       callback_url_prefix: https://wireguard.k0s-fullstack.fredcorp.com/api/v0
-      oidc:
+      oauth:
         - id: Authentik
           provider_name: Authentik
           display_name: OIDC Authentik
@@ -79,7 +86,9 @@ wg-portal:
     web:
       external_url: https://wireguard.k0s-fullstack.fredcorp.com
     advanced:
-      log_level: debug
+      log_level: trace
+      log_pretty: true
+      log_json: false
 
   ingress:
     enabled: true
