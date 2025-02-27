@@ -4,9 +4,9 @@ http:
     enabled: false
   address: 0.0.0.0:80
   session_ttl: 720h
-users: []
-  # - name: admin
-  #   password: $2a$10$Ncc6MKcD96ZbYyJPaWus9OvhxR6QefF7Hz.ZCBXQwE8SwTRWDWsia
+users:
+  - name: admin
+    password: $2y$10$Lae1.4PxMfe2K7d/rAeIBu30KkShj2ov1LaT2ClKCHws5UrvTxsy6
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
