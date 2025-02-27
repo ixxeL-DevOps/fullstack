@@ -65,7 +65,7 @@ wg-portal:
 
     auth:
       callback_url_prefix: https://wireguard.k0s-fullstack.fredcorp.com/api/v0
-      oauth:
+      oidc:
         - id: Authentik
           provider_name: Authentik
           display_name: OIDC Authentik
