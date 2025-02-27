@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+# yamllint disable
+---
+version: 1
+metadata:
+  name: embedded outpost
+entries:
+  - identifiers:
+      pk: !Find [authentik_outposts.outpost, [name, authentik Embedded Outpost]]
+    model: authentik_outposts.outpost
+    attrs:
+      providers:
+        - [!Find [authentik_providers_proxy.proxyprovider, [name, fullstack-traefik]]]
+        - [!Find [authentik_providers_proxy.proxyprovider, [name, fullstack-adguard]]]
+      config:
+        authentik_host: 'https://authentik.k0s-fullstack.fredcorp.com'

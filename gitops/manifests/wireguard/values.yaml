@@ -54,4 +54,4 @@ wg-portal:
     className: traefik
     annotations:
       traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
-    tls: false
+    tls: true
