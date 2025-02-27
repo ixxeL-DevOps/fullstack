@@ -1,7 +1,7 @@
 ---
 homarr:
-  # image:
-  #   tag: "use-certificates-for-oidc"
+  image:
+    tag: 'use-certificates-for-oidc'
 
   env:
     AUTH_PROVIDERS: credentials,oidc
