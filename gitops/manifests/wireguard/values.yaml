@@ -40,6 +40,7 @@ wg-portal:
     storageClass: 'local-path-retain'
     accessMode: ReadWriteOnce
     size: 1Gi
+    volumeName: pv-wireguard-data
 
   service:
     mixed:
