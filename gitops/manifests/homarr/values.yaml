@@ -8,6 +8,7 @@ homarr:
     AUTH_SESSION_EXPIRY_TIME: 1h
     AUTH_OIDC_AUTO_LOGIN: 'false'
     AUTH_OIDC_ISSUER: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-homarr/
+    AUTH_OIDC_URI: "https://authentik.k0s-fullstack.fredcorp.com/application/o/authorize/"
     AUTH_OIDC_CLIENT_NAME: Authentik
     AUTH_OIDC_SCOPE_OVERWRITE: openid email profile groups
     AUTH_OIDC_GROUPS_ATTRIBUTE: groups
