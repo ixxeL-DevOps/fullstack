@@ -39,7 +39,7 @@ headscale:
 
   sidecars:
     ui:
-      image: ghcr.io/gurucomputing/headscale-ui:latest
+      image: ghcr.io/gurucomputing/headscale-ui:latest@sha256:dda8534d5bde03b35b5bd11def3409938ec265d08c431c43294632573a2f3ae3
       ports:
         - name: ui
           containerPort: 8080
