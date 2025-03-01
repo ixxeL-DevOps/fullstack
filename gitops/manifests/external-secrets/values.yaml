@@ -10,4 +10,4 @@ external-secrets:
   image:
     repository: oci.external-secrets.io/external-secrets/external-secrets
     pullPolicy: IfNotPresent
-    tag: 'v0.14.3'
+    tag: 'v0.14.3@sha256:91a039ca0db52ed1b85b24c3c79f6df19cbb749826f09d1811fad0fce8ed9fd2'
