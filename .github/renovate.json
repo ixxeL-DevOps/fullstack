@@ -14,6 +14,7 @@
   "automergeStrategy": "squash",
   "rebaseWhen": "behind-base-branch",
   "platformAutomerge": true,
+  "commitBody": "Co-authored-by: renovate[bot] <renovate@whitesourcesoftware.com>",
   "ignorePaths": ["docs/**", "infra/**"],
   "helmv3": {
     "fileMatch": ["(^|/)Chart\\.ya?ml$"]
