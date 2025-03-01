@@ -3,7 +3,7 @@ wg-portal:
   image:
     repository: wgportal/wg-portal
     pullPolicy: IfNotPresent
-    tag: 'v2'
+    tag: 'v2@sha256:75fa8c66296740ec17539b91deedb3cee1545353a3560757ef725465cb141318'
   podSecurityContext:
     sysctls:
       - name: net.ipv4.ip_forward
