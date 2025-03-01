@@ -24,12 +24,13 @@ dns:
   refuse_any: true
   upstream_dns:
     - quic://dns.adguard-dns.com:784
-    - quic://dns.de.futuredns.eu.org
     - quic://comss.dns.controld.com
     - quic://dns.jupitrdns.com
-    - quic://ibksturm.synology.me
     - quic://zero.dns0.eu
     - quic://comss.dns.controld.com
+    - tls://adblock.dns.mullvad.net:853
+    - tls://1.1.1.1:853
+    - tls://1dot1dot1dot1.cloudflare-dns.com:853
   upstream_dns_file: ""
   bootstrap_dns:
     - 9.9.9.10
@@ -41,7 +42,6 @@ dns:
     - tls://one.one.one.one:853
     - tls://1.0.0.1:853
     - tls://adblock.dns.mullvad.net:853
-    - tls://1dot1dot1dot1.cloudflare-dns.com:853
     - tls://dns.adguard-dns.com:853
     - tls://dns.quad9.net:853
     - tls://dns.adguard.com:853
@@ -49,6 +49,8 @@ dns:
     - tls://dot.pub
     - tls://base.dns.mullvad.net
     - quic://doh.tiar.app
+    - quic://dns.de.futuredns.eu.org
+    - quic://ibksturm.synology.me
   upstream_mode: parallel
   fastest_timeout: 1s
   allowed_clients: []
@@ -61,9 +63,9 @@ dns:
     - 127.0.0.0/8
     - ::1/128
   cache_size: 4194304
-  cache_ttl_min: 0
-  cache_ttl_max: 0
-  cache_optimistic: false
+  cache_ttl_min: 2
+  cache_ttl_max: 86400
+  cache_optimistic: true
   bogus_nxdomain: []
   aaaa_disabled: false
   enable_dnssec: false
@@ -233,7 +235,7 @@ filtering:
       answer: 192.168.1.200
     - domain: authentik.fredcorp.com
       answer: 192.168.1.200
-    - domain: '*.fullstack.fredcorp.com'
+    - domain: k0s.fullstack.fredcorp.com
       answer: 192.168.1.190
     - domain: '*.k0s-fullstack.fredcorp.com'
       answer: 192.168.1.191
