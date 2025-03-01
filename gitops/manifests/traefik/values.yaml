@@ -1,5 +1,11 @@
 ---
 traefik:
+  image:
+    registry: docker.io
+    repository: traefik
+    tag: v3.3.2
+    pullPolicy: IfNotPresent
+
   podDisruptionBudget:
     enabled: true
     minAvailable: 1

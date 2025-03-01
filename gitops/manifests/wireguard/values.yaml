@@ -2,8 +2,8 @@
 wg-portal:
   image:
     repository: wgportal/wg-portal
-  #   pullPolicy: IfNotPresent
-  #   tag: '1.0.19'
+    pullPolicy: IfNotPresent
+    tag: 'v2'
   podSecurityContext:
     sysctls:
       - name: net.ipv4.ip_forward
