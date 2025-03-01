@@ -20,18 +20,18 @@ jobs:
     steps:
       - name: GH App get Token
         id: get-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@0d564482f06ca65fa9e77e2510873638c82206f2 # v1
         with:
           app-id: ${{ secrets.GHAPP_APP_ID }}
           private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           token: ${{ steps.get-token.outputs.token }}
 
       - name: Run Renovate
-        uses: renovatebot/github-action@v41.0.14
+        uses: renovatebot/github-action@02f4fdeb479bbb229caa7ad82cb5e691c07e80b3 # v41.0.14
         with:
           token: ${{ steps.get-token.outputs.token }}
           docker-volumes: |
