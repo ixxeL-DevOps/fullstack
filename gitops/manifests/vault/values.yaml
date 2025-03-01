@@ -10,8 +10,10 @@ vault:
     enabled: true
     image:
       repository: 'hashicorp/vault'
-      tag: '1.18.5'
+      tag: '1.18.1'
       pullPolicy: IfNotPresent
+
+    updateStrategyType: 'RollingUpdate'
 
     statefulSet:
       annotations:
