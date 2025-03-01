@@ -10,7 +10,7 @@ vault:
     enabled: true
     image:
       repository: 'hashicorp/vault'
-      tag: '1.18.1'
+      tag: '1.18.5@sha256:750bb37c1638fa194ab37053a81618c61bb0491ddec6fccac87c07a8e6cd8166'
       pullPolicy: IfNotPresent
 
     updateStrategyType: 'RollingUpdate'
