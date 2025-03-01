@@ -6,6 +6,7 @@
   "reviewersFromCodeOwners": false,
   "ignoreReviewers": ["ixxeL2097"],
   "assignees": ["renovate[bot]"],
+  "reviewers": ["renovate[bot]"],
   "dependencyDashboard": true,
   "prHourlyLimit": 60,
   "prConcurrentLimit": 60,
