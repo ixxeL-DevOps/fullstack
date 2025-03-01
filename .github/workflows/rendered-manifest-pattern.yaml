@@ -2,6 +2,7 @@
 ---
 name: Helm Dynamic Rendered Manifest (Chart.yaml)
 on:
+  merge_group:
   pull_request:
     types:
       - opened
@@ -21,6 +22,7 @@ concurrency:
 jobs:
   helm-diff-chart:
     runs-on: self-hosted
+    if: github.event_name == 'pull_request'
     steps:
       - name: Clone repo
         id: clone
@@ -150,7 +152,6 @@ jobs:
           target: pr/*_manifest_pr.yaml
 
       - name: Post diff as comment
-        if: github.event_name == 'pull_request'
         run: |
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md --edit-last || \
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md
