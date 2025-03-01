@@ -1,7 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["mergeConfidence:all-badges", "config:recommended"],
+  "extends": ["mergeConfidence:all-badges", "config:best-practices"],
   "enabledManagers": ["helmv3", "helm-values", "github-actions"],
+  "assigneesFromCodeOwners": false,
+  "reviewersFromCodeOwners": false,
+  "ignoreReviewers": ["ixxeL2097"],
+  "assignees": ["renovate[bot]"],
   "dependencyDashboard": true,
   "prHourlyLimit": 60,
   "prConcurrentLimit": 60,
