@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+---
+name: Argo CD Diff Preview
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: GH App get Token
+        id: get-app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.GHAPP_APP_ID }}
+          private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          path: pull-request
+          token: ${{ steps.get-app-token.outputs.token }}
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+          token: ${{ steps.get-app-token.outputs.token }}
+
+      - name: Generate Diff
+        run: |
+          docker run \
+            --network=host \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v $(pwd)/main:/base-branch \
+            -v $(pwd)/pull-request:/target-branch \
+            -v $(pwd)/output:/output \
+            -e TARGET_BRANCH=${{ github.head_ref }} \
+            -e REPO=${{ github.repository }} \
+            dagandersen/argocd-diff-preview:v0.0.35
+
+      - name: Post diff as comment
+        run: |
+          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file output/diff.md --edit-last || \
+          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file output/diff.md
+        env:
+          GITHUB_TOKEN: ${{ steps.get-app-token.outputs.token }}
