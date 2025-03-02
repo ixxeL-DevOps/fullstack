@@ -1,0 +1,33 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-driver-nfs-k0s
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: csi-driver-nfs
+  project: infra-storage
+  sources:
+    - path: gitops/manifests/csi-driver-nfs/prod
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/gitops/manifests/csi-driver-nfs/values/common-values.yaml
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - PruneLast=false
+      - RespectIgnoreDifferences=true
+      - Replace=false
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
