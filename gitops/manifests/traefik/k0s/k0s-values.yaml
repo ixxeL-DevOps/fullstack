@@ -10,18 +10,3 @@ traefik:
     default:
       defaultCertificate:
         secretName: k0s-fullstack-wildcard
-
-  ingressRoute:
-    dashboard:
-      enabled: false
-      annotations: {}
-      labels: {}
-      matchRule: Host(`traefik.k0s-fullstack.fredcorp.com`)
-      middlewares:
-        - name: authentik
-          namespace: authentik
-      services:
-        - name: api@internal
-          kind: TraefikService
-      entryPoints: [web, websecure]
-      tls: {}
