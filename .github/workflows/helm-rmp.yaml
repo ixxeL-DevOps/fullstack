@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 ---
-name: Helm Dynamic Rendered Manifest (Chart.yaml)
+name: Helm Dynamic Rendered Manifest
 on:
   merge_group:
   pull_request:
@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  helm-diff-chart:
+  rendered-manifest:
     runs-on: self-hosted
     if: github.event_name == 'pull_request'
     steps:
@@ -31,6 +31,7 @@ jobs:
           mode: 'app'
           app-id: ${{ secrets.GHAPP_APP_ID }}
           private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
+          fetch-depth: 0
 
       - name: Find modified Chart.yaml files
         id: changed-files
