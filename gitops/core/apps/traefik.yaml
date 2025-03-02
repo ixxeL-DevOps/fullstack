@@ -16,6 +16,7 @@ spec:
       helm:
         valueFiles:
           - $values/gitops/manifests/traefik/values/common-values.yaml
+          - $values/gitops/manifests/traefik/k0s/k0s-values.yaml
     - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
       ref: values
