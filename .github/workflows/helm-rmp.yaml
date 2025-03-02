@@ -152,7 +152,7 @@ jobs:
                   template_version "pr"
                   git checkout origin/main -- "$(dirname ${old_path})"
                   template_version "main"
-                  git checkout origin/${{ github.ref_name }} -- "$(dirname ${old_path})"
+                  git checkout origin/${{ github.head_ref }} -- "$(dirname ${old_path})"
                 done
               else
                 echo -e "${RED}[ ERROR ] > No helm chart found"
