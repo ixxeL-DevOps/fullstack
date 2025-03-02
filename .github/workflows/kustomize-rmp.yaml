@@ -47,6 +47,8 @@ jobs:
           echo "KUSTOMIZATION_FILES=${ALL_CHANGED_FILES}"
           UNIQ_PATHS_CHANGED=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -v '^$' | awk -F/ '{if (NF > 1) {NF--; print $0}}' OFS='/' | sort -u)
           echo "UNIQ_PATHS_CHANGED=$UNIQ_PATHS_CHANGED"
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin && chmod +x /usr/local/bin/kustomize
 
           template() {
             local suffix=$1
