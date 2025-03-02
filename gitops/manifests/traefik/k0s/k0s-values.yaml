@@ -3,7 +3,7 @@ traefik:
   image:
     registry: docker.io
     repository: traefik
-    tag: v3.3.3
+    tag: v3.3.3@sha256:19884a9d0b922b321c9cff54cbfe43f3169893041b8dd4ea6100677afaddce46
     pullPolicy: IfNotPresent
 
   tlsStore:
