@@ -13,7 +13,7 @@ adguard-home:
       type: ClusterIP
       port: 80
     https:
-      enabled: true
+      enabled: false
       type: ClusterIP
       port: 443
     dns:
@@ -30,7 +30,7 @@ adguard-home:
         port: 53
         nodePort:
     dnsOverTls:
-      enabled: false
+      enabled: true
     #   type: LoadBalancer
     #   annotations:
     #     metallb.universe.tf/allow-shared-ip: 192.168.1.195-ip
