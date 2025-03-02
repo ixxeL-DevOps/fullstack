@@ -1,7 +1,7 @@
 ---
 traefik:
   podDisruptionBudget:
-    enabled: true
+    enabled: false
     minAvailable: 1
   ingressClass:
     enabled: true
