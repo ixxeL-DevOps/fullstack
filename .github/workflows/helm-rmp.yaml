@@ -139,7 +139,7 @@ jobs:
             echo -e "${BLUE}[ STEP ] > Processing path ${YELLOW}${path}${BLANK}"
             if [ ! -f "${path}/Chart.yaml" ]
             then
-              if [ ! -f "${path}/common-values.yaml" ]
+              if [ -f "${path}/common-values.yaml" ]
               then
                 echo -e "${CYAN}[ INFO ] > common-values.yaml has been modified, processing diff for all charts.${BLANK}"
                 for dir in $(find "$(dirname ${path})" -mindepth 1 -maxdepth 1 -type d | grep -v '/values$')
