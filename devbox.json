@@ -12,7 +12,8 @@
     "argocd@latest",
     "krew@latest",
     "kubectx@latest",
-    "kubectl-neat@latest"
+    "kubectl-neat@latest",
+    "kustomize@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"
