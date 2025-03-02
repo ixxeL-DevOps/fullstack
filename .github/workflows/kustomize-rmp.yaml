@@ -1,0 +1,94 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+---
+name: Kustomize Dynamic Rendered Manifest
+on:
+  merge_group:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - main
+    paths:
+      - '**/kustomization.yaml'
+      - '**/kustomization.yml'
+
+concurrency:
+  group: ${{ github.ref_name }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  rendered-manifest:
+    runs-on: self-hosted
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Clone repo
+        id: clone
+        uses: ixxeL-DevOps/gha-templates/.github/actions/git-clone@main
+        with:
+          mode: 'app'
+          app-id: ${{ secrets.GHAPP_APP_ID }}
+          private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
+
+      - name: Find modified Kustomization.yaml files
+        id: changed-files
+        uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
+        with:
+          files: |
+            '**/kustomization.yaml'
+            '**/kustomization.yml'
+
+      - name: Generate diffs for each Kustomization
+        id: gen-pr-kustomize
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          echo "KUSTOMIZATION_FILES=${ALL_CHANGED_FILES}"
+          UNIQ_PATHS_CHANGED=$(echo "$ALL_CHANGED_FILES" | tr ' ' '\n' | grep -v '^$' | awk -F/ '{if (NF > 1) {NF--; print $0}}' OFS='/' | sort -u)
+          echo "UNIQ_PATHS_CHANGED=$UNIQ_PATHS_CHANGED"
+
+          template() {
+            local suffix=$1
+            mkdir -p $suffix
+            kustomize build "$path" > "${suffix}/manifest_${suffix}.yaml"
+          }
+
+          for path in ${UNIQ_PATHS_CHANGED}; do
+            echo "Processing path: ${path}"
+
+            template "pr"
+
+            git checkout origin/main -- "$path"
+
+            template "main"
+            echo ""
+          done
+
+      - name: Generate dyff on release
+        id: dyff-helm
+        uses: ixxeL-DevOps/gha-templates/.github/actions/dyff@main
+        with:
+          source: main/*_manifest_main.yaml
+          target: pr/*_manifest_pr.yaml
+          exclude-regexp: spec.template.metadata.annotations.checksum
+
+      - name: Generate diff on release
+        id: diff-helm
+        uses: ixxeL-DevOps/gha-templates/.github/actions/diff@main
+        with:
+          source: main/*_manifest_main.yaml
+          target: pr/*_manifest_pr.yaml
+
+      - name: Post diff as comment
+        run: |
+          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md --edit-last || \
+          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md
+        env:
+          GITHUB_TOKEN: ${{ steps.clone.outputs.TOKEN }}
+
+      - name: Kubeconform
+        id: kubeconform
+        continue-on-error: true
+        uses: ixxeL-DevOps/gha-templates/.github/actions/kubeconform@main
+        with:
+          target: pr
