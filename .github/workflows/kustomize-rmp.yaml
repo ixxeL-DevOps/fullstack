@@ -53,7 +53,8 @@ jobs:
           template() {
             local suffix=$1
             mkdir -p $suffix
-            kustomize build "$path" > "${suffix}/manifest_${suffix}.yaml"
+            base=$(basename "$path")
+            kustomize build "$path" > "${suffix}/${base}_manifest_${suffix}.yaml"
           }
 
           for path in ${UNIQ_PATHS_CHANGED}; do
