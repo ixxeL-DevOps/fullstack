@@ -137,13 +137,29 @@ jobs:
           for path in ${UNIQ_PATHS_CHANGED}
           do
             echo -e "${BLUE}[ STEP ] > Processing path ${YELLOW}${path}${BLANK}"
-
-            template_version "pr"
-
-            git checkout origin/main -- "$path"
-
-            template_version "main"
-            echo ""
+            if [ ! -f "${path}/Chart.yaml" ]
+            then
+              if [ ! -f "${path}/common-values.yaml" ]
+              then
+                echo -e "${CYAN}[ INFO ] > common-values.yaml has been modified, processing diff for all charts.${BLANK}"
+                for dir in $(find "$(dirname ${path})" -mindepth 1 -maxdepth 1 -type d | grep -v '/values$')
+                do
+                  path=${dir}
+                  template_version "pr"
+                  git checkout origin/main -- "$path"
+                  template_version "main"
+                  echo ""
+                done
+              else
+                echo -e "${RED}[ ERROR ] > No helm chart found"
+                exit 1
+              fi
+            else
+              template_version "pr"
+              git checkout origin/main -- "$path"
+              template_version "main"
+              echo ""
+            fi
           done
 
       - name: Generate dyff on release
