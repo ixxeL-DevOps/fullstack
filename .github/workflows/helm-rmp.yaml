@@ -49,6 +49,7 @@ jobs:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
           VALUES_FILE: values-full.yaml
         run: |
+          set +e
           RED="\033[1;31m"
           GREEN="\033[1;32m"
           YELLOW="\033[1;33m"
@@ -117,11 +118,10 @@ jobs:
             echo -e "${YELLOW}[ EXECUTING ] > Rendering for branch : ${GREEN}${suffix}${BLANK}"
             echo -e "${YELLOW}[ EXECUTING ] > Generating template for ${GREEN}${CHART_NAME}${YELLOW} version ${GREEN}${CHART_VERSION}${YELLOW} with values file ${GREEN}${path}/${VALUES_FILE}${YELLOW} to file ${GREEN}${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml${BLANK}"
 
-            common=$(find "$(dirname ${path})/values/" -maxdepth 1 -type f -name 'common-values.yaml' -print -quit)
-            if [ -f "${common}" ]
+            if [ -f "$(dirname ${path})/values/common-values.yaml" ]
             then
-              echo -e "${CYAN}[ INFO ] > Common values.yaml file found : ${PURPLE}${common}${BLANK}"
-              helm template "$CHART_NAME" "$path" -f "${common}" -f ${path}/${VALUES_FILE} > "${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml"
+              echo -e "${CYAN}[ INFO ] > Common values.yaml file found : ${PURPLE}$(dirname ${path})/values/common-values.yaml${BLANK}"
+              helm template "$CHART_NAME" "$path" -f "$(dirname ${path})/values/common-values.yaml" -f ${path}/${VALUES_FILE} > "${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml"
             else
               echo -e "${CYAN}[ INFO ] > No common values.yaml${BLANK}"
               helm template "$CHART_NAME" "$path" -f ${path}/${VALUES_FILE} > "${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml"
