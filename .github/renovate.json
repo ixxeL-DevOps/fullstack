@@ -20,7 +20,7 @@
     "fileMatch": ["(^|/)Chart\\.ya?ml$"]
   },
   "helm-values": {
-    "fileMatch": ["(^|/)values\\.ya?ml$"]
+    "fileMatch": ["(^|/)*values\\.ya?ml$"]
   },
   "customManagers": [
     {

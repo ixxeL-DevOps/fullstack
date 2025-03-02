@@ -12,8 +12,8 @@ on:
     paths:
       - '**/Chart.yaml'
       - '**/Chart.yml'
-      - '**/values.yaml'
-      - '**/values.yml'
+      - '**/*values.yaml'
+      - '**/*values.yml'
 
 concurrency:
   group: ${{ github.ref_name }}-${{ github.event.pull_request.number }}
@@ -40,8 +40,8 @@ jobs:
           files: |
             **/Chart.yaml
             **/Chart.yml
-            **/values.yaml
-            **/values.yml
+            **/*values.yaml
+            **/*values.yml
 
       - name: Generate diffs for each Chart
         id: gen-pr-chart
@@ -106,7 +106,7 @@ jobs:
               VALUES_FILE=$(find "$path" -maxdepth 1 -type f -name '*values*.yaml' | head -n 1 | awk -F '/' '{print $NF}')
               if [ ! -f "${path}/${VALUES_FILE}" ]
               then
-              echo -e "${RED}[ ERROR ] > No values.yaml file found"
+                echo -e "${RED}[ ERROR ] > No values.yaml file found"
               else
                 echo -e "${CYAN}[ INFO ] > Specific values.yaml file found : ${PURPLE}${path}/${VALUES_FILE}${BLANK}"
               fi
@@ -116,7 +116,16 @@ jobs:
 
             echo -e "${YELLOW}[ EXECUTING ] > Rendering for branch : ${GREEN}${suffix}${BLANK}"
             echo -e "${YELLOW}[ EXECUTING ] > Generating template for ${GREEN}${CHART_NAME}${YELLOW} version ${GREEN}${CHART_VERSION}${YELLOW} with values file ${GREEN}${path}/${VALUES_FILE}${YELLOW} to file ${GREEN}${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml${BLANK}"
-            helm template "$CHART_NAME" "$path" -f ${path}/${VALUES_FILE} > "${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml"
+
+            common=$(find "$(dirname ${path})/values/" -maxdepth 1 -type f -name 'common-values.yaml' -print -quit)
+            if [ -f "${common}" ]
+            then
+              echo -e "${CYAN}[ INFO ] > Common values.yaml file found : ${PURPLE}${common}${BLANK}"
+              helm template "$CHART_NAME" "$path" -f "${common}" -f ${path}/${VALUES_FILE} > "${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml"
+            else
+              echo -e "${CYAN}[ INFO ] > No common values.yaml${BLANK}"
+              helm template "$CHART_NAME" "$path" -f ${path}/${VALUES_FILE} > "${suffix}/${CHART_NAME}_${path//\//_}_manifest_${suffix}.yaml"
+            fi
 
             if [ -d "$suffix/oci_temp" ]
             then
