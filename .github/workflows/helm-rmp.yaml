@@ -161,6 +161,7 @@ jobs:
               template_version "pr"
               git checkout origin/main -- "$path"
               template_version "main"
+              git checkout origin/${{ github.head_ref }} -- "$path"
             fi
           done
 
