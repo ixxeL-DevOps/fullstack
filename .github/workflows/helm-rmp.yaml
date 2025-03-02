@@ -132,18 +132,36 @@ jobs:
               rm -rf "$suffix/oci_temp"
               echo -e "${CYAN}[ INFO ] > Cleaned up temporary OCI chart directory${BLANK}"
             fi
+            echo ""
           }
 
           for path in ${UNIQ_PATHS_CHANGED}
           do
             echo -e "${BLUE}[ STEP ] > Processing path ${YELLOW}${path}${BLANK}"
-
-            template_version "pr"
-
-            git checkout origin/main -- "$path"
-
-            template_version "main"
-            echo ""
+            if [ ! -f "${path}/Chart.yaml" ]
+            then
+              if [ -f "${path}/common-values.yaml" ]
+              then
+                echo -e "${CYAN}[ INFO ] > common-values.yaml has been modified, processing diff for all charts${BLANK}"
+                for dir in $(find "$(dirname ${path})" -mindepth 1 -maxdepth 1 -type d | grep -v '/values$')
+                do
+                  echo -e "${CYAN}[ INFO ] > Env ${PURPLE}$(basename ${dir})${BLANK}"
+                  old_path=${path}
+                  path=${dir}
+                  template_version "pr"
+                  git checkout origin/main -- "$(dirname ${old_path})"
+                  template_version "main"
+                  git checkout origin/${{ github.ref_name }} -- "$(dirname ${old_path})"
+                done
+              else
+                echo -e "${RED}[ ERROR ] > No helm chart found"
+                exit 1
+              fi
+            else
+              template_version "pr"
+              git checkout origin/main -- "$path"
+              template_version "main"
+            fi
           done
 
       - name: Generate dyff on release
