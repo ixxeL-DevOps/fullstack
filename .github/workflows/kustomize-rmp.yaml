@@ -36,8 +36,8 @@ jobs:
         uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
         with:
           files: |
-            '**/kustomization.yaml'
-            '**/kustomization.yml'
+            **/kustomization.yaml
+            **/kustomization.yml
 
       - name: Generate diffs for each Kustomization
         id: gen-pr-kustomize
