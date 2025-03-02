@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 ---
-name: Helm Dynamic Rendered Manifest (Chart.yaml)
+name: Helm Dynamic Rendered Manifest
 on:
   merge_group:
   pull_request:
@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  helm-diff-chart:
+  rendered-manifest:
     runs-on: self-hosted
     if: github.event_name == 'pull_request'
     steps:
