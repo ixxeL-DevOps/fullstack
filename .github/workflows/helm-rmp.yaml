@@ -132,6 +132,7 @@ jobs:
               rm -rf "$suffix/oci_temp"
               echo -e "${CYAN}[ INFO ] > Cleaned up temporary OCI chart directory${BLANK}"
             fi
+            echo ""
           }
 
           current_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -145,14 +146,13 @@ jobs:
                 echo -e "${CYAN}[ INFO ] > common-values.yaml has been modified, processing diff for all charts${BLANK}"
                 for dir in $(find "$(dirname ${path})" -mindepth 1 -maxdepth 1 -type d | grep -v '/values$')
                 do
-                  echo -e "${CYAN}[ INFO ] > Env ${PURPLE}${dir}${BLANK}"
+                  echo -e "${CYAN}[ INFO ] > Env ${PURPLE}$(basename ${dir})${BLANK}"
                   old_path=${path}
                   path=${dir}
                   template_version "pr"
                   git checkout origin/main -- "$(dirname ${old_path})"
                   template_version "main"
-                  echo ""
-                  git checkout "${current_branch}"
+                  git checkout origin/"${current_branch}" -- "$(dirname ${old_path})"
                 done
               else
                 echo -e "${RED}[ ERROR ] > No helm chart found"
@@ -162,7 +162,6 @@ jobs:
               template_version "pr"
               git checkout origin/main -- "$path"
               template_version "main"
-              echo ""
             fi
           done
 
