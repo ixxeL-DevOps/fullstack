@@ -10,3 +10,14 @@ entries:
       name: invite
     identifiers:
       name: invite
+  - model: authentik_flows.flowstagebinding
+    attrs:
+      slug: invite
+      invalid_response_action: retry
+      order: 0
+      policy_engine_mode: any
+      re_evaluate_policies: true
+      stage: !Find [authentik_stages_invitation.invitationstage, [name, invite]]
+      target: !Find [authentik_flows.flow, [slug, default-enrollment-flow]]
+    identifiers:
+      target: !Find [authentik_flows.flow, [slug, default-enrollment-flow]]
