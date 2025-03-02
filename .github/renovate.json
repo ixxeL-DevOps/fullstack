@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["mergeConfidence:all-badges", "config:best-practices"],
-  "enabledManagers": ["helmv3", "helm-values", "github-actions"],
+  "enabledManagers": ["helmv3", "helm-values", "github-actions", "custom.regex"],
   "assigneesFromCodeOwners": false,
   "reviewersFromCodeOwners": false,
   "assignees": ["renovate[bot]"],
@@ -22,10 +22,30 @@
   "helm-values": {
     "fileMatch": ["(^|/)values\\.ya?ml$"]
   },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update GitHub release references in kustomization.yaml",
+      "fileMatch": ["kustomization.yaml"],
+      "matchStrings": [
+        "https:\\/\\/github\\.com\\/(?<depName>.*\\/.*?)\\/releases\\/download\\/(?<currentValue>.*?)\\/"
+      ],
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "description": "Update GitHub tag references in kustomization.yaml",
+      "fileMatch": ["kustomization.yaml"],
+      "matchStrings": [
+        "https:\\/\\/raw.githubusercontent.com\\/(?<depName>[^\\/]*\\/[^\\/]*)\\/(?<currentValue>.*?)\\/"
+      ],
+      "datasourceTemplate": "github-tags"
+    }
+  ],
   "packageRules": [
     {
       "description": "Global rules for version detection",
-      "matchManagers": ["helmv3", "helm-values"],
+      "matchManagers": ["helmv3", "helm-values", "github-actions", "custom.regex"],
       "matchUpdateTypes": ["major", "minor", "patch"],
       "labels": ["{{updateType}}"]
     },
@@ -70,6 +90,26 @@
       "addLabels": ["MANUAL-REVIEW", "{{ lookup (split packageFileDir '/') 2 }}"],
       "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
       "automerge": false
+    },
+    {
+      "description": "Manual merge for Tooling instance major and minor updates",
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["major", "minor"],
+      "additionalBranchPrefix": "kustomize/",
+      "matchFileNames": ["gitops/**"],
+      "addLabels": ["MANUAL-REVIEW", "{{ depName }}"],
+      "automerge": false
+    },
+    {
+      "description": "Manual merge for Tooling instance major and minor updates",
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["patch"],
+      "additionalBranchPrefix": "kustomize/",
+      "matchFileNames": ["gitops/**"],
+      "addLabels": ["AUTO-MERGE", "{{ depName }}"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
     }
   ]
 }
