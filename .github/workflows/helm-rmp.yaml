@@ -134,6 +134,7 @@ jobs:
             fi
           }
 
+          current_branch=$(git rev-parse --abbrev-ref HEAD)
           for path in ${UNIQ_PATHS_CHANGED}
           do
             echo -e "${BLUE}[ STEP ] > Processing path ${YELLOW}${path}${BLANK}"
@@ -151,7 +152,7 @@ jobs:
                   git checkout origin/main -- "$(dirname ${old_path})"
                   template_version "main"
                   echo ""
-                  git checkout -
+                  git checkout "${current_branch}"
                 done
               else
                 echo -e "${RED}[ ERROR ] > No helm chart found"
