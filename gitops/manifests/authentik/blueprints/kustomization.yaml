@@ -13,4 +13,7 @@ configMapGenerator:
       - ./proxy-traefik.yaml
       - ./proxy-adguard.yaml
       - ./groups.yaml
+      - ./service-accounts.yaml
       - ./properties.yaml
+      - ./flows.yaml
+      - ./enrollment.yaml
