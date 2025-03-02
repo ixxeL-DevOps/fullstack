@@ -1,6 +1,6 @@
 {
   "repoURL": "https://github.com/ixxeL-DevOps/fullstack.git",
-  "drySha": "fb3e60208e31e682acc2cc2eb30ca0a827227faf",
+  "drySha": "84123939b910297706aa01feeacab3aef950796c",
   "commands": [
     "helm template . --name-template external-secrets-k0s --include-crds"
   ]
