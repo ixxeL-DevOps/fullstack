@@ -48,7 +48,7 @@ jobs:
             -v $(pwd)/output:/output \
             -e TARGET_BRANCH=${{ github.head_ref }} \
             -e REPO=${{ github.repository }} \
-            -e FILES_CHANGED="${{ steps.changed-files.outputs.all_changed_files }}"
+            -e FILES_CHANGED="${{ steps.changed-files.outputs.all_changed_files }}" \
             dagandersen/argocd-diff-preview:v0.0.35
 
       - name: Post diff as comment
