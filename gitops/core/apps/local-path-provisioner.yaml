@@ -4,6 +4,9 @@ kind: Application
 metadata:
   name: local-path-provisioner-k0s
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .
+    argocd-diff-preview/watch-pattern: 'gitops/manifests/local-path-provisioner/.*'
 spec:
   destination:
     server: https://kubernetes.default.svc

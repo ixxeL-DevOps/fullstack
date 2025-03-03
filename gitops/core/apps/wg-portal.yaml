@@ -4,6 +4,9 @@ kind: Application
 metadata:
   name: wireguard-k0s
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .
+    argocd-diff-preview/watch-pattern: 'gitops/manifests/wireguard/.*'
 spec:
   destination:
     server: https://kubernetes.default.svc
