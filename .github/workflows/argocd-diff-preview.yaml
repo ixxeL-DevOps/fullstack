@@ -21,6 +21,15 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - name: Clone repo
+        id: clone
+        uses: ixxeL-DevOps/gha-templates/.github/actions/git-clone@main
+        with:
+          mode: 'app'
+          app-id: ${{ secrets.GHAPP_APP_ID }}
+          private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
+          fetch-depth: 0
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
@@ -30,26 +39,26 @@ jobs:
             gitops/core/**
             gitops/bootstrap/**
 
-      - name: GH App get Token
-        id: get-app-token
-        if: steps.changed-files.outputs.any_changed == 'true'
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.GHAPP_APP_ID }}
-          private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
+      # - name: GH App get Token
+      #   id: get-app-token
+      #   if: steps.changed-files.outputs.any_changed == 'true'
+      #   uses: actions/create-github-app-token@v1
+      #   with:
+      #     app-id: ${{ secrets.GHAPP_APP_ID }}
+      #     private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
 
       - uses: actions/checkout@v4
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           path: pull-request
-          token: ${{ steps.get-app-token.outputs.token }}
+          token: ${{ steps.clone.outputs.token }}
 
       - uses: actions/checkout@v4
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           ref: main
           path: main
-          token: ${{ steps.get-app-token.outputs.token }}
+          token: ${{ steps.clone.outputs.token }}
 
       - name: Generate Diff
         if: steps.changed-files.outputs.any_changed == 'true'
@@ -71,4 +80,4 @@ jobs:
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file output/diff.md --edit-last || \
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file output/diff.md
         env:
-          GITHUB_TOKEN: ${{ steps.get-app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.clone.outputs.token }}
