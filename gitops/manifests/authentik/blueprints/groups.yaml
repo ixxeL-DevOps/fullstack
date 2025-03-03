@@ -17,15 +17,15 @@ entries:
     attrs:
       users:
         - !Find [authentik_core.user, [username, ixxel]]
-  # - model: authentik_core.group
-  #   identifiers:
-  #     name: Adguard admins
-  #   attrs:
-  #     attributes:
-  #       app_password: xxxx
-  #       app_username: xxxx
-  #     users:
-  #       - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    identifiers:
+      name: Adguard admins
+    attrs:
+      attributes:
+        app_username: admin
+        app_password: xxxx
+      users:
+        - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
     identifiers:
       name: Wireguard admins

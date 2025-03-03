@@ -3,8 +3,6 @@
 ---
 version: 1
 metadata:
-  labels:
-    blueprints.goauthentik.io/instantiate: 'false'
   name: Example - Enrollment (2 Stage)
 entries:
   - identifiers:
