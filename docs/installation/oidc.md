@@ -1,90 +1,5 @@
 # OIDC
 
-## Reverse-Proxy setup : Traefik
-
-### In-cluster setup
-
-Traefik needs to be configured to act as a reverse proxy with Authentik. Use this `Middleware` with the added `authorization` header from the official documentation to be able to pass **Basic Auth** headers in case you need to login transparently to non OIDC servers.
-
-```yaml
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: authentik
-spec:
-  forwardAuth:
-    address: http://ak-outpost-authentik-embedded-outpost.authentik:9000/outpost.goauthentik.io/auth/traefik
-    trustForwardHeader: true
-    authResponseHeaders:
-      - X-authentik-username
-      - X-authentik-groups
-      - X-authentik-entitlements
-      - X-authentik-email
-      - X-authentik-name
-      - X-authentik-uid
-      - X-authentik-jwt
-      - X-authentik-meta-jwks
-      - X-authentik-meta-outpost
-      - X-authentik-meta-provider
-      - X-authentik-meta-app
-      - X-authentik-meta-version
-      - authorization
-```
-
-The field `address` should point to your authentik outpost service inside the cluster:
-
-```console
-NAME                                    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
-ak-outpost-authentik-embedded-outpost   ClusterIP   10.96.153.169    <none>        9000/TCP,9300/TCP,9443/TCP   5d16h
-authentik-k0s-postgresql                ClusterIP   10.97.192.194    <none>        5432/TCP                     4d15h
-authentik-k0s-postgresql-hl             ClusterIP   None             <none>        5432/TCP                     4d15h
-authentik-k0s-redis-headless            ClusterIP   None             <none>        6379/TCP                     4d15h
-authentik-k0s-redis-master              ClusterIP   10.101.158.29    <none>        6379/TCP                     4d15h
-authentik-k0s-server                    ClusterIP   10.111.223.218   <none>        80/TCP,443/TCP               4d15h
-```
-
-You also need to add annotation to Traefik `Ingress`. The pattern here is
-`<namespace>-<middleware-name>@kubernetescrd` :
-
-```yaml
-annotations:
-  traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
-```
-
-For `IngressRoute` you have to specify differently :
-
-```yaml
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: traefik-k0s-dashboard
-spec:
-  entryPoints:
-    - web
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`traefik.k0s-fullstack.fredcorp.com`)
-      middlewares:
-        - name: authentik
-          namespace: traefik
-      priority: 10
-      services:
-        - kind: TraefikService
-          name: api@internal
-          namespace: traefik
-    - kind: Rule
-      match: Host(`traefik.k0s-fullstack.fredcorp.com`) && PathPrefix(`/outpost.goauthentik.io/`)
-      priority: 15
-      services:
-        - kind: Service
-          name: ak-outpost-authentik-embedded-outpost
-          namespace: authentik
-          port: 9000
-```
-
 ## Vault
 
 Blueprint for Vault OIDC auth :
@@ -220,3 +135,84 @@ config:
         registration_enabled: true
         log_user_info: false
 ```
+
+The variables here can be injected with kubernetes `Secret` in `values.yaml` file:
+
+```yaml
+# OIDC secret config
+envFrom:
+  - secretRef:
+      name: oidc-wireguard
+  - secretRef:
+      name: admin-wireguard
+```
+
+In Authentik, you need to specify the `is_admin` in the provider properties:
+
+```yaml
+- id: provider
+  model: authentik_providers_oauth2.oauth2provider
+  state: present
+  identifiers:
+    name: fullstack-wireguard
+  attrs:
+    authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+    invalidation_flow: !Find [authentik_flows.flow, [slug, default-invalidation-flow]]
+    signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
+    client_type: confidential
+    redirect_uris:
+      - url: https://wireguard.k0s-fullstack.fredcorp.com/api/v0/auth/login/authentik/callback
+        matching_mode: strict
+
+    access_code_validity: minutes=1
+    access_token_validity: hours=1
+    refresh_token_validity: hours=1
+
+    sub_mode: hashed_user_id
+    property_mappings:
+      - !Find [authentik_core.propertymapping, [name, "authentik default OAuth Mapping: OpenID 'openid'"]]
+      - !Find [authentik_core.propertymapping, [name, "authentik default OAuth Mapping: OpenID 'profile'"]]
+      - !Find [authentik_core.propertymapping, [name, "authentik default OAuth Mapping: OpenID 'email'"]]
+      - !Find [authentik_core.propertymapping, [name, "OAuth mapping: OpenID 'is_admin' for Wireguard"]]
+
+  - model: authentik_providers_oauth2.scopemapping
+    identifiers:
+      name: "OAuth mapping: OpenID 'is_admin' for Wireguard"
+    attrs:
+      description: is_admin claim for Wireguard Portal OIDC
+      expression: |
+        return {
+          "is_admin": ak_is_group_member(request.user, name="Wireguard admins")
+        }
+      name: wireguard-is-admin
+      scope_name: is_admin
+```
+
+## Homarr
+
+Homarr is easy to integrate with OIDC. You just need to specify some variables in the `env` key from `values.yaml` file:
+
+```yaml
+env:
+  AUTH_PROVIDERS: credentials,oidc
+  AUTH_SESSION_EXPIRY_TIME: 1h
+  AUTH_OIDC_AUTO_LOGIN: 'false'
+  AUTH_OIDC_ISSUER: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-homarr/
+  AUTH_OIDC_URI: 'https://authentik.k0s-fullstack.fredcorp.com/application/o/authorize/'
+  AUTH_OIDC_CLIENT_NAME: Authentik
+  AUTH_OIDC_SCOPE_OVERWRITE: openid email profile groups
+  AUTH_OIDC_GROUPS_ATTRIBUTE: groups
+  AUTH_LOGOUT_REDIRECT_URL: https://homarr.k0s-fullstack.fredcorp.com/auth/login
+```
+
+And you can used `Secret` to inject ClientID and ClientSecret for OIDS auth:
+
+```yaml
+envSecrets:
+  authOidcCredentials:
+    existingSecret: auth-oidc-secret
+    oidcClientId: oidc-client-id
+    oidcClientSecret: oidc-client-secret
+```
+
+Variable `NODE_TLS_REJECT_UNAUTHORIZED: '0'` can be used in case certificates are not recognized. Th

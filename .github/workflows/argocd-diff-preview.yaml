@@ -2,6 +2,7 @@
 ---
 name: Argo CD Diff Preview
 on:
+  merge_group:
   pull_request:
     types:
       - opened
@@ -9,36 +10,49 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  argocd-diff-preview:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
     steps:
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
+        with:
+          files: |
+            gitops/manifests/**
+            gitops/core/**
+            gitops/bootstrap/**
+
       - name: GH App get Token
         id: get-app-token
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.GHAPP_APP_ID }}
           private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
 
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v45
-
       - uses: actions/checkout@v4
+        if: steps.changed-files.outputs.any_changed == 'true'
         with:
           path: pull-request
           token: ${{ steps.get-app-token.outputs.token }}
 
       - uses: actions/checkout@v4
+        if: steps.changed-files.outputs.any_changed == 'true'
         with:
           ref: main
           path: main
           token: ${{ steps.get-app-token.outputs.token }}
 
       - name: Generate Diff
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           docker run \
             --network=host \
@@ -52,6 +66,7 @@ jobs:
             dagandersen/argocd-diff-preview:v0.0.35
 
       - name: Post diff as comment
+        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request'
         run: |
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file output/diff.md --edit-last || \
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file output/diff.md

@@ -8,4 +8,4 @@
 
 - [ ] Pull request targets `main` branch
 - [ ] Commits follow the [conventional commits guideline](https://www.conventionalcommits.org/en/v1.0.0/)
-- [ ] Commits follow pre-commit standards from main branch
+- [ ] Files follow `pre-commit` standards from main branch

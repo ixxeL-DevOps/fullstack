@@ -9,30 +9,15 @@ on:
       - synchronize
     branches:
       - main
-    paths:
-      - '**/Chart.yaml'
-      - '**/Chart.yml'
-      - '**/*values.yaml'
-      - '**/*values.yml'
 
 concurrency:
-  group: ${{ github.ref_name }}-${{ github.event.pull_request.number }}
+  group: ${{ github.workflow }}-${{ github.ref_name }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   rendered-manifest:
     runs-on: self-hosted
-    if: github.event_name == 'pull_request'
     steps:
-      - name: Clone repo
-        id: clone
-        uses: ixxeL-DevOps/gha-templates/.github/actions/git-clone@main
-        with:
-          mode: 'app'
-          app-id: ${{ secrets.GHAPP_APP_ID }}
-          private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
-          fetch-depth: 0
-
       - name: Find modified Chart.yaml files
         id: changed-files
         uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
@@ -43,8 +28,19 @@ jobs:
             **/*values.yaml
             **/*values.yml
 
+      - name: Clone repo
+        id: clone
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: ixxeL-DevOps/gha-templates/.github/actions/git-clone@main
+        with:
+          mode: 'app'
+          app-id: ${{ secrets.GHAPP_APP_ID }}
+          private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
+          fetch-depth: 0
+
       - name: Generate diffs for each Chart
         id: gen-pr-chart
+        if: steps.changed-files.outputs.any_changed == 'true'
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
           VALUES_FILE: values-full.yaml
@@ -167,6 +163,7 @@ jobs:
 
       - name: Generate dyff on release
         id: dyff-helm
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: ixxeL-DevOps/gha-templates/.github/actions/dyff@main
         with:
           source: main/*_manifest_main.yaml
@@ -175,12 +172,14 @@ jobs:
 
       - name: Generate diff on release
         id: diff-helm
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: ixxeL-DevOps/gha-templates/.github/actions/diff@main
         with:
           source: main/*_manifest_main.yaml
           target: pr/*_manifest_pr.yaml
 
       - name: Post diff as comment
+        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request'
         run: |
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md --edit-last || \
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md
@@ -189,6 +188,7 @@ jobs:
 
       - name: Kubeconform
         id: kubeconform
+        if: steps.changed-files.outputs.any_changed == 'true'
         continue-on-error: true
         uses: ixxeL-DevOps/gha-templates/.github/actions/kubeconform@main
         with:
