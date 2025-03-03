@@ -29,3 +29,5 @@ node_modules
 *.sqlite
 
 .venv
+# mkdocs output directory
+site/
