@@ -1,6 +1,6 @@
 <br/>
 <div align="center">
-  <p align="center"><img style="display: block; margin: auto; width: 125px;"  src="https://github.com/ixxeL-DevOps/fullstack/blob/main/docs/src/pictures/k8s-home.png?raw=true"></p>
+  <p align="center"><img style="display: block; margin: auto; width: 125px;"  src="https://github.com/ixxeL-DevOps/fullstack/blob/main/docs/assets/k8s-home.png?raw=true"></p>
   <h3>✨ixxeL Home-Lab✨</h3>
 </div>
 
