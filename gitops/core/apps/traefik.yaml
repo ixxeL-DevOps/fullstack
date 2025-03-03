@@ -6,6 +6,7 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd-diff-preview/watch-pattern: 'gitops/manifests/traefik/k0s/.*, gitops/manifests/traefik/values/.*'
 spec:
   destination:
     server: https://kubernetes.default.svc
