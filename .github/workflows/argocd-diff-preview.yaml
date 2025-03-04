@@ -47,13 +47,13 @@ jobs:
       #     app-id: ${{ secrets.GHAPP_APP_ID }}
       #     private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           path: pull-request
           token: ${{ steps.clone.outputs.token }}
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           ref: main
