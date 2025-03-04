@@ -73,9 +73,13 @@ markdown_extensions:
 
 nav:
   - Documentation:
+      - Cluster:
+        - K0S: cluster/k0s.md
+      - GitOps:
+        - ArgoCD: argocd/argocd.md
       - Authentication:
-          - OIDC: authentication/oidc.md
-          - Auth Forwarding: authentication/proxy-auth.md
+        - OIDC: authentication/oidc.md
+        - Auth Forwarding: authentication/proxy-auth.md
       - VPN:
-          - Cluster config: VPN/wireguard.md
+        - Cluster config: VPN/wireguard.md
   - Home: index.md
