@@ -17,7 +17,8 @@
     "python-full@3.12",
     "python312Packages.mkdocs@latest",
     "python312Packages.mkdocs-material@latest",
-    "python312Packages.mkdocs-material-extensions@latest"
+    "python312Packages.mkdocs-material-extensions@latest",
+    "k9s@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"
