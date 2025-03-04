@@ -2,8 +2,8 @@ site_name: ixxeL-DevOps HomeLab
 site_author: ixxeL2097
 site_description: >-
   My personal HomeLab
-repo_name: !ENV [REPO_NAME, "ixxeL-DevOps/fullstack"]
-repo_url: !ENV [REPO_URL, "https://github.com/ixxeL-DevOps/fullstack"]
+repo_name: !ENV [REPO_NAME, 'ixxeL-DevOps/fullstack']
+repo_url: !ENV [REPO_URL, 'https://github.com/ixxeL-DevOps/fullstack']
 extra_css:
   - stylesheets/extra.css
 theme:
@@ -13,36 +13,36 @@ theme:
   logo: assets/k8s-home.png
   name: material
   palette:
-  - media: '(prefers-color-scheme: light)'
-    primary: teal
-    scheme: default
-    toggle:
-      icon: material/brightness-7
-      name: Switch to dark mode
-  - media: '(prefers-color-scheme: dark)'
-    primary: teal
-    scheme: slate
-    toggle:
-      icon: material/brightness-4
-      name: Switch to light mode
+    - media: '(prefers-color-scheme: light)'
+      primary: teal
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: '(prefers-color-scheme: dark)'
+      primary: teal
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
-    # Palette toggle for automatic mode
-    # - media: "(prefers-color-scheme)"
-    #   toggle:
-    #     icon: material/brightness-auto
-    #     name: Switch to light mode
-    # # Palette toggle for light mode
-    # - media: "(prefers-color-scheme: light)"
-    #   scheme: default
-    #   toggle:
-    #     icon: material/brightness-7
-    #     name: Switch to dark mode
-    # # Palette toggle for dark mode
-    # - media: "(prefers-color-scheme: dark)"
-    #   scheme: slate
-    #   toggle:
-    #     icon: material/brightness-4
-    #     name: Switch to system preference
+      # Palette toggle for automatic mode
+      # - media: "(prefers-color-scheme)"
+      #   toggle:
+      #     icon: material/brightness-auto
+      #     name: Switch to light mode
+      # # Palette toggle for light mode
+      # - media: "(prefers-color-scheme: light)"
+      #   scheme: default
+      #   toggle:
+      #     icon: material/brightness-7
+      #     name: Switch to dark mode
+      # # Palette toggle for dark mode
+      # - media: "(prefers-color-scheme: dark)"
+      #   scheme: slate
+      #   toggle:
+      #     icon: material/brightness-4
+      #     name: Switch to system preference
   features:
     # - navigation.top
     - navigation.tabs
@@ -73,9 +73,9 @@ markdown_extensions:
 
 nav:
   - Documentation:
-    - Authentication:
-      - OIDC: authentication/oidc.md
-      - Auth Forwarding: authentication/proxy-auth.md
-    - VPN:
-      - Cluster config: VPN/wireguard.md
+      - Authentication:
+          - OIDC: authentication/oidc.md
+          - Auth Forwarding: authentication/proxy-auth.md
+      - VPN:
+          - Cluster config: VPN/wireguard.md
   - Home: index.md
