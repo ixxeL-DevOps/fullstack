@@ -39,4 +39,3 @@
 ---
 
 This project utilizes Infrastructure as Code and GitOps to automate provisioning, operating, and updating self-hosted services in my homelab.
-
