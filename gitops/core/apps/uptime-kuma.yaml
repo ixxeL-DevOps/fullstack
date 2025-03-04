@@ -13,7 +13,7 @@ spec:
     namespace: uptime-kuma
   project: infra-monitoring
   sources:
-    - path: gitops/manifests/traefik/k0s
+    - path: gitops/manifests/uptime-kuma/k0s
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
       helm:
