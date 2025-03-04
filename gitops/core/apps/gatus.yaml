@@ -1,0 +1,37 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gatus-k0s
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd-diff-preview/watch-pattern: 'gitops/manifests/gatus/k0s/.*, gitops/manifests/gatus/values/.*'
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gatus
+  project: infra-monitoring
+  sources:
+    - path: gitops/manifests/gatus/k0s
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/gitops/manifests/gatus/values/common-values.yaml
+          - $values/gitops/manifests/gatus/k0s/k0s-values.yaml
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - PruneLast=false
+      - RespectIgnoreDifferences=true
+      - Replace=false
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true

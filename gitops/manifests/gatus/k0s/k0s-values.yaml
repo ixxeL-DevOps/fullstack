@@ -1,0 +1,14 @@
+---
+gatus:
+  image:
+    repository: twinproduction/gatus
+    tag: 'v5.12.0'
+    sha: ''
+    pullPolicy: IfNotPresent
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations: {}
+    pathType: Prefix
+    hosts:
+      - gatus.k0s-fullstack.fredcorp.com
