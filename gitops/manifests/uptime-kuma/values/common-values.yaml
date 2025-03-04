@@ -1,0 +1,11 @@
+---
+uptime-kuma:
+  useDeploy: true
+  strategy:
+    type: RollingUpdate
+  volume:
+    enabled: false
+    accessMode: ReadWriteOnce
+    size: 4Gi
+    # storageClassName:
+    existingClaim: ''

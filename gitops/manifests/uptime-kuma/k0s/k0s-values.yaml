@@ -1,0 +1,16 @@
+---
+uptime-kuma:
+  image:
+    repository: louislam/uptime-kuma
+    pullPolicy: IfNotPresent
+    tag: '1.23.13-debian'
+
+  ingress:
+    enabled: true
+    className: 'traefik'
+    annotations: {}
+    hosts:
+      - host: uptime-kuma.k0s-fullstack.fredcorp.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
