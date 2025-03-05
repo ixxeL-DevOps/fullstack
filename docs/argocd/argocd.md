@@ -94,14 +94,14 @@ metadata:
 spec:
   goTemplate: true
   generators:
-  - git:
-      repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
-      revision: main
-      directories:
-        - path: 'gitops/manifests/cert-manager/*'
-          exclude: false
-        - path: 'gitops/manifests/cert-manager/values/*'
-          exclude: true
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/cert-manager/*'
+            exclude: false
+          - path: 'gitops/manifests/cert-manager/values/*'
+            exclude: true
   template:
     metadata:
       name: 'cert-manager-{{ .path.basenameNormalized }}'
@@ -113,16 +113,16 @@ spec:
         name: '{{ .path.basenameNormalized }}'
         namespace: cert-manager
       sources:
-      - path: 'gitops/manifests/cert-manager/{{ .path.basenameNormalized }}'
-        repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-        targetRevision: main
-        helm:
-          valueFiles:
-            - $values/gitops/manifests/cert-manager/values/common-values.yaml
-            - $values/gitops/manifests/cert-manager/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
-      - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-        targetRevision: main
-        ref: values
+        - path: 'gitops/manifests/cert-manager/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            valueFiles:
+              - $values/gitops/manifests/cert-manager/values/common-values.yaml
+              - $values/gitops/manifests/cert-manager/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
       syncPolicy:
         automated:
           prune: true
@@ -139,8 +139,8 @@ spec:
 
 The ApplicationSet is annotated following [ArgoCD optimization recommendations](https://argo-cd.readthedocs.io/en/stable/operator-manual/high_availability/#manifest-paths-annotation).
 
-
 ### Key Features
+
 - **Multi-environment support**: Uses directory-based environment segregation.
 - **Hierarchical Helm values**: Supports multiple value files (`common-values.yaml` and environment-specific values).
 - **Automated synchronization**: Ensures ArgoCD keeps applications up-to-date and reconciled with Git.
