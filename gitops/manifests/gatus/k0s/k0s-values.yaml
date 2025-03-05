@@ -2,7 +2,7 @@
 gatus:
   image:
     repository: twinproduction/gatus
-    tag: 'v5.12.0'
+    tag: 'v5.12.0@sha256:888cb5850050eedf83f5d5985b5f203d2f36ca149e5ed217b6d416c26ef2af26'
     sha: ''
     pullPolicy: IfNotPresent
   ingress:

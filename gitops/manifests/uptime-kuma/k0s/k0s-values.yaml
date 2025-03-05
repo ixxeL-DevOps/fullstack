@@ -3,7 +3,7 @@ uptime-kuma:
   image:
     repository: louislam/uptime-kuma
     pullPolicy: IfNotPresent
-    tag: '1.23.13-debian'
+    tag: '1.23.13-debian@sha256:96510915e6be539b76bcba2e6873591c67aca8a6075ff09f5b4723ae47f333fc'
 
   ingress:
     enabled: true
