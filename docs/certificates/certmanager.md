@@ -62,4 +62,50 @@ metadata:
     kubernetes.io/service-account.name: 'certmanager-vault-auth-k0s'
 ```
 
-Then you need to configure the HC Vault server:
+Then you need to configure the HC Vault server. First login:
+
+```bash
+vault login -method=token -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com
+```
+
+Get the current kubernetes cluster CA certificate :
+
+```bash
+kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode > ca.crt
+```
+
+Get the `ServiceAccount` generated token :
+
+```bash
+TOKEN="$(kubectl get secret -n cert-manager certmanager-vault-auth-k0s -o jsonpath='{.data.token}' | base64 -d)"
+```
+
+Write the entry in Vault kubernetes Auth:
+
+```bash
+vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com \
+            auth/kubernetes/config token_reviewer_jwt="$TOKEN" \
+            kubernetes_host="https://k0s.fullstack.fredcorp.com:6443" \
+            kubernetes_ca_cert=@ca.crt
+```
+
+And then create the associated role :
+
+```bash
+vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com \
+            auth/kubernetes/role/certmanager-vault-auth-k0s \
+            bound_service_account_names=certmanager-vault-auth-k0s \
+            bound_service_account_namespaces=cert-manager \
+            policies=secretstore ttl=24h
+```
+
+Then refresh the `ClusterIssuer` it should be valid and working:
+
+```console
+NAME          READY   AGE
+fredcorp-ca   True    24s
+```
+
+## Bundles
+
+Trust-manager handles CA Bundles to make it easier for you to manage cluster trusted certificates.
