@@ -1,0 +1,68 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: root-ca-chain
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: admin
+    kind: ClusterSecretStore
+  target:
+    name: root-ca-chain
+    creationPolicy: Owner
+  data:
+    - secretKey: ca.crt
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: wildcard/root-ca
+        property: chain
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: fredcorp-ca
+spec:
+  vault:
+    server: https://vault.k0s-fullstack.fredcorp.com
+    path: pki_int/sign/fredcorp.com
+    caBundleSecretRef:
+      key: ca.crt
+      name: root-ca-chain
+    auth:
+      kubernetes:
+        mountPath: /v1/auth/kubernetes
+        role: certmanager-vault-auth-k0s
+        serviceAccountRef:
+          name: certmanager-vault-auth-k0s
+        # secretRef:
+        #   name: certmanager-vault-auth-k0s
+        #   key: token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tokenreview-binding-certmanager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+  - kind: ServiceAccount
+    name: certmanager-vault-auth-k0s
+    namespace: cert-manager
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: certmanager-vault-auth-k0s
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: certmanager-vault-auth-k0s
+  annotations:
+    kubernetes.io/service-account.name: 'certmanager-vault-auth-k0s'
