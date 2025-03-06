@@ -109,3 +109,26 @@ fredcorp-ca   True    24s
 ## Bundles
 
 Trust-manager handles CA Bundles to make it easier for you to manage cluster trusted certificates.
+
+You can use a Bundle and reference a secret as source of certificates. Target can be either `configMap` or `secret`.
+
+```yaml
+---
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: fredcorp-ca-chain
+spec:
+  sources:
+    - useDefaultCAs: false
+    - secret:
+        name: 'root-ca-chain'
+        includeAllKeys: true
+  target:
+    secret:
+      key: 'fredcorp-ca-chain.pem'
+    additionalFormats:
+      pkcs12:
+        key: 'fredcorp-ca-chain.p12'
+        password: ''
+```

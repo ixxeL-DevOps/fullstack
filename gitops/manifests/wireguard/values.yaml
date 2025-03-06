@@ -19,14 +19,14 @@ wg-portal:
 
   # Trusted cert config (OIDC)
   volumes:
-    - name: trusted-certs
+    - name: fredcorp-ca-chain
       secret:
         defaultMode: 420
-        secretName: wireguard-trusted-certs
+        secretName: fredcorp-ca-chain # Using cert-manager Bundle for chain CA fredcorp (Vault PKI)
   volumeMounts:
-    - name: trusted-certs
-      mountPath: /etc/ssl/certs/root-chain.crt
-      subPath: root-chain.crt
+    - name: fredcorp-ca-chain
+      mountPath: /etc/ssl/certs/fredcorp-ca-chain.pem
+      subPath: fredcorp-ca-chain.pem
       readOnly: true
   # OIDC secret config
   envFrom:

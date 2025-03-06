@@ -47,9 +47,6 @@ homarr:
     homarrTrustedCerts:
       enabled: true
       type: secret
-      existingSecret: homarr-trusted-certs
+      existingSecret: fredcorp-ca-chain # Using cert-manager Bundle for chain CA fredcorp (Vault PKI)
       certificates:
-        authentik-self-signed.crt: ''
-        root-ca.crt: ''
-        int-ca.crt: ''
-        fullstack-wildcard.crt: ''
+        fredcorp-ca-chain.pem: ''
