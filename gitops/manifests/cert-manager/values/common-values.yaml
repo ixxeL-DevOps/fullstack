@@ -1,0 +1,18 @@
+---
+cert-manager:
+  global:
+    rbac:
+      create: true
+      aggregateClusterRoles: true
+    extraArgs:
+      - --feature-gates=ExperimentalGatewayAPISupport=true
+  installCRDs: true
+  serviceAccount:
+    create: true
+    name: 'cert-manager'
+    automountServiceAccountToken: true
+  webhook:
+    serviceAccount:
+      create: true
+      name: 'cert-manager-webhook'
+      automountServiceAccountToken: true
