@@ -13,10 +13,8 @@
       
       
       
-        <link rel="prev" href="../../authentication/proxy-auth/">
       
-      
-        <link rel="next" href="../..">
+        <link rel="next" href="../../argocd/argocd/">
       
       
       <link rel="icon" href="../../assets/k8s-home.png">
@@ -24,7 +22,7 @@
     
     
       
-        <title>Cluster config - ixxeL-DevOps HomeLab</title>
+        <title>K0S - ixxeL-DevOps HomeLab</title>
       
     
     
@@ -78,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#wireguard" class="md-skip">
+        <a href="#k0s-cluster-installation-guide-single-node" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Cluster config
+              K0S
             
           </span>
         </div>
@@ -232,7 +230,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../cluster/k0s/" class="md-tabs__link">
+        <a href="./" class="md-tabs__link">
           
   
   Documentation
@@ -355,8 +353,10 @@
                 
   
   
+    
   
   
+  
     
     
     
@@ -364,13 +364,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
         
           
           <label class="md-nav__link" for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
@@ -385,7 +383,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_1">
             <span class="md-nav__icon md-icon"></span>
             Cluster
@@ -396,10 +394,31 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../cluster/k0s/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    K0S
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -409,6 +428,185 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Cluster Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Cluster Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Key Features:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      📌 Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploying-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Deploying the Cluster
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-configuration-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ Technical Configuration Details
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Technical Configuration Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-networking-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Networking Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-security-sysctls" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Security &amp; Sysctls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-disabled-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Disabled Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-data-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Data Storage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Cluster Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Cluster Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-the-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Check the controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Access the Cluster
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-k0s" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Upgrading k0s
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backing-up-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Backing Up the Cluster
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -683,8 +881,6 @@
                 
   
   
-    
-  
   
   
     
@@ -694,11 +890,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_5" >
         
           
           <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="0">
@@ -713,7 +911,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1_5">
             <span class="md-nav__icon md-icon"></span>
             VPN
@@ -724,31 +922,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Cluster config
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../VPN/wireguard/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -758,35 +935,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#privileges" class="md-nav__link">
-    <span class="md-ellipsis">
-      Privileges
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -855,9 +1003,159 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#privileges" class="md-nav__link">
+  <a href="#cluster-overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Privileges
+      🏗️ Cluster Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Cluster Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔹 Key Features:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛠️ Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      📌 Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploying-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Deploying the Cluster
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-configuration-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ Technical Configuration Details
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Technical Configuration Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-networking-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      1️⃣ Networking Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-security-sysctls" class="md-nav__link">
+    <span class="md-ellipsis">
+      2️⃣ Security &amp; Sysctls
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-disabled-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      3️⃣ Disabled Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-data-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      4️⃣ Data Storage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Cluster Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Cluster Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-the-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Check the controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Access the Cluster
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-k0s" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Upgrading k0s
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backing-up-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Backing Up the Cluster
     </span>
   </a>
   
@@ -882,45 +1180,95 @@
   
 
 
-<h1 id="wireguard">WireGuard<a class="headerlink" href="#wireguard" title="Permanent link">&para;</a></h1>
-<h2 id="privileges">Privileges<a class="headerlink" href="#privileges" title="Permanent link">&para;</a></h2>
-<p>WireGuard will need some specific privileges to be able to NAT traffic and redirect your requests. Consider using <code>sysctls</code> options on your nodes. You need to specify it at kubelet level:</p>
+<h1 id="k0s-cluster-installation-guide-single-node">k0s Cluster Installation Guide (Single Node)<a class="headerlink" href="#k0s-cluster-installation-guide-single-node" title="Permanent link">&para;</a></h1>
+<p>This document details the installation and configuration of a <strong>single-node k0s cluster</strong> for my home lab environment. It is based on the provided <code>k0sctl.yaml</code> file and explains the technical choices made. Additionally, a <strong>Taskfile</strong> is used to simplify cluster management tasks.</p>
+<h2 id="cluster-overview">🏗️ Cluster Overview<a class="headerlink" href="#cluster-overview" title="Permanent link">&para;</a></h2>
+<p>The cluster is a <strong>single-node Kubernetes cluster</strong> running on a small home server. It uses <strong>k0s</strong>, a lightweight Kubernetes distribution, and stores its state in <strong>Kine</strong> instead of etcd.</p>
+<h3 id="key-features">🔹 Key Features:<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>net.ipv4.ip_forward</code></li>
-<li><code>net.ipv4.conf.all.src_valid_mark</code></li>
+<li><strong>Data Storage</strong>: <code>kine</code> (instead of etcd, more lightweight for a home lab)</li>
+<li><strong>CNI (Networking)</strong>: <code>kube-router</code></li>
+<li><strong>SSH Management</strong>: Connection via user <code>fred</code></li>
+<li><strong>Disabled Components</strong>: <code>autopilot</code>, <code>helm</code>, <code>windows-node</code>, <code>konnectivity-server</code> for optimization</li>
+<li><strong>Security</strong>: Certain unsafe <code>sysctls</code> are allowed for advanced routing (<code>net.ipv4.ip_forward</code>, <code>net.ipv4.conf.all.src_valid_mark</code>), particularly for <strong>WireGuard VPN</strong> integration.</li>
+<li><strong>Environment Management</strong>: Uses <strong>Devbox</strong> to handle binaries like <code>k0sctl</code>, <code>kubectl</code>, <code>task</code>, and other necessary CLI tools.</li>
 </ul>
-<p>For example in <code>k0s</code> :</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nn">---</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k0sctl.k0sproject.io/v1beta1</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cluster</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">metadata</span><span class="p">:</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fullstack</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">user</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">single</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="nt">installFlags</span><span class="p">:</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--debug</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--disable-components=autopilot,helm,windows-node,konnectivity-server</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--kubelet-extra-args=&quot;--allowed-unsafe-sysctls=net.ipv4.ip_forward,net.ipv4.conf.all.src_valid_mark&quot;</span>
+<h2 id="installation">🛠️ Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<h3 id="prerequisites">📌 Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<p>Before installing the cluster, ensure you have:</p>
+<ul>
+<li>A server with a compatible Linux distribution (Ubuntu/Debian recommended)</li>
+<li>SSH access with a key (<code>~/.ssh/id_rsa</code>)</li>
+<li><strong>Devbox installed</strong> to manage required tools:
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://get.jetify.com/devbox<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</code></pre></div></li>
+<li><strong>Set up the environment</strong> using Devbox:
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>devbox<span class="w"> </span>add<span class="w"> </span>k0sctl<span class="w"> </span>kubectl<span class="w"> </span>go-task
+</code></pre></div></li>
+<li><strong>Launch your devbox shell</strong>:
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>devbox<span class="w"> </span>shell
+</code></pre></div></li>
+</ul>
+<h3 id="deploying-the-cluster">🚀 Deploying the Cluster<a class="headerlink" href="#deploying-the-cluster" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Check your k0sctl file</strong></li>
+</ol>
+<p>file should be in <code>infra/k0s/fullstack.yaml</code></p>
+<ol>
+<li><strong>Verify the configuration and start the installation</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>task<span class="w"> </span>apply-config
 </code></pre></div>
-<p>And your also need to specify it at pod level as well as <code>NET_ADMIN</code> capability:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">spec</span><span class="p">:</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">automountServiceAccountToken</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wgportal/wg-portal:v2</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IfNotPresent</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wg-portal</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="nt">securityContext</span><span class="p">:</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="nt">capabilities</span><span class="p">:</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">          </span><span class="nt">add</span><span class="p">:</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NET_ADMIN</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">securityContext</span><span class="p">:</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nt">sysctls</span><span class="p">:</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net.ipv4.ip_forward</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1&#39;</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net.ipv4.conf.all.src_valid_mark</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1&#39;</span>
+<p>This ensures everything is ready before actual deployment ans ask for applying changes.</p>
+<ol>
+<li><strong>Verify that the cluster is active</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>task<span class="w"> </span>kubeconf
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div></li>
+</ol>
+<h2 id="technical-configuration-details">⚙️ Technical Configuration Details<a class="headerlink" href="#technical-configuration-details" title="Permanent link">&para;</a></h2>
+<h3 id="1-networking-configuration">1️⃣ Networking Configuration<a class="headerlink" href="#1-networking-configuration" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>CNI Used</strong>: <code>kube-router</code></li>
+<li><strong>Hairpin Mode Enabled</strong>: Allows pods to communicate via their own IP address.</li>
+<li><strong>iptables Mode for kube-proxy</strong>: Ensures better compatibility with existing networking setups.</li>
+</ul>
+<h3 id="2-security-sysctls">2️⃣ Security &amp; Sysctls<a class="headerlink" href="#2-security-sysctls" title="Permanent link">&para;</a></h3>
+<p>Certain advanced <code>sysctls</code> are enabled to enhance routing management, particularly for <strong>WireGuard VPN tunnels</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="l l-Scalar l-Scalar-Plain">--allowed-unsafe-sysctls=net.ipv4.ip_forward,net.ipv4.conf.all.src_valid_mark</span>
+</code></pre></div>
+<ul>
+<li><code>net.ipv4.ip_forward</code>: Enables packet forwarding, required for VPN and overlay networks.</li>
+<li><code>net.ipv4.conf.all.src_valid_mark</code>: Ensures proper routing of encrypted WireGuard packets.</li>
+</ul>
+<h3 id="3-disabled-components">3️⃣ Disabled Components<a class="headerlink" href="#3-disabled-components" title="Permanent link">&para;</a></h3>
+<p>Some unnecessary components for a home lab are disabled to reduce resource usage and improve stability:</p>
+<ul>
+<li><strong>Autopilot</strong> (automatic updates management, not needed here)</li>
+<li><strong>Helm</strong> (not required since charts can be managed separately)</li>
+<li><strong>Windows-node</strong> (no Windows support required)</li>
+<li><strong>Konnectivity-server</strong> (used for complex networks, unnecessary here)</li>
+</ul>
+<h3 id="4-data-storage">4️⃣ Data Storage<a class="headerlink" href="#4-data-storage" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The Kubernetes state storage is managed by <strong>Kine</strong>, a lightweight alternative to <code>etcd</code>, using SQLite or a remote database.</li>
+<li>This reduces resource consumption and avoids the complexity of running an etcd cluster on a single node.</li>
+</ul>
+<h2 id="cluster-management">🔄 Cluster Management<a class="headerlink" href="#cluster-management" title="Permanent link">&para;</a></h2>
+<h3 id="check-the-controller">🏗️ Check the controller<a class="headerlink" href="#check-the-controller" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ssh<span class="w"> </span>fred@192.168.1.190<span class="w"> </span><span class="s2">&quot;sudo systemctl status k0scontroller.service&quot;</span>
+</code></pre></div>
+<h3 id="access-the-cluster">🚀 Access the Cluster<a class="headerlink" href="#access-the-cluster" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span><span class="k">$(</span>task<span class="w"> </span>kubeconf<span class="k">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div>
+<h2 id="upgrading-k0s">🔧 Upgrading k0s<a class="headerlink" href="#upgrading-k0s" title="Permanent link">&para;</a></h2>
+<p>To upgrade k0s to the latest stable version:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>task<span class="w"> </span>upgrade-cluster
+</code></pre></div>
+<h2 id="backing-up-the-cluster">🔄 Backing Up the Cluster<a class="headerlink" href="#backing-up-the-cluster" title="Permanent link">&para;</a></h2>
+<p>To create a backup of the cluster:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>task<span class="w"> </span>backup
 </code></pre></div>
 
 
