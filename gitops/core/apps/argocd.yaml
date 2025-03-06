@@ -26,3 +26,5 @@ spec:
       - RespectIgnoreDifferences=true
       - Replace=false
       - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true

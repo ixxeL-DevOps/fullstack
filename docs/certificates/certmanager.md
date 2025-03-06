@@ -25,8 +25,9 @@ spec:
       kubernetes:
         mountPath: /v1/auth/kubernetes
         role: certmanager-vault-auth-k0s
-        serviceAccountRef:
+        secretRef:
           name: certmanager-vault-auth-k0s
+          key: token
 ```
 
 The `caBundleSecretRef` should point to the chain certificate to trust Vault server.

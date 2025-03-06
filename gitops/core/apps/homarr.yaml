@@ -30,3 +30,7 @@ spec:
       - ApplyOutOfSyncOnly=true
       - CreateNamespace=true
       - ServerSideApply=true
+    managedNamespaceMetadata:
+      labels:
+        bundle.int/inject: 'enabled'
+        bundle.root/inject: 'enabled'

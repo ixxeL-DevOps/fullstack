@@ -49,8 +49,6 @@ spec:
       kubernetes:
         mountPath: /v1/auth/kubernetes
         role: certmanager-vault-auth-k0s
-        # serviceAccountRef:
-        #   name: certmanager-vault-auth-k0s
         secretRef:
           name: certmanager-vault-auth-k0s
           key: token
