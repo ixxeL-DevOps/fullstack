@@ -19,6 +19,20 @@ spec:
         metadataPolicy: None
         key: wildcard/root-ca
         property: chain
+    - secretKey: root.crt
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: wildcard/root-ca
+        property: root
+    - secretKey: int.crt
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: wildcard/root-ca
+        property: int
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
