@@ -1,0 +1,8 @@
+reloader:
+  reloader:
+    autoReloadAll: true
+    reloadStrategy: annotations
+    ignoreSecrets: false
+    ignoreConfigMaps: false
+    reloadOnCreate: false
+    reloadOnDelete: false

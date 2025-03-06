@@ -1,0 +1,39 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stakater-k0s
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .
+    argocd-diff-preview/watch-pattern: 'gitops/manifests/stakater/.*'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: stakater
+  project: infra-tools
+  sources:
+    - path: gitops/manifests/stakater/k0s
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/gitops/manifests/stakater/values/common-values.yaml
+          - $values/gitops/manifests/stakater/k0s/k0s-values.yaml
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - PruneLast=false
+      - RespectIgnoreDifferences=true
+      - Replace=false
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
