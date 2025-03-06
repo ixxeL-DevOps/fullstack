@@ -16,3 +16,12 @@ cert-manager:
       create: true
       name: 'cert-manager-webhook'
       automountServiceAccountToken: true
+
+trust-manager:
+  crds:
+    enabled: true
+    keep: true
+  secretTargets:
+    enabled: false
+    authorizedSecretsAll: false
+    authorizedSecrets: []
