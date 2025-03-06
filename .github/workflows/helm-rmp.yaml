@@ -17,6 +17,7 @@ concurrency:
 jobs:
   rendered-manifest:
     runs-on: self-hosted
+    if: github.event_name == 'pull_request'
     permissions:
       contents: read
       pull-requests: write
