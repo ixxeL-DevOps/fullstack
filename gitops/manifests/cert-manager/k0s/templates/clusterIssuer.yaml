@@ -35,11 +35,11 @@ spec:
       kubernetes:
         mountPath: /v1/auth/kubernetes
         role: certmanager-vault-auth-k0s
-        serviceAccountRef:
-          name: certmanager-vault-auth-k0s
-        # secretRef:
+        # serviceAccountRef:
         #   name: certmanager-vault-auth-k0s
-        #   key: token
+        secretRef:
+          name: certmanager-vault-auth-k0s
+          key: token
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
