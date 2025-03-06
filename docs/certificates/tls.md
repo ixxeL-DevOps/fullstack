@@ -67,6 +67,9 @@ ports:
         scheme: https
 ```
 
+- https://doc.traefik.io/traefik/middlewares/http/headers/#sslredirect
+- https://doc.traefik.io/traefik/routing/entrypoints/#redirection
+
 This configuration will enforce HTTPS traffic to all endpoints behing Traefik with a wildcard certificate managed by Traefik.
 
 ## TLS re-encryption

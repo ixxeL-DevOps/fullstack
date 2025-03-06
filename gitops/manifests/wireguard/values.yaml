@@ -102,6 +102,7 @@ wg-portal:
       cert-manager.io/common-name: wireguard.k0s-fullstack.fredcorp.com
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       traefik.ingress.kubernetes.io/service.scheme: https
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-hsts@kubernetescrd
     # annotations:
     #   traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
     tls: true
