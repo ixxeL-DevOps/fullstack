@@ -7,6 +7,8 @@ metadata:
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
     argocd-diff-preview/watch-pattern: 'gitops/manifests/traefik/k0s/.*, gitops/manifests/traefik/values/.*'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     server: https://kubernetes.default.svc
@@ -40,35 +42,3 @@ spec:
       kind: IngressRoute
       jqPathExpressions:
         - .metadata.annotations
-# ---
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: traefik-k0s
-#   namespace: argocd
-# spec:
-#   destination:
-#     server: https://kubernetes.default.svc
-#     namespace: traefik
-#   project: infra-network
-#   source:
-#     path: gitops/manifests/traefik
-#     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-#     targetRevision: main
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - Validate=true
-#       - PruneLast=false
-#       - RespectIgnoreDifferences=true
-#       - Replace=false
-#       - ApplyOutOfSyncOnly=true
-#       - CreateNamespace=true
-#       - ServerSideApply=true
-#   ignoreDifferences:
-#     - group: traefik.io
-#       kind: IngressRoute
-#       jqPathExpressions:
-#         - .metadata.annotations

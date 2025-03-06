@@ -7,6 +7,8 @@ metadata:
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../blueprints
     argocd-diff-preview/watch-pattern: 'gitops/manifests/authentik/app/.*, gitops/manifests/authentik/blueprints/.*'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     server: https://kubernetes.default.svc
