@@ -41,6 +41,7 @@ jobs:
 
       - name: Generate diffs for each Kustomization
         id: gen-pr-kustomize
+        if: steps.changed-files.outputs.any_changed == 'true'
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
@@ -70,6 +71,7 @@ jobs:
 
       - name: Generate dyff on release
         id: dyff-helm
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: ixxeL-DevOps/gha-templates/.github/actions/dyff@main
         with:
           source: main/*_manifest_main.yaml
@@ -78,12 +80,14 @@ jobs:
 
       - name: Generate diff on release
         id: diff-helm
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: ixxeL-DevOps/gha-templates/.github/actions/diff@main
         with:
           source: main/*_manifest_main.yaml
           target: pr/*_manifest_pr.yaml
 
       - name: Post diff as comment
+        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request'
         run: |
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md --edit-last || \
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md
@@ -92,6 +96,7 @@ jobs:
 
       - name: Kubeconform
         id: kubeconform
+        if: steps.changed-files.outputs.any_changed == 'true'
         continue-on-error: true
         uses: ixxeL-DevOps/gha-templates/.github/actions/kubeconform@main
         with:
