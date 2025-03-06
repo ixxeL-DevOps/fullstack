@@ -97,7 +97,35 @@ vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com \
             auth/kubernetes/role/certmanager-vault-auth-k0s \
             bound_service_account_names=certmanager-vault-auth-k0s \
             bound_service_account_namespaces=cert-manager \
-            policies=secretstore ttl=24h
+            policies=pki_fredcorp ttl=24h
+```
+
+You also need to create an associated policy, here named `pki_fredcorp`:
+
+```hcl
+path "*" {
+    capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+path "pki_int*"
+{
+  capabilities = ["read", "list"]
+}
+
+path "pki_int/roles/fredcorp.com"
+{
+  capabilities = ["create", "update"]
+}
+
+path "pki_int/sign/fredcorp.com"
+{
+  capabilities = ["create", "update"]
+}
+
+path "pki_int/issue/fredcorp.com"
+{
+  capabilities = ["create", "update", "read", "list"]
+}
 ```
 
 Then refresh the `ClusterIssuer` it should be valid and working:
