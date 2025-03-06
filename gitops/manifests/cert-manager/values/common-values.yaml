@@ -22,6 +22,6 @@ trust-manager:
     enabled: true
     keep: true
   secretTargets:
-    enabled: false
-    authorizedSecretsAll: false
+    enabled: true
+    authorizedSecretsAll: true
     authorizedSecrets: []

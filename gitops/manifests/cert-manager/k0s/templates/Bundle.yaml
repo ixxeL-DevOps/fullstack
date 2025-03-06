@@ -10,7 +10,7 @@ spec:
         name: 'root-ca-chain'
         includeAllKeys: true
   target:
-    configMap:
+    secret:
       key: 'fredcorp-ca-chain.pem'
     additionalFormats:
       pkcs12:
