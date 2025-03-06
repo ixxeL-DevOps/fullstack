@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  serve:
+    desc: Lance le serveur MkDocs avec live reload
+    cmds:
+      - mkdocs serve
+
+  deploy:
+    desc: Déploie la documentation sur GitHub Pages
+    cmds:
+      - mkdocs gh-deploy --clean --force
+    sources:
+      - '{{.MKDOCS_DOCS_ROOT}}/**/*'
+      - '{{.MKDOCS_CFG}}'
