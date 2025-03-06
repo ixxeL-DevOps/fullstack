@@ -30,12 +30,18 @@ homarr:
   ingress:
     enabled: true
     ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: homarr.k0s-fullstack.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
     hosts:
       - host: homarr.k0s-fullstack.fredcorp.com
         paths:
           - path: /
     tls:
-      - hosts:
+      - secretName: homarr-tls-cert
+        hosts:
           - homarr.k0s-fullstack.fredcorp.com
 
   persistence:

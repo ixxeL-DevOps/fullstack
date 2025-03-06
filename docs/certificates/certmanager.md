@@ -124,7 +124,7 @@ spec:
     - useDefaultCAs: false
     - secret:
         name: 'root-ca-chain'
-        includeAllKeys: true
+        key: 'ca.crt'
   target:
     secret:
       key: 'fredcorp-ca-chain.pem'
@@ -132,4 +132,7 @@ spec:
       pkcs12:
         key: 'fredcorp-ca-chain.p12'
         password: ''
+    namespaceSelector:
+      matchLabels:
+        bundle.chain/inject: 'enabled'
 ```
