@@ -97,6 +97,11 @@ wg-portal:
   ingress:
     enabled: true
     className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: wireguard.k0s-fullstack.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
     # annotations:
     #   traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
     tls: true

@@ -45,14 +45,18 @@ authentik:
     ingress:
       enabled: true
       ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: authentik.k0s-fullstack.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
       hosts:
         - authentik.k0s-fullstack.fredcorp.com
       pathType: Prefix
       tls:
-        []
-        # - secretName: authentik-tls
-        #   hosts:
-        #     - authentik.domain.tld
+        - secretName: authentik-tls-cert
+          hosts:
+            - authentik.k0s-fullstack.fredcorp.com
       # -- uses `server.service.servicePortHttps` instead of `server.service.servicePortHttp`
       https: false
 

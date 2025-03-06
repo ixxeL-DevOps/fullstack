@@ -81,28 +81,38 @@ adguard-home:
       enabled: true
       className: traefik
       annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: adguard.k0s-fullstack.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
         traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
       hosts:
         - host: adguard.k0s-fullstack.fredcorp.com
           paths:
             - path: /
               pathType: ImplementationSpecific
-      tls: []
-      #  - secretName: chart-example-tls
-      #    hosts:
-      #      - adguard.k0s-fullstack.fredcorp.com
+      tls:
+        - secretName: adguard-tls-cert
+          hosts:
+            - adguard.k0s-fullstack.fredcorp.com
     https:
       enabled: false
       className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: adguard.k0s-fullstack.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
       hosts:
-        - host: adguard-secure.k0s-fullstack.fredcorp.com
+        - host: adguard.k0s-fullstack.fredcorp.com
           paths:
             - path: /
               pathType: ImplementationSpecific
-      tls: []
-      #  - secretName: adguard-secure-tls
-      #    hosts:
-      #      - adguard-secure.k0s-fullstack.fredcorp.com
+      tls:
+        - secretName: adguard-tls-cert
+          hosts:
+            - adguard.k0s-fullstack.fredcorp.com
 
   persistence:
     existingClaim: pvc-adguard-data

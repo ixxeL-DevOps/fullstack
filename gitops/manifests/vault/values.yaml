@@ -34,8 +34,11 @@ vault:
 
     ingress:
       enabled: true
-      labels: {}
-      annotations: {}
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: vault.k0s-fullstack.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
       ingressClassName: traefik
       pathType: Prefix
       activeService: true
@@ -43,7 +46,8 @@ vault:
         - host: vault.k0s-fullstack.fredcorp.com
           paths: []
       tls:
-        - hosts:
+        - secretName: vault-tls-cert
+          hosts:
             - vault.k0s-fullstack.fredcorp.com
 
   standalone:
