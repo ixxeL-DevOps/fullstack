@@ -51,8 +51,8 @@ traefik:
     general:
       level: INFO # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
   globalArguments:
-    - --global.checknewversion
-    - --global.sendanonymoususage
+    - --global.checknewversion=false
+    - --global.sendanonymoususage=false
   additionalArguments: []
   service:
     enabled: true
