@@ -29,4 +29,4 @@ trust-manager:
   image:
     repository: quay.io/jetstack/trust-manager
     pullPolicy: IfNotPresent
-    tag: v0.16.0
+    tag: v0.16.0@sha256:4c4698352f96492c1113df9a8b9960e7ee9ad64e283f3876994624a295d56977
