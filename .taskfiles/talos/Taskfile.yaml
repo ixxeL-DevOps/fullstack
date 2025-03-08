@@ -1,9 +1,9 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: "3"
+version: '3'
 
 vars:
-  TALOS_SCRIPTS_DIR: "{{.ROOT_DIR}}/.taskfiles/Talos/scripts"
+  TALOS_SCRIPTS_DIR: '{{.ROOT_DIR}}/.taskfiles/Talos/scripts'
 
 tasks:
   gen-secrets:
@@ -15,11 +15,11 @@ tasks:
       - which test talhelper sops
       - test -f {{.TALOS_ROOT}}/bootstrap/talos/talsecret.sops.yaml
       - test -f {{.TALOS_ROOT}}/bootstrap/talos/talconfig.yaml
-    # requires:
-    #   vars:
-    #     - cluster
+    requires:
+      vars:
+        - cluster
     vars:
-      TALOS_ROOT: "{{.KUBERNETES_ROOT}}/genmachine"
+      TALOS_ROOT: '{{.KUBERNETES_ROOT}}/{{.cluster}}'
     cmds:
       - talhelper gensecret > {{.TALOS_ROOT}}/bootstrap/talsecret.sops.yaml
       - sops -e -i {{.TALOS_ROOT}}/bootstrap/talsecret.sops.yaml
@@ -36,21 +36,17 @@ tasks:
     cmds:
       - task: generate-config
         vars:
-          cluster: "{{.cluster}}"
-      - task: apply-config
-        vars:
-          cluster: "{{.cluster}}"
-      - task: bootstrap-etcd
-        vars:
-          cluster: "{{.cluster}}"
-      - task: fetch-kubeconfig
-        vars:
-          cluster: "{{.cluster}}"
-      - until kubectl --context {{.cluster}} --kubeconfig="{{.KUBERNETES_ROOT}}/{{.cluster}}/kubeconfig" wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
-
-  #     - task: bootstrap-core
-  #       vars:
-  #         cluster: "{{.cluster}}"
+          cluster: '{{.cluster}}'
+      # - task: apply-config
+      #   vars:
+      #     cluster: '{{.cluster}}'
+      # - task: bootstrap-etcd
+      #   vars:
+      #     cluster: '{{.cluster}}'
+      # - task: fetch-kubeconfig
+      #   vars:
+      #     cluster: '{{.cluster}}'
+      # - until kubectl --context {{.cluster}} --kubeconfig="{{.KUBERNETES_ROOT}}/{{.cluster}}/kubeconfig" wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
 
   generate-config:
     desc: Generate Talos configurations
@@ -65,8 +61,8 @@ tasks:
       vars:
         - cluster
     vars:
-      TALOS_ROOT: "{{.KUBERNETES_ROOT}}/{{.cluster}}"
-      TALOS_CONFIG_ROOT: "{{.TALOS_ROOT}}/bootstrap/talos"
+      TALOS_ROOT: '{{.KUBERNETES_ROOT}}/{{.cluster}}'
+      TALOS_CONFIG_ROOT: '{{.TALOS_ROOT}}/bootstrap/talos'
     cmds:
       - |
         talhelper genconfig \
@@ -87,18 +83,18 @@ tasks:
       vars:
         - cluster
     vars:
-      TALOS_ROOT: "{{.KUBERNETES_ROOT}}/{{.cluster}}"
-      TALOS_CONFIG_ROOT: "{{.TALOS_ROOT}}/bootstrap/talos"
-      CLUSTER_CONFIG_ROOT: "{{.TALOS_CONFIG_ROOT}}/clusterconfig"
+      TALOS_ROOT: '{{.KUBERNETES_ROOT}}/{{.cluster}}'
+      TALOS_CONFIG_ROOT: '{{.TALOS_ROOT}}/bootstrap/talos'
+      CLUSTER_CONFIG_ROOT: '{{.TALOS_CONFIG_ROOT}}/clusterconfig'
       CONFIG_FILES:
         sh: ls {{.CLUSTER_CONFIG_ROOT}}/*.yaml
-      TALOSCONFIG: "{{.TALOS_ROOT}}/talosconfig"
+      TALOSCONFIG: '{{.TALOS_ROOT}}/talosconfig'
     cmds:
       - for: { var: CONFIG_FILES }
         task: _apply-machineconfig
         vars:
-          cluster: "{{.cluster}}"
-          FILENAME: "{{.ITEM}}"
+          cluster: '{{.cluster}}'
+          FILENAME: '{{.ITEM}}'
           HOSTNAME: |-
             {{ trimPrefix (printf "%s-" .cluster) (base .ITEM) | trimSuffix ".yaml" }}
 
@@ -132,9 +128,9 @@ tasks:
       vars:
         - cluster
     env:
-      TALOSCONFIG: "{{.TALOS_ROOT}}/talosconfig"
+      TALOSCONFIG: '{{.TALOS_ROOT}}/talosconfig'
     vars:
-      TALOS_ROOT: "{{.KUBERNETES_ROOT}}/{{.cluster}}"
+      TALOS_ROOT: '{{.KUBERNETES_ROOT}}/{{.cluster}}'
       TALOS_CONTROLLER:
         sh: talosctl --talosconfig "{{.TALOS_ROOT}}/talosconfig" --context {{.cluster}} config info --output json | jq --raw-output '.endpoints[0]'
     cmds:
@@ -152,10 +148,10 @@ tasks:
       vars:
         - cluster
     env:
-      TALOSCONFIG: "{{.TALOS_ROOT}}/talosconfig"
+      TALOSCONFIG: '{{.TALOS_ROOT}}/talosconfig'
     vars:
-      TALOS_ROOT: "{{.KUBERNETES_ROOT}}/{{.cluster}}"
-      KUBECONFIG: "{{.TALOS_ROOT}}/kubeconfig"
+      TALOS_ROOT: '{{.KUBERNETES_ROOT}}/{{.cluster}}'
+      KUBECONFIG: '{{.TALOS_ROOT}}/kubeconfig'
       TALOS_CONTROLLER:
         sh: talosctl --talosconfig "{{.TALOS_ROOT}}/talosconfig" --context {{.cluster}} config info --output json | jq --raw-output '.endpoints[0]'
     cmds:

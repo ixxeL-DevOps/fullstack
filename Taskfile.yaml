@@ -22,6 +22,8 @@ includes:
   eso: .taskfiles/eso
   talos: .taskfiles/talos
   sops: .taskfiles/sops
+  proxmox: .taskfiles/proxmox
+  bootstrap: .taskfiles/bootstrap/talos
 
 tasks:
   default:
