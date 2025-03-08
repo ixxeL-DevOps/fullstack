@@ -22,7 +22,7 @@ The cluster is a **single-node Kubernetes cluster** running on a small home serv
 Before installing the cluster, ensure you have:
 
 - A server with a compatible Linux distribution (Ubuntu/Debian recommended)
-- SSH access with a key (`~/.ssh/id_rsa`)
+- SSH access with a key (`~/.ssh/id_rsa`) and sudoers access
 - **Devbox installed** to manage required tools:
   ```sh
   curl -fsSL https://get.jetify.com/devbox | bash
@@ -38,23 +38,39 @@ Before installing the cluster, ensure you have:
 
 ### 🚀 Deploying the Cluster
 
-1. **Check your k0sctl file**
+1. **Sudoers access**
 
-   file should be in `infra/k0s/fullstack.yaml`
+add user to sudo group on the target machine(s):
+```bash
+sudo usermod -aG sudo $USER
+```
+Edit sudoers file :
+```bash
+sudo visudo
+```
+Ensure these lines exist:
+```bash
+fred ALL=(ALL) NOPASSWD: ALL
+%sudo   ALL=(ALL:ALL) NOPASSWD:ALL
+```
 
-2. **Verify the configuration and start the installation**
+2. **Check your k0sctl file**
 
-   ```sh
-   task apply-config
-   ```
+file should be in `infra/k0s/fullstack.yaml`
 
-   This ensures everything is ready before actual deployment ans ask for applying changes.
+3. **Verify the configuration and start the installation**
 
-3. **Verify that the cluster is active**
-   ```sh
-   task kubeconf
-   kubectl get nodes
-   ```
+```sh
+task apply-config
+```
+
+This ensures everything is ready before actual deployment ans ask for applying changes.
+
+4. **Verify that the cluster is active**
+```sh
+task kubeconf
+kubectl get nodes
+```
 
 ## ⚙️ Technical Configuration Details
 

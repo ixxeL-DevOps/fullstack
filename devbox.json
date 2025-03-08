@@ -19,7 +19,10 @@
     "python312Packages.mkdocs-material@latest",
     "python312Packages.mkdocs-material-extensions@latest",
     "k9s@latest",
-    "tree@latest"
+    "tree@latest",
+    "talosctl@latest",
+    "sops@latest",
+    "terraform@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"

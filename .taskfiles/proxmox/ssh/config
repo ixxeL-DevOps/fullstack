@@ -1,0 +1,29 @@
+Host rpi
+    HostName 192.168.1.200
+    User pi
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+
+Host fullstack
+    HostName 192.168.1.190
+    User fred
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+
+Host proxmox-fullstack
+    HostName 192.168.1.249
+    User root
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+
+Host proxmox-big
+    HostName 192.168.1.251
+    User root
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+
+Host proxmox-genmachine
+    Hostname 192.168.1.248
+    User root
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes

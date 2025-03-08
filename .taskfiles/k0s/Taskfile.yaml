@@ -100,4 +100,4 @@ tasks:
       DEBUG: '{{.DEBUG | default "false"}}'
     prompt: Apply current K0s config... continue?
     cmds:
-      - k0sctl apply --concurrency=3 --debug={{.DEBUG}} --dry-run --config {{.K0SCTL_FILE}}
+      - k0sctl apply --concurrency=3 --debug={{.DEBUG}} --config {{.K0SCTL_FILE}}

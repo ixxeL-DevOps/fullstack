@@ -20,6 +20,8 @@ includes:
   pre-commit: .taskfiles/pre-commit
   mkdocs: .taskfiles/mkdocs
   eso: .taskfiles/eso
+  talos: .taskfiles/talos
+  sops: .taskfiles/sops
 
 tasks:
   default:

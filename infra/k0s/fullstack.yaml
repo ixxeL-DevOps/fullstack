@@ -20,7 +20,7 @@ spec:
       hostname: k0s-fullstack
       dataDir: /var/lib/k0s
   k0s:
-    version: v1.32.1+k0s.0
+    version: v1.32.2+k0s.0
     versionChannel: stable
     dynamicConfig: false
     config:

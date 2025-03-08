@@ -1013,6 +1013,150 @@
         }
       }
     },
+    "sops@latest": {
+      "last_modified": "2025-02-07T11:26:36Z",
+      "resolved": "github:NixOS/nixpkgs/d98abf5cf5914e5e4e9d57205e3af55ca90ffc1d#sops",
+      "source": "devbox-search",
+      "version": "3.9.4",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/asfydw69f5cfz0k4h1xg7fyxrj4imsq5-sops-3.9.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/asfydw69f5cfz0k4h1xg7fyxrj4imsq5-sops-3.9.4"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/6v3n9r22fhg4v6w3xm1sb8b4qj38vxy5-sops-3.9.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/6v3n9r22fhg4v6w3xm1sb8b4qj38vxy5-sops-3.9.4"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/w9daavpv6sgpw9qd4m64r12na46929hc-sops-3.9.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/w9daavpv6sgpw9qd4m64r12na46929hc-sops-3.9.4"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/pgigk14vnxpp5qr30znvhvrdzc5wlqxj-sops-3.9.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/pgigk14vnxpp5qr30znvhvrdzc5wlqxj-sops-3.9.4"
+        }
+      }
+    },
+    "talosctl@latest": {
+      "last_modified": "2025-02-16T00:50:12Z",
+      "resolved": "github:NixOS/nixpkgs/1dcdd535fef84d4671129a10e7072d56dca9a4d3#talosctl",
+      "source": "devbox-search",
+      "version": "1.9.4",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/zsznfslww8g9d8zzhkpwbka2148g7kwb-talosctl-1.9.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/zsznfslww8g9d8zzhkpwbka2148g7kwb-talosctl-1.9.4"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jqqx7c2ka165vrgyzypcmaxf65hfsv5p-talosctl-1.9.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jqqx7c2ka165vrgyzypcmaxf65hfsv5p-talosctl-1.9.4"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fakcbp41sbsgby18xa4iv330n7had3hf-talosctl-1.9.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/fakcbp41sbsgby18xa4iv330n7had3hf-talosctl-1.9.4"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/p0d4hp4jwjbp11fjbkmikkk8ipwsji24-talosctl-1.9.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/p0d4hp4jwjbp11fjbkmikkk8ipwsji24-talosctl-1.9.4"
+        }
+      }
+    },
+    "terraform@latest": {
+      "last_modified": "2025-02-28T17:02:31Z",
+      "resolved": "github:NixOS/nixpkgs/5954d3359cc7178623da6c7fd23dc7f7504d7187#terraform",
+      "source": "devbox-search",
+      "version": "1.11.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/k94m5w7j0i7cbw3iqylrhqhz5pc5w71x-terraform-1.11.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/k94m5w7j0i7cbw3iqylrhqhz5pc5w71x-terraform-1.11.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/44xylmz4247f9xz4dk7569knsxnjwicy-terraform-1.11.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/44xylmz4247f9xz4dk7569knsxnjwicy-terraform-1.11.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/6dzck452jdci1nm6642lmwh3rshjp6da-terraform-1.11.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/6dzck452jdci1nm6642lmwh3rshjp6da-terraform-1.11.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hk3y36laijnmf1fs5czgqql1kgkpg8zj-terraform-1.11.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/hk3y36laijnmf1fs5czgqql1kgkpg8zj-terraform-1.11.0"
+        }
+      }
+    },
     "tree@latest": {
       "last_modified": "2025-02-07T11:26:36Z",
       "resolved": "github:NixOS/nixpkgs/d98abf5cf5914e5e4e9d57205e3af55ca90ffc1d#tree",
