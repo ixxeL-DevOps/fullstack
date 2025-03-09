@@ -60,7 +60,7 @@ function apply_prometheus_crds() {
 function apply_namespaces() {
     log debug "Applying namespaces"
 
-    local -r namespaces="argocd"
+    local -r namespaces="argocd external-secrets"
 
     for ns in ${namespaces}; do
 
@@ -85,25 +85,36 @@ function apply_namespaces() {
 function apply_secrets() {
     log debug "Applying secrets"
 
-    local -r secret="$(vault kv get -field=kube-secret -tls-skip-verify -address="${VAULT_ENDPOINT}" admin/github/gh-app/ixxel-devops/argocd)"
-    local resources
+   declare -A secrets_paths=(
+        ["admin/github/gh-app/ixxel-devops/argocd"]="argocd"
+        ["admin/wildcard/root-ca"]="external-secrets"
+    )
 
-    if [[ -z "${secret}" ]]; then
-        log error "secret variable is empty" var "${secret}"
-    fi
+    for path in "${!secrets_paths[@]}"; do
+        local namespace="${secrets_paths[$path]}"
+        log debug "Retrieving secret from Vault: ${path} (Namespace: ${namespace})"
 
-    # Check if the secret resources are up-to-date
-    if echo "${secret}" | kubectl diff --filename - &>/dev/null; then
-        log info "Secret resources are up-to-date"
-        return
-    fi
+        local secret
+        secret="$(vault kv get -field=kube-secret -tls-skip-verify -address="${VAULT_ENDPOINT}" "${path}")"
 
-    # Apply secret resources
-    if echo "${secret}" | kubectl apply -n argocd -f - &>/dev/null; then
-        log info "Secret resources applied"
-    else
-        log error "Failed to apply secret resources"
-    fi
+        if [[ -z "${secret}" ]]; then
+            log error "Secret is empty for ${path} (Namespace: ${namespace})"
+            continue
+        fi
+
+        # Vérifier si le secret est à jour avant de l'appliquer
+        if echo "${secret}" | kubectl diff -n "${namespace}" -f - &>/dev/null; then
+            log info "Secret from ${path} is already up-to-date in ${namespace}"
+            continue
+        fi
+
+        # Appliquer le secret dans le namespace correspondant
+        if echo "${secret}" | kubectl apply -n "${namespace}" -f - &>/dev/null; then
+            log info "Secret from ${path} successfully applied in ${namespace}"
+        else
+            log error "Failed to apply secret from ${path} in ${namespace}"
+        fi
+    done
 }
 
 

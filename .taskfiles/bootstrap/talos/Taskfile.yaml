@@ -60,11 +60,13 @@ tasks:
       CLUSTER: '{{.cluster}}'
     vars:
       TALOS_DIR: '{{.TALOS_ROOT}}/{{.cluster}}'
+      CLUSTER: '{{.cluster}}'
     cmds:
       - bash {{.TALOS_DIR}}/bootstrap/resources/prepare.sh
       - helmfile --quiet --file {{.TALOS_DIR}}/bootstrap/resources/helmfile.yaml apply --skip-diff-on-install --suppress-diff
       - kubectl apply -f {{.GITOPS_ROOT}}/core/appProjects -n argocd
-      - kubectl apply -f {{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}} -n argocd
+      - kubectl apply -f {{.GITOPS_ROOT}}/core/clusters/{{.CLUSTER}} -n argocd
+      - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}' -n argocd
 
   save-config:
     desc: Save kubeconfig and talosconfig to HC Vault
