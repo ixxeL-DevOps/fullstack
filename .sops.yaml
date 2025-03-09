@@ -1,0 +1,4 @@
+---
+creation_rules:
+  - path_regex: .*\.sops\.ya?ml$
+    hc_vault_transit_uri: "https://vault.k0s-fullstack.fredcorp.com/v1/sops/keys/talos"

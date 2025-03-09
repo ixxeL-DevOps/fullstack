@@ -23,9 +23,7 @@
     "talosctl@latest",
     "sops@latest",
     "terraform@latest",
-    "python312Packages.unidecode@latest",
-    "python312Packages.pandas@latest",
-    "python312Packages.chardet@latest"
+    "vault@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"

@@ -2,45 +2,46 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
+# You need to set static IP address to following MAC addresses
 vars:
   CP_VMS: 1-DE:CA:FF:10:12:10-192.168.1.151 2-DE:CA:FF:10:12:11-192.168.1.152 3-DE:CA:FF:10:12:12-192.168.1.153
   ALL_VMS: '{{.CP_VMS}}'
   VMID_PREFIX: 20
 
 tasks:
-  reset-px-talos:
-    desc: Reset px-talos cluster
+  reset-talos:
+    desc: Reset talos cluster
     cmds:
-      - task: destroy-px-talos
-      - task: create-px-talos
+      - task: destroy-talos
+      - task: create-talos
       - task: wait-for-startup
 
-  start-px-talos:
-    desc: Start px-talos cluster
+  start-talos:
+    desc: Start talos cluster
     cmds:
       - for: { var: ALL_VMS, split: ' ' }
         task: start-vm-{{.ITEM}}
 
-  stop-px-talos:
-    desc: Stop px-talos cluster
+  stop-talos:
+    desc: Stop talos cluster
     cmds:
       - for: { var: ALL_VMS, split: ' ' }
         task: stop-vm-{{.ITEM}}
 
-  unmount-px-talos-cdrom:
-    desc: Unmount px-talos cluster CD-ROM drives
+  unmount-talos-cdrom:
+    desc: Unmount talos cluster CD-ROM drives
     cmds:
       - for: { var: ALL_VMS, split: ' ' }
         task: unmount-cdrom-{{.ITEM}}
 
-  destroy-px-talos:
-    desc: Destroy px-talos cluster
+  destroy-talos:
+    desc: Destroy talos cluster
     cmds:
       - for: { var: ALL_VMS, split: ' ' }
         task: destroy-vm-{{.ITEM}}
 
-  create-px-talos:
-    desc: Create px-talos cluster
+  create-talos:
+    desc: Create talos cluster
     cmds:
       - for: { var: CP_VMS, split: ' ' }
         task: create-cp-vm-{{.ITEM}}
@@ -101,10 +102,10 @@ tasks:
             --sockets 1 \
             --cores 4 \
             --cpu host \
-            --scsihw 'virtio-scsi-pci' \
+            --scsihw 'virtio-scsi-single' \
             --vga type=virtio,memory=32 \
-            --scsi0 local-lvm:100,backup=0 \
-            --net0 model=virtio,bridge=vmbr0,macaddr={{.mac}},mtu=1500 \
+            --scsi0 local-lvm:150,backup=0 \
+            --net0 model=virtio,bridge=vmbr0,macaddr={{.mac}},firewall=1 \
             --start 1
 
   wait-for-startup-*-*-*:
@@ -113,4 +114,4 @@ tasks:
       vmid: '{{index .MATCH 0}}'
       mac: '{{index .MATCH 1}}'
       ip: '{{index .MATCH 2}}'
-    cmd: ping -o -q {{.ip}}
+    cmd: ping -q {{.ip}}

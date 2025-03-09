@@ -31,3 +31,7 @@ node_modules
 .venv
 # mkdocs output directory
 site/
+
+# Talos config and kubeconfig
+**/kubeconfig*
+**/talosconfig*

@@ -7,9 +7,9 @@ tasks:
     desc: Bootstrap genmachine cluster
     vars:
       cluster: genmachine
-      KUBERNETES_DIR: '{{.TALOS_ROOT}}/{{.cluster}}'
+      TALOS_DIR: '{{.TALOS_ROOT}}/{{.cluster}}'
     env:
-      KUBERNETES_DIR: '{{.KUBERNETES_DIR}}'
+      TALOS_DIR: '{{.TALOS_DIR}}'
     cmds:
       - task: :talos:bootstrap
         vars:
@@ -61,32 +61,33 @@ tasks:
       - helmfile --quiet --file {{.KUBERNETES_DIR}}/bootstrap/apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
 
   save-config:
-    desc: Save kubeconfig and talosconfig to 1Password
+    desc: Save kubeconfig and talosconfig to HC Vault
     requires:
       vars:
         - cluster
     preconditions:
-      - op user get --me
-      - test -f "{{.KUBERNETES_DIR}}/kubeconfig"
-      - test -f "{{.KUBERNETES_DIR}}/talosconfig"
+      - test -f "{{.TALOS_DIR}}/kubeconfig"
+      - test -f "{{.TALOS_DIR}}/talosconfig"
     vars:
-      KUBERNETES_DIR: '{{.KUBERNETES_ROOT}}/{{.cluster}}'
+      TALOS_DIR: '{{.TALOS_ROOT}}/{{.cluster}}'
     cmds:
-      - op item edit "cluster-{{.cluster}}" --vault Kubernetes "kubeconfig[text]=$(cat {{.KUBERNETES_DIR}}/kubeconfig)" > /dev/null
-      - op item edit "cluster-{{.cluster}}" --vault Kubernetes "talosconfig[text]=$(cat {{.KUBERNETES_DIR}}/talosconfig)" > /dev/null
+      - |
+        vault kv put -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/kubernetes/{{.cluster}}/talos \
+                      talosconfig=@{{.TALOS_DIR}}/talosconfig \
+                      kubeconfig=@{{.TALOS_DIR}}/kubeconfig \
+                      talosconfigb64=$(base64 -w0 < {{.TALOS_DIR}}/talosconfig) \
+                      kubeconfigb64=$(base64 -w0 < {{.TALOS_DIR}}/kubeconfig)
 
   fetch-config:
-    desc: Fetch kubeconfig and talosconfig from 1Password
+    desc: Fetch kubeconfig and talosconfig from HC Vault
     requires:
       vars:
         - cluster
-    preconditions:
-      - op user get --me
     vars:
-      KUBERNETES_DIR: '{{.KUBERNETES_ROOT}}/{{.cluster}}'
+      TALOS_DIR: '{{.TALOS_ROOT}}/{{.cluster}}'
     cmds:
-      - op read op://Kubernetes/cluster-{{.cluster}}/kubeconfig > {{.KUBERNETES_DIR}}/kubeconfig
-      - op read op://Kubernetes/cluster-{{.cluster}}/talosconfig > {{.KUBERNETES_DIR}}/talosconfig
+      - vault kv get -field=talosconfigb64 -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/kubernetes/{{.cluster}}/talos | base64 -d > {{.TALOS_DIR}}/talosconfig
+      - vault kv get -field=kubeconfigb64 -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/kubernetes/{{.cluster}}/talos | base64 -d > {{.TALOS_DIR}}/kubeconfig
 
   merge-configs:
     desc: Merge all configurations into ~/.kube and ~/.talos
