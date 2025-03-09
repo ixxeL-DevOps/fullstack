@@ -5,8 +5,8 @@ metadata:
   name: argocd-apps
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: gitops/core
-    argocd-diff-preview/watch-pattern: 'gitops/core/.*'
+    argocd.argoproj.io/manifest-generate-paths: /gitops/core/**
+    argocd-diff-preview/watch-pattern: '/gitops/core/.*'
 spec:
   destination:
     namespace: argocd
