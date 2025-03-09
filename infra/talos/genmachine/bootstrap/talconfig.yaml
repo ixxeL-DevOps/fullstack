@@ -107,7 +107,17 @@ controlPlane:
           hostDNS:
             enabled: true
             resolveMemberNames: true
-            forwardKubeDNSToHost: false
+            forwardKubeDNSToHost: true
+
+    # - &addCustomDNSPatch |-
+    #   machine:
+    #     network:
+    #       coredns:
+    #         extraConfig:
+    #           forward.custom: |
+    #             mydomain.local {
+    #               forward . 192.168.1.195
+    #             }
 
     # Configure NTP
     - &ntpPatch |-
@@ -142,10 +152,10 @@ controlPlane:
             validSubnets:
               - 192.168.1.0/24
 
-    - &extraCertManifest |-
-      cluster:
-        extraManifests:
-        - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
+    # - &extraCertManifest |-
+    #   cluster:
+    #     extraManifests:
+    #     - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
 
     # Cluster configuration disable kube-proxy, useful for Cilium eBPF)
     - |-
@@ -199,6 +209,6 @@ worker:
     - *ntpPatch
     - *kubePrismPatch
     - *kubeletPatch
-    - *extraCertManifest
+    # - *extraCertManifest
     - *sysctlPatch
     - *staticHostEntriesPatch

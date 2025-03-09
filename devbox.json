@@ -23,7 +23,9 @@
     "talosctl@latest",
     "sops@latest",
     "terraform@latest",
-    "vault@latest"
+    "vault@latest",
+    "helmfile@latest",
+    "shellcheck@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"

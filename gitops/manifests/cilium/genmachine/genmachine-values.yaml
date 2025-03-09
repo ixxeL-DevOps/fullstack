@@ -1,60 +1,29 @@
 cilium:
-  debug:
-    enabled: true
-  gatewayAPI:
-    enabled: true
-  ipam:
-    mode: kubernetes
-  kubeProxyReplacement: true
-  securityContext:
-    capabilities:
-      ciliumAgent:
-        - CHOWN
-        - KILL
-        - NET_ADMIN
-        - NET_RAW
-        - IPC_LOCK
-        - SYS_ADMIN
-        - SYS_RESOURCE
-        - DAC_OVERRIDE
-        - FOWNER
-        - SETGID
-        - SETUID
-      cleanCiliumState:
-        - NET_ADMIN
-        - SYS_ADMIN
-        - SYS_RESOURCE
-  cgroup:
-    autoMount:
-      enabled: false
-    hostRoot: /sys/fs/cgroup
-  k8sServiceHost: localhost
-  k8sServicePort: 7445
+  image:
+    repository: 'quay.io/cilium/cilium'
+    tag: 'v1.17.1'
+    pullPolicy: 'IfNotPresent'
+
   hubble:
+    enabled: false
     ui:
       enabled: false
-      ingress:
-        enabled: true
-        annotations:
-          cert-manager.io/cluster-issuer: vault-issuer
-          cert-manager.io/common-name: hubble.k8s-app.fredcorp.com
-        className: 'cilium'
-        hosts:
-          - hubble.k8s-app.fredcorp.com
-        tls:
-          - secretName: hubble-tls-cert
-            hosts:
-              - hubble.k8s-app.fredcorp.com
     relay:
-      enabled: true
-  ingressController:
+      enabled: false
+
+  envoy:
     enabled: false
-    loadbalancerMode: shared
-    default: true
-    enforceHttps: true
-    service:
-      insecureNodePort: 32257
-      secureNodePort: 32732
+    image:
+      repository: 'quay.io/cilium/cilium-envoy'
+      tag: 'v1.31.5-1739264036-958bef243c6c66fcfd73ca319f2eb49fff1eb2ae'
+      pullPolicy: 'IfNotPresent'
+
+  operator:
+    image:
+      repository: 'quay.io/cilium/operator'
+      tag: 'v1.17.1'
+      pullPolicy: 'IfNotPresent'
+
   # prometheus:
   #   enabled: true
   #   serviceMonitor:
