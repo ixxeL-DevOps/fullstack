@@ -69,6 +69,12 @@ Then you need to configure the HC Vault server. First login:
 vault login -method=token -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com
 ```
 
+Enable auth:
+
+```bash
+vault auth enable -path=genmachine/ -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com kubernetes
+```
+
 Get the current kubernetes cluster CA certificate :
 
 ```bash
@@ -85,7 +91,7 @@ Write the entry in Vault kubernetes Auth:
 
 ```bash
 vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com \
-            auth/kubernetes/config token_reviewer_jwt="$TOKEN" \
+            auth/genmachine/config token_reviewer_jwt="$TOKEN" \
             kubernetes_host="https://k0s.fullstack.fredcorp.com:6443" \
             kubernetes_ca_cert=@ca.crt
 ```
@@ -94,8 +100,8 @@ And then create the associated role :
 
 ```bash
 vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com \
-            auth/kubernetes/role/certmanager-vault-auth-k0s \
-            bound_service_account_names=certmanager-vault-auth-k0s \
+            auth/genmachine/role/certmanager \
+            bound_service_account_names=certmanager-auth \
             bound_service_account_namespaces=cert-manager \
             policies=pki_fredcorp ttl=24h
 ```
