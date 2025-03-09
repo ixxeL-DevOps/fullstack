@@ -63,6 +63,7 @@ tasks:
     cmds:
       - bash {{.TALOS_DIR}}/bootstrap/resources/prepare.sh
       - helmfile --quiet --file {{.TALOS_DIR}}/bootstrap/resources/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+      - kubectl apply -f {{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}} -n argocd
 
   save-config:
     desc: Save kubeconfig and talosconfig to HC Vault

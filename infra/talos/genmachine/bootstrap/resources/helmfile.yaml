@@ -30,6 +30,7 @@ releases:
     values:
       - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/kubelet-csr-approver/values/common-values.yaml'
       - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/kubelet-csr-approver/{{ requiredEnv "CLUSTER" }}/{{ requiredEnv "CLUSTER" }}-values.yaml'
+    needs: ['kube-system/cilium']
 
   - name: argocd
     namespace: argocd

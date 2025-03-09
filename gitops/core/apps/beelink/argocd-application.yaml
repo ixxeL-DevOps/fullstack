@@ -5,19 +5,23 @@ metadata:
   name: argocd-apps
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .
+    argocd.argoproj.io/manifest-generate-paths: gitops/core
     argocd-diff-preview/watch-pattern: 'gitops/core/.*'
 spec:
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
   project: argocd
-  source:
-    directory:
-      recurse: true
-    path: gitops/core
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
+  sources:
+    - path: gitops/core/apps/beelink
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+    - path: gitops/core/appProjects
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+    - path: gitops/core/repos
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
   syncPolicy:
     automated:
       prune: true
