@@ -1,12 +1,5 @@
 ---
 external-secrets:
-  installCRDs: true
-  crds:
-    createClusterExternalSecret: true
-    createClusterSecretStore: true
-    createPushSecret: true
-    conversion:
-      enabled: true
   image:
     repository: oci.external-secrets.io/external-secrets/external-secrets
     pullPolicy: IfNotPresent
