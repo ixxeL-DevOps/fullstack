@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    argocd.argoproj.io/secret-type: cluster
+  name: in-cluster-genmachine
+  namespace: argocd
+data:
+  config: eyJ0bHNDbGllbnRDb25maWciOnsiaW5zZWN1cmUiOmZhbHNlfX0=
+stringData:
+  name: genmachine
+  server: https://kubernetes.default.svc
+type: Opaque

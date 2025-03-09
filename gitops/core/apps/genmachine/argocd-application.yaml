@@ -22,6 +22,9 @@ spec:
     - path: gitops/core/repos
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
+    - path: gitops/core/clusters/genmachine
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
   syncPolicy:
     automated:
       prune: true
