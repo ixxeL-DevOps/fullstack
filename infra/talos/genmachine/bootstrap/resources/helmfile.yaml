@@ -13,16 +13,27 @@ repositories:
     url: https://helm.cilium.io
   - name: postfinance
     url: https://postfinance.github.io/kubelet-csr-approver
+  - name: argoproj
+    url: https://argoproj.github.io/argo-helm
 
 releases:
   - name: cilium
     namespace: kube-system
-    chart: cilium/cilium
-    version: 1.17.1
-    values: [cilium-values.yaml]
+    chart: '{{ requiredEnv "GITOPS_ROOT" }}/manifests/cilium/{{ requiredEnv "CLUSTER" }}'
+    values:
+      - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/cilium/values/common-values.yaml'
+      - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/cilium/{{ requiredEnv "CLUSTER" }}/{{ requiredEnv "CLUSTER" }}-values.yaml'
 
   - name: kubelet-csr-approver
     namespace: kube-system
-    chart: postfinance/kubelet-csr-approver
-    version: 1.2.6
-    values: [kubelet-csr-approver-values.yaml]
+    chart: '{{ requiredEnv "GITOPS_ROOT" }}/manifests/kubelet-csr-approver/{{ requiredEnv "CLUSTER" }}'
+    values:
+      - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/kubelet-csr-approver/values/common-values.yaml'
+      - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/kubelet-csr-approver/{{ requiredEnv "CLUSTER" }}/{{ requiredEnv "CLUSTER" }}-values.yaml'
+
+  - name: argocd
+    namespace: argocd
+    chart: '{{ requiredEnv "GITOPS_ROOT" }}/bootstrap/{{ requiredEnv "CLUSTER" }}'
+    values:
+      - '{{ requiredEnv "GITOPS_ROOT" }}/bootstrap/{{ requiredEnv "CLUSTER" }}/{{ requiredEnv "CLUSTER" }}-values.yaml'
+    needs: ['kube-system/cilium', 'kube-system/kubelet-csr-approver']

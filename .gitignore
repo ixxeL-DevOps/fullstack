@@ -35,3 +35,7 @@ site/
 # Talos config and kubeconfig
 **/kubeconfig*
 **/talosconfig*
+
+# Helm files
+**/Chart.lock
+**/charts/*.tgz

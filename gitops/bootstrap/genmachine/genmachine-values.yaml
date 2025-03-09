@@ -1,0 +1,181 @@
+argo-cd:
+  crds:
+    install: true
+    keep: false
+  global:
+    domain: argocd.genmachine.fredcorp.com
+    image:
+      imagePullPolicy: IfNotPresent
+      repository: quay.io/argoproj/argocd
+      tag: v2.14.4
+    logging:
+      format: text
+      level: info
+    priorityClassName: 'system-cluster-critical'
+
+  server:
+    clusterAdminAccess:
+      enabled: true
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: vault-issuer
+        cert-manager.io/common-name: argocd.genmachine.fredcorp.com
+      ingressClassName: 'nginx'
+      hostname: argocd.genmachine.fredcorp.com
+      path: /
+      pathType: Prefix
+      tls: true
+
+    extensions:
+      enabled: false
+      extensionList:
+        - name: extension-metrics
+          env:
+            - name: EXTENSION_URL
+              value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension.tar.gz
+            - name: EXTENSION_CHECKSUM_URL
+              value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension_checksums.txt
+        - name: argo-rollouts
+          env:
+            - name: EXTENSION_URL
+              value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
+      #      - name: EXTENSION_CHECKSUM_URL
+      #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+        additionalLabels:
+          release: prom-stack-genmachine
+
+  controller:
+    clusterAdminAccess:
+      enabled: true
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+        additionalLabels:
+          release: prom-stack-genmachine
+
+  applicationSet:
+    enabled: true
+    args:
+      metricsAddr: :8080
+      probeBindAddr: :8081
+      enableLeaderElection: false
+      policy: sync
+      debug: false
+      dryRun: false
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+        additionalLabels:
+          release: prom-stack-genmachine
+
+  dex:
+    enabled: false
+    name: dex-server
+
+  notifications:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+        additionalLabels:
+          release: prom-stack-genmachine
+    argocdUrl: 'https://argocd.genmachine.fredcorp.com'
+
+  redis:
+    enabled: true
+    name: redis
+
+  commitServer:
+    enabled: true
+
+  repoServer:
+    rbac:
+      - verbs:
+          - get
+          - list
+          - watch
+        apiGroups:
+          - ''
+        resources:
+          - secrets
+          - configmaps
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+        additionalLabels:
+          release: prom-stack-genmachine
+
+  configs:
+    secret:
+      # -- Bcrypt hashed admin password
+      ## Argo expects the password in the secret to be bcrypt hashed. You can create this hash with
+      ## `htpasswd -nbBC 10 "" $ARGO_PWD | tr -d ':\n' | sed 's/$2y/$2a/'`
+      argocdServerAdminPassword: '$2a$10$EKno1mbVegvSeibj3UeYguY3NS6sb9JVWj9B5m8/baoQIv2mQBkSS'
+      # -- Admin password modification time. Eg. `"2006-01-02T15:04:05Z"`
+    cm:
+      create: true
+      accounts.fred: 'apiKey, login'
+      accounts.pipeline: 'apiKey'
+      # -- Argo CD's externally facing base URL (optional). Required when configuring SSO
+      url: 'https://argocd.genmachine.fredcorp.com'
+      server.rbac.log.enforce.enable: false
+      exec.enabled: true
+      admin.enabled: true
+      timeout.reconciliation: 180s
+      timeout.hard.reconciliation: 0
+      statusbadge.enabled: true
+      resource.customizations.ignoreDifferences.apps_StatefulSet: |
+        jqPathExpressions:
+        - .spec.volumeClaimTemplates[]?
+      resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
+        jqPathExpressions:
+        - .spec.conversion.webhook.clientConfig.caBundle
+      resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
+        jqPathExpressions:
+        - .webhooks[]?.clientConfig.caBundle
+        - .webhooks[].namespaceSelector.matchExpressions[] | select(.key == "control-plane")
+        - .webhooks[].failurePolicy
+      resource.customizations.ignoreDifferences.apiregistration.k8s.io_APIService: |
+        jqPathExpressions:
+        - .spec.insecureSkipTLSVerify
+    rbac:
+      create: true
+      policy.csv: |
+        g, fred, role:admin
+        g, pipeline, role:admin
+        p, role:readonly, extensions, invoke, metrics, allow
+        p, role:admin, extensions, invoke, metrics, allow
+
+      # See : https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
+    params:
+      hydrator.enabled: 'true'
+      controller.status.processors: 20
+      controller.operation.processors: 10
+      controller.self.heal.timeout.seconds: 5
+      controller.repo.server.timeout.seconds: 60
+      controller.sync.timeout.seconds: 0
+      controller.diff.server.side: 'true'
+      server.insecure: true
+      server.basehref: /
+      server.rootpath: ''
+      server.staticassets: /shared/app
+      server.disable.auth: false
+      server.enable.gzip: false
+      server.x.frame.options: sameorigin
+      server.enable.proxy.extension: 'true'
+      # See : https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
+      reposerver.parallelism.limit: 0
