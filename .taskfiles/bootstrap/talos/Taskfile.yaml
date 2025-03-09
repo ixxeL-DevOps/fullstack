@@ -104,7 +104,8 @@ tasks:
     vars:
       TALOS_DIR: '{{.TALOS_ROOT}}/{{.cluster}}'
     cmds:
-      - KUBECONFIG="$HOME/.kube/config:{{.TALOS_DIR}}/kubeconfig" kubectl config view --flatten > $HOME/.kube/config
+      - KUBECONFIG="$HOME/.kube/config:{{.TALOS_DIR}}/kubeconfig" kubectl config view --flatten > /tmp/kubeconfig
+      - mv /tmp/kubeconfig $HOME/.kube/config
       - talosctl --talosconfig $HOME/.talos/config config merge {{.TALOS_DIR}}/talosconfig
       - chmod og-rwx $HOME/.kube/config
       - chmod og-rwx $HOME/.talos/config

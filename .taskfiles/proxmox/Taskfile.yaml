@@ -114,4 +114,10 @@ tasks:
       vmid: '{{index .MATCH 0}}'
       mac: '{{index .MATCH 1}}'
       ip: '{{index .MATCH 2}}'
-    cmd: ping -q {{.ip}}
+    cmds:
+      - cmd: |
+          until ping -c 1 -W 1 {{.ip}}; do
+            echo "Waiting for {{.ip}}..."
+            sleep 5
+          done
+          echo "Machine {{.ip}} is up"
