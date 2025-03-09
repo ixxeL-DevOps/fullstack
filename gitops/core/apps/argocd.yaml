@@ -6,14 +6,14 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .
-    argocd-diff-preview/watch-pattern: 'gitops/bootstrap/.*'
+    argocd-diff-preview/watch-pattern: 'gitops/bootstrap/beelink/.*'
 spec:
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
   project: argocd
   source:
-    path: gitops/bootstrap
+    path: gitops/bootstrap/beelink
     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
     targetRevision: main
   syncPolicy:
