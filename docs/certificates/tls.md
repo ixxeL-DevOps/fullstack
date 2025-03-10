@@ -44,8 +44,8 @@ spec:
     template:
       type: kubernetes.io/tls
       data:
-        tls.crt: '{{ .p12 | pkcs12cert  }}'
-        tls.key: '{{ .p12 | pkcs12key }}'
+        tls.crt: "{{ .p12 | pkcs12cert  }}"
+        tls.key: "{{ .p12 | pkcs12key }}"
   data:
     - secretKey: p12
       remoteRef:

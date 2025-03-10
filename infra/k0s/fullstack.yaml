@@ -1,3 +1,4 @@
+# @format
 ---
 apiVersion: k0sctl.k0sproject.io/v1beta1
 kind: Cluster

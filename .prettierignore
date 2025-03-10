@@ -1,0 +1,5 @@
+.direnv
+.venv
+.vscode
+*.sops.*
+gitops/local-storage

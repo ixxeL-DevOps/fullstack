@@ -1,3 +1,4 @@
+# @format
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
@@ -90,7 +91,7 @@ tasks:
         sh: ls {{.CLUSTER_CONFIG_ROOT}}/*.yaml
       TALOSCONFIG: '{{.TALOS_DIR}}/talosconfig'
     cmds:
-      - for: { var: CONFIG_FILES }
+      - for: {var: CONFIG_FILES}
         task: _apply-machineconfig
         vars:
           cluster: '{{.cluster}}'

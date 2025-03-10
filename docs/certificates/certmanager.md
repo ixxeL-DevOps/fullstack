@@ -60,7 +60,7 @@ type: kubernetes.io/service-account-token
 metadata:
   name: certmanager-vault-auth-k0s
   annotations:
-    kubernetes.io/service-account.name: 'certmanager-vault-auth-k0s'
+    kubernetes.io/service-account.name: "certmanager-vault-auth-k0s"
 ```
 
 Then you need to configure the HC Vault server. First login:
@@ -157,16 +157,16 @@ spec:
   sources:
     - useDefaultCAs: false
     - secret:
-        name: 'root-ca-chain'
-        key: 'ca.crt'
+        name: "root-ca-chain"
+        key: "ca.crt"
   target:
     secret:
-      key: 'fredcorp-ca-chain.pem'
+      key: "fredcorp-ca-chain.pem"
     additionalFormats:
       pkcs12:
-        key: 'fredcorp-ca-chain.p12'
-        password: ''
+        key: "fredcorp-ca-chain.p12"
+        password: ""
     namespaceSelector:
       matchLabels:
-        bundle.chain/inject: 'enabled'
+        bundle.chain/inject: "enabled"
 ```

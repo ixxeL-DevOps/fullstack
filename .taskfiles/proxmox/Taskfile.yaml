@@ -19,37 +19,37 @@ tasks:
   start-talos:
     desc: Start talos cluster
     cmds:
-      - for: { var: ALL_VMS, split: ' ' }
+      - for: {var: ALL_VMS, split: ' '}
         task: start-vm-{{.ITEM}}
 
   stop-talos:
     desc: Stop talos cluster
     cmds:
-      - for: { var: ALL_VMS, split: ' ' }
+      - for: {var: ALL_VMS, split: ' '}
         task: stop-vm-{{.ITEM}}
 
   unmount-talos-cdrom:
     desc: Unmount talos cluster CD-ROM drives
     cmds:
-      - for: { var: ALL_VMS, split: ' ' }
+      - for: {var: ALL_VMS, split: ' '}
         task: unmount-cdrom-{{.ITEM}}
 
   destroy-talos:
     desc: Destroy talos cluster
     cmds:
-      - for: { var: ALL_VMS, split: ' ' }
+      - for: {var: ALL_VMS, split: ' '}
         task: destroy-vm-{{.ITEM}}
 
   create-talos:
     desc: Create talos cluster
     cmds:
-      - for: { var: CP_VMS, split: ' ' }
+      - for: {var: CP_VMS, split: ' '}
         task: create-cp-vm-{{.ITEM}}
 
   wait-for-startup:
     internal: true
     cmds:
-      - for: { var: ALL_VMS, split: ' ' }
+      - for: {var: ALL_VMS, split: ' '}
         task: wait-for-startup-{{.ITEM}}
 
   start-vm-*-*-*:

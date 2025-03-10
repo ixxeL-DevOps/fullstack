@@ -3,14 +3,19 @@
   "singleQuote": true,
   "trailingComma": "none",
   "printWidth": 120,
+  "endOfLine": "lf",
+  "insertPragma": false,
+  "requirePragma": false,
   "plugins": [],
   "overrides": [
     {
-      "files": ["*.yaml", ".prettierrc"],
+      "files": ["*.yaml", "*.yml"],
       "options": {
         "quoteProps": "preserve",
-        "singleQuote": false,
-        "tabWidth": 2
+        "singleQuote": true,
+        "tabWidth": 2,
+        "useTabs": false,
+        "bracketSpacing": false
       }
     },
     {
