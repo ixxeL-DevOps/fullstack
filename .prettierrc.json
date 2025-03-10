@@ -9,7 +9,7 @@
   "plugins": [],
   "overrides": [
     {
-      "files": ["*.yaml", "*.yml"],
+      "files": ["**/*.y*ml"],
       "options": {
         "quoteProps": "preserve",
         "singleQuote": true,

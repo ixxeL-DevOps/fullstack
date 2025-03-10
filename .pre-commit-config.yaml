@@ -24,7 +24,9 @@ repos:
     rev: v1.35.1
     hooks:
       - id: yamllint
-        args: [-c, .yamllint.yaml, .]
+        args:
+          - --config-file
+          - .yamllint.yaml
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
