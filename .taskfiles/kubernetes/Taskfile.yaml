@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  delete-failed-pods:
+    desc: Deletes pods with a fucked status
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+    cmds:
+      - for: ['Evicted', 'Failed', 'Succeeded']
+        cmd: kubectl --context {{.cluster}} delete pods --field-selector status.phase={{.ITEM}} -A --ignore-not-found=true
+    requires:
+      vars:
+        - cluster
+
+  approve-certs:
+    desc: Approve pending certs on startup
+    cmds:
+      - for: {var: CERTS}
+        cmd: kubectl --kubeconfig {{.KUBERNETES_ROOT}}/{{.cluster}}/kubeconfig --context {{.cluster}} certificate approve {{.ITEM}}
+    vars:
+      CERTS:
+        sh: kubectl --kubeconfig {{.KUBERNETES_ROOT}}/{{.cluster}}/kubeconfig --context {{.cluster}} get certificatesigningrequests.certificates.k8s.io | grep Pending | awk '{print $1}' | grep -v NAME
+    requires:
+      vars:
+        - cluster
+
+  netshoot:
+    desc: Run netshoot pod
+    cmd: kubectl netshoot --context {{.cluster}} run netshoot
+    vars:
+      cluster: '{{.cluster | default "main"}}'
+
+  what-dockerhub:
+    desc: What dockerhub images are running in my cluster
+    cmds:
+      - kubectl get pods --all-namespaces -o=jsonpath="{range .items[*]}{'\n'}{range .spec.containers[*]}{.image}{'\n'}{end}{end}" | sort | uniq | grep -Ev 'quay|gcr|ghcr|ecr|us-docker' | grep -Ev 'bitnami|rook|intel|grafana' |  sed -e 's/docker\.io\///g' | sort | uniq

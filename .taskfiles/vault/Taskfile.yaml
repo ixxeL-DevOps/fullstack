@@ -1,0 +1,106 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  eso-auth-setup:
+    desc: Configure k8s auth for Vault External Secrets
+    vars:
+      cluster: genmachine
+    cmds:
+      - task: enable-vault-k8s
+        vars:
+          cluster: '{{.cluster}}'
+      - task: config-vault-k8s-auth
+        vars:
+          cluster: '{{.cluster}}'
+          namespace: external-secrets
+          service_account: eso-auth
+      - task: create-vault-k8s-role
+        vars:
+          cluster: '{{.cluster}}'
+          namespace: external-secrets
+          service_account: eso-auth
+          role: eso
+          policy: secretstore
+
+  certmanager-auth-setup:
+    desc: Configure k8s auth for Vault Certmanager
+    vars:
+      cluster: genmachine
+    cmds:
+      - task: enable-vault-k8s
+        vars:
+          cluster: '{{.cluster}}'
+      - task: config-vault-k8s-auth
+        vars:
+          cluster: '{{.cluster}}'
+          namespace: certmanager
+          service_account: certmanager-auth
+      - task: create-vault-k8s-role
+        vars:
+          cluster: '{{.cluster}}'
+          namespace: certmanager
+          service_account: certmanager-auth
+          role: certmanager
+          policy: pki_fredcorp
+
+  enable-vault-k8s:
+    desc: 'Check if Kubernetes auth is already enabled'
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+    cmds:
+      - |
+        if ! vault auth list -tls-skip-verify -address={{.VAULT_ENDPOINT}} -format=json | jq -e '.["{{.cluster}}/"] | .type == "kubernetes"' > /dev/null
+        then
+          echo "Kubernetes auth {{.cluster}} is does not exist yet, creating it..."
+          vault auth enable -path={{.cluster}}/ -tls-skip-verify -address={{.VAULT_ENDPOINT}} kubernetes
+        else
+          echo "Kubernetes auth {{.cluster}} is already enabled. Skipping."
+        fi
+    requires:
+      vars:
+        - cluster
+    silent: true
+    continue: true
+
+  config-vault-k8s-auth:
+    desc: 'Configure Kubernetes Auth in Vault'
+    cmds:
+      - |
+        echo "Configuring Kubernetes Auth in Vault..."
+        kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode > ca.crt
+        TOKEN="$(kubectl get secret -n {{.namespace}} {{.service_account}} -o jsonpath='{.data.token}' | base64 -d)"
+        vault write -tls-skip-verify -address={{.VAULT_ENDPOINT}}  \
+          auth/{{.cluster}}/config token_reviewer_jwt="$TOKEN" \
+          kubernetes_host="{{.K8S_API}}:6443" \
+          kubernetes_ca_cert=@ca.crt
+        rm ca.crt
+    requires:
+      vars:
+        - cluster
+        - namespace
+        - service_account
+    silent: true
+    continue: true
+
+  create-vault-k8s-role:
+    desc: 'Create associated role in Vault'
+    cmds:
+      - |
+        echo "Creating associated role in Vault..."
+        vault write -tls-skip-verify -address={{.VAULT_ENDPOINT}}  \
+          auth/{{.cluster}}/role/{{.role}} \
+          bound_service_account_names={{.service_account}} \
+          bound_service_account_namespaces={{.namespace}} \
+          policies={{.policy}} ttl=24h
+    requires:
+      vars:
+        - cluster
+        - namespace
+        - service_account
+        - role
+        - policy
+    silent: true
+    continue: true
