@@ -41,14 +41,19 @@ Before installing the cluster, ensure you have:
 1. **Sudoers access**
 
 add user to sudo group on the target machine(s):
+
 ```bash
 sudo usermod -aG sudo $USER
 ```
+
 Edit sudoers file :
+
 ```bash
 sudo visudo
 ```
+
 Ensure these lines exist:
+
 ```bash
 fred ALL=(ALL) NOPASSWD: ALL
 %sudo   ALL=(ALL:ALL) NOPASSWD:ALL
@@ -67,6 +72,7 @@ task apply-config
 This ensures everything is ready before actual deployment ans ask for applying changes.
 
 4. **Verify that the cluster is active**
+
 ```sh
 task kubeconf
 kubectl get nodes
