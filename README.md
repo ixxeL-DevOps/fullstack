@@ -39,7 +39,7 @@
 
 ---
 
-![pre-commit.ci status](https://github.com/ixxeL-DevOps/fullstack/actions/workflows/pre-commit.yml/badge.svg)
+![pre-commit.ci status](https://github.com/ixxeL-DevOps/fullstack/actions/workflows/pre-commit.yaml/badge.svg)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/ixxeL-DevOps/fullstack?style=flat-square)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/ixxeL-DevOps/fullstack?style=flat-square)
