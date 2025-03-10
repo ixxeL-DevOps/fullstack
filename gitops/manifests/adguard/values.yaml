@@ -52,17 +52,17 @@ adguard-home:
     #     nodePort:
     dnscrypt:
       enabled: false
-    #   type: LoadBalancer
-    #   annotations:
-    #     metallb.universe.tf/allow-shared-ip: 192.168.1.195-ip
-    #   # externalTrafficPolicy: Local
-    #   loadBalancerIP: 192.168.1.195
-    #   tcp:
-    #     port: 5443
-    #     nodePort:
-    #   udp:
-    #     port: 5443
-    #     nodePort:
+      #   type: LoadBalancer
+      #   annotations:
+      #     metallb.universe.tf/allow-shared-ip: 192.168.1.195-ip
+      #   # externalTrafficPolicy: Local
+      #   loadBalancerIP: 192.168.1.195
+      #   tcp:
+      #     port: 5443
+      #     nodePort:
+      #   udp:
+      #     port: 5443
+      #     nodePort:
 
   ingresses:
     adminPanel:

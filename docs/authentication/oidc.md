@@ -12,7 +12,7 @@ metadata:
 entries:
   - id: provider
     model: authentik_providers_oauth2.oauth2provider
-    state: 'present'
+    state: "present"
     identifiers:
       name: fullstack-vault
     attrs:
@@ -38,9 +38,9 @@ entries:
 
   - id: application
     model: authentik_core.application
-    state: 'present'
+    state: "present"
     identifiers:
-      name: 'fullstack-vault'
+      name: "fullstack-vault"
     attrs:
       name: fullstack-vault
       group: Infrastructure
@@ -108,8 +108,8 @@ The configuration need to be made as OIDC :
 ```yaml
 config:
   core:
-    admin_user: '${ADMIN_USER}'
-    admin_password: '${ADMIN_PASSWORD}'
+    admin_user: "${ADMIN_USER}"
+    admin_password: "${ADMIN_PASSWORD}"
     import_existing: false
     create_default_peer: true
     self_provisioning_allowed: true
@@ -121,8 +121,8 @@ config:
         provider_name: Authentik
         display_name: OIDC Authentik
         base_url: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-wireguard/
-        client_id: '${OIDC_CLIENT_ID}'
-        client_secret: '${OIDC_CLIENT_SECRET}'
+        client_id: "${OIDC_CLIENT_ID}"
+        client_secret: "${OIDC_CLIENT_SECRET}"
         extra_scopes:
           - profile
           - email
@@ -196,9 +196,9 @@ Homarr is easy to integrate with OIDC. You just need to specify some variables i
 env:
   AUTH_PROVIDERS: credentials,oidc
   AUTH_SESSION_EXPIRY_TIME: 1h
-  AUTH_OIDC_AUTO_LOGIN: 'false'
+  AUTH_OIDC_AUTO_LOGIN: "false"
   AUTH_OIDC_ISSUER: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-homarr/
-  AUTH_OIDC_URI: 'https://authentik.k0s-fullstack.fredcorp.com/application/o/authorize/'
+  AUTH_OIDC_URI: "https://authentik.k0s-fullstack.fredcorp.com/application/o/authorize/"
   AUTH_OIDC_CLIENT_NAME: Authentik
   AUTH_OIDC_SCOPE_OVERWRITE: openid email profile groups
   AUTH_OIDC_GROUPS_ATTRIBUTE: groups

@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: kubelet-csr-approver
 version: 1.0.0

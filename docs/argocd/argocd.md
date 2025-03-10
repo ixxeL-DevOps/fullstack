@@ -95,25 +95,25 @@ spec:
   goTemplate: true
   generators:
     - git:
-        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        repoURL: "https://github.com/ixxeL-DevOps/fullstack.git"
         revision: main
         directories:
-          - path: 'gitops/manifests/cert-manager/*'
+          - path: "gitops/manifests/cert-manager/*"
             exclude: false
-          - path: 'gitops/manifests/cert-manager/values/*'
+          - path: "gitops/manifests/cert-manager/values/*"
             exclude: true
   template:
     metadata:
-      name: 'cert-manager-{{ .path.basenameNormalized }}'
+      name: "cert-manager-{{ .path.basenameNormalized }}"
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
       project: infra-security
       destination:
-        name: '{{ .path.basenameNormalized }}'
+        name: "{{ .path.basenameNormalized }}"
         namespace: cert-manager
       sources:
-        - path: 'gitops/manifests/cert-manager/{{ .path.basenameNormalized }}'
+        - path: "gitops/manifests/cert-manager/{{ .path.basenameNormalized }}"
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:

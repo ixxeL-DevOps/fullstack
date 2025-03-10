@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   rendered-manifest:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
       - name: Clone repo

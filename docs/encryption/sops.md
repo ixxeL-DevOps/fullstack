@@ -39,7 +39,7 @@ And also use a config file `.sops.yaml` :
 ---
 creation_rules:
   - path_regex: .*\.sops\.ya?ml$
-    hc_vault_transit_uri: 'https://vault.k0s-fullstack.fredcorp.com/v1/sops/keys/talos'
+    hc_vault_transit_uri: "https://vault.k0s-fullstack.fredcorp.com/v1/sops/keys/talos"
 ```
 
 then just use :

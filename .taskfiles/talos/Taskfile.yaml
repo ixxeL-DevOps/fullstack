@@ -1,3 +1,4 @@
+# @format
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
@@ -90,7 +91,7 @@ tasks:
         sh: ls {{.CLUSTER_CONFIG_ROOT}}/*.yaml
       TALOSCONFIG: '{{.TALOS_DIR}}/talosconfig'
     cmds:
-      - for: { var: CONFIG_FILES }
+      - for: {var: CONFIG_FILES}
         task: _apply-machineconfig
         vars:
           cluster: '{{.cluster}}'
@@ -110,11 +111,7 @@ tasks:
         - HOSTNAME
         - FILENAME
     cmds:
-      - talosctl apply-config
-        --context "{{.cluster}}"
-        --nodes "{{.HOSTNAME}}"
-        --file "{{.FILENAME}}"
-        --insecure
+      - talosctl apply-config --context "{{.cluster}}" --nodes "{{.HOSTNAME}}" --file "{{.FILENAME}}" --insecure
 
   bootstrap-etcd:
     desc: Bootstrap Etcd
@@ -155,11 +152,6 @@ tasks:
       TALOS_CONTROLLER:
         sh: talosctl --talosconfig "{{.TALOS_DIR}}/talosconfig" --context {{.cluster}} config info --output json | jq --raw-output '.endpoints[0]'
     cmds:
-      - talosctl kubeconfig
-        --context {{.cluster}}
-        --nodes {{.TALOS_CONTROLLER}}
-        --force
-        --force-context-name {{.cluster}}
-        "{{.KUBECONFIG}}"
+      - talosctl kubeconfig --context {{.cluster}} --nodes {{.TALOS_CONTROLLER}} --force --force-context-name {{.cluster}} "{{.KUBECONFIG}}"
       - cmd: kubectl config delete-context "admin@{{.cluster}}"
         ignore_error: true

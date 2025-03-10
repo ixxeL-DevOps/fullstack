@@ -1,3 +1,4 @@
+---
 cilium:
   image:
     repository: 'quay.io/cilium/cilium'

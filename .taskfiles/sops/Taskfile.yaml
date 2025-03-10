@@ -1,3 +1,4 @@
+# @format
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
@@ -11,7 +12,7 @@ tasks:
       SECRET_FILES:
         sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
     cmds:
-      - for: { var: SECRET_FILES }
+      - for: {var: SECRET_FILES}
         cmd: |
           echo "Re-encrypting {{ .ITEM }}"
           sops decrypt --in-place "{{ .ITEM }}"
@@ -25,10 +26,18 @@ tasks:
       SECRET_FILES:
         sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
     cmds:
-      - for: { var: SECRET_FILES }
+      - for: {var: SECRET_FILES}
         cmd: |
           echo "Encrypting {{ .ITEM }}"
-          sops encrypt --in-place "{{ .ITEM }}"
+          if sops -d "{{ .ITEM }}" >/dev/null 2>&1; then
+            echo "🔒 File {{ .ITEM }} is already encrypted, skipping."
+          else
+            if sops encrypt --in-place "{{ .ITEM }}"; then
+              echo "✅ Successfully encrypted {{ .ITEM }}"
+            else
+              echo "❌ Error encrypting {{ .ITEM }}" >&2
+            fi
+          fi
 
   decrypt:
     desc: Decrypt all sops secrets
@@ -38,7 +47,33 @@ tasks:
       SECRET_FILES:
         sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
     cmds:
-      - for: { var: SECRET_FILES }
+      - for: {var: SECRET_FILES}
         cmd: |
-          echo "Encrypting {{ .ITEM }}"
-          sops decrypt --in-place "{{ .ITEM }}"
+          echo "Decrypting {{ .ITEM }}"
+          if sops -d "{{ .ITEM }}" >/dev/null 2>&1; then
+            if sops decrypt --in-place "{{ .ITEM }}"; then
+              echo "✅ Successfully decrypted {{ .ITEM }}"
+            else
+              echo "❌ Error decrypting {{ .ITEM }}" >&2
+            fi
+          else
+            echo "🟢 File {{ .ITEM }} is already decrypted, skipping."
+          fi
+
+  check-encryption:
+    desc: Verify that all sops files are encrypted
+    silent: true
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      SECRET_FILES:
+        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    cmds:
+      - for: {var: SECRET_FILES}
+        cmd: |
+          echo "Checking encryption for {{ .ITEM }}..."
+          if grep -q 'ENC\[' "{{ .ITEM }}"; then
+            echo "✅ {{ .ITEM }} is encrypted."
+          else
+            echo "❌ {{ .ITEM }} is NOT encrypted!" >&2
+            exit 1
+          fi

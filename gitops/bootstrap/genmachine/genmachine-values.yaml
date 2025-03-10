@@ -1,3 +1,4 @@
+---
 argo-cd:
   crds:
     install: true
@@ -40,8 +41,8 @@ argo-cd:
           env:
             - name: EXTENSION_URL
               value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
-      #      - name: EXTENSION_CHECKSUM_URL
-      #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+              #      - name: EXTENSION_CHECKSUM_URL
+              #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
 
     metrics:
       enabled: true

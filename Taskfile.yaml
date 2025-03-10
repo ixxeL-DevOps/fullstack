@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: "3"
+version: '3'
 set:
   - pipefail
 shopt:
@@ -9,12 +9,12 @@ shopt:
 silent: true
 
 vars:
-  K0S_ROOT: "{{.ROOT_DIR}}/infra/k0s"
-  TALOS_ROOT: "{{.ROOT_DIR}}/infra/talos"
-  GITOPS_ROOT: "{{.ROOT_DIR}}/gitops"
-  MKDOCS_DOCS_ROOT: "{{.ROOT_DIR}}/docs"
-  MKDOCS_CFG: "{{.ROOT_DIR}}/mkdocs.yml"
-  VAULT_ENDPOINT: "https://vault.k0s-fullstack.fredcorp.com"
+  K0S_ROOT: '{{.ROOT_DIR}}/infra/k0s'
+  TALOS_ROOT: '{{.ROOT_DIR}}/infra/talos'
+  GITOPS_ROOT: '{{.ROOT_DIR}}/gitops'
+  MKDOCS_DOCS_ROOT: '{{.ROOT_DIR}}/docs'
+  MKDOCS_CFG: '{{.ROOT_DIR}}/mkdocs.yml'
+  VAULT_ENDPOINT: 'https://vault.k0s-fullstack.fredcorp.com'
 
 includes:
   k0s: .taskfiles/k0s
@@ -25,6 +25,7 @@ includes:
   sops: .taskfiles/sops
   proxmox: .taskfiles/proxmox
   bootstrap: .taskfiles/bootstrap/talos
+  lint: .taskfiles/lint
 
 tasks:
   default:
