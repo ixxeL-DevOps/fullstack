@@ -27,7 +27,8 @@
     "helmfile@latest",
     "shellcheck@latest",
     "nodePackages.prettier@latest",
-    "python312Packages.yamllint@latest"
+    "python312Packages.yamllint@latest",
+    "yamlfmt@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"

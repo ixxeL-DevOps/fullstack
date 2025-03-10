@@ -59,3 +59,21 @@ tasks:
           else
             echo "🟢 File {{ .ITEM }} is already decrypted, skipping."
           fi
+
+  check-encryption:
+    desc: Verify that all sops files are encrypted
+    silent: true
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      SECRET_FILES:
+        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    cmds:
+      - for: {var: SECRET_FILES}
+        cmd: |
+          echo "Checking encryption for {{ .ITEM }}..."
+          if grep -q 'ENC\[' "{{ .ITEM }}"; then
+            echo "✅ {{ .ITEM }} is encrypted."
+          else
+            echo "❌ {{ .ITEM }} is NOT encrypted!" >&2
+            exit 1
+          fi

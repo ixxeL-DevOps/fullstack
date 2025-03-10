@@ -54,23 +54,25 @@ repos:
       - id: forbid-tabs
       - id: remove-crlf
 
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.16.0
+    hooks:
+      - id: yamlfmt
+        args:
+          - -conf
+          - .yamlfmt
+
   - repo: local
     hooks:
-      - id: sops-encrypt
-        name: SOPS Encryption
-        entry: bash -c "task sops:encrypt"
-        language: system # Utilisation directe de la commande
-        # stages: [pre-commit]
+      - id: sops-check-encryption
+        name: SOPS check-encryption
+        entry: bash -c "task sops:check-encryption"
+        language: system
+        pass_filenames: false
 
   - repo: local
     hooks:
       - id: prettier
         name: Prettier linting
         entry: bash -c "task lint:all"
-        language: system # Utilisation directe de la commande
-        # stages: [pre-commit]
-
-  # - repo: https://github.com/pre-commit/mirrors-prettier
-  #   rev: v4.0.0-alpha.8
-  #   hooks:
-  #     - id: prettier
+        language: system

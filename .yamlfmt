@@ -1,0 +1,9 @@
+exclude: ['**/*.sops.yaml']
+doublestar: true
+formatter:
+  type: basic
+  include_document_start: true
+  line_ending: lf
+  disallow_anchors: false
+  eof_newline: true
+  retain_line_breaks: true

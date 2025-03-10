@@ -1,3 +1,4 @@
+---
 kubelet-csr-approver:
   image:
     repository: ghcr.io/postfinance/kubelet-csr-approver

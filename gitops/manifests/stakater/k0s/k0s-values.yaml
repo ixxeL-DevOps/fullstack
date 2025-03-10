@@ -1,3 +1,4 @@
+---
 reloader:
   image:
     name: stakater/reloader
