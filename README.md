@@ -13,10 +13,6 @@
 
 ---
 
-## [**Documentation**](https://ixxel-devops.github.io/fullstack/)
-
----
-
 **INFRASTRUCTURE**
 
 ![K0sVersion](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Finfra%2Fk0s%2Ffullstack.yaml&query=%24.spec.k0s.version&style=for-the-badge&logo=kubernetes&logoColor=%23326CE5&label=k0s&color=%23326CE5)
