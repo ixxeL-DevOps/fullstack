@@ -2,7 +2,6 @@
 cilium:
   image:
     repository: 'quay.io/cilium/cilium'
-    tag: 'v1.17.1@sha256:8969bfd9c87cbea91e40665f8ebe327268c99d844ca26d7d12165de07f702866'
     pullPolicy: 'IfNotPresent'
 
   hubble:
@@ -16,13 +15,12 @@ cilium:
     enabled: true
     image:
       repository: 'quay.io/cilium/cilium-envoy'
-      tag: 'v1.31.5-1739264036-958bef243c6c66fcfd73ca319f2eb49fff1eb2ae@sha256:fc708bd36973d306412b2e50c924cd8333de67e0167802c9b48506f9d772f521'
+      # tag: 'v1.31.5-1739264036-958bef243c6c66fcfd73ca319f2eb49fff1eb2ae@sha256:fc708bd36973d306412b2e50c924cd8333de67e0167802c9b48506f9d772f521'
       pullPolicy: 'IfNotPresent'
 
   operator:
     image:
       repository: 'quay.io/cilium/operator'
-      tag: 'v1.17.1@sha256:5c5f4408112365ae10ebcbab2621c273cebc671fe63b0f19cc1376326f140f89'
       pullPolicy: 'IfNotPresent'
 
   # prometheus:
