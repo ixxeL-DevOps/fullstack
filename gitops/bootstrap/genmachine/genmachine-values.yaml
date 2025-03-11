@@ -4,7 +4,7 @@ argo-cd:
     install: true
     keep: false
   global:
-    domain: argocd.genmachine.fredcorp.com
+    domain: argocd.talos-genmachine.fredcorp.com
     image:
       imagePullPolicy: IfNotPresent
       repository: quay.io/argoproj/argocd
@@ -21,11 +21,11 @@ argo-cd:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: vault-issuer
-        cert-manager.io/common-name: argocd.genmachine.fredcorp.com
+        cert-manager.io/common-name: argocd.talos-genmachine.fredcorp.com
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/service.scheme: https
       ingressClassName: 'traefik'
-      hostname: argocd.genmachine.fredcorp.com
+      hostname: argocd.talos-genmachine.fredcorp.com
       path: /
       pathType: Prefix
       tls: true
@@ -94,7 +94,7 @@ argo-cd:
         interval: 30s
         additionalLabels:
           release: prom-stack-genmachine
-    argocdUrl: 'https://argocd.genmachine.fredcorp.com'
+    argocdUrl: 'https://argocd.talos-genmachine.fredcorp.com'
 
   redis:
     enabled: true
@@ -134,7 +134,7 @@ argo-cd:
       accounts.fred: 'apiKey, login'
       accounts.pipeline: 'apiKey'
       # -- Argo CD's externally facing base URL (optional). Required when configuring SSO
-      url: 'https://argocd.genmachine.fredcorp.com'
+      url: 'https://argocd.talos-genmachine.fredcorp.com'
       server.rbac.log.enforce.enable: false
       exec.enabled: true
       admin.enabled: true

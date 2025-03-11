@@ -5,7 +5,7 @@ metadata:
   name: argocd
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .
+    # argocd.argoproj.io/manifest-generate-paths: .
     argocd-diff-preview/watch-pattern: 'gitops/bootstrap/genmachine/.*'
 spec:
   destination:
