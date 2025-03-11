@@ -4,6 +4,7 @@ ignore: |
   *.sops.*
   .venv/
   .vscode/
+  **/templates/**
 
 extends: default
 rules:

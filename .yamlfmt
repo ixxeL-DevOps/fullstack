@@ -1,4 +1,4 @@
-exclude: ['**/*.sops.yaml']
+exclude: ['**/*.sops.yaml','**/templates/**']
 doublestar: true
 formatter:
   type: basic

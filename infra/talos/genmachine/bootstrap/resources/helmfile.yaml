@@ -23,6 +23,8 @@ releases:
     values:
       - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/cilium/values/common-values.yaml'
       - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/cilium/{{ requiredEnv "CLUSTER" }}/{{ requiredEnv "CLUSTER" }}-values.yaml'
+      - ipamIpPool:
+          enabled: false # disable IP pool just for bootstrap, will be overriden by argocd
 
   - name: kubelet-csr-approver
     namespace: kube-system

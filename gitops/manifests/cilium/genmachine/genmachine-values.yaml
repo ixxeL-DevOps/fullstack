@@ -1,4 +1,9 @@
 ---
+ipamIpPool:
+  enabled: true
+  start: '192.168.1.160'
+  stop: '192.168.1.170'
+
 cilium:
   image:
     repository: 'quay.io/cilium/cilium'
@@ -15,24 +20,9 @@ cilium:
     enabled: false
     image:
       repository: 'quay.io/cilium/cilium-envoy'
-      # tag: 'v1.31.5-1739264036-958bef243c6c66fcfd73ca319f2eb49fff1eb2ae@sha256:fc708bd36973d306412b2e50c924cd8333de67e0167802c9b48506f9d772f521'
       pullPolicy: 'IfNotPresent'
 
   operator:
     image:
       repository: 'quay.io/cilium/operator'
       pullPolicy: 'IfNotPresent'
-
-  # prometheus:
-  #   enabled: true
-  #   serviceMonitor:
-  #     enabled: true
-  #     labels:
-  #       release: prom-stack-talos
-  # operator:
-  #   prometheus:
-  #     enabled: true
-  #     serviceMonitor:
-  #       enabled: true
-  #       labels:
-  #         release: prom-stack-talos
