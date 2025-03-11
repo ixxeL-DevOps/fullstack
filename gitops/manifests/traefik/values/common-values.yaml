@@ -26,12 +26,12 @@ traefik:
     enabled: true
     name: ''
 
-  ports:
-    web:
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
+  # ports:
+  #   web:
+  #     redirections:
+  #       entryPoint:
+  #         to: websecure
+  #         scheme: https
 
   providers:
     kubernetesCRD:
