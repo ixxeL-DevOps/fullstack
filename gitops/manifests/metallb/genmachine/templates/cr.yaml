@@ -2,7 +2,7 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: k0s
+  name: ip-range
   namespace: metallb-system
 spec:
   addresses:
@@ -11,8 +11,8 @@ spec:
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: k0s
+  name: ip-range
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - k0s
+    - ip-range

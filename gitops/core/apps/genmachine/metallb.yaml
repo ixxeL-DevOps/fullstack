@@ -30,7 +30,7 @@ spec:
       project: infra-security
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: metallb
+        namespace: metallb-system
       sources:
         - path: 'gitops/manifests/metallb/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
