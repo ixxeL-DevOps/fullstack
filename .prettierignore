@@ -3,3 +3,4 @@
 .vscode
 *.sops.*
 gitops/local-storage
+**/templates/**

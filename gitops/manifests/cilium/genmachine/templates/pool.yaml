@@ -1,4 +1,3 @@
-# yamllint disable
 ---
 {{ if .Values.ipamIpPool.enabled }}
 apiVersion: 'cilium.io/v2alpha1'
