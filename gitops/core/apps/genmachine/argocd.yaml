@@ -16,6 +16,9 @@ spec:
     path: gitops/bootstrap/genmachine
     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
     targetRevision: main
+    helm:
+      valueFiles:
+        - genmachine-values.yaml
   syncPolicy:
     automated:
       prune: true
