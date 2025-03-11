@@ -152,16 +152,16 @@ controlPlane:
             validSubnets:
               - 192.168.1.0/24
 
-    # - &extraCertManifest |-
-    #   cluster:
-    #     extraManifests:
-    #     - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
-
     # Cluster configuration disable kube-proxy, useful for Cilium eBPF)
     - |-
       cluster:
         proxy:
           disabled: true
+
+    # Disable default API server admission plugins. Remove the node label to exclude external LB (Cilium/Metallb)
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
 
     # Enable K8s Talos API Access
     - |-

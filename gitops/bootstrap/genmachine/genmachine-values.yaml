@@ -19,16 +19,16 @@ argo-cd:
       enabled: true
     ingress:
       enabled: true
-      # annotations:
-      #   cert-manager.io/cluster-issuer: fredcorp-ca
-      #   cert-manager.io/common-name: argocd.talos-genmachine.fredcorp.com
-      #   traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      #   traefik.ingress.kubernetes.io/service.scheme: https
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: argocd.talos-genmachine.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
       ingressClassName: 'traefik'
       hostname: argocd.talos-genmachine.fredcorp.com
       path: /
       pathType: Prefix
-      tls: false
+      tls: true
 
     extensions:
       enabled: false

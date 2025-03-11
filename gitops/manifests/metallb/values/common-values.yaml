@@ -5,4 +5,4 @@ metallb:
   crds:
     enabled: true
   speaker:
-    ignoreExcludeLB: true
+    ignoreExcludeLB: true # ignore the node label to exclude external loadbalancer when present (for Talos for example)

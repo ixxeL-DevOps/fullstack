@@ -17,7 +17,7 @@ cilium:
       enabled: false
 
   envoy:
-    enabled: true
+    enabled: false
     image:
       repository: 'quay.io/cilium/cilium-envoy'
       pullPolicy: 'IfNotPresent'
