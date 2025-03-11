@@ -1,0 +1,32 @@
+---
+cert-manager:
+  image:
+    repository: quay.io/jetstack/cert-manager-controller
+    tag: v1.17.1@sha256:9339837eaaa7852509fa4c89c12543721d79d7facf57f29adec7c96fffe408d6
+    pullPolicy: IfNotPresent
+  webhook:
+    image:
+      repository: quay.io/jetstack/cert-manager-webhook
+      tag: v1.17.1@sha256:2933ec670a99524a6860f641ef3720289d784b0bef35bd0b74fc3eb093e71596
+      pullPolicy: IfNotPresent
+  cainjector:
+    image:
+      repository: quay.io/jetstack/cert-manager-cainjector
+      tag: v1.17.1@sha256:a8319ee78e94abb11c4fe0b35197a57848ae7eec6c526e369187dc57b2961116
+      pullPolicy: IfNotPresent
+  acmesolver:
+    image:
+      repository: quay.io/jetstack/cert-manager-acmesolver
+      tag: v1.17.1@sha256:a076f72f33a22dfd3a23727f1e1a069817819406b39e5b0fd9cb97d3338cb8d8
+      pullPolicy: IfNotPresent
+  startupapicheck:
+    image:
+      repository: quay.io/jetstack/cert-manager-startupapicheck
+      tag: v1.17.1@sha256:ac8ef0a934ae456d10d2ff5ee492b0a816bf55752f61354bde1739054c2c2c68
+      pullPolicy: IfNotPresent
+
+trust-manager:
+  image:
+    repository: quay.io/jetstack/trust-manager
+    pullPolicy: IfNotPresent
+    tag: v0.16.0@sha256:4c4698352f96492c1113df9a8b9960e7ee9ad64e283f3876994624a295d56977

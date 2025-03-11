@@ -1,0 +1,51 @@
+---
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: fredcorp-ca-chain
+spec:
+  sources:
+    - useDefaultCAs: false
+    - secret:
+        name: 'root-ca-chain'
+        key: 'ca.crt'
+  target:
+    secret:
+      key: 'fredcorp-ca-chain.pem'
+    namespaceSelector:
+      matchLabels:
+        bundle.chain/inject: 'enabled'
+---
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: fredcorp-ca-int
+spec:
+  sources:
+    - useDefaultCAs: false
+    - secret:
+        name: 'root-ca-chain'
+        key: 'int.crt'
+  target:
+    secret:
+      key: 'fredcorp-ca-int.pem'
+    namespaceSelector:
+      matchLabels:
+        bundle.int/inject: 'enabled'
+---
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: fredcorp-ca-root
+spec:
+  sources:
+    - useDefaultCAs: false
+    - secret:
+        name: 'root-ca-chain'
+        key: 'root.crt'
+  target:
+    secret:
+      key: 'fredcorp-ca-root.pem'
+    namespaceSelector:
+      matchLabels:
+        bundle.root/inject: 'enabled'

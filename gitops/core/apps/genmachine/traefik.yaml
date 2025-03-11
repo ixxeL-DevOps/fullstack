@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: external-secrets
+  name: traefik
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,30 +13,30 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/external-secrets/*'
+          - path: 'gitops/manifests/traefik/*'
             exclude: false
-          - path: 'gitops/manifests/external-secrets/values'
+          - path: 'gitops/manifests/traefik/values'
             exclude: true
-          - path: 'gitops/manifests/external-secrets/beelink'
+          - path: 'gitops/manifests/traefik/beelink'
             exclude: true
   template:
     metadata:
-      name: 'external-secrets-{{ .path.basenameNormalized }}'
+      name: 'traefik-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
       project: infra-security
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: external-secrets
+        namespace: traefik
       sources:
-        - path: 'gitops/manifests/external-secrets/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/traefik/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
             valueFiles:
-              - $values/gitops/manifests/external-secrets/values/common-values.yaml
-              - $values/gitops/manifests/external-secrets/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/traefik/values/common-values.yaml
+              - $values/gitops/manifests/traefik/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
