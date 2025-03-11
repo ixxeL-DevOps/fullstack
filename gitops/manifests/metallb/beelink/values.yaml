@@ -1,9 +1,5 @@
 ---
 metallb:
-  rbac:
-    create: true
-  crds:
-    enabled: true
   controller:
     image:
       repository: quay.io/metallb/controller

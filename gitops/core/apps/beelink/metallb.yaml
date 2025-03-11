@@ -14,10 +14,17 @@ spec:
     server: https://kubernetes.default.svc
     namespace: metallb-system
   project: infra-network
-  source:
-    path: gitops/manifests/metallb
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
+  sources:
+    - path: gitops/manifests/metallb/beelink
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/gitops/manifests/metallb/values/common-values.yaml
+          - $values/gitops/manifests/metallb/beelink/beelink-values.yaml
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
   syncPolicy:
     automated:
       prune: true

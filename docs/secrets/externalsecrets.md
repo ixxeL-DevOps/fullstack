@@ -110,7 +110,7 @@ And then create the associated role :
 vault write -tls-skip-verify -address=https://vault.k0s-fullstack.fredcorp.com \
             auth/genmachine/role/eso \
             bound_service_account_names=eso-auth \
-            bound_service_account_namespaces=cert-manager \
+            bound_service_account_namespaces=external-secrets \
             policies=secretstore ttl=24h
 ```
 

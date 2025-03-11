@@ -19,6 +19,8 @@ spec:
             exclude: true
           - path: 'gitops/manifests/cert-manager/beelink'
             exclude: true
+          - path: 'gitops/manifests/cert-manager/k0s'
+            exclude: true
   template:
     metadata:
       name: 'cert-manager-{{ .path.basenameNormalized }}'

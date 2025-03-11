@@ -35,7 +35,7 @@ tasks:
       - task: config-vault-k8s-auth
         vars:
           cluster: '{{.cluster}}'
-          namespace: certmanager
+          namespace: cert-manager
           service_account: certmanager-auth
       - task: create-vault-k8s-role
         vars:
@@ -74,7 +74,7 @@ tasks:
         TOKEN="$(kubectl get secret -n {{.namespace}} {{.service_account}} -o jsonpath='{.data.token}' | base64 -d)"
         vault write -tls-skip-verify -address={{.VAULT_ENDPOINT}}  \
           auth/{{.cluster}}/config token_reviewer_jwt="$TOKEN" \
-          kubernetes_host="{{.K8S_API}}:6443" \
+          kubernetes_host="https://{{.K8S_API}}:6443" \
           kubernetes_ca_cert=@ca.crt
         rm ca.crt
     requires:

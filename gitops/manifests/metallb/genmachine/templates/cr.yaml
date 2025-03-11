@@ -1,0 +1,18 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: k0s
+  namespace: metallb-system
+spec:
+  addresses:
+    - 192.168.1.155-192.168.1.159
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: k0s
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - k0s
