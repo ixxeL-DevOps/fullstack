@@ -23,3 +23,7 @@ cilium:
     priorityClassName: 'system-node-critical'
   operator:
     priorityClassName: 'system-node-critical'
+
+  enableLBIPAM: true
+  l2announcements:
+    enabled: true
