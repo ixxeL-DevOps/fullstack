@@ -22,7 +22,9 @@ argo-cd:
       annotations:
         cert-manager.io/cluster-issuer: vault-issuer
         cert-manager.io/common-name: argocd.genmachine.fredcorp.com
-      ingressClassName: 'nginx'
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
+      ingressClassName: 'traefik'
       hostname: argocd.genmachine.fredcorp.com
       path: /
       pathType: Prefix
