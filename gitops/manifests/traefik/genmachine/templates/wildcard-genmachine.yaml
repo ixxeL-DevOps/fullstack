@@ -10,7 +10,7 @@ spec:
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer
-    name: vault-issuer
+    name: fredcorp-ca
   secretName: genmachine-wildcard
   usages:
     - digital signature
