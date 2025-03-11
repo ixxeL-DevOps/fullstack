@@ -48,7 +48,7 @@ spec:
     auth:
       kubernetes:
         mountPath: /v1/auth/genmachine
-        role: certmanager-auth
+        role: certmanager
         secretRef:
           name: certmanager-auth
           key: token

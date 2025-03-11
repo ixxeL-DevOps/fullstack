@@ -40,7 +40,7 @@ tasks:
       - task: create-vault-k8s-role
         vars:
           cluster: '{{.cluster}}'
-          namespace: certmanager
+          namespace: cert-manager
           service_account: certmanager-auth
           role: certmanager
           policy: pki_fredcorp
