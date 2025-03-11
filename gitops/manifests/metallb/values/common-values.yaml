@@ -4,3 +4,5 @@ metallb:
     create: true
   crds:
     enabled: true
+  speaker:
+    ignoreExcludeLB: true
