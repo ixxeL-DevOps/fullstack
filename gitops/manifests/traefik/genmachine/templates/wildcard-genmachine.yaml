@@ -6,12 +6,10 @@ metadata:
 spec:
   commonName: '*.talos-genmachine.fredcorp.com'
   dnsNames:
+    - 'talos-genmachine.fredcorp.com'
     - '*.talos-genmachine.fredcorp.com'
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer
     name: fredcorp-ca
   secretName: genmachine-wildcard
-  usages:
-    - digital signature
-    - key encipherment
