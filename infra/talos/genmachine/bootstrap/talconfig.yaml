@@ -6,7 +6,7 @@ talosVersion: v1.9.4
 # renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
 kubernetesVersion: v1.32.2
 
-allowSchedulingOnMasters: true
+allowSchedulingOnControlPlanes: true
 
 endpoint: https://talos-cluster.genmachine.fredcorp.com:6443
 
@@ -158,10 +158,15 @@ controlPlane:
         proxy:
           disabled: true
 
-    # Disable default API server admission plugins. Remove the node label to exclude external LB (Cilium/Metallb)
+    # Disable default API server admission plugins. 
     - |-
       - op: remove
         path: /cluster/apiServer/admissionControl
+
+    # Remove the node label to exclude external LB (Cilium/Metallb)
+    - |-
+      - op: remove
+        path: /machine/nodeLabels/node.kubernetes.io~1exclude-from-external-load-balancers
 
     # Enable K8s Talos API Access
     - |-
@@ -209,6 +214,5 @@ worker:
     - *ntpPatch
     - *kubePrismPatch
     - *kubeletPatch
-    # - *extraCertManifest
     - *sysctlPatch
     - *staticHostEntriesPatch
