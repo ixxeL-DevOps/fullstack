@@ -30,7 +30,7 @@ spec:
       project: infra-network
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: cilium
+        namespace: kube-system
       sources:
         - path: 'gitops/manifests/cilium/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
