@@ -49,7 +49,7 @@ traefik:
       enabled: false
   logs:
     general:
-      level: INFO # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
+      level: TRACE # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
   globalArguments:
     - --global.checknewversion=false
     - --global.sendanonymoususage=false
