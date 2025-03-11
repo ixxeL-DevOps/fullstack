@@ -47,10 +47,10 @@ spec:
       name: root-ca-chain
     auth:
       kubernetes:
-        mountPath: /v1/auth/kubernetes
-        role: certmanager-vault-auth-k0s
+        mountPath: /v1/auth/genmachine
+        role: certmanager-auth
         secretRef:
-          name: certmanager-vault-auth-k0s
+          name: certmanager-auth
           key: token
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -63,18 +63,18 @@ roleRef:
   name: system:auth-delegator
 subjects:
   - kind: ServiceAccount
-    name: certmanager-vault-auth-k0s
+    name: certmanager-auth
     namespace: cert-manager
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: certmanager-vault-auth-k0s
+  name: certmanager-auth
 ---
 apiVersion: v1
 kind: Secret
 type: kubernetes.io/service-account-token
 metadata:
-  name: certmanager-vault-auth-k0s
+  name: certmanager-auth
   annotations:
-    kubernetes.io/service-account.name: 'certmanager-vault-auth-k0s'
+    kubernetes.io/service-account.name: 'certmanager-auth'
