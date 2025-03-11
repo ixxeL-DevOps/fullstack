@@ -30,6 +30,6 @@ cilium:
   operator:
     priorityClassName: 'system-node-critical'
 
-  enableLBIPAM: true
+  enableLBIPAM: false
   l2announcements:
-    enabled: true
+    enabled: false

@@ -1,0 +1,14 @@
+ingress-nginx:
+  controller:
+    service:
+      enabled: true
+      appProtocol: true
+      ipFamilies:
+        - IPv4
+      ports:
+        http: 80
+        https: 443
+      targetPorts:
+        http: http
+        https: https
+      type: LoadBalancer
