@@ -9,7 +9,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`traefik.k0s-fullstack.fredcorp.com`)
+      match: Host(`traefik.talos-genmachine.fredcorp.com`)
       middlewares:
         - name: authentik
           namespace: traefik
@@ -19,7 +19,7 @@ spec:
           name: api@internal
           namespace: traefik
     - kind: Rule
-      match: Host(`traefik.k0s-fullstack.fredcorp.com`) && PathPrefix(`/outpost.goauthentik.io/`)
+      match: Host(`traefik.talos-genmachine.fredcorp.com`) && PathPrefix(`/outpost.goauthentik.io/`)
       priority: 15
       services:
         - kind: Service
