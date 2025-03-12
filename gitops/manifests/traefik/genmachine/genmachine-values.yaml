@@ -10,3 +10,6 @@ traefik:
     default:
       defaultCertificate:
         secretName: genmachine-wildcard
+
+  service:
+    loadBalancerIP: '192.168.1.160'
