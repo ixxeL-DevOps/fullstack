@@ -74,7 +74,7 @@
       "matchManagers": ["helmv3", "helm-values"],
       "matchUpdateTypes": ["patch"],
       "additionalBranchPrefix": "helm/",
-      "matchFileNames": ["gitops/manifests/**"],
+      "matchFileNames": ["gitops/manifests/**", "gitops/boostrap/**"],
       "addLabels": ["AUTO-MERGE", "{{ lookup (split packageFileDir '/') 2 }}"],
       "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
       "automerge": true,
@@ -86,7 +86,7 @@
       "matchManagers": ["helmv3", "helm-values"],
       "matchUpdateTypes": ["major", "minor"],
       "additionalBranchPrefix": "helm/",
-      "matchFileNames": ["gitops/manifests/**"],
+      "matchFileNames": ["gitops/manifests/**", "gitops/boostrap/**"],
       "addLabels": ["MANUAL-REVIEW", "{{ lookup (split packageFileDir '/') 2 }}"],
       "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
       "automerge": false
