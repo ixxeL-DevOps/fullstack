@@ -158,7 +158,7 @@ controlPlane:
         proxy:
           disabled: true
 
-    # Disable default API server admission plugins. 
+    # Disable default API server admission plugins.
     - |-
       - op: remove
         path: /cluster/apiServer/admissionControl
