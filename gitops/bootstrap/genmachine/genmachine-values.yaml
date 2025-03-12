@@ -96,12 +96,17 @@ argo-cd:
           release: prom-stack-genmachine
     argocdUrl: 'https://argocd.talos-genmachine.fredcorp.com'
 
+  redisSecretInit:
+    enabled: true
+    containerSecurityContext:
+      privileged: true # in Talos, needed
+      allowPrivilegeEscalation: true
+
   redis:
-    enabled: false
-    name: redis
+    enabled: true
 
   redis-ha:
-    enabled: true
+    enabled: false
     # prometheus exporter
     exporter:
       enabled: false
