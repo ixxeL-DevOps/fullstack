@@ -97,8 +97,19 @@ argo-cd:
     argocdUrl: 'https://argocd.talos-genmachine.fredcorp.com'
 
   redis:
-    enabled: true
+    enabled: false
     name: redis
+
+  redis-ha:
+    enabled: true
+    # prometheus exporter
+    exporter:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+    persistentVolume:
+      enabled: false
+    auth: true
 
   commitServer:
     enabled: true

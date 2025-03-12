@@ -70,6 +70,10 @@ tasks:
     cmds:
       - |
         echo "Configuring Kubernetes Auth in Vault..."
+        until kubectl get sa {{.service_account}} -n {{.namespace}} > /dev/null 2>&1; do
+          echo "ServiceAccount {{.service_account}} not found, waiting 3s..."
+          sleep 3
+        done
         kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode > ca.crt
         TOKEN="$(kubectl get secret -n {{.namespace}} {{.service_account}} -o jsonpath='{.data.token}' | base64 -d)"
         vault write -tls-skip-verify -address={{.VAULT_ENDPOINT}}  \
