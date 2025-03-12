@@ -7,6 +7,7 @@ ipamIpPool:
 cilium:
   image:
     repository: 'quay.io/cilium/cilium'
+    tag: v1.17.1
     pullPolicy: 'IfNotPresent'
 
   hubble:
@@ -18,13 +19,9 @@ cilium:
 
   envoy:
     enabled: false
-    image:
-      repository: 'quay.io/cilium/cilium-envoy'
-      pullPolicy: 'IfNotPresent'
 
   operator:
     image:
       repository: 'quay.io/cilium/operator'
+      tag: v1.17.1
       pullPolicy: 'IfNotPresent'
-
-  devices: eth+

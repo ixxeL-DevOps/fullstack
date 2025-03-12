@@ -5,7 +5,7 @@ metadata:
   name: argocd-apps
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: /gitops/core/**/**
+    argocd.argoproj.io/manifest-generate-paths: /gitops/core/apps/genmachine;/gitops/core/appProjects;/gitops/core/repos;/gitops/core/clusters/genmachine
     argocd-diff-preview/watch-pattern: 'gitops/core/.*'
 spec:
   destination:
