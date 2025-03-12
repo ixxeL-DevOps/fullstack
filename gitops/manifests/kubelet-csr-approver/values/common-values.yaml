@@ -1,3 +1,4 @@
 ---
 kubelet-csr-approver:
   bypassDnsResolution: true
+  replicas: 1

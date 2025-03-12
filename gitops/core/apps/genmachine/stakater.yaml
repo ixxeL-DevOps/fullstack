@@ -1,0 +1,56 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: stakater
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/stakater/*'
+            exclude: false
+          - path: 'gitops/manifests/stakater/values'
+            exclude: true
+          - path: 'gitops/manifests/stakater/beelink'
+            exclude: true
+          - path: 'gitops/manifests/stakater/k0s'
+            exclude: true
+  template:
+    metadata:
+      name: 'stakater-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-security
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: stakater
+      sources:
+        - path: 'gitops/manifests/stakater/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            valueFiles:
+              - $values/gitops/manifests/stakater/values/common-values.yaml
+              - $values/gitops/manifests/stakater/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=false
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
