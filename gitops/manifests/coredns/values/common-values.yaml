@@ -1,9 +1,13 @@
 ---
 coredns:
   fullnameOverride: coredns
+  isClusterService: true
   replicaCount: 2
   serviceAccount:
     create: true
+  service:
+    name: kube-dns
+    clusterIP: 10.96.0.10 # Same as Talos default
   servers:
   - zones:
     - zone: .
@@ -36,6 +40,8 @@ coredns:
       parameters: 0.0.0.0:9153
     - name: forward
       parameters: . 192.168.1.195
+      configBlock: |-
+        max_concurrent 1000
     - name: cache
       parameters: 30
     - name: loop
