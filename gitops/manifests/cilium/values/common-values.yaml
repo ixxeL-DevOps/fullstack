@@ -33,3 +33,7 @@ cilium:
   enableLBIPAM: true
   l2announcements:
     enabled: true
+
+  rollOutCiliumPods: true
+
+  localRedirectPolicy: true

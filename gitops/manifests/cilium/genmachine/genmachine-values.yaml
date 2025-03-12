@@ -26,3 +26,5 @@ cilium:
     image:
       repository: 'quay.io/cilium/operator'
       pullPolicy: 'IfNotPresent'
+
+  devices: eth+

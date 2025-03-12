@@ -9,4 +9,15 @@ spec:
   blocks:
     - start: {{ .Values.ipamIpPool.start | squote }}
       stop: {{ .Values.ipamIpPool.stop | squote }}
+---
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default
+  namespace: {{ .Release.Namespace }}
+spec:
+  interfaces:
+    - ^eth+
+  externalIPs: true
+  loadBalancerIPs: true
 {{ end }}
