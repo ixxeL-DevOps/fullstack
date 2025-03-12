@@ -1,7 +1,7 @@
 ---
 cilium:
   securityContext:
-    privileged: true
+    privileged: true # Useful for Talos linux
     capabilities:
       ciliumAgent: [CHOWN, KILL, NET_ADMIN, NET_RAW, IPC_LOCK, SYS_ADMIN, SYS_RESOURCE, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
       cleanCiliumState: [NET_ADMIN, SYS_ADMIN, SYS_RESOURCE]
@@ -26,6 +26,8 @@ cilium:
   envoy:
     priorityClassName: 'system-node-critical'
   operator:
+    rollOutPods: true
+    replicas: 1
     priorityClassName: 'system-node-critical'
 
   enableLBIPAM: true

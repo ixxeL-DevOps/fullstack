@@ -28,7 +28,8 @@
     "shellcheck@latest",
     "nodePackages.prettier@latest",
     "python312Packages.yamllint@latest",
-    "yamlfmt@latest"
+    "yamlfmt@latest",
+    "kubernetes-helmPlugins.helm-diff@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"
