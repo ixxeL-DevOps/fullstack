@@ -1,0 +1,56 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: coredns
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/coredns/*'
+            exclude: false
+          - path: 'gitops/manifests/coredns/values'
+            exclude: true
+          - path: 'gitops/manifests/coredns/beelink'
+            exclude: true
+          - path: 'gitops/manifests/coredns/k0s'
+            exclude: true
+  template:
+    metadata:
+      name: 'coredns-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-security
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: coredns
+      sources:
+        - path: 'gitops/manifests/coredns/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            valueFiles:
+              - $values/gitops/manifests/coredns/values/common-values.yaml
+              - $values/gitops/manifests/coredns/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=false
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
