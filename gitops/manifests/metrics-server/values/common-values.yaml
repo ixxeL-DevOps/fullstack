@@ -1,0 +1,4 @@
+---
+metrics-server:
+  priorityClassName: system-cluster-critical
+  replicas: 1

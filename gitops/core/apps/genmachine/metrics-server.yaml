@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kubelet-csr-approver
+  name: metrics-server
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,32 +13,32 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/kubelet-csr-approver/*'
+          - path: 'gitops/manifests/metrics-server/*'
             exclude: false
-          - path: 'gitops/manifests/kubelet-csr-approver/values'
+          - path: 'gitops/manifests/metrics-server/values'
             exclude: true
-          - path: 'gitops/manifests/kubelet-csr-approver/beelink'
+          - path: 'gitops/manifests/metrics-server/beelink'
             exclude: true
-          - path: 'gitops/manifests/kubelet-csr-approver/k0s'
+          - path: 'gitops/manifests/metrics-server/k0s'
             exclude: true
   template:
     metadata:
-      name: 'kubelet-csr-approver-{{ .path.basenameNormalized }}'
+      name: 'metrics-server-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
-      project: infra-security
+      project: infra-monitoring
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: kube-system
+        namespace: metrics-server
       sources:
-        - path: 'gitops/manifests/kubelet-csr-approver/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/metrics-server/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
             valueFiles:
-              - $values/gitops/manifests/kubelet-csr-approver/values/common-values.yaml
-              - $values/gitops/manifests/kubelet-csr-approver/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/metrics-server/values/common-values.yaml
+              - $values/gitops/manifests/metrics-server/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
@@ -54,6 +54,3 @@ spec:
           - ApplyOutOfSyncOnly=true
           - CreateNamespace=true
           - ServerSideApply=true
-        managedNamespaceMetadata:
-          labels:
-            pod-security.kubernetes.io/enforce: privileged

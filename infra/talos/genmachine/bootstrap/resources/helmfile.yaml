@@ -26,17 +26,25 @@ releases:
       - ipamIpPool:
           enabled: false # disable IP pool just for bootstrap, will be overriden by argocd
 
+  - name: coredns
+    namespace: kube-system
+    chart: '{{ requiredEnv "GITOPS_ROOT" }}/manifests/coredns/{{ requiredEnv "CLUSTER" }}'
+    values:
+      - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/coredns/values/common-values.yaml'
+      - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/coredns/{{ requiredEnv "CLUSTER" }}/{{ requiredEnv "CLUSTER" }}-values.yaml'
+    needs: ['kube-system/cilium']
+
   - name: kubelet-csr-approver
     namespace: kube-system
     chart: '{{ requiredEnv "GITOPS_ROOT" }}/manifests/kubelet-csr-approver/{{ requiredEnv "CLUSTER" }}'
     values:
       - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/kubelet-csr-approver/values/common-values.yaml'
       - '{{ requiredEnv "GITOPS_ROOT" }}/manifests/kubelet-csr-approver/{{ requiredEnv "CLUSTER" }}/{{ requiredEnv "CLUSTER" }}-values.yaml'
-    needs: ['kube-system/cilium']
+    needs: ['kube-system/cilium', 'kube-system/coredns']
 
   - name: argocd
     namespace: argocd
     chart: '{{ requiredEnv "GITOPS_ROOT" }}/bootstrap/{{ requiredEnv "CLUSTER" }}'
     values:
       - '{{ requiredEnv "GITOPS_ROOT" }}/bootstrap/{{ requiredEnv "CLUSTER" }}/{{ requiredEnv "CLUSTER" }}-values.yaml'
-    needs: ['kube-system/cilium', 'kube-system/kubelet-csr-approver']
+    needs: ['kube-system/cilium', 'kube-system/coredns', 'kube-system/kubelet-csr-approver']

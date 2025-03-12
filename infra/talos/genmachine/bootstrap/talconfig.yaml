@@ -109,16 +109,6 @@ controlPlane:
             resolveMemberNames: true
             forwardKubeDNSToHost: true
 
-    # - &addCustomDNSPatch |-
-    #   machine:
-    #     network:
-    #       coredns:
-    #         extraConfig:
-    #           forward.custom: |
-    #             mydomain.local {
-    #               forward . 192.168.1.195
-    #             }
-
     # Configure NTP
     - &ntpPatch |-
       machine:
@@ -155,8 +145,16 @@ controlPlane:
     # Cluster configuration disable kube-proxy, useful for Cilium eBPF)
     - |-
       cluster:
+        coreDNS:
+            disabled: true
         proxy:
           disabled: true
+        controllerManager:
+          extraArgs:
+            bind-address: 0.0.0.0
+        scheduler:
+          extraArgs:
+            bind-address: 0.0.0.0
 
     # Disable default API server admission plugins.
     - |-

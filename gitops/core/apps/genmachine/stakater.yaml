@@ -27,7 +27,7 @@ spec:
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
-      project: infra-security
+      project: infra-tools
       destination:
         name: '{{ .path.basenameNormalized }}'
         namespace: stakater

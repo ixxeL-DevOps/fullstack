@@ -27,10 +27,10 @@ spec:
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
-      project: infra-security
+      project: infra-network
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: coredns
+        namespace: kube-system
       sources:
         - path: 'gitops/manifests/coredns/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
