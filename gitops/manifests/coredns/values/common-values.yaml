@@ -1,7 +1,5 @@
 ---
 coredns:
-  fullnameOverride: coredns
-  isClusterService: true
   replicaCount: 2
   serviceAccount:
     create: true

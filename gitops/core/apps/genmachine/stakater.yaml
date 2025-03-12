@@ -36,6 +36,7 @@ spec:
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
+            releaseName: skataker
             valueFiles:
               - $values/gitops/manifests/stakater/values/common-values.yaml
               - $values/gitops/manifests/stakater/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml

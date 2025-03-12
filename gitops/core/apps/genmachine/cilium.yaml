@@ -36,6 +36,7 @@ spec:
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
+            releaseName: cilium
             valueFiles:
               - $values/gitops/manifests/cilium/values/common-values.yaml
               - $values/gitops/manifests/cilium/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml

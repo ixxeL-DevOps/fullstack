@@ -36,6 +36,7 @@ spec:
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
+            releaseName: coredns
             valueFiles:
               - $values/gitops/manifests/coredns/values/common-values.yaml
               - $values/gitops/manifests/coredns/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml

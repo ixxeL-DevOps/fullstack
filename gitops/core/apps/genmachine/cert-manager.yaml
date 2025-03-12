@@ -36,6 +36,7 @@ spec:
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
+            releaseName: cert-manager
             valueFiles:
               - $values/gitops/manifests/cert-manager/values/common-values.yaml
               - $values/gitops/manifests/cert-manager/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml

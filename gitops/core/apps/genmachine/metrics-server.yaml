@@ -36,6 +36,7 @@ spec:
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
+            releaseName: metrics-server
             valueFiles:
               - $values/gitops/manifests/metrics-server/values/common-values.yaml
               - $values/gitops/manifests/metrics-server/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml

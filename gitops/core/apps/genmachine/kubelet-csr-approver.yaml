@@ -36,6 +36,7 @@ spec:
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
+            releaseName: kubelet-csr-approver
             valueFiles:
               - $values/gitops/manifests/kubelet-csr-approver/values/common-values.yaml
               - $values/gitops/manifests/kubelet-csr-approver/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
