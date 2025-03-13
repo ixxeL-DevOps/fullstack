@@ -1,0 +1,25 @@
+---
+proxmox-csi-plugin:
+  createNamespace: false
+  priorityClassName: system-cluster-critical
+  node:
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ''
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ''
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+
+  storageClass:
+    - name: proxmox-data-xfs
+      storage: data
+      reclaimPolicy: Delete
+      fstype: xfs
+    - name: proxmox-data
+      storage: local-lvm
+      reclaimPolicy: Delete

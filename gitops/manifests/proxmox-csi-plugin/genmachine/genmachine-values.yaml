@@ -1,0 +1,42 @@
+---
+proxmox-csi-plugin:
+  controller:
+    plugin:
+      image:
+        repository: ghcr.io/sergelogvinov/proxmox-csi-controller
+        pullPolicy: IfNotPresent
+        tag: v0.11.0
+    attacher:
+      image:
+        repository: registry.k8s.io/sig-storage/csi-attacher
+        pullPolicy: IfNotPresent
+        tag: v4.8.0
+    provisioner:
+      image:
+        repository: registry.k8s.io/sig-storage/csi-provisioner
+        pullPolicy: IfNotPresent
+        tag: v5.1.0
+    resizer:
+      image:
+        repository: registry.k8s.io/sig-storage/csi-resizer
+        pullPolicy: IfNotPresent
+        tag: v1.13.1
+  node:
+    plugin:
+      image:
+        repository: ghcr.io/sergelogvinov/proxmox-csi-node
+        pullPolicy: IfNotPresent
+        tag: v0.11.0
+    driverRegistrar:
+      image:
+        repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
+        pullPolicy: IfNotPresent
+        tag: v2.13.0
+  livenessprobe:
+    image:
+      repository: registry.k8s.io/sig-storage/livenessprobe
+      pullPolicy: IfNotPresent
+      tag: v2.14.0
+
+  existingConfigSecret: proxmox-csi-plugin-config
+  existingConfigSecretKey: config.yaml
