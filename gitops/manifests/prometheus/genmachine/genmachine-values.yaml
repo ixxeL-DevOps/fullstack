@@ -1,11 +1,36 @@
 ---
 kube-prometheus-stack:
+  prometheusOperator:
+    image:
+      registry: quay.io
+      repository: prometheus-operator/prometheus-operator
+      tag: v0.80.0
+      pullPolicy: IfNotPresent
+
   prometheus:
+    enabled: true
+    prometheuspec:
+      image:
+        registry: quay.io
+        repository: prometheus/prometheus
+        tag: v3.2.1
+      retention: 7d
+      scrapeInterval: '30s'
+      logLevel: info
+      serviceMonitorSelector:
+        matchLabels:
+          release: 'prometheus'
+      podMonitorSelector:
+        matchLabels:
+          release: 'prometheus'
+
     ingress:
       enabled: true
       annotations:
-        cert-manager.io/cluster-issuer: vault-issuer
+        cert-manager.io/cluster-issuer: fredcorp-ca
         cert-manager.io/common-name: prometheus.talos-genmachine.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
       ingressClassName: traefik
       pathType: Prefix
       hosts:
@@ -19,8 +44,10 @@ kube-prometheus-stack:
     ingress:
       enabled: true
       annotations:
-        cert-manager.io/cluster-issuer: vault-issuer
+        cert-manager.io/cluster-issuer: fredcorp-ca
         cert-manager.io/common-name: grafana.talos-genmachine.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
       ingressClassName: traefik
       hosts:
         - grafana.talos-genmachine.fredcorp.com
@@ -35,8 +62,10 @@ prometheus-blackbox-exporter:
     enabled: true
     className: 'traefik'
     annotations:
-      cert-manager.io/cluster-issuer: vault-issuer
+      cert-manager.io/cluster-issuer: fredcorp-ca
       cert-manager.io/common-name: blackbox.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
     hosts:
       - host: blackbox.talos-genmachine.fredcorp.com
         paths:

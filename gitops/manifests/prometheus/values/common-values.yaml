@@ -9,16 +9,6 @@ kube-prometheus-stack:
             targetLabel: nodename
   prometheus:
     enabled: true
-    prometheusSpec:
-      retention: 7d
-      scrapeInterval: '30s'
-      logLevel: info
-      serviceMonitorSelector:
-        matchLabels:
-          release: 'prom-stack-genmachine'
-      podMonitorSelector:
-        matchLabels:
-          release: 'prom-stack-genmachine'
   kubeApiServer:
     enabled: true
   kubelet:
@@ -183,7 +173,7 @@ prometheus-blackbox-exporter:
       additionalMetricsRelabels: {}
       additionalRelabeling: []
       labels:
-        release: prom-stack-genmachine
+        release: prometheus
 
     targets:
       - name: traefik # Human readable URL that will appear in Prometheus / AlertManager
