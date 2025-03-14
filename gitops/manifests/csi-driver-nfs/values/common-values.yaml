@@ -1,2 +1,6 @@
 ---
 csi-driver-nfs:
+  externalSnapshotter:
+    enabled: true
+  volumeSnapshotClass:
+    create: true
