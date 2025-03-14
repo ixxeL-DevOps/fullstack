@@ -1,0 +1,48 @@
+---
+kube-prometheus-stack:
+  prometheus:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: vault-issuer
+        cert-manager.io/common-name: prometheus.talos-genmachine.fredcorp.com
+      ingressClassName: traefik
+      pathType: Prefix
+      hosts:
+        - prometheus.talos-genmachine.fredcorp.com
+      path: /
+      tls:
+        - hosts:
+            - prometheus.talos-genmachine.fredcorp.com
+          secretName: prometheus-tls-cert
+  grafana:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: vault-issuer
+        cert-manager.io/common-name: grafana.talos-genmachine.fredcorp.com
+      ingressClassName: traefik
+      hosts:
+        - grafana.talos-genmachine.fredcorp.com
+      path: /
+      tls:
+        - hosts:
+            - grafana.talos-genmachine.fredcorp.com
+          secretName: grafana-tls-cert
+
+prometheus-blackbox-exporter:
+  ingress:
+    enabled: true
+    className: 'traefik'
+    annotations:
+      cert-manager.io/cluster-issuer: vault-issuer
+      cert-manager.io/common-name: blackbox.talos-genmachine.fredcorp.com
+    hosts:
+      - host: blackbox.talos-genmachine.fredcorp.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - blackbox.talos-genmachine.fredcorp.com
+        secretName: blackbox-tls-cert

@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: external-secrets
+  name: prometheus
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,33 +13,33 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/external-secrets/*'
+          - path: 'gitops/manifests/prometheus/*'
             exclude: false
-          - path: 'gitops/manifests/external-secrets/values'
+          - path: 'gitops/manifests/prometheus/values'
             exclude: true
-          - path: 'gitops/manifests/external-secrets/beelink'
+          - path: 'gitops/manifests/prometheus/beelink'
             exclude: true
-          - path: 'gitops/manifests/external-secrets/k0s'
+          - path: 'gitops/manifests/prometheus/k0s'
             exclude: true
   template:
     metadata:
-      name: 'external-secrets-{{ .path.basenameNormalized }}'
+      name: 'prometheus-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
-      project: infra-security
+      project: infra-monitoring
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: external-secrets
+        namespace: prometheus
       sources:
-        - path: 'gitops/manifests/external-secrets/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/prometheus/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: external-secrets
+            releaseName: prometheus
             valueFiles:
-              - $values/gitops/manifests/external-secrets/values/common-values.yaml
-              - $values/gitops/manifests/external-secrets/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/prometheus/values/common-values.yaml
+              - $values/gitops/manifests/prometheus/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
