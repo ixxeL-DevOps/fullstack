@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  delete-secrets:
+    desc: Delete all Helm secrets
+    cmds:
+      - kubectl get secret -A --field-selector type=helm.sh/release.v1
+      - kubectl delete secret -A --field-selector type=helm.sh/release.v1

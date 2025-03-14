@@ -29,6 +29,7 @@ includes:
   lint: .taskfiles/lint
   k8s: .taskfiles/kubernetes
   vault: .taskfiles/vault
+  helm: .taskfiles/helm
 
 tasks:
   default:
