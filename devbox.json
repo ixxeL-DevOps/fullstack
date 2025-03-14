@@ -29,7 +29,8 @@
     "nodePackages.prettier@latest",
     "python312Packages.yamllint@latest",
     "yamlfmt@latest",
-    "kubernetes-helmPlugins.helm-diff@latest"
+    "kubernetes-helmPlugins.helm-diff@latest",
+    "popeye@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"

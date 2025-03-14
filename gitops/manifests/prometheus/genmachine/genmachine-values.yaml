@@ -80,3 +80,23 @@ prometheus-blackbox-exporter:
       - hosts:
           - blackbox.talos-genmachine.fredcorp.com
         secretName: blackbox-tls-cert
+
+prometheus-pushgateway:
+  image:
+    repository: quay.io/prometheus/pushgateway
+    tag: v1.11.0
+    pullPolicy: IfNotPresent
+  ingress:
+    enabled: true
+    className: 'traefik'
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: push-gateway.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    hosts:
+      - push-gateway.talos-genmachine.fredcorp.com
+    tls:
+      - hosts:
+          - push-gateway.talos-genmachine.fredcorp.com
+        secretName: push-gateway-tls-cert

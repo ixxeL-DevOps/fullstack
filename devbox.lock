@@ -844,6 +844,54 @@
         }
       }
     },
+    "popeye@latest": {
+      "last_modified": "2025-03-11T17:52:14Z",
+      "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#popeye",
+      "source": "devbox-search",
+      "version": "0.22.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kqa0hagrpjlw43gc877yqd4c8clq243m-popeye-0.22.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/kqa0hagrpjlw43gc877yqd4c8clq243m-popeye-0.22.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/axjdysv9qi3hnw7s8z46607xq5y2l7n5-popeye-0.22.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/axjdysv9qi3hnw7s8z46607xq5y2l7n5-popeye-0.22.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/sjbiiy6i9vw4da778yhihibs23ffchsm-popeye-0.22.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/sjbiiy6i9vw4da778yhihibs23ffchsm-popeye-0.22.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2ln3mr0dxw3f80ynjlff78cdc13052jk-popeye-0.22.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/2ln3mr0dxw3f80ynjlff78cdc13052jk-popeye-0.22.1"
+        }
+      }
+    },
     "pre-commit@latest": {
       "last_modified": "2025-02-24T11:23:12Z",
       "resolved": "github:NixOS/nixpkgs/d9b69c3ec2a2e2e971c534065bdd53374bd68b97#pre-commit",

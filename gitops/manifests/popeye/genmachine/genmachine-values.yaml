@@ -1,0 +1,21 @@
+---
+popeye:
+  image:
+    repository: derailed/popeye
+    pullPolicy: IfNotPresent
+    tag: v0.22.1
+
+  cronJob:
+    schedule: '* */1 * * *'
+    clusterName: 'genmachine'
+    history:
+      failedJobsHistoryLimit: 1
+      successfulJobsHistoryLimit: 1
+    outputFormat: standard
+    prometheus:
+      basicAuth:
+        enabled: false
+        existingSecret: ''
+        password: ''
+        user: ''
+      pushgatewayAddress: ''
