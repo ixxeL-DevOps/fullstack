@@ -1,8 +1,0 @@
----
-apiVersion: v2
-name: popeye
-version: 1.0.0
-dependencies:
-  - name: popeye
-    version: 2.2.2
-    repository: https://charts.christianhuth.de

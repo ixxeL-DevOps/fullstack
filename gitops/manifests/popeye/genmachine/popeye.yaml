@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: popeye
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: popeye
+rules:
+  - apiGroups: ['*']
+    resources: ['*']
+    verbs: ['get', 'list']
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: popeye
+subjects:
+  - kind: ServiceAccount
+    name: popeye
+    namespace: popeye
+roleRef:
+  kind: ClusterRole
+  name: popeye
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: popeye
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - args:
+                - '--cluster-name=genmachine'
+                - '--force-exit-zero=true'
+                - '--out=standard'
+                - '--all-namespaces'
+              image: derailed/popeye:v0.22.1
+              imagePullPolicy: IfNotPresent
+              name: popeye
+              resources:
+                limits:
+                  cpu: 1000m
+                  memory: 1000Mi
+          restartPolicy: Never
+          serviceAccountName: popeye
+  schedule: '* */1 * * *'
+  startingDeadlineSeconds: 30
+  successfulJobsHistoryLimit: 1
