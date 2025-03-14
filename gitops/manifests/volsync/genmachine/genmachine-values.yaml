@@ -1,0 +1,21 @@
+---
+volsync:
+  image:
+    repository: quay.io/backube/volsync
+    pullPolicy: IfNotPresent
+    tag: '0.12.0'
+  rclone:
+    repository: quay.io/backube/volsync
+    tag: '0.12.0'
+  restic:
+    repository: quay.io/backube/volsync
+    tag: '0.12.0'
+  rsync:
+    repository: quay.io/backube/volsync
+    tag: '0.12.0'
+  rsync-tls:
+    repository: quay.io/backube/volsync
+    tag: '0.12.0'
+  syncthing:
+    repository: quay.io/backube/volsync
+    tag: '0.12.0'
