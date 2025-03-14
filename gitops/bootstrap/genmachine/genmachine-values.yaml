@@ -186,7 +186,7 @@ argo-cd:
       controller.operation.processors: 10
       controller.self.heal.timeout.seconds: 5
       controller.repo.server.timeout.seconds: 60
-      controller.sync.timeout.seconds: 0
+      controller.sync.timeout.seconds: 240 # provide Timeout for sync
       controller.diff.server.side: 'true'
       server.insecure: true
       server.basehref: /

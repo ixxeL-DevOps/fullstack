@@ -30,6 +30,12 @@ spec:
       - ApplyOutOfSyncOnly=true
       - CreateNamespace=true
       - ServerSideApply=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
     managedNamespaceMetadata:
       labels:
         bundle.chain/inject: 'enabled'
