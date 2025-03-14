@@ -100,3 +100,8 @@ prometheus-pushgateway:
       - hosts:
           - push-gateway.talos-genmachine.fredcorp.com
         secretName: push-gateway-tls-cert
+  serviceMonitor:
+    enabled: true
+    namespace: prometheus
+    additionalLabels:
+      release: prometheus
