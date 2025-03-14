@@ -134,6 +134,10 @@ kube-prometheus-stack:
         k8s-views-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           token: ''
+        popeye:
+          url: 'https://raw.githubusercontent.com/derailed/popeye/refs/heads/master/grafana/popeye-dashboard.json'
+          token: ''
+
     sidecar:
       dashboards:
         SCProvider: true

@@ -18,4 +18,4 @@ popeye:
         existingSecret: ''
         password: ''
         user: ''
-      pushgatewayAddress: ''
+      pushgatewayAddress: 'http://prometheus-prometheus-pushgateway.prometheus.svc.cluster.local:9091'

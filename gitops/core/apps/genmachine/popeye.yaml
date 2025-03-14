@@ -1,0 +1,66 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: popeye
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/popeye/*'
+            exclude: false
+          - path: 'gitops/manifests/popeye/values'
+            exclude: true
+          - path: 'gitops/manifests/popeye/beelink'
+            exclude: true
+          - path: 'gitops/manifests/popeye/k0s'
+            exclude: true
+  template:
+    metadata:
+      name: 'popeye-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-monitoring
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: popeye
+      sources:
+        - path: 'gitops/manifests/popeye/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: popeye
+            valueFiles:
+              - $values/gitops/manifests/popeye/values/common-values.yaml
+              - $values/gitops/manifests/popeye/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=false
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 2
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 2m
+        managedNamespaceMetadata:
+          labels:
+            bundle.chain/inject: 'enabled'
