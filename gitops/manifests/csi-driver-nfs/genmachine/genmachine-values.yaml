@@ -1,0 +1,6 @@
+---
+csi-driver-nfs:
+  controller:
+    logLevel: 4
+  node:
+    logLevel: 4
