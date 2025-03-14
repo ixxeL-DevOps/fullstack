@@ -41,7 +41,7 @@ spec:
             - args:
                 - '--cluster-name=genmachine'
                 - '--force-exit-zero=true'
-                - '--out=prometheus'
+                - '--log-level=4'
                 - '--all-namespaces'
                 - '--push-gtwy-url=http://prometheus-prometheus-pushgateway.prometheus:9091'
               image: derailed/popeye:v0.22.1
