@@ -52,7 +52,7 @@ argo-cd:
         enabled: true
         interval: 30s
         additionalLabels:
-          release: prom-stack-genmachine
+          release: prometheus
 
   controller:
     clusterAdminAccess:
@@ -63,7 +63,7 @@ argo-cd:
         enabled: true
         interval: 30s
         additionalLabels:
-          release: prom-stack-genmachine
+          release: prometheus
 
   applicationSet:
     enabled: true
@@ -80,7 +80,7 @@ argo-cd:
         enabled: true
         interval: 30s
         additionalLabels:
-          release: prom-stack-genmachine
+          release: prometheus
 
   dex:
     enabled: false
@@ -93,7 +93,7 @@ argo-cd:
         enabled: true
         interval: 30s
         additionalLabels:
-          release: prom-stack-genmachine
+          release: prometheus
     argocdUrl: 'https://argocd.talos-genmachine.fredcorp.com'
 
   redisSecretInit:
@@ -136,7 +136,7 @@ argo-cd:
         enabled: true
         interval: 30s
         additionalLabels:
-          release: prom-stack-genmachine
+          release: prometheus
 
   configs:
     secret:

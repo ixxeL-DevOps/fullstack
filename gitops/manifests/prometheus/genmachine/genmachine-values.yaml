@@ -41,6 +41,11 @@ kube-prometheus-stack:
             - prometheus.talos-genmachine.fredcorp.com
           secretName: prometheus-tls-cert
   grafana:
+    image:
+      registry: docker.io
+      repository: grafana/grafana
+      tag: '11.5.2'
+      pullPolicy: IfNotPresent
     ingress:
       enabled: true
       annotations:
