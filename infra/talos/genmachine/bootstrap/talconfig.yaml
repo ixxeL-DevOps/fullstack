@@ -168,13 +168,13 @@ controlPlane:
       - op: remove
         path: /machine/nodeLabels/node.kubernetes.io~1exclude-from-external-load-balancers
 
-    # add proxmox csi annotation
+    # add proxmox csi annotation (region = Name of proxmox cluster, zone = name of proxmox node)
     - |-
       - op: add
-        path: /machine/kubelet/nodeLabels/topology.kubernetes.io~1region
+        path: /machine/nodeLabels/topology.kubernetes.io~1region
         value: Proxcorp
       - op: add
-        path: /machine/kubelet/nodeLabels/topology.kubernetes.io~1zone
+        path: /machine/nodeLabels/topology.kubernetes.io~1zone
         value: genmachine
 
     # Enable K8s Talos API Access
