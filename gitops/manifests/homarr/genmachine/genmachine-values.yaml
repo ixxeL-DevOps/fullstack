@@ -1,0 +1,59 @@
+---
+homarr:
+  image:
+    repository: ghcr.io/homarr-labs/homarr
+    pullPolicy: IfNotPresent
+    tag: v1.11.0
+
+  # env:
+  #   AUTH_PROVIDERS: credentials,oidc
+  #   AUTH_SESSION_EXPIRY_TIME: 1h
+  #   AUTH_OIDC_AUTO_LOGIN: 'false'
+  #   AUTH_OIDC_ISSUER: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-homarr/
+  #   AUTH_OIDC_URI: 'https://authentik.k0s-fullstack.fredcorp.com/application/o/authorize/'
+  #   AUTH_OIDC_CLIENT_NAME: Authentik
+  #   AUTH_OIDC_SCOPE_OVERWRITE: openid email profile groups
+  #   AUTH_OIDC_GROUPS_ATTRIBUTE: groups
+  #   AUTH_LOGOUT_REDIRECT_URL: https://homarr.k0s-fullstack.fredcorp.com/auth/login
+
+  envSecrets:
+    # authOidcCredentials:
+    #   existingSecret: auth-oidc-secret
+    #   oidcClientId: oidc-client-id
+    #   oidcClientSecret: oidc-client-secret
+    dbCredentials:
+      existingSecret: db-secret
+      dbEncryptionKey: db-encryption-key
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: homarr.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    hosts:
+      - host: homarr.talos-genmachine.fredcorp.com
+        paths:
+          - path: /
+    tls:
+      - secretName: homarr-tls-cert
+        hosts:
+          - homarr.talos-genmachine.fredcorp.com
+
+  persistence:
+    homarrDatabase:
+      enabled: true
+      storageClassName: proxmox-data
+      size: 2Gi
+      # volumeClaimName: pv-homarr-data
+    homarrTrustedCerts:
+      enabled: true
+      type: secret
+      existingSecret: homarr-trusted-certs
+      certificates:
+        authentik-self-signed.crt: ''
+        root-ca.crt: ''
+        int-ca.crt: ''
+        fullstack-wildcard.crt: ''

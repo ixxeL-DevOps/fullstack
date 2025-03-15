@@ -5,8 +5,8 @@ metadata:
   name: homarr-k0s
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .
-    argocd-diff-preview/watch-pattern: 'gitops/manifests/homarr/.*'
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd-diff-preview/watch-pattern: 'gitops/manifests/homarr/beelink/.*, gitops/manifests/homarr/values/.*'
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -14,10 +14,17 @@ spec:
     server: https://kubernetes.default.svc
     namespace: homarr
   project: infra-tools
-  source:
-    path: gitops/manifests/homarr
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
+  sources:
+    - path: gitops/manifests/homarr/beelink
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/gitops/manifests/homarr/values/common-values.yaml
+          - $values/gitops/manifests/homarr/beelink/beelink-values.yaml
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
   syncPolicy:
     automated:
       prune: true
@@ -31,7 +38,7 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
     retry:
-      limit: 2
+      limit: 4
       backoff:
         duration: 5s
         factor: 2
