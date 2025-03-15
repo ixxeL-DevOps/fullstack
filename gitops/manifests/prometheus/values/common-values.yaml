@@ -104,6 +104,14 @@ kube-prometheus-stack:
             editable: false
             options:
               path: /var/lib/grafana/dashboards/grafana-dashboards-argocd
+          - name: 'grafana-dashboards-system'
+            orgId: 1
+            folder: 'system'
+            type: file
+            disableDeletion: true
+            editable: false
+            options:
+              path: /var/lib/grafana/dashboards/grafana-dashboards-system
     dashboards:
       grafana-dashboards-argocd:
         operational:
@@ -134,6 +142,10 @@ kube-prometheus-stack:
         k8s-views-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           token: ''
+      grafana-dashboards-system:
+        spegel:
+          url: 'https://raw.githubusercontent.com/spegel-org/spegel/refs/heads/main/charts/spegel/monitoring/grafana-dashboard.json'
+          tooken: ''
         popeye:
           url: 'https://raw.githubusercontent.com/derailed/popeye/refs/heads/master/grafana/popeye-dashboard.json'
           token: ''

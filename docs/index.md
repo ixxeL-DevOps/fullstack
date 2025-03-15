@@ -8,7 +8,9 @@
 
 **✨ Managed by ArgoCD**
 
-**✨ Powered by Renovate and GitHub**
+**✨ Powered by Renovate and GitHub**'
+
+**✨ Fueled by Cilium**
 
 ---
 

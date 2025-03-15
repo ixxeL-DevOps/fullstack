@@ -1,0 +1,12 @@
+---
+spegel:
+  image:
+    repository: ghcr.io/spegel-org/spegel
+    pullPolicy: IfNotPresent
+    tag: v0.0.30
+  serviceMonitor:
+    enabled: true
+    labels:
+      release: prometheus
+  spegel:
+    containerdRegistryConfigPath: '/etc/cri/conf.d/hosts' # Talos specific config https://spegel.dev/docs/getting-started/#talos

@@ -73,6 +73,7 @@ tasks:
       - task: :vault:certmanager-auth-setup
         vars:
           cluster: '{{.CLUSTER}}'
+      - task: :helm:delete-secrets
 
   save-config:
     desc: Save kubeconfig and talosconfig to HC Vault
