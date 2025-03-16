@@ -112,6 +112,14 @@ kube-prometheus-stack:
             editable: false
             options:
               path: /var/lib/grafana/dashboards/grafana-dashboards-system
+          - name: 'grafana-dashboards-storage'
+            orgId: 1
+            folder: 'storage'
+            type: file
+            disableDeletion: true
+            editable: false
+            options:
+              path: /var/lib/grafana/dashboards/grafana-dashboards-storage
     dashboards:
       grafana-dashboards-argocd:
         operational:
@@ -148,6 +156,10 @@ kube-prometheus-stack:
           tooken: ''
         popeye:
           url: 'https://raw.githubusercontent.com/derailed/popeye/refs/heads/master/grafana/popeye-dashboard.json'
+          token: ''
+      grafana-dashboards-storage:
+        minio:
+          url: 'https://raw.githubusercontent.com/minio/minio/refs/heads/master/docs/metrics/prometheus/grafana/minio-dashboard.json'
           token: ''
 
     sidecar:
