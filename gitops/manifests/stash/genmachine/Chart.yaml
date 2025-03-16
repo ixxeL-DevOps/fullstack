@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: stash
+version: 1.0.0
+dependencies:
+  - name: stash
+    version: 0.8.3
+    repository: oci://ghcr.io/appscode-charts

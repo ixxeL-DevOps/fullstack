@@ -1,0 +1,16 @@
+---
+stash:
+  imagePullPolicy: IfNotPresent
+  logLevel: 3
+  enableAnalytics: false
+  monitoring:
+    # specify monitoring agent (either "prometheus.io/builtin" or "prometheus.io/coreos-operator")
+    agent: 'prometheus.io/coreos-operator'
+    backup: true
+    operator: false
+    # specify where ServiceMonitor crd will be created
+    prometheus:
+      namespace: 'stash'
+    serviceMonitor:
+      labels:
+        release: prometheus

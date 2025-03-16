@@ -1,0 +1,63 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: stash
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/stash/*'
+            exclude: false
+          - path: 'gitops/manifests/stash/values'
+            exclude: true
+          - path: 'gitops/manifests/stash/beelink'
+            exclude: true
+          - path: 'gitops/manifests/stash/k0s'
+            exclude: true
+  template:
+    metadata:
+      name: 'stash-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-security
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: stash
+      sources:
+        - path: 'gitops/manifests/stash/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: stash
+            valueFiles:
+              - $values/gitops/manifests/stash/values/common-values.yaml
+              - $values/gitops/manifests/stash/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=false
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 4
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 2m

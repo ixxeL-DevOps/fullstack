@@ -1,0 +1,14 @@
+---
+stash:
+  operator:
+    registry: appscode
+    repository: stash
+    tag: 0.8.3
+  pushgateway:
+    registry: prom
+    repository: pushgateway
+    tag: v0.5.2
+  cleaner:
+    registry: appscode
+    repository: kubectl
+    tag: v1.12
