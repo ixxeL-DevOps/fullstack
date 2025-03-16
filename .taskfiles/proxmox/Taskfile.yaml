@@ -98,9 +98,9 @@ tasks:
             --description stage-{{.vmid}} \
             --ide0 QNAP:iso/metal-amd64.iso,media=cdrom \
             --boot 'order=ide0\;scsi0' \
-            --memory 8192 \
+            --memory 18432 \
             --sockets 1 \
-            --cores 4 \
+            --cores 6 \
             --cpu host \
             --scsihw 'virtio-scsi-single' \
             --vga type=virtio,memory=32 \
