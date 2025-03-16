@@ -1,68 +1,79 @@
 ---
-operator:
-  operator:
-    image:
-      repository: quay.io/minio/operator
-      tag: v7.0.0
-      pullPolicy: IfNotPresent
-    replicaCount: 1
+minio:
+  image:
+    repository: quay.io/minio/minio
+    tag: RELEASE.2024-12-18T13-15-44Z
+    pullPolicy: IfNotPresent
+  mcImage:
+    repository: quay.io/minio/mc
+    tag: RELEASE.2024-11-21T17-21-54Z
+    pullPolicy: IfNotPresent
 
-tenant:
-  tenant:
-    image:
-      repository: quay.io/minio/minio
-      tag: RELEASE.2024-11-07T00-52-20Z
-      pullPolicy: IfNotPresent
+  mode: standalone
+  # existingSecret: 'minio-creds'
+  # rootUser: "minio"
+  # rootPassword: "minio123"
 
-    configuration:
-      name: minio-creds
-    configSecret:
-      accessKey: ''
-      secretKey: ''
-      existingSecret: true
+  tls:
+    enabled: false
 
-    pools:
-      ###
-      # The number of MinIO Tenant Pods / Servers in this pool.
-      # For standalone mode, supply 1. For distributed mode, supply 4 or more.
-      # Note that the operator does not support upgrading from standalone to distributed mode.
-      - servers: 1
-        name: pool-0
-        volumesPerServer: 1
-        size: 10Gi
-        storageClassName: nfs-csi-retain
-
-    certificate:
-      requestAutoCert: false
+  persistence:
+    enabled: true
+    annotations:
+    existingClaim: 'pvc-minio'
+    storageClass: 'nfs-csi-retain'
+    volumeName: 'minio'
+    accessMode: ReadWriteOnce
+    size: 50Gi
 
   ingress:
-    api:
+    enabled: true
+    ingressClassName: 'traefik'
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: minio-api.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    path: /
+    hosts:
+      - minio-api.talos-genmachine.fredcorp.com
+    tls:
+      - secretName: minio-api-tls-cert
+        hosts:
+          - minio-api.talos-genmachine.fredcorp.com
+
+  consoleIngress:
+    enabled: true
+    ingressClassName: 'traefik'
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: minio.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    path: /
+    hosts:
+      - minio.talos-genmachine.fredcorp.com
+    tls:
+      - secretName: minio-tls-cert
+        hosts:
+          - minio.talos-genmachine.fredcorp.com
+
+  buckets:
+    - name: test
+      # Policy to be set on the
+      # bucket [none|download|upload|public]
+      policy: none
+      # Purge if bucket exists already
+      purge: false
+      # set versioning for
+      # bucket [true|false]
+      versioning: true # remove this key if you do not want versioning feature
+      # set objectlocking for
+      # bucket [true|false] NOTE: versioning is enabled by default if you use locking
+      objectlocking: false
+
+  metrics:
+    serviceMonitor:
       enabled: true
-      ingressClassName: 'traefik'
-      annotations:
-        cert-manager.io/cluster-issuer: fredcorp-ca
-        cert-manager.io/common-name: minio-api.talos-genmachine.fredcorp.com
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        traefik.ingress.kubernetes.io/service.scheme: https
-      tls:
-        - hosts:
-            - minio-api.talos-genmachine.fredcorp.com
-          secretName: minio-api-tls-cert
-      host: minio-api.talos-genmachine.fredcorp.com
-      path: /
-      pathType: Prefix
-    console:
-      enabled: true
-      ingressClassName: 'traefik'
-      annotations:
-        cert-manager.io/cluster-issuer: fredcorp-ca
-        cert-manager.io/common-name: minio.talos-genmachine.fredcorp.com
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        traefik.ingress.kubernetes.io/service.scheme: https
-      tls:
-        - hosts:
-            - minio.talos-genmachine.fredcorp.com
-          secretName: minio-tls-cert
-      host: minio.talos-genmachine.fredcorp.com
-      path: /
-      pathType: Prefix
+      additionalLabels:
+        release: prometheus
