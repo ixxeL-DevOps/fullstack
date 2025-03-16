@@ -1,0 +1,66 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: minio
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/minio/*'
+            exclude: false
+          - path: 'gitops/manifests/minio/values'
+            exclude: true
+          - path: 'gitops/manifests/minio/beelink'
+            exclude: true
+          - path: 'gitops/manifests/minio/k0s'
+            exclude: true
+  template:
+    metadata:
+      name: 'minio-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-storage
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: minio
+      sources:
+        - path: 'gitops/manifests/minio/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: minio
+            valueFiles:
+              - $values/gitops/manifests/minio/values/common-values.yaml
+              - $values/gitops/manifests/minio/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=false
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 4
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 2m
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged

@@ -1,0 +1,7 @@
+---
+operator:
+  operator:
+    image:
+      repository: quay.io/minio/operator
+      tag: v7.0.0
+      pullPolicy: IfNotPresent
