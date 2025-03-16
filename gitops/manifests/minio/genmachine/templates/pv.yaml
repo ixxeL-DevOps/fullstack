@@ -11,17 +11,14 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     volumeAttributes:
+      csi.storage.k8s.io/pv/name: minio
+      csi.storage.k8s.io/pvc/name: pvc-minio
       server: 192.168.1.250
       share: /volatile
       subdir: minio
     volumeHandle: 192.168.1.250#volatile#minio##
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs-csi-retain
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/os
-              operator: In
-              values:
-                - linux
+  mountOptions:
+    - nfsvers=4.1
+    - nolock
