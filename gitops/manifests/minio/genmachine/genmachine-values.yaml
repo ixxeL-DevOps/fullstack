@@ -10,7 +10,7 @@ minio:
     pullPolicy: IfNotPresent
 
   mode: standalone
-  # existingSecret: 'minio-creds'
+  existingSecret: 'minio-creds'
   # rootUser: "minio"
   # rootPassword: "minio123"
 
