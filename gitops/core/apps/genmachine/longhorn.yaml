@@ -1,0 +1,66 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: longhorn
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/longhorn/*'
+            exclude: false
+          - path: 'gitops/manifests/longhorn/values'
+            exclude: true
+          - path: 'gitops/manifests/longhorn/beelink'
+            exclude: true
+          - path: 'gitops/manifests/longhorn/k0s'
+            exclude: true
+  template:
+    metadata:
+      name: 'longhorn-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-storage
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: longhorn-system
+      sources:
+        - path: 'gitops/manifests/longhorn/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: longhorn
+            valueFiles:
+              - $values/gitops/manifests/longhorn/values/common-values.yaml
+              - $values/gitops/manifests/longhorn/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=false
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 4
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 2m
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged

@@ -1,0 +1,68 @@
+---
+longhorn:
+  image:
+    pullPolicy: IfNotPresent
+    longhorn:
+      engine:
+        repository: longhornio/longhorn-engine
+        tag: v1.8.1
+      manager:
+        repository: longhornio/longhorn-manager
+        tag: v1.8.1
+      ui:
+        repository: longhornio/longhorn-ui
+        tag: v1.8.1
+      instanceManager:
+        repository: longhornio/longhorn-instance-manager
+        tag: v1.8.1
+      shareManager:
+        repository: longhornio/longhorn-share-manager
+        tag: v1.8.1
+      backingImageManager:
+        repository: longhornio/backing-image-manager
+        tag: v1.8.1
+      supportBundleKit:
+        repository: longhornio/support-bundle-kit
+        tag: v0.0.52
+    csi:
+      attacher:
+        repository: longhornio/csi-attacher
+        tag: v4.8.1
+      provisioner:
+        repository: longhornio/csi-provisioner
+        tag: v5.2.0
+      nodeDriverRegistrar:
+        repository: longhornio/csi-node-driver-registrar
+        tag: v2.13.0
+      resizer:
+        repository: longhornio/csi-resizer
+        tag: v1.13.2
+      snapshotter:
+        repository: longhornio/csi-snapshotter
+        tag: v8.2.0
+      livenessProbe:
+        repository: longhornio/livenessprobe
+        tag: v2.15.0
+
+  metrics:
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus
+
+  ingress:
+    enabled: true
+    ingressClassName: 'traefik'
+    host: longhorn.talos-genmachine.fredcorp.com
+    tls: false
+    secureBackends: false
+    tlsSecret: longhorn-tls-cert
+    path: /
+    pathType: ImplementationSpecific
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: longhorn.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    # -- Secret that contains a TLS private key and certificate. Use secrets if you want to use your own certificates to secure ingresses.
+    secrets:

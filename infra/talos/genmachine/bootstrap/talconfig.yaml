@@ -83,6 +83,8 @@ controlPlane:
         officialExtensions:
           - siderolabs/amd-ucode
           - siderolabs/amdgpu
+          - siderolabs/iscsi-tools # Longhorn https://longhorn.io/docs/1.8.1/advanced-resources/os-distro-specific/talos-linux-support/
+          - siderolabs/util-linux-tools # Longhorn
 
   patches:
     # Disable search domain everywhere
@@ -216,6 +218,19 @@ controlPlane:
             - ip: 192.168.1.150
               aliases:
                 - talos-cluster.genmachine.fredcorp.com
+
+    # https://longhorn.io/docs/1.8.1/advanced-resources/os-distro-specific/talos-linux-support/#data-path-mounts
+    - &longhornextraMount |-
+      machine:
+        kubelet:
+          extraMounts:
+            - destination: /var/lib/longhorn
+              type: bind
+              source: /var/lib/longhorn
+              options:
+                - bind
+                - rshared
+                - rw
 
 worker:
   schematic:
