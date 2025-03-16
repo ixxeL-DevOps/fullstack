@@ -24,6 +24,10 @@ tenant:
         volumesPerServer: 1
         size: 10Gi
         storageClassName: nfs-csi-retain
+
+    certificate:
+      requestAutoCert: false
+
   ingress:
     api:
       enabled: true
