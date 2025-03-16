@@ -30,7 +30,8 @@
     "python312Packages.yamllint@latest",
     "yamlfmt@latest",
     "kubernetes-helmPlugins.helm-diff@latest",
-    "popeye@latest"
+    "popeye@latest",
+    "pwgen@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"

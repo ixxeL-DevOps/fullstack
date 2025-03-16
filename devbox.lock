@@ -956,6 +956,54 @@
         }
       }
     },
+    "pwgen@latest": {
+      "last_modified": "2025-03-11T17:52:14Z",
+      "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#pwgen",
+      "source": "devbox-search",
+      "version": "2.08",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ip9rjnhhss6zxq2qrl8w969yq1ac2zbc-pwgen-2.08",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/ip9rjnhhss6zxq2qrl8w969yq1ac2zbc-pwgen-2.08"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/p5ydck4c90npa2z0b17swkmmfdmqpk8j-pwgen-2.08",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/p5ydck4c90npa2z0b17swkmmfdmqpk8j-pwgen-2.08"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/rwm56rgjw3sni1bsvykkam3df3ayx1q0-pwgen-2.08",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/rwm56rgjw3sni1bsvykkam3df3ayx1q0-pwgen-2.08"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hccfwr2yvkgk3pbajy0v4adc1wricv09-pwgen-2.08",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/hccfwr2yvkgk3pbajy0v4adc1wricv09-pwgen-2.08"
+        }
+      }
+    },
     "python-full@3.12": {
       "last_modified": "2025-02-23T09:42:26Z",
       "plugin_version": "0.0.4",

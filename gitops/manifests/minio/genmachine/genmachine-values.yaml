@@ -14,6 +14,13 @@ tenant:
       tag: RELEASE.2024-11-07T00-52-20Z
       pullPolicy: IfNotPresent
 
+    configuration:
+      name: minio-creds
+    configSecret:
+      accessKey: ''
+      secretKey: ''
+      existingSecret: true
+
     pools:
       ###
       # The number of MinIO Tenant Pods / Servers in this pool.
