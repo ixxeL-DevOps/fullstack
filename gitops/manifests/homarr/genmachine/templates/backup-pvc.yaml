@@ -34,7 +34,7 @@ spec:
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: s3:https://minio-api.talos-genmachine.fredcorp.com/restic/homarr-genmachine-pvc
+        RESTIC_REPOSITORY: s3:https://minio-api.talos-genmachine.fredcorp.com/restic/homarr/genmachine-pvc
         RESTIC_PASSWORD: '{{ "{{" }}.restic_password{{ "}}" }}'
         AWS_ACCESS_KEY_ID: '{{ "{{" }}.minio_user{{ "}}" }}'
         AWS_SECRET_ACCESS_KEY: '{{ "{{" }}.minio_password{{ "}}" }}'
