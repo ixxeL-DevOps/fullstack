@@ -61,3 +61,6 @@ spec:
             duration: 5s
             factor: 2
             maxDuration: 2m
+        managedNamespaceMetadata:
+          labels:
+            bundle.chain/inject: 'enabled'

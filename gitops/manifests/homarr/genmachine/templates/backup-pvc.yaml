@@ -1,0 +1,62 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: rs-homarr-db
+spec:
+  sourcePVC: homarr-database
+  trigger:
+    schedule: "*/5 * * * *"
+  restic:
+    customCA:
+      secretName: fredcorp-ca-chain
+      key: fredcorp-ca-chain.pem
+    pruneIntervalDays: 7
+    repository: restic-config
+    retain:
+      daily: 2
+    copyMethod: Direct
+    storageClassName: proxmox-data
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: restic-config
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: admin
+    kind: ClusterSecretStore
+  target:
+    name: restic-config
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    template:
+      engineVersion: v2
+      data:
+        RESTIC_REPOSITORY: s3:https://minio-api.talos-genmachine.fredcorp.com/restic
+        RESTIC_PASSWORD: '{{ "{{" }}.restic_password{{ "}}" }}'
+        AWS_ACCESS_KEY_ID: '{{ "{{" }}.minio_user{{ "}}" }}'
+        AWS_SECRET_ACCESS_KEY: '{{ "{{" }}.minio_password{{ "}}" }}'
+  data:
+    - secretKey: restic_password
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: restic/repo/minio-backup
+        property: password
+    - secretKey: minio_user
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: minio/creds/admin
+        property: user
+    - secretKey: minio_password
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: minio/creds/admin
+        property: password
