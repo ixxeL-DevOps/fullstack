@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: homarr-database
   trigger:
-    schedule: "*/5 * * * *"
+    schedule: "0 3 * * *"
   restic:
     customCA:
       secretName: fredcorp-ca-chain
