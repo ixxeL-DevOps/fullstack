@@ -16,6 +16,7 @@ vars:
   MKDOCS_CFG: '{{.ROOT_DIR}}/mkdocs.yml'
   VAULT_ENDPOINT: 'https://vault.k0s-fullstack.fredcorp.com'
   K8S_API: 'talos-cluster.genmachine.fredcorp.com'
+  MINIO_API: 'minio-api.talos-genmachine.fredcorp.com'
 
 includes:
   k0s: .taskfiles/k0s
@@ -30,6 +31,7 @@ includes:
   k8s: .taskfiles/kubernetes
   vault: .taskfiles/vault
   helm: .taskfiles/helm
+  restic: .taskfiles/restic
 
 tasks:
   default:

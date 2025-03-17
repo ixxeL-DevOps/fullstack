@@ -45,7 +45,7 @@ homarr:
   persistence:
     homarrDatabase:
       enabled: true
-      storageClassName: longhorn
+      storageClassName: proxmox-data
       size: 2Gi
       # volumeClaimName: pv-homarr-data
     homarrTrustedCerts:
