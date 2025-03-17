@@ -9,14 +9,13 @@ provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.1.250
   share: /volatile
-  # csi.storage.k8s.io/provisioner-secret is only needed for providing mountOptions in DeleteVolume
-  # csi.storage.k8s.io/provisioner-secret-name: "mount-options"
-  # csi.storage.k8s.io/provisioner-secret-namespace: "default"
+  onDelete: delete
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 mountOptions:
   - nfsvers=4.1
   - nolock
+  - noatime
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -28,34 +27,30 @@ provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.1.250
   share: /volatile
-  # csi.storage.k8s.io/provisioner-secret is only needed for providing mountOptions in DeleteVolume
-  # csi.storage.k8s.io/provisioner-secret-name: "mount-options"
-  # csi.storage.k8s.io/provisioner-secret-namespace: "default"
+  onDelete: retain
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
 mountOptions:
   - nfsvers=4.1
   - nolock
+  - noatime
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: nfs-csi-special-mounts
+  name: nfs-csi-archive
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
 provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.1.250
   share: /volatile
-  # csi.storage.k8s.io/provisioner-secret is only needed for providing mountOptions in DeleteVolume
-  # csi.storage.k8s.io/provisioner-secret-name: "mount-options"
-  # csi.storage.k8s.io/provisioner-secret-namespace: "default"
-reclaimPolicy: Delete
+  onDelete: archive
+reclaimPolicy: delete
 volumeBindingMode: Immediate
+allowVolumeExpansion: true
 mountOptions:
   - nfsvers=4.1
-  - dir_mode=0750
-  - file_mode=0750
-  - uid=999
-  - gid=999
+  - nolock
+  - noatime

@@ -14,7 +14,9 @@ spec:
     pruneIntervalDays: 7
     repository: restic-config
     retain:
-      daily: 2
+      daily: 7
+      weekly: 3
+      monthly: 2
     copyMethod: Direct
     storageClassName: nfs-csi-delete
 ---

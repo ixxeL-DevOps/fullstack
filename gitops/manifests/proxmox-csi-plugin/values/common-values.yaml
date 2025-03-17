@@ -16,10 +16,9 @@ proxmox-csi-plugin:
       effect: NoSchedule
 
   storageClass:
-    - name: proxmox-data-xfs
-      storage: data
-      reclaimPolicy: Delete
-      fstype: xfs
-    - name: proxmox-data
+    - name: proxmox-retain
       storage: local-lvm
-      reclaimPolicy: Delete
+      reclaimPolicy: Retain
+    - name: proxmox-delete
+      storage: local-lvm
+      reclaimPolicy: Retain
