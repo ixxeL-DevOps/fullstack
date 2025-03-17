@@ -47,7 +47,7 @@ parameters:
   server: 192.168.1.250
   share: /volatile
   onDelete: archive
-reclaimPolicy: delete
+reclaimPolicy: Delete
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
 mountOptions:
