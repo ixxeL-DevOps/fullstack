@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   renovate:
-    runs-on: fredcorp
+    runs-on: ubuntu-latest
     steps:
       - name: Clone repo
         id: clone
