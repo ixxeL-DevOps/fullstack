@@ -35,3 +35,12 @@ gha-runner-scale-set:
   controllerServiceAccount:
     namespace: arc-system
     name: arc-runner-controller
+  ## template is the PodSpec for each runner Pod
+  template:
+    spec:
+      securityContext: # this section is related to error https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/troubleshooting-actions-runner-controller-errors#error-access-to-the-path-homerunner_work_tool-is-denied
+        fsGroup: 123
+      containers:
+        - name: runner
+          image: ghcr.io/actions/actions-runner:latest
+          command: ['/home/runner/run.sh']
