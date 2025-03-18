@@ -1,0 +1,37 @@
+---
+gha-runner-scale-set-controller:
+  image:
+    repository: 'ghcr.io/actions/gha-runner-scale-set-controller'
+    pullPolicy: IfNotPresent
+    tag: '0.10.1'
+
+  serviceAccount:
+    create: true
+    name: 'arc-runner-controller'
+
+  flags:
+    logLevel: 'debug'
+    logFormat: 'text'
+    runnerMaxConcurrentReconciles: 2
+    updateStrategy: 'immediate'
+    excludeLabelPropagationPrefixes:
+      - 'argocd.argoproj.io/instance'
+
+gha-runner-scale-set:
+  githubConfigUrl: 'https://github.com/ixxeL-DevOps'
+  githubConfigSecret: gha-runner-secret
+  maxRunners: 3
+  minRunners: 0
+  runnerGroup: 'fredcorp-talos'
+  runnerScaleSetName: 'fredcorp'
+  containerMode:
+    type: 'kubernetes'
+    kubernetesModeWorkVolumeClaim:
+      accessModes: ['ReadWriteOnce']
+      storageClassName: 'nfs-csi-delete'
+      resources:
+        requests:
+          storage: 1Gi
+  controllerServiceAccount:
+    namespace: arc-system
+    name: arc-runner-controller

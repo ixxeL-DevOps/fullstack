@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: gha-runner-scale-set
+  name: gha-arc-controller
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,33 +13,33 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/gha-runner-scale-set/*'
+          - path: 'gitops/manifests/gha-arc-controller/*'
             exclude: false
-          - path: 'gitops/manifests/gha-runner-scale-set/values'
+          - path: 'gitops/manifests/gha-arc-controller/values'
             exclude: true
-          - path: 'gitops/manifests/gha-runner-scale-set/beelink'
+          - path: 'gitops/manifests/gha-arc-controller/beelink'
             exclude: true
-          - path: 'gitops/manifests/gha-runner-scale-set/k0s'
+          - path: 'gitops/manifests/gha-arc-controller/k0s'
             exclude: true
   template:
     metadata:
-      name: 'gha-runner-scale-set-{{ .path.basenameNormalized }}'
+      name: 'gha-arc-controller-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
       project: infra-security
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: gha-runner-scale-set
+        namespace: arc-system
       sources:
-        - path: 'gitops/manifests/gha-runner-scale-set/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/gha-arc-controller/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: gha-runner-scale-set
+            releaseName: gha-arc-controller
             valueFiles:
-              - $values/gitops/manifests/gha-runner-scale-set/values/common-values.yaml
-              - $values/gitops/manifests/gha-runner-scale-set/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/gha-arc-controller/values/common-values.yaml
+              - $values/gitops/manifests/gha-arc-controller/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
