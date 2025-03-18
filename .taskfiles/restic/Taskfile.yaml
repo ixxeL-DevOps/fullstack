@@ -28,7 +28,7 @@ tasks:
       MINIO_ROOT_PASSWORD: '{{.MINIO_ROOT_PASSWORD}}'
       RESTIC_PASSWORD: '{{.RESTIC_PASSWORD}}'
     cmds:
-      - restic stats -r s3:https://{{.MINIO_API}}/restic
+      - restic stats -r s3:https://{{.MINIO_API}}/restic/homarr/genmachine-pvc
 
   check:
     desc: Check repo for errors
@@ -44,4 +44,4 @@ tasks:
       MINIO_ROOT_PASSWORD: '{{.MINIO_ROOT_PASSWORD}}'
       RESTIC_PASSWORD: '{{.RESTIC_PASSWORD}}'
     cmds:
-      - restic check -r s3:https://{{.MINIO_API}}/restic
+      - restic check -r s3:https://{{.MINIO_API}}/restic/homarr/genmachine-pvc

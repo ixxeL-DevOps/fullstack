@@ -45,6 +45,10 @@
   ],
   "packageRules": [
     {
+      "packagePatterns": ["minio"],
+      "versioning": "regex:^RELEASE\\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2}).+"
+    },
+    {
       "description": "Global rules for version detection",
       "matchManagers": ["helmv3", "helm-values", "github-actions", "custom.regex"],
       "matchUpdateTypes": ["major", "minor", "patch"],
