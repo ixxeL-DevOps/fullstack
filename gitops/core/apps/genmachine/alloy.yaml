@@ -1,0 +1,63 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: alloy
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/alloy/*'
+            exclude: false
+          - path: 'gitops/manifests/alloy/values'
+            exclude: true
+          - path: 'gitops/manifests/alloy/beelink'
+            exclude: true
+          - path: 'gitops/manifests/alloy/k0s'
+            exclude: true
+  template:
+    metadata:
+      name: 'alloy-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-monitoring
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: alloy
+      sources:
+        - path: 'gitops/manifests/alloy/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: alloy
+            valueFiles:
+              - $values/gitops/manifests/alloy/values/common-values.yaml
+              - $values/gitops/manifests/alloy/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=false
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 4
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 2m

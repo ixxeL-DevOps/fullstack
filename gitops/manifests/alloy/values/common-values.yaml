@@ -1,4 +1,12 @@
 ---
 alloy:
+  controller:
+    # -- Type of controller to use for deploying Grafana Alloy in the cluster.
+    # Must be one of 'daemonset', 'deployment', or 'statefulset'.
+    type: 'daemonset'
+    replicas: 1
+
+  crds:
+    create: true
   configReloader:
     enabled: false
