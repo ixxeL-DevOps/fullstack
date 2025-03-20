@@ -1,0 +1,22 @@
+---
+loki:
+  loki:
+    image:
+      registry: docker.io
+      repository: grafana/loki
+      tag: 3.4.2
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: loki.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    ingressClassName: traefik
+    hosts:
+      - loki.talos-genmachine.fredcorp.com
+    tls:
+      - hosts:
+          - loki.talos-genmachine.fredcorp.com
+        secretName: loki-tls-cert

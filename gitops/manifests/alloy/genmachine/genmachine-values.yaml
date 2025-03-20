@@ -1,0 +1,23 @@
+---
+alloy:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: alloy.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    path: /
+    faroPort: 12347
+    pathType: Prefix
+    hosts:
+      - alloy.talos-genmachine.fredcorp.com
+    tls:
+      - secretName: alloy-tls-cert
+        hosts:
+          - alloy.talos-genmachine.fredcorp.com
+
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      release: prometheus
