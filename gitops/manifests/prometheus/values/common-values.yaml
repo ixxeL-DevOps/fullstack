@@ -80,6 +80,8 @@ kube-prometheus-stack:
         - kubernetes.io/pvc-protection
       size: 10Gi
       type: pvc
+      inMemory:
+        enabled: true
     plugins:
       - grafana-piechart-panel
       - grafana-polystat-panel
@@ -120,6 +122,14 @@ kube-prometheus-stack:
             editable: false
             options:
               path: /var/lib/grafana/dashboards/grafana-dashboards-storage
+          - name: 'grafana-dashboards-ingress'
+            orgId: 1
+            folder: 'ingress'
+            type: file
+            disableDeletion: true
+            editable: false
+            options:
+              path: /var/lib/grafana/dashboards/grafana-dashboards-ingress
     dashboards:
       grafana-dashboards-argocd:
         operational:
@@ -161,6 +171,27 @@ kube-prometheus-stack:
         minio:
           url: 'https://raw.githubusercontent.com/minio/minio/refs/heads/master/docs/metrics/prometheus/grafana/minio-dashboard.json'
           token: ''
+        pvc:
+          gnetId: 13646
+          revision: 2
+          datasource: Prometheus
+      grafana-dashboards-ingress:
+        blackbox:
+          gnetId: 7587
+          revision: 3
+          datasource: Prometheus
+        prober:
+          gnetId: 13659
+          revision: 1
+          datasource: Prometheus
+        overview:
+          gnetId: 14928
+          revision: 6
+          datasource: Prometheus
+        dashboard:
+          gnetId: 16293
+          revision: 5
+          datasource: Prometheus
 
     sidecar:
       dashboards:
