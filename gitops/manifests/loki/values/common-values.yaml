@@ -25,11 +25,38 @@ loki:
             prefix: loki_index_
             period: 24h
 
+    compactor:
+      working_directory: /var/loki/compactor
+      compaction_interval: 15m
+      retention_enabled: true
+      retention_delete_delay: 2h
+      retention_delete_worker_count: 150
+      delete_request_store: filesystem
+
+    frontend:
+      compress_responses: true
+
     pattern_ingester:
       enabled: true
     limits_config:
+      retention_period: 168h
       allow_structured_metadata: true
       volume_enabled: true
+      reject_old_samples: true
+      reject_old_samples_max_age: 168h
+      ingestion_rate_mb: 16
+      ingestion_burst_size_mb: 16
+      max_cache_freshness_per_query: 10m
+      split_queries_by_interval: 15m
+      per_stream_rate_limit: 256M
+      cardinality_limit: 200000
+      max_entries_limit_per_query: 1000000
+      max_global_streams_per_user: 10000
+      max_streams_per_user: 1000
+      max_label_value_length: 20480
+      max_label_name_length: 10240
+      max_label_names_per_series: 300
+
     ruler:
       enable_api: true
 
