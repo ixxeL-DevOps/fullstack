@@ -44,3 +44,6 @@ gha-runner-scale-set:
         - name: runner
           image: ghcr.io/actions/actions-runner:latest
           command: ['/home/runner/run.sh']
+          env:
+            - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER # disable container job checking : https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/deploying-runner-scale-sets-with-actions-runner-controller#configuring-kubernetes-mode
+              value: 'false'
