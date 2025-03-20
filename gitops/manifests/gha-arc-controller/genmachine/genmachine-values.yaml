@@ -17,6 +17,11 @@ gha-runner-scale-set-controller:
     excludeLabelPropagationPrefixes:
       - 'argocd.argoproj.io/instance'
 
+  metrics:
+    controllerManagerAddr: ':8080'
+    listenerAddr: ':8080'
+    listenerEndpoint: '/metrics'
+
 gha-runner-scale-set:
   githubConfigUrl: 'https://github.com/ixxeL-DevOps'
   githubConfigSecret: gha-runner-secret
