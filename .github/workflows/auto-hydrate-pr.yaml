@@ -15,13 +15,18 @@ jobs:
     name: Create PR to deploy k0s
     runs-on: ubuntu-latest
     steps:
-      - name: Clone repo
-        id: clone
-        uses: ixxeL-DevOps/gha-templates/.github/actions/git-clone@main
+      - name: Generate Token
+        uses: actions/create-github-app-token@21cfef2b496dd8ef5b904c159339626a10ad380e # v1.11.6
+        id: app-token
         with:
-          mode: 'app'
           app-id: ${{ secrets.GHAPP_APP_ID }}
           private-key: ${{ secrets.GHAPP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          token: "${{ steps.app-token.outputs.token }}"
+          fetch-depth: 0
 
       - name: pull-request
         run: |
@@ -37,7 +42,7 @@ jobs:
                    --body ":crown: *An automated PR* - ${{ github.ref }}" \
                    --base "deploy/k0s"
         env:
-          GH_TOKEN: ${{ steps.clone.outputs.TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.TOKEN }}
           RED: \033[1;31m
           GREEN: \033[1;32m
           YELLOW: \033[1;33m
