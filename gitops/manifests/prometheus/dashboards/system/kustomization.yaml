@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: dashboards-grafana-system
+    files:
+      - ./popeye.json
+    options:
+      labels:
+        grafana_dashboard: '1'
+      annotations:
+        grafana_folder: 'system'

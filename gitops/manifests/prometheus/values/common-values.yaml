@@ -154,14 +154,6 @@ kube-prometheus-stack:
             editable: false
             options:
               path: /var/lib/grafana/dashboards/grafana-dashboards-arc
-          - name: 'grafana-dashboards-logs'
-            orgId: 1
-            folder: 'logs'
-            type: file
-            disableDeletion: true
-            editable: false
-            options:
-              path: /var/lib/grafana/dashboards/grafana-dashboards-logs
     dashboards:
       grafana-dashboards-argocd:
         operational:
@@ -234,11 +226,11 @@ kube-prometheus-stack:
         arc:
           url: 'https://raw.githubusercontent.com/actions/actions-runner-controller/refs/heads/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json'
           token: ''
-      grafana-dashboards-logs:
-        loki:
-          gnetId: 12611
-          revision: 2
-          datasource: Loki
+          # grafana-dashboards-logs:
+          #   loki:
+          #     gnetId: 12611
+          #     revision: 2
+          #     datasource: Loki
     sidecar:
       dashboards:
         SCProvider: true

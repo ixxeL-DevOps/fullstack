@@ -46,7 +46,13 @@ spec:
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
-        - path: 'gitops/manifests/prometheus/dashboards'
+        - path: 'gitops/manifests/prometheus/dashboards/system'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+        - path: 'gitops/manifests/prometheus/dashboards/storage'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+        - path: 'gitops/manifests/prometheus/dashboards/logs'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
       syncPolicy:
