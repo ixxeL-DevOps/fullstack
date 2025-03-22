@@ -7,3 +7,5 @@ volsync:
     requests:
       cpu: 100m
       memory: 64Mi
+  metrics:
+    disableAuth: true
