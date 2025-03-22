@@ -21,6 +21,8 @@ spec:
             exclude: true
           - path: 'gitops/manifests/prometheus/k0s'
             exclude: true
+          - path: 'gitops/manifests/prometheus/dashboards'
+            exclude: true
   template:
     metadata:
       name: 'prometheus-{{ .path.basenameNormalized }}'
@@ -44,6 +46,9 @@ spec:
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
+        - path: 'gitops/manifests/prometheus/dashboards'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
       syncPolicy:
         automated:
           prune: true

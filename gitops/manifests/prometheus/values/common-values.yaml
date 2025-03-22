@@ -201,18 +201,18 @@ kube-prometheus-stack:
           token: ''
           datasource: Prometheus
       grafana-dashboards-storage:
-        minio:
-          url: 'https://raw.githubusercontent.com/minio/minio/refs/heads/master/docs/metrics/prometheus/grafana/minio-dashboard.json'
-          token: ''
-          datasource: Prometheus
+        # minio:
+        #   url: 'https://raw.githubusercontent.com/minio/minio/refs/heads/master/docs/metrics/prometheus/grafana/minio-dashboard.json'
+        #   token: ''
+        #   datasource: Prometheus
         volsync:
           gnetId: 21356
           revision: 3
           datasource: Prometheus
-        pvc:
-          gnetId: 13646
-          revision: 2
-          datasource: Prometheus
+          # pvc:
+          #   gnetId: 13646
+          #   revision: 2
+          #   datasource: Prometheus
       grafana-dashboards-network:
         blackbox:
           gnetId: 7587
@@ -251,7 +251,6 @@ kube-prometheus-stack:
         provider:
           allowUiUpdates: true
           disableDelete: false
-          folder: ''
           foldersFromFilesStructure: true
           name: sidecarProvider
           orgid: 1
