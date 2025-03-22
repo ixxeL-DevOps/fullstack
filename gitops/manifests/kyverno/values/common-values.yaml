@@ -1,0 +1,103 @@
+---
+kyverno:
+  admissionController:
+    rbac:
+      clusterRole:
+        extraResources:
+          - apiGroups:
+              - '*'
+            resources:
+              - '*'
+            verbs:
+              - get
+              - list
+              - watch
+              - create
+              - update
+              - patch
+              - delete
+  backgroundController:
+    rbac:
+      clusterRole:
+        extraResources:
+          - apiGroups:
+              - '*'
+            resources:
+              - '*'
+            verbs:
+              - get
+              - list
+              - watch
+              - create
+              - update
+              - patch
+              - delete
+  reportsController:
+    rbac:
+      clusterRole:
+        extraResources:
+          - apiGroups:
+              - '*'
+            resources:
+              - '*'
+            verbs:
+              - get
+              - list
+              - watch
+              - create
+              - update
+              - patch
+              - delete
+  cleanupController:
+    featuresOverride: {}
+    enabled: true
+  crds:
+    install: true
+  features:
+    admissionReports:
+      enabled: true
+    aggregateReports:
+      enabled: true
+    policyReports:
+      enabled: true
+    validatingAdmissionPolicyReports:
+      enabled: false
+    autoUpdateWebhooks:
+      enabled: true
+    backgroundScan:
+      enabled: true
+      backgroundScanWorkers: 2
+      backgroundScanInterval: 24h
+      skipResourceFilters: true
+    configMapCaching:
+      enabled: true
+    deferredLoading:
+      enabled: true
+    dumpPayload:
+      enabled: false
+    forceFailurePolicyIgnore:
+      enabled: false
+    generateValidatingAdmissionPolicy:
+      enabled: false
+    logging:
+      format: text
+      verbosity: 2
+    omitEvents:
+      eventTypes: []
+    policyExceptions:
+      enabled: true
+      namespace: ''
+    protectManagedResources:
+      enabled: false
+    registryClient:
+      allowInsecure: true
+      credentialHelpers:
+        - default
+        - google
+        - amazon
+        - azure
+        - github
+    reports:
+      chunkSize: 1000
+    ttlController:
+      reconciliationInterval: 1m

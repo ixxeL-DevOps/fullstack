@@ -1,0 +1,46 @@
+---
+kyverno:
+  admissionController:
+    container:
+      image:
+        registry: ghcr.io
+        repository: kyverno/kyverno
+        tag: v1.13.4
+        pullPolicy: IfNotPresent
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus
+
+  backgroundController:
+    image:
+      registry: ghcr.io
+      repository: kyverno/background-controller
+      tag: v1.13.4
+      pullPolicy: IfNotPresent
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus
+
+  cleanupController:
+    image:
+      registry: ghcr.io
+      repository: kyverno/cleanup-controller
+      tag: v1.13.4
+      pullPolicy: IfNotPresent
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus
+
+  reportsController:
+    image:
+      registry: ghcr.io
+      repository: kyverno/reports-controller
+      tag: v1.13.4
+      pullPolicy: IfNotPresent
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: prometheus
