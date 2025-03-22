@@ -196,23 +196,23 @@ kube-prometheus-stack:
         spegel:
           url: 'https://raw.githubusercontent.com/spegel-org/spegel/refs/heads/main/charts/spegel/monitoring/grafana-dashboard.json'
           tooken: ''
-        popeye:
-          url: 'https://raw.githubusercontent.com/derailed/popeye/refs/heads/master/grafana/popeye-dashboard.json'
-          token: ''
-          datasource: Prometheus
+          # popeye:
+          #   url: 'https://raw.githubusercontent.com/derailed/popeye/refs/heads/master/grafana/popeye-dashboard.json'
+          #   token: ''
+          #   datasource: Prometheus
       grafana-dashboards-storage:
         # minio:
         #   url: 'https://raw.githubusercontent.com/minio/minio/refs/heads/master/docs/metrics/prometheus/grafana/minio-dashboard.json'
         #   token: ''
         #   datasource: Prometheus
-        volsync:
-          gnetId: 21356
-          revision: 3
+        # volsync:
+        #   gnetId: 21356
+        #   revision: 3
+        #   datasource: Prometheus
+        pvc:
+          gnetId: 13646
+          revision: 2
           datasource: Prometheus
-          # pvc:
-          #   gnetId: 13646
-          #   revision: 2
-          #   datasource: Prometheus
       grafana-dashboards-network:
         blackbox:
           gnetId: 7587
