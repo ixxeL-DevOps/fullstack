@@ -1,0 +1,16 @@
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: add-release-label-to-servicemonitor
+spec:
+  rules:
+    - name: add-release-label
+      match:
+        resources:
+          kinds:
+            - ServiceMonitor
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              release: prometheus
