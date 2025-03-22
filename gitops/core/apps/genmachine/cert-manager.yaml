@@ -40,6 +40,7 @@ spec:
             valueFiles:
               - $values/gitops/manifests/cert-manager/values/common-values.yaml
               - $values/gitops/manifests/cert-manager/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+            ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
@@ -49,7 +50,7 @@ spec:
           selfHeal: true
         syncOptions:
           - Validate=true
-          - PruneLast=false
+          - PruneLast=true
           - RespectIgnoreDifferences=true
           - Replace=false
           - ApplyOutOfSyncOnly=true

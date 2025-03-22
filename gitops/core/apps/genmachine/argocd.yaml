@@ -19,13 +19,14 @@ spec:
     helm:
       valueFiles:
         - genmachine-values.yaml
+      ignoreMissingValueFiles: true
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - Validate=true
-      - PruneLast=false
+      - PruneLast=true
       - RespectIgnoreDifferences=true
       - Replace=false
       - ApplyOutOfSyncOnly=true

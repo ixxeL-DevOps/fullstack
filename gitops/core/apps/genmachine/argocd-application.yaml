@@ -31,7 +31,7 @@ spec:
       selfHeal: true
     syncOptions:
       - Validate=true
-      - PruneLast=false
+      - PruneLast=true
       - RespectIgnoreDifferences=true
       - Replace=false
       - ApplyOutOfSyncOnly=true

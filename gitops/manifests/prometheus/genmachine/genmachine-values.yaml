@@ -9,7 +9,7 @@ kube-prometheus-stack:
 
   prometheus:
     enabled: true
-    prometheuspec:
+    prometheusSpec:
       image:
         registry: quay.io
         repository: prometheus/prometheus
