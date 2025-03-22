@@ -20,6 +20,7 @@ kube-prometheus-stack:
       serviceMonitorSelector:
         matchLabels:
           release: 'prometheus'
+          app.kubernetes.io/instance: volsync
       podMonitorSelector:
         matchLabels:
           release: 'prometheus'
