@@ -28,7 +28,7 @@
       }
     },
     {
-      "files": "*.json*",
+      "files": ["*.json*"],
       "options": {
         "quoteProps": "preserve",
         "singleQuote": false,

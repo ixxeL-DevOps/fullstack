@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+      {
+        "description": ["Custom versioning for minio"],
+        "matchDatasources": ["docker", "helm"],
+        "versioning": "regex:^RELEASE\\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2}).+",
+        "matchPackagePatterns": ["minio", "quay.io/minio/minio"]
+      },
+      {
+        "description": ["Don't pin digests for managers that don't need a digest"],
+        "matchManagers": ["helmfile"],
+        "pinDigests": false
+      }
+    ]
+  }

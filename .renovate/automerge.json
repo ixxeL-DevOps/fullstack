@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+      {
+        "description": "Auto merge patch and minor",
+        "matchDatasources": ["docker", "github-releases", "github-tags", "helm"],
+        "automerge": true,
+        "automergeType": "pr",
+        "platformAutomerge": true,
+        "automergeStrategy": "squash",
+        "rebaseWhen": "behind-base-branch",
+        "matchUpdateTypes": ["minor", "patch"]
+      }
+    ]
+  }

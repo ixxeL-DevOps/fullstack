@@ -1,0 +1,11 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+      {
+        "matchManagers": ["helmv3", "helm-values", "docker"],
+        "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
+        "addLabels": ["{{ lookup (split packageFileDir '/') 2 }}"],
+        "separateMinorPatch": true
+      }
+    ]
+  }

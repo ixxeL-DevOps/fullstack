@@ -1,0 +1,133 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["mergeConfidence:all-badges", "config:recommended","helpers:pinGitHubActionDigests",":pinDevDependencies"],
+  "enabledManagers": ["helmv3", "helm-values", "github-actions", "docker", "custom.regex"],
+  "commitBodyTable": true,
+  "assigneesFromCodeOwners": false,
+  "reviewersFromCodeOwners": false,
+  "assignees": ["renovate[bot]"],
+  "reviewers": ["renovate[bot]"],
+  "autoApprove": true,
+  "dependencyDashboard": true,
+  "prHourlyLimit": 60,
+  "prConcurrentLimit": 60,
+  "branchConcurrentLimit": 60,
+  "automergeStrategy": "squash",
+  "rebaseWhen": "behind-base-branch",
+  "platformAutomerge": true,
+  "commitBody": "Co-authored-by: renovate[bot] <renovate@whitesourcesoftware.com>",
+  "ignorePaths": ["docs/**", "infra/**"],
+  "helmv3": {
+    "fileMatch": ["(^|/)Chart\\.ya?ml$"]
+  },
+  "helm-values": {
+    "fileMatch": ["(^|/)*values\\.ya?ml$"]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update GitHub release references in kustomization.yaml",
+      "fileMatch": ["kustomization.yaml"],
+      "matchStrings": [
+        "https:\\/\\/github\\.com\\/(?<depName>.*\\/.*?)\\/releases\\/download\\/(?<currentValue>.*?)\\/"
+      ],
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "description": "Update GitHub tag references in kustomization.yaml",
+      "fileMatch": ["kustomization.yaml"],
+      "matchStrings": [
+        "https:\\/\\/raw.githubusercontent.com\\/(?<depName>[^\\/]*\\/[^\\/]*)\\/(?<currentValue>.*?)\\/"
+      ],
+      "datasourceTemplate": "github-tags"
+    }
+  ],
+  "packageRules": [
+    {
+      "packagePatterns": ["minio"],
+      "versioning": "regex:^RELEASE\\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2}).+"
+    },
+    {
+      "description": "Global rules for version detection",
+      "matchManagers": ["helmv3", "helm-values", "github-actions", "custom.regex"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "labels": ["{{updateType}}"]
+    },
+    {
+      "description": "Automerge GHA for major/patch/minor release",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major", "patch", "minor"],
+      "additionalBranchPrefix": "gha/",
+      "matchFileNames": [".github/**"],
+      "addLabels": ["AUTO-MERGE"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Automerge for Tooling instance patch updates",
+      "matchManagers": ["helmv3", "helm-values"],
+      "matchUpdateTypes": ["patch"],
+      "additionalBranchPrefix": "helm/",
+      "matchFileNames": ["gitops/manifests/**"],
+      "addLabels": ["AUTO-MERGE", "{{ lookup (split packageFileDir '/') 2 }}"],
+      "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Manual merge for Tooling instance major and minor updates",
+      "matchManagers": ["helmv3", "helm-values"],
+      "matchUpdateTypes": ["major", "minor"],
+      "additionalBranchPrefix": "helm/",
+      "matchFileNames": ["gitops/manifests/**"],
+      "addLabels": ["MANUAL-REVIEW", "{{ lookup (split packageFileDir '/') 2 }}"],
+      "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
+      "automerge": false
+    },
+    {
+      "description": "Automerge for ArgoCD patch updates",
+      "matchManagers": ["helmv3", "helm-values"],
+      "matchUpdateTypes": ["patch"],
+      "additionalBranchPrefix": "argocd/",
+      "matchFileNames": ["gitops/bootstrap/**"],
+      "addLabels": ["AUTO-MERGE", "ArgoCD", "{{ lookup (split packageFileDir '/') 2 }}"],
+      "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Manual merge for ArgoCD major and minor updates",
+      "matchManagers": ["helmv3", "helm-values"],
+      "matchUpdateTypes": ["major", "minor"],
+      "additionalBranchPrefix": "argocd/",
+      "matchFileNames": ["gitops/bootstrap/**"],
+      "addLabels": ["MANUAL-REVIEW", "ArgoCD", "{{ lookup (split packageFileDir '/') 2 }}"],
+      "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
+      "automerge": false
+    },
+    {
+      "description": "Manual merge for Tooling instance major and minor updates",
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["major", "minor"],
+      "additionalBranchPrefix": "kustomize/",
+      "matchFileNames": ["gitops/**"],
+      "addLabels": ["MANUAL-REVIEW", "{{ depName }}"],
+      "automerge": false
+    },
+    {
+      "description": "Manual merge for Tooling instance major and minor updates",
+      "matchManagers": ["custom.regex"],
+      "matchUpdateTypes": ["patch"],
+      "additionalBranchPrefix": "kustomize/",
+      "matchFileNames": ["gitops/**"],
+      "addLabels": ["AUTO-MERGE", "{{ depName }}"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    }
+  ]
+}
