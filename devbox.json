@@ -6,7 +6,7 @@
     "k0sctl@latest",
     "pre-commit@latest",
     "fish@latest",
-    "kubectl@latest",
+    "kubectl@1.32.3",
     "jq@latest",
     "kubernetes-helm@latest",
     "argocd@latest",
