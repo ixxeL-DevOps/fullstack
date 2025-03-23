@@ -2,7 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "ignorePaths": [
     "docs/**",
-    "infra/**",
     "**/*.sops.*",
     "**/devbox.*"
   ],
@@ -16,6 +15,6 @@
     "fileMatch": ["\\.taskfiles/.+\\.ya?ml$", "gitops/manifests/.+\\.ya?ml$"]
   },
   "custom.regex": {
-    "fileMatch": ["gitops/.+\\.ya?ml$"]
+    "fileMatch": ["gitops/.+\\.ya?ml$", "infra/**"]
   }
 }
