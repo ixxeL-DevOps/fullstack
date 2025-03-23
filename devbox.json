@@ -20,7 +20,7 @@
     "python312Packages.mkdocs-material-extensions@latest",
     "k9s@latest",
     "tree@latest",
-    "talosctl@latest",
+    "talosctl@0.14.3",
     "sops@latest",
     "terraform@latest",
     "vault@latest",
