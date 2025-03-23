@@ -21,7 +21,7 @@
     "k9s@latest",
     "tree@latest",
     "talosctl@latest",
-    "sops@latest",
+    "sops@3.9.4",
     "terraform@latest",
     "vault@latest",
     "helmfile@latest",
