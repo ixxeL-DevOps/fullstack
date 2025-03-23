@@ -19,4 +19,4 @@ system-upgrade-controller:
     kubernetes:
       enabled: false
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-      version: v1.32.2
+      version: v1.32.3
