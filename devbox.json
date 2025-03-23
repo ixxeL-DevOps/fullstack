@@ -10,7 +10,7 @@
     "jq@latest",
     "kubernetes-helm@latest",
     "argocd@latest",
-    "krew@latest",
+    "krew@0.4.5",
     "kubectx@latest",
     "kubectl-neat@latest",
     "kustomize@latest",
