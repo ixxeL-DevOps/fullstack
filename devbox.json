@@ -14,7 +14,7 @@
     "kubectx@latest",
     "kubectl-neat@latest",
     "kustomize@latest",
-    "python-full@3.12",
+    "python-full@3.13.2",
     "python312Packages.mkdocs@latest",
     "python312Packages.mkdocs-material@latest",
     "python312Packages.mkdocs-material-extensions@latest",
