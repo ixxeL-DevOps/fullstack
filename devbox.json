@@ -23,7 +23,7 @@
     "talosctl@latest",
     "sops@latest",
     "terraform@latest",
-    "vault@latest",
+    "vault@1.18.5",
     "helmfile@latest",
     "shellcheck@latest",
     "nodePackages.prettier@latest",
