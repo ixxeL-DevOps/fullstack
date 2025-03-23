@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
   "packages": [
-    "yq-go@latest",
+    "yq-go@4.45.1",
     "go-task@latest",
     "k0sctl@latest",
     "pre-commit@latest",
