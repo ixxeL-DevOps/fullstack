@@ -26,7 +26,7 @@
     "vault@latest",
     "helmfile@latest",
     "shellcheck@latest",
-    "nodePackages.prettier@latest",
+    "nodePackages.prettier@2.8.8",
     "python312Packages.yamllint@latest",
     "yamlfmt@latest",
     "kubernetes-helmPlugins.helm-diff@latest",
