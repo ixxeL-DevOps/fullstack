@@ -3,7 +3,8 @@
   "ignorePaths": [
     "docs/**",
     "infra/**",
-    "**/*.sops.*"
+    "**/*.sops.*",
+    "**/devbox.*"
   ],
   "helmv3": {
     "fileMatch": ["gitops/manifests/.+\\.ya?ml$", "gitops/bootstrap/.+\\.ya?ml$"]
