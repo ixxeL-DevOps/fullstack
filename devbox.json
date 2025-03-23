@@ -22,7 +22,7 @@
     "tree@latest",
     "talosctl@latest",
     "sops@latest",
-    "terraform@latest",
+    "terraform@1.11.2",
     "vault@latest",
     "helmfile@latest",
     "shellcheck@latest",
