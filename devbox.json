@@ -27,7 +27,7 @@
     "helmfile@latest",
     "shellcheck@latest",
     "nodePackages.prettier@latest",
-    "python312Packages.yamllint@latest",
+    "python312Packages.yamllint@1.35.1",
     "yamlfmt@latest",
     "kubernetes-helmPlugins.helm-diff@latest",
     "popeye@latest",
