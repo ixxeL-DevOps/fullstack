@@ -30,7 +30,7 @@
     "python312Packages.yamllint@latest",
     "yamlfmt@latest",
     "kubernetes-helmPlugins.helm-diff@latest",
-    "popeye@latest",
+    "popeye@0.22.1",
     "pwgen@latest",
     "restic@latest"
   ],
