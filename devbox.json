@@ -19,7 +19,7 @@
     "python312Packages.mkdocs-material@latest",
     "python312Packages.mkdocs-material-extensions@latest",
     "k9s@latest",
-    "tree@latest",
+    "tree@2.2.1",
     "talosctl@latest",
     "sops@latest",
     "terraform@latest",
