@@ -24,7 +24,7 @@
     "sops@latest",
     "terraform@latest",
     "vault@latest",
-    "helmfile@latest",
+    "helmfile@0.171.0",
     "shellcheck@latest",
     "nodePackages.prettier@latest",
     "python312Packages.yamllint@latest",
