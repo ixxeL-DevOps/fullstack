@@ -5,7 +5,7 @@
     "go-task@latest",
     "k0sctl@latest",
     "pre-commit@latest",
-    "fish@latest",
+    "fish@4.0.1",
     "kubectl@latest",
     "jq@latest",
     "kubernetes-helm@latest",
