@@ -5,7 +5,8 @@
         "matchManagers": ["helmv3", "helm-values", "docker"],
         "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
         "addLabels": ["{{ lookup (split packageFileDir '/') 2 }}"],
-        "separateMinorPatch": true
+        "separateMinorPatch": false,
+        "separateMultipleMinor": false
       }
     ]
   }

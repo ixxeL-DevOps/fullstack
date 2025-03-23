@@ -6,6 +6,7 @@
     "github>ixxeL-DevOps/fullstack//.renovate/automerge.json",
     "github>ixxeL-DevOps/fullstack//.renovate/custom-managers.json",
     "github>ixxeL-DevOps/fullstack//.renovate/package-rules.json",
-    "github>ixxeL-DevOps/fullstack//.renovate/groups.json"
+    "github>ixxeL-DevOps/fullstack//.renovate/groups.json",
+    "github>ixxeL-DevOps/fullstack//.renovate/cluster.json"
   ]
 }

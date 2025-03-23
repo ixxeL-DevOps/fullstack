@@ -1,0 +1,13 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "packageRules": [
+      {
+        "description": "Separate PRs for cluster upgrade",
+        "matchFileNames": ["gitops/manifests/system-upgrade-controller/**"],
+        "matchUpdateTypes": ["major", "minor"],
+        "automerge": false,
+        "addLabels": ["system/cluster"],
+        "additionalBranchPrefix": "cluster/"
+      }
+    ]
+  }

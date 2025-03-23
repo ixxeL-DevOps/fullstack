@@ -2,6 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
       {
+        "description": ["Loose versioning for non-semver packages"],
+        "matchDatasources": ["docker", "github-releases"],
+        "versioning": "loose",
+        "matchPackagePatterns": ["changedetection"]
+      },
+      {
         "description": ["Custom versioning for minio"],
         "matchDatasources": ["docker", "helm"],
         "versioning": "regex:^RELEASE\\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2}).+",
