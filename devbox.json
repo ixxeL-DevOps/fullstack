@@ -3,7 +3,7 @@
   "packages": [
     "yq-go@latest",
     "go-task@latest",
-    "k0sctl@latest",
+    "k0sctl@0.23.0",
     "pre-commit@latest",
     "fish@latest",
     "kubectl@latest",
