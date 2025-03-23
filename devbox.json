@@ -8,7 +8,7 @@
     "fish@latest",
     "kubectl@latest",
     "jq@latest",
-    "kubernetes-helm@latest",
+    "kubernetes-helm@3.17.2",
     "argocd@latest",
     "krew@latest",
     "kubectx@latest",
