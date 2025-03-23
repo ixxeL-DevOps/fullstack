@@ -4,7 +4,7 @@
     "yq-go@latest",
     "go-task@latest",
     "k0sctl@latest",
-    "pre-commit@latest",
+    "pre-commit@2.20.0",
     "fish@latest",
     "kubectl@latest",
     "jq@latest",
