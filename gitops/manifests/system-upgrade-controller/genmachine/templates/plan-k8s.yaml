@@ -1,0 +1,39 @@
+---
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: k8s
+spec:
+  version: {{ .Values.plan.kubeversion }}
+  concurrency: 1
+  exclusive: true
+  jobActiveDeadlineSecs: 3600
+  serviceAccountName: system-upgrade
+  nodeSelector:
+    matchExpressions:
+      - key: kubernetes.io/hostname
+        operator: Exists
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  secrets:
+    - name: system-upgrade-talos
+      path: /var/run/secrets/talos.dev
+      ignoreUpdates: true
+  drain:
+    ignoreDaemonSets: true
+    force: true
+  upgrade:
+    image: ghcr.io/siderolabs/talosctl:{{ .Values.plan.talosVersion }}
+    envs:
+      - name: NODE_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
+    args:
+      - --nodes=$(NODE_IP)
+      - upgrade-k8s
+      - --to=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
