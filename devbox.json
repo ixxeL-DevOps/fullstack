@@ -11,7 +11,7 @@
     "kubernetes-helm@latest",
     "argocd@latest",
     "krew@latest",
-    "kubectx@latest",
+    "kubectx@0.9.5",
     "kubectl-neat@latest",
     "kustomize@latest",
     "python-full@3.12",
