@@ -9,6 +9,7 @@ configMapGenerator:
   - name: dashboards-grafana-system
     files:
       - ./popeye.json
+      - ./external-secrets.json
     options:
       labels:
         grafana_dashboard: '1'
