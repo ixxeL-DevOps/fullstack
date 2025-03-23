@@ -6,7 +6,7 @@ system-upgrade-controller:
     tag: v0.15.2
 
   # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-  talosVersion: v1.9.4
+  talosVersion: v1.9.5
 
   envs:
     SYSTEM_UPGRADE_CONTROLLER_DEBUG: false
@@ -19,4 +19,4 @@ system-upgrade-controller:
     kubernetes:
       enabled: false
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-      version: v1.32.2
+      version: v1.32.3
