@@ -29,7 +29,7 @@
     "nodePackages.prettier@latest",
     "python312Packages.yamllint@latest",
     "yamlfmt@latest",
-    "kubernetes-helmPlugins.helm-diff@latest",
+    "kubernetes-helmPlugins.helm-diff@3.10.0",
     "popeye@latest",
     "pwgen@latest",
     "restic@latest"
