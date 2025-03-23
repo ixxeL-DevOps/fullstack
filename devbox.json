@@ -13,7 +13,7 @@
     "krew@latest",
     "kubectx@latest",
     "kubectl-neat@latest",
-    "kustomize@latest",
+    "kustomize@3.10.0",
     "python-full@3.12",
     "python312Packages.mkdocs@latest",
     "python312Packages.mkdocs-material@latest",
