@@ -86,22 +86,35 @@ kube-prometheus-stack:
       - grafana-piechart-panel
       - grafana-polystat-panel
       - grafana-clock-panel
-    datasources:
-      datasources.yaml:
-        apiVersion: 1
-        datasources:
-          - name: Prometheus
-            type: prometheus
-            url: http://prometheus-kube-prometheus-prometheus.prometheus:9090
-            access: proxy
-            isDefault: true
-            uid: Prometheus
-          - name: Loki
-            type: loki
-            access: proxy
-            url: http://loki-gateway.loki:80
-            isDefault: false
-            uid: Loki
+    additionalDataSources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-kube-prometheus-prometheus.prometheus:9090
+        access: proxy
+        isDefault: true
+        uid: Prometheus
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki-gateway.loki:80
+        isDefault: false
+        uid: Loki
+    # datasources:
+    #   datasources.yaml:
+    #     apiVersion: 1
+    #     datasources:
+    #       - name: Prometheus
+    #         type: prometheus
+    #         url: http://prometheus-kube-prometheus-prometheus.prometheus:9090
+    #         access: proxy
+    #         isDefault: true
+    #         uid: Prometheus
+    #       - name: Loki
+    #         type: loki
+    #         access: proxy
+    #         url: http://loki-gateway.loki:80
+    #         isDefault: false
+    #         uid: Loki
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -254,6 +267,9 @@ kube-prometheus-stack:
         resource: both
         searchNamespace: ALL
       enableUniqueFilenames: false
+      datasources:
+        defaultDatasourceEnabled: false
+        isDefaultDatasource: false
 
 prometheus-blackbox-exporter:
   extraVolumes:
