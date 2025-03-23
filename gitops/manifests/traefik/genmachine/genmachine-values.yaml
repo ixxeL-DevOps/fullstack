@@ -13,3 +13,16 @@ traefik:
 
   service:
     loadBalancerIP: '192.168.1.160'
+
+  metrics:
+    addInternals: true
+    prometheus:
+      entryPoint: metrics
+      service:
+        enabled: true
+      # -- When set to true, it won't check if Prometheus Operator CRDs are deployed
+      disableAPICheck: true
+      serviceMonitor:
+        enabled: true
+        additionalLabels:
+          release: prometheus

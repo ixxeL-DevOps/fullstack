@@ -206,6 +206,10 @@ kube-prometheus-stack:
           revision: 2
           datasource: Prometheus
       grafana-dashboards-network:
+        traefik:
+          gnetId: 17347
+          revision: 9
+          datasource: Prometheus
         blackbox:
           gnetId: 7587
           revision: 3
