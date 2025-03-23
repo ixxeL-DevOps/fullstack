@@ -1,0 +1,39 @@
+---
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: talos
+spec:
+  version: {{ .Values.plan.talosVersion }}
+  concurrency: 1
+  exclusive: true
+  jobActiveDeadlineSecs: 3600
+  serviceAccountName: system-upgrade
+  nodeSelector:
+    matchExpressions:
+      - key: kubernetes.io/hostname
+        operator: Exists
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+  secrets:
+    - name: system-upgrade-talos
+      path: /var/run/secrets/talos.dev
+      ignoreUpdates: true
+  drain:
+    ignoreDaemonSets: true
+    force: true
+  upgrade:
+    # renovate: datasource=docker depName=ghcr.io/jfroy/tnu
+    image: ghcr.io/jfroy/tnu:0.4.1
+    envs:
+      - name: NODE_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
+    args:
+      - --node=$(NODE_IP)
+      - --tag=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
