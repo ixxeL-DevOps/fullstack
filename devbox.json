@@ -32,7 +32,7 @@
     "kubernetes-helmPlugins.helm-diff@latest",
     "popeye@latest",
     "pwgen@latest",
-    "restic@latest"
+    "restic@0.17.3"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"
