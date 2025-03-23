@@ -25,7 +25,7 @@
     "terraform@latest",
     "vault@latest",
     "helmfile@latest",
-    "shellcheck@latest",
+    "shellcheck@0.10.0",
     "nodePackages.prettier@latest",
     "python312Packages.yamllint@latest",
     "yamlfmt@latest",
