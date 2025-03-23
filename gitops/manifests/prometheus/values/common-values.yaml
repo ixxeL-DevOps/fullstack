@@ -276,7 +276,7 @@ prometheus-blackbox-exporter:
         release: prometheus
 
     targets:
-      - name: traefik # Human readable URL that will appear in Prometheus / AlertManager
+      - name: traefik-beelink # Human readable URL that will appear in Prometheus / AlertManager
         url: https://traefik.k0s-fullstack.fredcorp.com # The URL that blackbox will scrape
         hostname: traefik.k0s-fullstack.fredcorp.com # HTTP probes can accept an additional `hostname` parameter that will set `Host` header and TLS SNI
         labels: {} # Map of labels for ServiceMonitor. Overrides value set in `defaults`
@@ -285,9 +285,54 @@ prometheus-blackbox-exporter:
         module: http_2xx # Module used for scraping. Overrides value set in `defaults`
         additionalMetricsRelabels: {} # Map of metric labels and values to add
         additionalRelabeling: [] # List of metric relabeling actions to run
-      - name: adguard # Human readable URL that will appear in Prometheus / AlertManager
+      - name: adguard
         url: https://adguard.k0s-fullstack.fredcorp.com
         hostname: adguard.k0s-fullstack.fredcorp.com
+        labels: {}
+        interval: 60s
+        scrapeTimeout: 60s
+        module: http_2xx
+        additionalMetricsRelabels: {}
+        additionalRelabeling: []
+      - name: argocd
+        url: https://argocd.talos-genmachine.fredcorp.com
+        hostname: argocd.talos-genmachine.fredcorp.com
+        labels: {}
+        interval: 60s
+        scrapeTimeout: 60s
+        module: http_2xx
+        additionalMetricsRelabels: {}
+        additionalRelabeling: []
+      - name: prometheus
+        url: https://prometheus.talos-genmachine.fredcorp.com
+        hostname: prometheus.talos-genmachine.fredcorp.com
+        labels: {}
+        interval: 60s
+        scrapeTimeout: 60s
+        module: http_2xx
+        additionalMetricsRelabels: {}
+        additionalRelabeling: []
+      - name: grafana
+        url: https://grafana.talos-genmachine.fredcorp.com
+        hostname: grafana.talos-genmachine.fredcorp.com
+        labels: {}
+        interval: 60s
+        scrapeTimeout: 60s
+        module: http_2xx
+        additionalMetricsRelabels: {}
+        additionalRelabeling: []
+      - name: traefik-genmachine
+        url: https://traefik.talos-genmachine.fredcorp.com
+        hostname: traefik.talos-genmachine.fredcorp.com
+        labels: {}
+        interval: 60s
+        scrapeTimeout: 60s
+        module: http_2xx
+        additionalMetricsRelabels: {}
+        additionalRelabeling: []
+      - name: alloy
+        url: https://alloy.talos-genmachine.fredcorp.com
+        hostname: alloy.talos-genmachine.fredcorp.com
         labels: {}
         interval: 60s
         scrapeTimeout: 60s
