@@ -68,6 +68,12 @@ The motivation behind setting up this home lab was to refactor my original envir
 
 The entire infrastructure is fully virtualized on **Proxmox**, where each server runs as a virtual machine within the Proxmox cluster. This setup provides flexibility, isolation, and ease of management while allowing efficient resource allocation.
 
+![Schéma Excalidraw](./docs/assets/extract.platform.excalidraw.svg)
+
+My homelab is built on a self-hosted Kubernetes platform, fully automated and managed using a suite of DevOps tools. GitHub serves as the central repository for code and configurations, with GitHub Actions ensuring reliable and reproducible deployments. Repetitive tasks are orchestrated using Taskfile, while Helm facilitates modular application deployment and management. Renovate automates dependency updates, keeping the infrastructure up to date with minimal manual intervention. This ecosystem enables me to efficiently manage my platform while experimenting with modern infrastructure-as-code and automation practices.
+
+![Schéma Excalidraw](./docs/assets/extract.capabilities.excalidraw.svg)
+
 # Kubernetes
 
 To experiment with different Kubernetes distributions, I use a mix of **k0s** and **Talos**. Each of these distributions offers unique advantages and match different requirements of my environment.
@@ -77,6 +83,10 @@ To experiment with different Kubernetes distributions, I use a mix of **k0s** an
 
 The choice of k0s for the lab cluster is due to its suitability for hardware with limited resources. In this case, k0s has been configured with a minimal setup and a low footprint.
 On the other hand, Talos is used for the production cluster, allowing me to take advantage of advanced features and capabilities.
+
+Global platform technological overview:
+
+![Schéma Excalidraw](./docs/assets/extract.platform.excalidraw.svg)
 
 # GitOps
 
