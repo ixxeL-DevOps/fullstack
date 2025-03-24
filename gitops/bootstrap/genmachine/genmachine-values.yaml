@@ -13,10 +13,24 @@ argo-cd:
       format: text
       level: info
     priorityClassName: 'system-cluster-critical'
+    affinity:
+      podAntiAffinity: soft
+      nodeAffinity:
+        type: hard
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+    deploymentStrategy:
+      type: RollingUpdate
 
   server:
     clusterAdminAccess:
       enabled: true
+    replicas: 2
+    pdb:
+      enabled: true
+      maxUnavailable: 1
     ingress:
       enabled: true
       annotations:
@@ -57,6 +71,10 @@ argo-cd:
   controller:
     clusterAdminAccess:
       enabled: true
+    replicas: 2
+    pdb:
+      enabled: true
+      maxUnavailable: 1
     metrics:
       enabled: true
       serviceMonitor:
@@ -67,6 +85,10 @@ argo-cd:
 
   applicationSet:
     enabled: true
+    replicas: 2
+    pdb:
+      enabled: true
+      maxUnavailable: 1
     args:
       metricsAddr: :8080
       probeBindAddr: :8081
@@ -104,6 +126,9 @@ argo-cd:
 
   redis:
     enabled: true
+    pdb:
+      enabled: true
+      maxUnavailable: 1
 
   redis-ha:
     enabled: false
@@ -120,6 +145,10 @@ argo-cd:
     enabled: true
 
   repoServer:
+    replicas: 2
+    pdb:
+      enabled: true
+      maxUnavailable: 1
     rbac:
       - verbs:
           - get
