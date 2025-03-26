@@ -1,0 +1,4 @@
+---
+authentik:
+  authentik:
+    log_level: info

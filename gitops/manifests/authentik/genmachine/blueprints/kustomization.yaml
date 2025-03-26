@@ -1,0 +1,19 @@
+---
+kind: Kustomization
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: authentik-blueprints
+    files:
+      - ./oidc-vault.yaml
+      - ./oidc-homarr.yaml
+      - ./oidc-wireguard.yaml
+      - ./proxy-traefik.yaml
+      - ./proxy-adguard.yaml
+      - ./groups.yaml
+      - ./service-accounts.yaml
+      - ./properties.yaml
+      - ./flows.yaml
+      - ./enrollment.yaml

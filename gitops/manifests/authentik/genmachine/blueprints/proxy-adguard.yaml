@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+# yamllint disable
+---
+version: 1
+metadata:
+  name: genmachine-adguard
+entries:
+  - id: provider
+    model: authentik_providers_proxy.proxyprovider
+    identifiers:
+      name: genmachine-adguard
+    attrs:
+      authorization_flow: !Find [authentik_flows.flow, [slug, 'default-provider-authorization-implicit-consent']]
+      invalidation_flow: !Find [authentik_flows.flow, [slug, default-invalidation-flow]]
+      mode: forward_single
+      external_host: https://adguard.talos-genmachine.fredcorp.com
+      access_token_validity: hours=1
+      refresh_token_validity: hours=24
+      intercept_header_auth: true
+      internal_host_ssl_validation: true
+      basic_auth_enabled: true
+      basic_auth_password_attribute: app_password
+      basic_auth_user_attribute: app_username
+
+  - id: application
+    model: authentik_core.application
+    identifiers:
+      name: genmachine-adguard
+    attrs:
+      name: genmachine-adguard
+      group: Network
+      meta_description: Adguard Home
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, genmachine-adguard]]
+      policy_engine_mode: any
+      slug: genmachine-adguard

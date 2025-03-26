@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+# yamllint disable
+---
+version: 1
+metadata:
+  name: oauth-scope
+entries:
+  - model: authentik_providers_oauth2.scopemapping
+    identifiers:
+      name: "OAuth mapping: OpenID 'is_admin' for Wireguard"
+    attrs:
+      description: is_admin claim for Wireguard Portal OIDC
+      expression: |
+        return {
+          "is_admin": ak_is_group_member(request.user, name="Wireguard admins")
+        }
+      name: wireguard-is-admin
+      scope_name: is_admin

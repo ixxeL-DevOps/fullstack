@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+# yamllint disable
+---
+version: 1
+metadata:
+  name: Groups
+entries:
+  - model: authentik_core.group
+    identifiers:
+      name: Vault admins
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    identifiers:
+      name: Homarr admins
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    identifiers:
+      name: Adguard admins
+    attrs:
+      attributes:
+        app_username: admin
+        app_password: xxxx
+      users:
+        - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    identifiers:
+      name: Wireguard admins
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    identifiers:
+      name: Traefik admins
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    identifiers:
+      name: sa-homarr
+    attrs:
+      name: sa-homarr
+      users:
+        - !Find [authentik_core.user, [username, sa-homarr]]

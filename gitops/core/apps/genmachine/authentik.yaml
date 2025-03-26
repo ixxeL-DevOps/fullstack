@@ -1,0 +1,65 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: authentik
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../../values;../blueprints
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/authentik/*'
+            exclude: false
+          - path: 'gitops/manifests/authentik/values'
+            exclude: true
+          - path: 'gitops/manifests/authentik/beelink'
+            exclude: true
+  template:
+    metadata:
+      name: 'authentik-{{ index .path.segments 3 }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-storage
+      destination:
+        name: '{{ index .path.segments 3 }}'
+        namespace: authentik
+      sources:
+        - path: 'gitops/manifests/authentik/{{ index .path.segments 3 }}/app'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: authentik
+            valueFiles:
+              - $values/gitops/manifests/authentik/values/common-values.yaml
+              - $values/gitops/manifests/authentik/{{ index .path.segments 3 }}/app/{{ index .path.segments 3 }}-values.yaml
+            ignoreMissingValueFiles: true
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+        - path: gitops/manifests/authentik/{{ index .path.segments 3 }}/blueprints
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 2m
