@@ -4,3 +4,4 @@
 *.sops.*
 gitops/local-storage
 **/templates/**
+**/*excalidraw*
