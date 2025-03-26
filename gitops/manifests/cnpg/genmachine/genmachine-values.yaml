@@ -1,0 +1,11 @@
+---
+cloudnative-pg:
+  image:
+    repository: ghcr.io/cloudnative-pg/cloudnative-pg
+    pullPolicy: IfNotPresent
+    tag: '1.25.1'
+
+  monitoring:
+    podMonitorEnabled: true
+    podMonitorAdditionalLabels:
+      release: prometheus

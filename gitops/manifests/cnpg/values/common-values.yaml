@@ -1,0 +1,10 @@
+---
+cloudnative-pg:
+  crds:
+    create: true
+  config:
+    create: true
+    name: cnpg-controller-manager-config
+    secret: false
+    clusterWide: true
+  priorityClassName: 'system-cluster-critical'
