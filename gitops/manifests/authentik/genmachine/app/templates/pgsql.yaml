@@ -10,8 +10,6 @@ spec:
   storage:
     storageClass: proxmox-retain
     size: 8Gi
-    pvcTemplate:
-      name: "authentik-pgsql"
   monitoring:
     enablePodMonitor: true
   bootstrap:
