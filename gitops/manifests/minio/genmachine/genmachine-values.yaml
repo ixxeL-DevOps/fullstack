@@ -59,7 +59,7 @@ minio:
           - minio.talos-genmachine.fredcorp.com
 
   buckets:
-    - name: test
+    - name: cnpg-backup
       # Policy to be set on the
       # bucket [none|download|upload|public]
       policy: none
