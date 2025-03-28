@@ -18,13 +18,13 @@ spec:
       owner: authentik
       secret:
         name: pgsql-basic-auth
-  wal:
-    encryption: ""
-  data:
-    encryption: ""
   backup:
     barmanObjectStore:
-      destinationPath: s3:https://minio-api.talos-genmachine.fredcorp.com/cnpg-backup/authentik/genmachine
+      destinationPath: s3://cnpg-backup/authentik/genmachine
+      endpointURL: https://minio-api.talos-genmachine.fredcorp.com
+      endpointCA:
+        name: fredcorp-ca-chain
+        key: fredcorp-ca-chain.pem
       s3Credentials:
         accessKeyId:
           name: restic-config
@@ -32,6 +32,11 @@ spec:
         secretAccessKey:
           name: restic-config
           key: AWS_SECRET_ACCESS_KEY
+      wal:
+        compression: bzip2
+      data:
+        compression: bzip2
+    retentionPolicy: "15d"
 
 ---
 apiVersion: external-secrets.io/v1beta1
