@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: authentik
+  name: authentik-pgsql
 spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17.4
   instances: 1

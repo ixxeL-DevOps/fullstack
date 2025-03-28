@@ -1,0 +1,62 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: crossplane
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/crossplane/*'
+            exclude: false
+          - path: 'gitops/manifests/crossplane/values'
+            exclude: true
+          - path: 'gitops/manifests/crossplane/beelink'
+            exclude: true
+  template:
+    metadata:
+      name: 'crossplane-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-monitoring
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: crossplane
+      sources:
+        - path: 'gitops/manifests/crossplane/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: crossplane
+            valueFiles:
+              - $values/gitops/manifests/crossplane/values/common-values.yaml
+              - $values/gitops/manifests/crossplane/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+            ignoreMissingValueFiles: true
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 2m

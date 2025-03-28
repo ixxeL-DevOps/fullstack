@@ -1,0 +1,5 @@
+---
+crossplane:
+  deploymentStrategy: RollingUpdate
+
+komoplane:

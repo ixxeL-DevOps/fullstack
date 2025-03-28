@@ -1,0 +1,30 @@
+---
+crossplane:
+  image:
+    repository: xpkg.upbound.io/crossplane/crossplane
+    tag: 'v1.19.1'
+    pullPolicy: IfNotPresent
+
+komoplane:
+  image:
+    repository: komodorio/komoplane
+    pullPolicy: IfNotPresent
+    tag: '0.1.6'
+
+  ingress:
+    enabled: true
+    className: 'traefik'
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: komoplane.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    hosts:
+      - host: komoplane.talos-genmachine.fredcorp.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: komoplane-tls-cert
+        hosts:
+          - komoplane.talos-genmachine.fredcorp.com
