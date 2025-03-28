@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Backup
 metadata:
-  name: authentik
+  name: authentik-pgsql
 spec:
   cluster:
-    name: authentik
+    name: authentik-pgsql

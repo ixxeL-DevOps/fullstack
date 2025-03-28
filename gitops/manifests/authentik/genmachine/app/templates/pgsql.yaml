@@ -18,6 +18,10 @@ spec:
       owner: authentik
       secret:
         name: pgsql-basic-auth
+  wal:
+    encryption: ""
+  data:
+    encryption: ""
   backup:
     barmanObjectStore:
       destinationPath: s3:https://minio-api.talos-genmachine.fredcorp.com/cnpg-backup/authentik/genmachine
