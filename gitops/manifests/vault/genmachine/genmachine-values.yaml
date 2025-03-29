@@ -1,0 +1,31 @@
+---
+vault:
+  server:
+    image:
+      repository: 'hashicorp/vault'
+      tag: '1.19.0'
+      pullPolicy: IfNotPresent
+
+    dataStorage:
+      enabled: true
+      size: 10Gi
+      storageClass: proxmox-retain
+      accessMode: ReadWriteOnce
+
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: vault.talos-genmachine.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
+      ingressClassName: traefik
+      pathType: Prefix
+      activeService: true
+      hosts:
+        - host: vault.talos-genmachine.fredcorp.com
+          paths: []
+      tls:
+        - secretName: vault-tls-cert
+          hosts:
+            - vault.talos-genmachine.fredcorp.com
