@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: authentik-pgsql
+  name: &recoverCluster authentik-pgsql
 spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17.4
   instances: 1
@@ -18,26 +18,34 @@ spec:
       owner: authentik
       secret:
         name: pgsql-basic-auth
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://cnpg-backup/authentik/genmachine
-      endpointURL: https://minio-api.talos-genmachine.fredcorp.com
-      endpointCA:
-        name: fredcorp-ca-chain
-        key: fredcorp-ca-chain.pem
-      s3Credentials:
-        accessKeyId:
-          name: restic-config
-          key: AWS_ACCESS_KEY_ID
-        secretAccessKey:
-          name: restic-config
-          key: AWS_SECRET_ACCESS_KEY
-      wal:
-        compression: bzip2
-      data:
-        compression: bzip2
-    retentionPolicy: "15d"
-
+  # bootstrap:
+  #   recovery:
+  #     source: *recoverCluster
+  # backup:
+  #   retentionPolicy: "15d"
+  #   barmanObjectStore: &barmanObjectStore
+  #     serverName: &currentCluster authentik-pgsql-recover
+  #     destinationPath: s3://cnpg-backup/authentik/genmachine
+  #     endpointURL: https://minio-api.talos-genmachine.fredcorp.com
+  #     endpointCA:
+  #       name: fredcorp-ca-chain
+  #       key: fredcorp-ca-chain.pem
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: restic-config
+  #         key: AWS_ACCESS_KEY_ID
+  #       secretAccessKey:
+  #         name: restic-config
+  #         key: AWS_SECRET_ACCESS_KEY
+  #     wal:
+  #       compression: bzip2
+  #     data:
+  #       compression: bzip2
+  # externalClusters:
+  # - name: *recoverCluster
+  #   barmanObjectStore:
+  #     <<: *barmanObjectStore
+  #     serverName: *recoverCluster
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
