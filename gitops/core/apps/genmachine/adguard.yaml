@@ -1,0 +1,62 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: adguard
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/adguard/*'
+            exclude: false
+          - path: 'gitops/manifests/adguard/values'
+            exclude: true
+          - path: 'gitops/manifests/adguard/beelink'
+            exclude: true
+  template:
+    metadata:
+      name: 'adguard-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+    spec:
+      project: infra-security
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: adguard
+      sources:
+        - path: 'gitops/manifests/adguard/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: adguard
+            valueFiles:
+              - $values/gitops/manifests/adguard/values/common-values.yaml
+              - $values/gitops/manifests/adguard/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+            ignoreMissingValueFiles: true
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 2m

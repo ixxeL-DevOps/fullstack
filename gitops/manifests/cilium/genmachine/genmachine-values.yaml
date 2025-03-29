@@ -2,7 +2,7 @@
 ipamIpPool:
   enabled: true
   start: '192.168.1.160'
-  stop: '192.168.1.170'
+  stop: '192.168.1.200'
 
 cilium:
   image:

@@ -1,0 +1,86 @@
+---
+adguard-home:
+  image:
+    repository: adguard/adguardhome
+    pullPolicy: Always
+    tag: v0.107.59
+
+  services:
+    adminPanel:
+      type: ClusterIP
+      port: 3000
+    http:
+      type: ClusterIP
+      port: 80
+    https:
+      enabled: true
+      type: ClusterIP
+      port: 443
+    dns:
+      enabled: true
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.1.200
+      tcp:
+        port: 53
+        nodePort:
+      udp:
+        port: 53
+        nodePort:
+    dnsOverTls:
+      enabled: false
+    dnsOverQuic:
+      enabled: false
+    dnscrypt:
+      enabled: false
+
+  ingresses:
+    adminPanel:
+      enabled: false
+    http:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: adguard.talos-genmachine.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
+      hosts:
+        - host: adguard.talos-genmachine.fredcorp.com
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: adguard-tls-cert
+          hosts:
+            - adguard.talos-genmachine.fredcorp.com
+    https:
+      enabled: false
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: adguard.k0s-fullstack.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
+      hosts:
+        - host: adguard.k0s-fullstack.fredcorp.com
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: adguard-tls-cert
+          hosts:
+            - adguard.k0s-fullstack.fredcorp.com
+
+  persistence:
+    existingClaim: pvc-adguard-data
+    volumeClaimSpec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+
+  bootstrapEnabled: false
