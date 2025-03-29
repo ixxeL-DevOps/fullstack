@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: authentik
+  name: k8up
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../../values;../blueprints
+    argocd.argoproj.io/manifest-generate-paths: .;../../values;../crd
 spec:
   goTemplate: true
   generators:
@@ -13,36 +13,36 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/authentik/*'
+          - path: 'gitops/manifests/k8up/*'
             exclude: false
-          - path: 'gitops/manifests/authentik/values'
+          - path: 'gitops/manifests/k8up/values'
             exclude: true
-          - path: 'gitops/manifests/authentik/beelink'
+          - path: 'gitops/manifests/k8up/beelink'
             exclude: true
   template:
     metadata:
-      name: 'authentik-{{ index .path.segments 3 }}'
+      name: 'k8up-{{ index .path.segments 3 }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../../values;../blueprints
+        argocd.argoproj.io/manifest-generate-paths: .;../../values;../crd
     spec:
       project: infra-storage
       destination:
         name: '{{ index .path.segments 3 }}'
-        namespace: authentik
+        namespace: k8up
       sources:
-        - path: 'gitops/manifests/authentik/{{ index .path.segments 3 }}/app'
+        - path: 'gitops/manifests/k8up/{{ index .path.segments 3 }}/app'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: authentik
+            releaseName: k8up
             valueFiles:
-              - $values/gitops/manifests/authentik/values/common-values.yaml
-              - $values/gitops/manifests/authentik/{{ index .path.segments 3 }}/app/{{ index .path.segments 3 }}-values.yaml
+              - $values/gitops/manifests/k8up/values/common-values.yaml
+              - $values/gitops/manifests/k8up/{{ index .path.segments 3 }}/app/{{ index .path.segments 3 }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
-        - path: gitops/manifests/authentik/{{ index .path.segments 3 }}/blueprints
+        - path: gitops/manifests/k8up/{{ index .path.segments 3 }}/crd
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
       syncPolicy:
@@ -63,8 +63,3 @@ spec:
             duration: 10s
             factor: 2
             maxDuration: 2m
-        managedNamespaceMetadata:
-          annotations:
-            volsync.backube/privileged-movers: 'true'
-          labels:
-            bundle.chain/inject: 'enabled'

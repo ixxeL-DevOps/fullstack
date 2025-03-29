@@ -1,0 +1,4 @@
+---
+k8up:
+  k8up:
+    timezone: 'Europe/Paris'
