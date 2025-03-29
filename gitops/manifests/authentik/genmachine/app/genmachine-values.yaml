@@ -38,7 +38,7 @@ authentik:
     error_reporting:
       enabled: false
     postgresql:
-      host: 'authentik-rw'
+      host: 'authentik-pgsql-rw'
       name: 'authentik'
       port: 5432
       user: file:///pgsql-creds/username

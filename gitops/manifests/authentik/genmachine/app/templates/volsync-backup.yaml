@@ -4,7 +4,7 @@ kind: ReplicationSource
 metadata:
   name: backup-authentik-pgsql
 spec:
-  sourcePVC: authentik-1
+  sourcePVC: authentik-pgsql-1
   trigger:
     schedule: "0 1 * * 3" # On wednesday every week at 01:00 AM
   restic:
