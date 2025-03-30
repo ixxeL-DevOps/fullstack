@@ -26,7 +26,7 @@ gha-runner-scale-set:
   githubConfigUrl: 'https://github.com/ixxeL-DevOps'
   githubConfigSecret: gha-runner-secret
   maxRunners: 3
-  minRunners: 0
+  minRunners: 1
   runnerGroup: 'fredcorp-talos'
   runnerScaleSetName: 'fredcorp'
   containerMode:
