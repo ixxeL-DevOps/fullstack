@@ -5,7 +5,7 @@ metadata:
   name: vault
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -23,7 +23,7 @@ spec:
     metadata:
       name: 'vault-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
       project: infra-security
       destination:

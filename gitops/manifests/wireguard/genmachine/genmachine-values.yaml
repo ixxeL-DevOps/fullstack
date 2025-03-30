@@ -4,18 +4,6 @@ wg-portal:
     repository: wgportal/wg-portal
     pullPolicy: IfNotPresent
     tag: v2
-  podSecurityContext:
-    sysctls:
-      - name: net.ipv4.ip_forward
-        value: '1'
-      - name: net.ipv4.conf.all.src_valid_mark
-        value: '1'
-  securityContext:
-    # privileged: true
-    capabilities:
-      add:
-        - NET_ADMIN
-        # - SYS_MODULE
 
   # Trusted cert config (OIDC)
   volumes:
@@ -37,10 +25,9 @@ wg-portal:
 
   persistence:
     enabled: true
-    storageClass: 'local-path-retain'
+    storageClass: 'proxmox-retain'
     accessMode: ReadWriteOnce
     size: 1Gi
-    volumeName: pv-wireguard-data
 
   service:
     mixed:
@@ -52,6 +39,7 @@ wg-portal:
       appProtocol: http
     wireguard:
       type: LoadBalancer
+      loadBalancerIP: 192.168.1.199
       externalTrafficPolicy: Local
       ports:
         - 51820
@@ -67,12 +55,12 @@ wg-portal:
       self_provisioning_allowed: true
 
     auth:
-      callback_url_prefix: https://wireguard.k0s-fullstack.fredcorp.com/api/v0
+      callback_url_prefix: https://wireguard.talos-genmachine.fredcorp.com/api/v0
       oidc:
         - id: Authentik
           provider_name: Authentik
           display_name: OIDC Authentik
-          base_url: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-wireguard/
+          base_url: https://authentik.talos-genmachine.fredcorp.com/application/o/genmachine-wireguard/
           client_id: '${OIDC_CLIENT_ID}'
           client_secret: '${OIDC_CLIENT_SECRET}'
           extra_scopes:
@@ -88,7 +76,7 @@ wg-portal:
           log_user_info: false
 
     web:
-      external_url: https://wireguard.k0s-fullstack.fredcorp.com
+      external_url: https://wireguard.talos-genmachine.fredcorp.com
     advanced:
       log_level: info
       log_pretty: true
@@ -99,10 +87,7 @@ wg-portal:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: fredcorp-ca
-      cert-manager.io/common-name: wireguard.k0s-fullstack.fredcorp.com
+      cert-manager.io/common-name: wireguard.talos-genmachine.fredcorp.com
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       traefik.ingress.kubernetes.io/service.scheme: https
-      traefik.ingress.kubernetes.io/router.middlewares: traefik-hsts@kubernetescrd
-    # annotations:
-    #   traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
     tls: true
