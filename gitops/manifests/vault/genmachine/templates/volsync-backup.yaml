@@ -1,24 +1,24 @@
-# ---
-# apiVersion: volsync.backube/v1alpha1
-# kind: ReplicationSource
-# metadata:
-#   name: backup-authentik-pgsql
-# spec:
-#   sourcePVC: authentik-pgsql-1
-#   trigger:
-#     schedule: "0 1 * * 3" # On wednesday every week at 01:00 AM
-#   restic:
-#     customCA:
-#       secretName: fredcorp-ca-chain
-#       key: fredcorp-ca-chain.pem
-#     pruneIntervalDays: 7
-#     repository: restic-config
-#     retain:
-#       weekly: 3
-#       monthly: 2
-#       yearly: 1
-#     copyMethod: Direct
-#     storageClassName: nfs-csi-delete
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: backup-vault
+spec:
+  sourcePVC: data-vault-0
+  trigger:
+    schedule: "0 1 * * 3" # On wednesday every week at 01:00 AM
+  restic:
+    customCA:
+      secretName: fredcorp-ca-chain
+      key: fredcorp-ca-chain.pem
+    pruneIntervalDays: 7
+    repository: restic-config
+    retain:
+      weekly: 3
+      monthly: 2
+      yearly: 1
+    copyMethod: Direct
+    storageClassName: nfs-csi-delete
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -36,7 +36,7 @@ spec:
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: s3:https://minio-api.talos-genmachine.fredcorp.com/restic/volsync/authentik/genmachine/pgsql
+        RESTIC_REPOSITORY: s3:https://minio-api.talos-genmachine.fredcorp.com/restic/volsync/vault/genmachine
         RESTIC_PASSWORD: '{{ "{{" }}.restic_password{{ "}}" }}'
         AWS_ACCESS_KEY_ID: '{{ "{{" }}.minio_user{{ "}}" }}'
         AWS_SECRET_ACCESS_KEY: '{{ "{{" }}.minio_password{{ "}}" }}'

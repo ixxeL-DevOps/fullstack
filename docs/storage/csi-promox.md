@@ -180,3 +180,42 @@ and unmount:
 ```bash
 umount /mnt/lvm-volume
 ```
+
+### Cleanup
+
+Display volumes :
+
+```console
+root@genmachine:~# lvs
+  LV                                               VG  Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  data                                             pve twi-aotz-- 794.30g             8.58   0.53
+  root                                             pve -wi-ao----  96.00g
+  swap                                             pve -wi-ao----   8.00g
+  vm-201-disk-0                                    pve Vwi-aotz-- 150.00g data        17.63
+  vm-202-disk-0                                    pve Vwi-aotz-- 150.00g data        12.19
+  vm-203-disk-0                                    pve Vwi-aotz-- 150.00g data        13.02
+  vm-9999-pvc-0e8fe432-4ab3-4e1e-ad21-685347c2fcd8 pve Vwi-aotz--   2.00g data        5.06
+  vm-9999-pvc-1da305d3-b648-46dc-9ad7-b57176acd5ff pve Vwi-a-tz--   8.00g data        5.60
+  vm-9999-pvc-2a8ec1f7-3b32-438e-8409-8a912c8f0943 pve Vwi-a-tz--   2.00g data        5.06
+  vm-9999-pvc-2e1cee20-788d-4603-831f-aa6226a75cea pve Vwi-a-tz--   2.00g data        5.02
+  vm-9999-pvc-4454e534-b0df-41f9-a08e-5911a0c5892a pve Vwi-aotz--  10.00g data        2.33
+  vm-9999-pvc-48404b2f-71b2-4db4-a228-6eef4736fcff pve Vwi-a-tz--   8.00g data        5.30
+  vm-9999-pvc-4c5e4578-764f-4cd5-a23a-6f62f5913695 pve Vwi-a-tz--   8.00g data        1.45
+  vm-9999-pvc-5be83d2d-d7cc-4d39-aa82-f66d92305f41 pve Vwi-a-tz--   8.00g data        5.39
+  vm-9999-pvc-5d2019bb-79eb-49a3-87a2-f2e2e7999ceb pve Vwi-a-tz--   8.00g data        8.04
+  vm-9999-pvc-62368786-acf7-445d-8a6b-0a927b6d5564 pve Vwi-aotz--   8.00g data        9.80
+  vm-9999-pvc-7181fd6d-57a3-42b9-964f-103843a56372 pve Vwi-a-tz--   8.00g data        3.37
+  vm-9999-pvc-ed394ebe-3121-4c08-ad8b-9c30e139de4f pve Vwi-aotz--  10.00g data        2.24
+```
+
+Volume like that `Vwi-aotz--` are online and used propably by `StorageClass`.
+
+To clean up offline volumes :
+
+```bash
+lvs -o name,attr | awk 'NR>1 && $2 !~ /o/ {print "/dev/pve/" $1}' |  xargs -n 1 lvchange -an
+```
+
+```bash
+lvs -o name,attr | awk 'NR>1 && $2 !~ /o/ {print "/dev/pve/" $1}' |  xargs -n 1 lvremove
+```
