@@ -16,9 +16,10 @@ spec:
     retain:
       hourly: 2
       daily: 2
-      weekly: 3
-      monthly: 2
+      weekly: 4
+      monthly: 4
       yearly: 1
+      within: 24h
     copyMethod: Direct
     storageClassName: nfs-csi-delete
 ---

@@ -28,7 +28,7 @@ tasks:
       MINIO_ROOT_PASSWORD: '{{.MINIO_ROOT_PASSWORD}}'
       RESTIC_PASSWORD: '{{.RESTIC_PASSWORD}}'
     cmds:
-      - restic stats -r s3:https://{{.MINIO_API}}/restic/volsync/vault/genmachine
+      - restic stats -r s3:https://{{.MINIO_API}}/restic/volsync/adguard/test
 
   check:
     desc: Check repo for errors
@@ -44,7 +44,7 @@ tasks:
       MINIO_ROOT_PASSWORD: '{{.MINIO_ROOT_PASSWORD}}'
       RESTIC_PASSWORD: '{{.RESTIC_PASSWORD}}'
     cmds:
-      - restic check -r s3:https://{{.MINIO_API}}/restic/volsync/vault/genmachine
+      - restic check -r s3:https://{{.MINIO_API}}/restic/volsync/adguard/test
 
   forget:
     desc: Froget/Clean
@@ -60,4 +60,20 @@ tasks:
       MINIO_ROOT_PASSWORD: '{{.MINIO_ROOT_PASSWORD}}'
       RESTIC_PASSWORD: '{{.RESTIC_PASSWORD}}'
     cmds:
-      - restic forget -r s3:https://{{.MINIO_API}}/restic/volsync/adguard/genmachine --prune --keep-last 5 -v
+      - restic forget -r s3:https://{{.MINIO_API}}/restic/volsync/adguard/test --prune --keep-last 5 -v
+
+  snapshots:
+    desc: get snapshots
+    vars:
+      MINIO_ROOT_USER:
+        sh: vault kv get -format=json -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/minio/creds/admin | jq -r '.data.data.user'
+      MINIO_ROOT_PASSWORD:
+        sh: vault kv get -format=json -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/minio/creds/admin | jq -r '.data.data.password'
+      RESTIC_PASSWORD:
+        sh: vault kv get -format=json -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/restic/repo/minio-backup | jq -r '.data.data.password'
+    env:
+      MINIO_ROOT_USER: '{{.MINIO_ROOT_USER}}'
+      MINIO_ROOT_PASSWORD: '{{.MINIO_ROOT_PASSWORD}}'
+      RESTIC_PASSWORD: '{{.RESTIC_PASSWORD}}'
+    cmds:
+      - restic snapshots -r s3:https://{{.MINIO_API}}/restic/volsync/adguard/test
