@@ -110,7 +110,7 @@ tasks:
         - HOSTNAME
         - FILENAME
     cmds:
-      - talosctl apply-config --context "{{.cluster}}" --nodes "{{.HOSTNAME}}" --file "{{.FILENAME}}" --insecure
+      - talosctl apply-config --context "{{.cluster}}" --nodes "{{.HOSTNAME}}" --file "{{.FILENAME}}"
 
   bootstrap-etcd:
     desc: Bootstrap Etcd
