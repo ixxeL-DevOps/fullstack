@@ -1,0 +1,3 @@
+---
+adguard-home:
+  priorityClassName: 'infra-apps-priority'

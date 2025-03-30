@@ -5,7 +5,7 @@ metadata:
   name: authentik
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../../values;../blueprints
+    argocd.argoproj.io/manifest-generate-paths: .;../../common;../blueprints
 spec:
   goTemplate: true
   generators:
@@ -15,7 +15,7 @@ spec:
         directories:
           - path: 'gitops/manifests/authentik/*'
             exclude: false
-          - path: 'gitops/manifests/authentik/values'
+          - path: 'gitops/manifests/authentik/common'
             exclude: true
           - path: 'gitops/manifests/authentik/beelink'
             exclude: true
@@ -23,9 +23,9 @@ spec:
     metadata:
       name: 'authentik-{{ index .path.segments 3 }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../../values;../blueprints
+        argocd.argoproj.io/manifest-generate-paths: .;../../common;../blueprints
     spec:
-      project: infra-storage
+      project: infra-security
       destination:
         name: '{{ index .path.segments 3 }}'
         namespace: authentik
@@ -36,7 +36,7 @@ spec:
           helm:
             releaseName: authentik
             valueFiles:
-              - $values/gitops/manifests/authentik/values/common-values.yaml
+              - $values/gitops/manifests/authentik/common/common-values.yaml
               - $values/gitops/manifests/authentik/{{ index .path.segments 3 }}/app/{{ index .path.segments 3 }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git

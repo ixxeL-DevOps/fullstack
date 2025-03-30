@@ -1,0 +1,6 @@
+---
+authentik:
+  global:
+    priorityClassName: 'infra-apps-priority'
+  authentik:
+    log_level: info

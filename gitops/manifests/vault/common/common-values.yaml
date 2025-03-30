@@ -9,6 +9,7 @@ vault:
   server:
     enabled: true
     updateStrategyType: 'RollingUpdate'
+    priorityClassName: 'infra-apps-priority'
 
   standalone:
     enabled: true
