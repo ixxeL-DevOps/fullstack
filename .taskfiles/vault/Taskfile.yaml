@@ -3,6 +3,15 @@
 version: '3'
 
 tasks:
+  oicd-setup:
+    desc: Configure k8s auth for Vault External Secrets
+    vars:
+      cluster: genmachine
+    cmds:
+      - task: enable-vault-oidc
+        vars:
+          cluster: '{{.cluster}}'
+
   eso-auth-setup:
     desc: Configure k8s auth for Vault External Secrets
     vars:
@@ -52,12 +61,12 @@ tasks:
         cluster: Cluster to run command against (required)
     cmds:
       - |
-        if ! vault auth list -tls-skip-verify -address={{.VAULT_ENDPOINT}} -format=json | jq -e '.["{{.cluster}}/"] | .type == "kubernetes"' > /dev/null
+        if ! vault auth list -tls-skip-verify -address={{.VAULT_ENDPOINT}} -format=json | jq -e '.["{{.cluster}}-k8s/"] | .type == "kubernetes"' > /dev/null
         then
-          echo "Kubernetes auth {{.cluster}} is does not exist yet, creating it..."
-          vault auth enable -path={{.cluster}}/ -tls-skip-verify -address={{.VAULT_ENDPOINT}} kubernetes
+          echo "Kubernetes auth {{.cluster}}-k8s is does not exist yet, creating it..."
+          vault auth enable -path={{.cluster}}-k8s/ -tls-skip-verify -address={{.VAULT_ENDPOINT}} kubernetes
         else
-          echo "Kubernetes auth {{.cluster}} is already enabled. Skipping."
+          echo "Kubernetes auth {{.cluster}}-k8s is already enabled. Skipping."
         fi
     requires:
       vars:
@@ -77,7 +86,7 @@ tasks:
         kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode > ca.crt
         TOKEN="$(kubectl get secret -n {{.namespace}} {{.service_account}} -o jsonpath='{.data.token}' | base64 -d)"
         vault write -tls-skip-verify -address={{.VAULT_ENDPOINT}}  \
-          auth/{{.cluster}}/config token_reviewer_jwt="$TOKEN" \
+          auth/{{.cluster}}-k8s/config token_reviewer_jwt="$TOKEN" \
           kubernetes_host="https://{{.K8S_API}}:6443" \
           kubernetes_ca_cert=@ca.crt
         rm ca.crt
@@ -95,7 +104,7 @@ tasks:
       - |
         echo "Creating associated role in Vault..."
         vault write -tls-skip-verify -address={{.VAULT_ENDPOINT}}  \
-          auth/{{.cluster}}/role/{{.role}} \
+          auth/{{.cluster}}-k8s/role/{{.role}} \
           bound_service_account_names={{.service_account}} \
           bound_service_account_namespaces={{.namespace}} \
           policies={{.policy}} ttl=24h
@@ -106,5 +115,25 @@ tasks:
         - service_account
         - role
         - policy
+    silent: true
+    continue: true
+
+  enable-vault-oidc:
+    desc: 'Check if OIDC auth is already enabled'
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+    cmds:
+      - |
+        if ! vault auth list -tls-skip-verify -address={{.VAULT_ENDPOINT}} -format=json | jq -e '.["{{.cluster}}-oidc/"] | .type == "oidc"' > /dev/null
+        then
+          echo "OIDC auth {{.cluster}}-oidc is does not exist yet, creating it..."
+          vault auth enable -path={{.cluster}}-oidc/ -tls-skip-verify -address={{.VAULT_ENDPOINT}} oidc
+        else
+          echo "OIDC auth {{.cluster}}-oidc/ is already enabled. Skipping."
+        fi
+    requires:
+      vars:
+        - cluster
     silent: true
     continue: true
