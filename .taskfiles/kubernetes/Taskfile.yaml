@@ -37,3 +37,27 @@ tasks:
     desc: What dockerhub images are running in my cluster
     cmds:
       - kubectl get pods --all-namespaces -o=jsonpath="{range .items[*]}{'\n'}{range .spec.containers[*]}{.image}{'\n'}{end}{end}" | sort | uniq | grep -Ev 'quay|gcr|ghcr|ecr|us-docker' | grep -Ev 'bitnami|rook|intel|grafana' |  sed -e 's/docker\.io\///g' | sort | uniq
+
+  browse-pvc:
+    desc: Mount a PVC to an temp container
+    interactive: true
+    cmds:
+      - |
+        PVC_DATA=$(kubectl get pvc -A --no-headers | awk '{print $1 " --> " $2}')
+        SELECTION_OPTIONS=()
+
+        while IFS= read -r entry; do
+          SELECTION_OPTIONS+=("$entry")
+        done <<< "$PVC_DATA"
+
+        SELECTED_OPTION=$(printf "%s\n" "${SELECTION_OPTIONS[@]}" | gum choose --header="Select a PVC to browse")
+
+        if [ -n "$SELECTED_OPTION" ]
+        then
+          CLEAN_OPTION="${SELECTED_OPTION//[[:space:]]/}"
+          NAMESPACE=$(echo "$CLEAN_OPTION" | awk -F'-->' '{print $1}')
+          SELECTED_PVC=$(echo "$CLEAN_OPTION" | awk -F'-->' '{print $2}')
+          kubectl browse-pvc --namespace "$NAMESPACE" --image docker.io/library/alpine:latest "$SELECTED_PVC"
+        else
+          echo "No PVC selected"
+        fi
