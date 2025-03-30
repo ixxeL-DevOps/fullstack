@@ -40,7 +40,7 @@ metadata:
   name: fredcorp-ca
 spec:
   vault:
-    server: https://vault.k0s-fullstack.fredcorp.com
+    server: https://vault.talos-genmachine.fredcorp.com
     path: pki_int/sign/fredcorp.com
     caBundleSecretRef:
       key: ca.crt

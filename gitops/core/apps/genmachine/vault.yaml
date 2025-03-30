@@ -15,7 +15,7 @@ spec:
         directories:
           - path: 'gitops/manifests/vault/*'
             exclude: false
-          - path: 'gitops/manifests/vault/values'
+          - path: 'gitops/manifests/vault/common'
             exclude: true
           - path: 'gitops/manifests/vault/beelink'
             exclude: true
