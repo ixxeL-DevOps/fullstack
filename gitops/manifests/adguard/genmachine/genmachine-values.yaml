@@ -5,6 +5,14 @@ adguard-home:
     pullPolicy: Always
     tag: v0.107.59
 
+  strategy:
+    type: Recreate
+    # rollingUpdate:
+    #   maxSurge: 1
+    #   maxUnavailable: 33%
+
+  replicaCount: 1
+
   services:
     adminPanel:
       type: ClusterIP
