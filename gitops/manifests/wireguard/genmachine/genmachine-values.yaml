@@ -39,8 +39,8 @@ wg-portal:
       appProtocol: http
     wireguard:
       type: LoadBalancer
-      loadBalancerIP: 192.168.1.199
-      externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.1.197
+      # externalTrafficPolicy: Local
       ports:
         - 51820
     metrics:
@@ -78,7 +78,7 @@ wg-portal:
     web:
       external_url: https://wireguard.talos-genmachine.fredcorp.com
     advanced:
-      log_level: info
+      log_level: trace
       log_pretty: true
       log_json: false
 
