@@ -5,7 +5,7 @@ metadata:
   name: wireguard-k0s
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .
+    argocd.argoproj.io/manifest-generate-paths: .;../common
     argocd-diff-preview/watch-pattern: 'gitops/manifests/wireguard/.*'
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,10 +14,17 @@ spec:
     server: https://kubernetes.default.svc
     namespace: wireguard
   project: infra-security
-  source:
-    path: gitops/manifests/wireguard
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
+  sources:
+    - path: gitops/manifests/wireguard/beelink
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/gitops/manifests/wireguard/common/common-values.yaml
+          - $values/gitops/manifests/wireguard/beelink/beelink-values.yaml
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
   syncPolicy:
     automated:
       prune: true

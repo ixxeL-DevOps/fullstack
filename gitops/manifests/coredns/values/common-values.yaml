@@ -1,6 +1,7 @@
 ---
 coredns:
   replicaCount: 2
+  priorityClassName: "system-cluster-critical"
   serviceAccount:
     create: true
   service:
@@ -37,7 +38,7 @@ coredns:
         - name: prometheus
           parameters: 0.0.0.0:9153
         - name: forward
-          parameters: . 192.168.1.200
+          parameters: . 192.168.1.195
           configBlock: |-
             max_concurrent 1000
         - name: cache

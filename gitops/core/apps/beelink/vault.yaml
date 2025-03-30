@@ -5,7 +5,7 @@ metadata:
   name: vault-k0s
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .
+    argocd.argoproj.io/manifest-generate-paths: .;../common
     argocd-diff-preview/watch-pattern: 'gitops/manifests/vault/.*'
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,10 +14,17 @@ spec:
     server: https://kubernetes.default.svc
     namespace: vault
   project: infra-security
-  source:
-    path: gitops/manifests/vault
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
+  sources:
+    - path: gitops/manifests/vault/beelink
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/gitops/manifests/vault/common/common-values.yaml
+          - $values/gitops/manifests/vault/beelink/beelink-values.yaml
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
   syncPolicy:
     automated:
       prune: true

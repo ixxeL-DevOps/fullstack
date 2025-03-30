@@ -5,7 +5,7 @@ metadata:
   name: adguard-k0s
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .
+    argocd.argoproj.io/manifest-generate-paths: .;../common
     argocd-diff-preview/watch-pattern: 'gitops/manifests/adguard/.*'
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,10 +14,17 @@ spec:
     server: https://kubernetes.default.svc
     namespace: adguard
   project: infra-network
-  source:
-    path: gitops/manifests/adguard
-    repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-    targetRevision: main
+  sources:
+    - path: gitops/manifests/adguard/beelink
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        valueFiles:
+          - $values/gitops/manifests/adguard/common/common-values.yaml
+          - $values/gitops/manifests/adguard/beelink/beelink-values.yaml
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
   syncPolicy:
     automated:
       prune: true

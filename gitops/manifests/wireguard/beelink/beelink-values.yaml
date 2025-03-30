@@ -1,0 +1,93 @@
+---
+wg-portal:
+  image:
+    repository: wgportal/wg-portal
+    pullPolicy: IfNotPresent
+    tag: v2
+
+  # Trusted cert config (OIDC)
+  volumes:
+    - name: fredcorp-ca-chain
+      secret:
+        defaultMode: 420
+        secretName: fredcorp-ca-chain # Using cert-manager Bundle for chain CA fredcorp (Vault PKI)
+  volumeMounts:
+    - name: fredcorp-ca-chain
+      mountPath: /etc/ssl/certs/fredcorp-ca-chain.pem
+      subPath: fredcorp-ca-chain.pem
+      readOnly: true
+  # OIDC secret config
+  envFrom:
+    - secretRef:
+        name: oidc-wireguard
+    - secretRef:
+        name: admin-wireguard
+
+  persistence:
+    enabled: true
+    storageClass: 'local-path-retain'
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    volumeName: pv-wireguard-data
+
+  service:
+    mixed:
+      enabled: false
+      type: LoadBalancer
+    web:
+      type: ClusterIP
+      port: 8888
+      appProtocol: http
+    wireguard:
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+      ports:
+        - 51820
+    metrics:
+      port: 8787
+
+  config:
+    core:
+      admin_user: '${ADMIN_USER}'
+      admin_password: '${ADMIN_PASSWORD}'
+      import_existing: false
+      create_default_peer: true
+      self_provisioning_allowed: true
+
+    auth:
+      callback_url_prefix: https://wireguard.k0s-fullstack.fredcorp.com/api/v0
+      oidc:
+        - id: Authentik
+          provider_name: Authentik
+          display_name: OIDC Authentik
+          base_url: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-wireguard/
+          client_id: '${OIDC_CLIENT_ID}'
+          client_secret: '${OIDC_CLIENT_SECRET}'
+          extra_scopes:
+            - profile
+            - email
+            - openid
+            - is_admin
+          field_map:
+            email: email
+            user_identifier: email
+            is_admin: is_admin
+          registration_enabled: true
+          log_user_info: false
+
+    web:
+      external_url: https://wireguard.k0s-fullstack.fredcorp.com
+    advanced:
+      log_level: info
+      log_pretty: true
+      log_json: false
+
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: wireguard.k0s-fullstack.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    tls: true

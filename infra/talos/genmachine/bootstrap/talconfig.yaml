@@ -8,7 +8,7 @@ kubernetesVersion: v1.32.3
 
 allowSchedulingOnControlPlanes: true
 
-endpoint: https://talos-cluster.genmachine.fredcorp.com:6443
+endpoint: https://192.168.1.150:6443
 
 # Cilium will be installed post-bootstrap
 cniConfig:
@@ -34,7 +34,7 @@ nodes:
     controlPlane: true
     installDisk: /dev/sda
     nameservers:
-      - 192.168.1.200
+      - 192.168.1.195
       - 1.1.1.1
     networkInterfaces:
       - interface: eth0
@@ -47,7 +47,7 @@ nodes:
     controlPlane: true
     installDisk: /dev/sda
     nameservers:
-      - 192.168.1.200
+      - 192.168.1.195
       - 1.1.1.1
     networkInterfaces:
       - interface: eth0
@@ -60,7 +60,7 @@ nodes:
     controlPlane: true
     installDisk: /dev/sda
     nameservers:
-      - 192.168.1.200
+      - 192.168.1.195
       - 1.1.1.1
     networkInterfaces:
       - interface: eth0
@@ -227,6 +227,15 @@ controlPlane:
             - ip: 192.168.1.150
               aliases:
                 - talos-cluster.genmachine.fredcorp.com
+            - ip: 192.168.1.151
+              aliases:
+                - talos-1.genmachine.fredcorp.com
+            - ip: 192.168.1.152
+              aliases:
+                - talos-2.genmachine.fredcorp.com
+            - ip: 192.168.1.153
+              aliases:
+                - talos-3.genmachine.fredcorp.com
 
     # https://longhorn.io/docs/1.8.1/advanced-resources/os-distro-specific/talos-linux-support/#data-path-mounts
     - &longhornextraMount |-

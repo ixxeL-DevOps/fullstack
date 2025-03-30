@@ -5,8 +5,7 @@ metadata:
   name: authentik-k0s
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../../values;../blueprints
-    argocd-diff-preview/watch-pattern: 'gitops/manifests/authentik/app/.*, gitops/manifests/authentik/blueprints/.*'
+    argocd.argoproj.io/manifest-generate-paths: .;../../common;../blueprints
 spec:
   destination:
     server: https://kubernetes.default.svc
@@ -18,7 +17,7 @@ spec:
       targetRevision: main
       helm:
         valueFiles:
-          - $values/gitops/manifests/authentik/values/common-values.yaml
+          - $values/gitops/manifests/authentik/common/common-values.yaml
           - $values/gitops/manifests/authentik/beelink/app/beelink-values.yaml
     - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main

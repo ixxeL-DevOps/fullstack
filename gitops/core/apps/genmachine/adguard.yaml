@@ -25,7 +25,7 @@ spec:
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
-      project: infra-security
+      project: infra-network
       destination:
         name: '{{ .path.basenameNormalized }}'
         namespace: adguard

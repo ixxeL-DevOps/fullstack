@@ -14,7 +14,7 @@ vars:
   GITOPS_ROOT: '{{.ROOT_DIR}}/gitops'
   MKDOCS_DOCS_ROOT: '{{.ROOT_DIR}}/docs'
   MKDOCS_CFG: '{{.ROOT_DIR}}/mkdocs.yml'
-  VAULT_ENDPOINT: 'https://vault.talos-genmachine.fredcorp.com'
+  VAULT_ENDPOINT: 'https://vault.k0s-fullstack.fredcorp.com'
   K8S_API: 'talos-cluster.genmachine.fredcorp.com'
   MINIO_API: 'minio-api.talos-genmachine.fredcorp.com'
 
