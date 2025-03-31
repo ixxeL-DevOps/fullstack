@@ -25,3 +25,7 @@ cilium:
       repository: 'quay.io/cilium/operator'
       tag: v1.17.2
       pullPolicy: 'IfNotPresent'
+
+    podDisruptionBudget:
+      enabled: true
+      maxUnavailable: 1

@@ -73,7 +73,7 @@ tasks:
       - task: :vault:certmanager-auth-setup
         vars:
           cluster: '{{.CLUSTER}}'
-      - sleep 60
+      - sleep 15
       - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/infra' -n argocd
       - sleep 60
       - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/security' -n argocd

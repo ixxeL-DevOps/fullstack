@@ -22,13 +22,28 @@ cilium:
   kubeProxyReplacement: true
   ingressController:
     enabled: false
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
 
   envoy:
     priorityClassName: 'system-node-critical'
   operator:
     rollOutPods: true
-    replicas: 1
+    replicas: 2
     priorityClassName: 'system-node-critical'
+    updateStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchLabels:
+                io.cilium/app: operator
 
   enableLBIPAM: true
   l2announcements:
