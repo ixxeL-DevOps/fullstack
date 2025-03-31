@@ -81,6 +81,8 @@ tasks:
       - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/observability' -n argocd
       - sleep 15
       - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/core' -n argocd
+      - sleep 30
+      - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/system-upgrade' -n argocd
       - task: :helm:delete-secrets
 
   save-config:

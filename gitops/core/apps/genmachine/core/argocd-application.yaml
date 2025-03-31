@@ -5,7 +5,7 @@ metadata:
   name: argocd-apps
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: /gitops/core/apps/genmachine/core;/gitops/core/apps/genmachine/infra;/gitops/core/apps/genmachine/system;/gitops/core/apps/genmachine/observability;/gitops/core/apps/genmachine/security;/gitops/core/appProjects;/gitops/core/repos;/gitops/core/clusters/genmachine
+    argocd.argoproj.io/manifest-generate-paths: /gitops/core/apps/genmachine/system-upgrade;/gitops/core/apps/genmachine/core;/gitops/core/apps/genmachine/infra;/gitops/core/apps/genmachine/system;/gitops/core/apps/genmachine/observability;/gitops/core/apps/genmachine/security;/gitops/core/appProjects;/gitops/core/repos;/gitops/core/clusters/genmachine
 spec:
   destination:
     namespace: argocd
@@ -25,6 +25,9 @@ spec:
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
     - path: gitops/core/apps/genmachine/system
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+    - path: gitops/core/apps/genmachine/system-upgrade
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
     - path: gitops/core/appProjects
