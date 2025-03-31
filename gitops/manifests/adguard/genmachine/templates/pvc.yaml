@@ -6,8 +6,8 @@ metadata:
   namespace: adguard
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 10Gi
-  storageClassName: proxmox-retain
+  storageClassName: nfs-csi-retain

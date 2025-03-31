@@ -6,29 +6,34 @@ adguard-home:
     tag: v0.107.59
 
   strategy:
-    type: Recreate
-    # rollingUpdate:
-    #   maxSurge: 1
-    #   maxUnavailable: 33%
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 33%
 
-  replicaCount: 1
+  replicaCount: 3
+
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: adguard
+        topologyKey: "kubernetes.io/hostname"
+
+  priorityClassName: "infra-apps-priority"
 
   services:
-    adminPanel:
-      type: ClusterIP
-      port: 3000
     http:
-      type: ClusterIP
-      port: 80
+      annotations:
+        traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+        traefik.ingress.kubernetes.io/service.sticky.cookie.name: cookie
+        traefik.ingress.kubernetes.io/service.sticky.cookie.secure: "true"
     https:
-      enabled: true
-      type: ClusterIP
-      port: 443
+      enabled: false
     dns:
       enabled: true
       type: LoadBalancer
-      # externalTrafficPolicy: Local
-      externalTrafficPolicy: Cluster
+      externalTrafficPolicy: Local
       loadBalancerIP: 192.168.1.200
       tcp:
         port: 53
@@ -46,6 +51,8 @@ adguard-home:
   ingresses:
     adminPanel:
       enabled: false
+    https:
+      enabled: false
     http:
       enabled: true
       className: traefik
@@ -54,7 +61,7 @@ adguard-home:
         cert-manager.io/common-name: adguard.talos-genmachine.fredcorp.com
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/service.scheme: https
-        traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
+        # traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
       hosts:
         - host: adguard.talos-genmachine.fredcorp.com
           paths:
@@ -64,32 +71,259 @@ adguard-home:
         - secretName: adguard-tls-cert
           hosts:
             - adguard.talos-genmachine.fredcorp.com
-    https:
-      enabled: false
-      className: traefik
-      annotations:
-        cert-manager.io/cluster-issuer: fredcorp-ca
-        cert-manager.io/common-name: adguard.k0s-fullstack.fredcorp.com
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        traefik.ingress.kubernetes.io/service.scheme: https
-        traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
-      hosts:
-        - host: adguard.k0s-fullstack.fredcorp.com
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
-      tls:
-        - secretName: adguard-tls-cert
-          hosts:
-            - adguard.k0s-fullstack.fredcorp.com
 
   persistence:
     existingClaim: pvc-adguard-data
     volumeClaimSpec:
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteMany
       resources:
         requests:
-          storage: 1Gi
+          storage: 10Gi
 
-  bootstrapEnabled: false
+  bootstrapEnabled: true
+
+  bootstrapConfig:
+    http:
+      pprof:
+        port: 6060
+        enabled: false
+      address: 0.0.0.0:80
+      session_ttl: 720h
+    users:
+      - name: admin
+        password: $2y$10$Lae1.4PxMfe2K7d/rAeIBu30KkShj2ov1LaT2ClKCHws5UrvTxsy6
+    auth_attempts: 5
+    block_auth_min: 15
+    http_proxy: ""
+    language: en
+    theme: dark
+    debug_pprof: false
+    web_session_ttl: 720
+    dns:
+      bind_hosts:
+      - 0.0.0.0
+      port: 53
+      anonymize_client_ip: false
+      ratelimit: 0
+      upstream_dns:
+        - quic://dns.adguard-dns.com:784
+        - quic://comss.dns.controld.com
+        - quic://dns.jupitrdns.com
+        - quic://zero.dns0.eu
+        - quic://comss.dns.controld.com
+        - tls://adblock.dns.mullvad.net:853
+        - tls://1.1.1.1:853
+        - tls://1dot1dot1dot1.cloudflare-dns.com:853
+      bootstrap_dns:
+        - 9.9.9.10
+        - 149.112.112.10
+        - 2620:fe::10
+        - 2620:fe::fe:10
+      fallback_dns:
+        - tls://dns.nextdns.io
+        - tls://one.one.one.one:853
+        - tls://1.0.0.1:853
+        - tls://adblock.dns.mullvad.net:853
+        - tls://dns.adguard-dns.com:853
+        - tls://dns.quad9.net:853
+        - tls://dns.adguard.com:853
+        - tls://dns.de.futuredns.eu.org
+        - tls://dot.pub
+        - tls://base.dns.mullvad.net
+        - quic://doh.tiar.app
+        - quic://dns.de.futuredns.eu.org
+        - quic://ibksturm.synology.me
+      upstream_mode: parallel
+      cache_size: 4194304
+      cache_ttl_min: 2
+      cache_ttl_max: 86400
+      cache_optimistic: true
+      fastest_timeout: 1s
+      allowed_clients: []
+      disallowed_clients: []
+      blocked_hosts:
+        - version.bind
+        - id.server
+        - hostname.bind
+      trusted_proxies:
+        - 127.0.0.0/8
+        - ::1/128
+      bogus_nxdomain: []
+      aaaa_disabled: false
+      enable_dnssec: false
+      edns_client_subnet:
+        custom_ip: ""
+        enabled: false
+        use_custom: false
+      max_goroutines: 300
+      handle_ddr: true
+      ipset: []
+      ipset_file: ""
+      bootstrap_prefer_ipv6: false
+      upstream_timeout: 10s
+      private_networks: []
+      use_private_ptr_resolvers: false
+      local_ptr_upstreams: []
+      use_dns64: false
+      dns64_prefixes: []
+      serve_http3: false
+      use_http3_upstreams: false
+      serve_plain_dns: true
+      hostsfile_enabled: true
+    tls:
+      enabled: true
+      server_name: adguard.talos-genmachine.fredcorp.com
+      force_https: false
+      port_https: 443
+      port_dns_over_tls: 853
+      port_dns_over_quic: 784
+      port_dnscrypt: 0
+      dnscrypt_config_file: ""
+      allow_unencrypted_doh: false
+      strict_sni_check: false
+      certificate_chain: ""
+      private_key: ""
+      certificate_path: ""
+      private_key_path: ""
+    filters:
+    - enabled: true
+      url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+      name: AdGuard DNS filter
+      id: 1
+    - enabled: false
+      url: https://adaway.org/hosts.txt
+      name: AdAway Default Blocklist
+      id: 2
+    - enabled: false
+      url: https://www.malwaredomainlist.com/hostslist/hosts.txt
+      name: MalwareDomainList.com Hosts List
+      id: 4
+    - enabled: false
+      url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+      name: StevenBlack
+      id: 1632659750
+    - enabled: false
+      url: https://v.firebog.net/hosts/AdguardDNS.txt
+      name: Firebog adguard
+      id: 1632659751
+    - enabled: false
+      url: https://v.firebog.net/hosts/Easyprivacy.txt
+      name: Firebog easyprivacy
+      id: 1632659752
+    - enabled: false
+      url: https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt
+      name: AWS malvertising
+      id: 1632659753
+    - enabled: false
+      url: https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+      name: AWS ad
+      id: 1632659754
+    - enabled: false
+      url: https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+      name: AWS tracking
+      id: 1632659755
+    - enabled: true
+      url: https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
+      name: WindowsSpyBlocker - Hosts spy rules
+      id: 1647787052
+    - enabled: true
+      url: https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-AGH.txt
+      name: Perflyst and Dandelion Sprout's Smart-TV Blocklist
+      id: 1647787053
+    whitelist_filters: []
+    user_rules:
+      - ""
+    dhcp:
+      enabled: false
+      interface_name: ""
+      local_domain_name: lan
+      dhcpv4:
+        gateway_ip: ""
+        subnet_mask: ""
+        range_start: ""
+        range_end: ""
+        lease_duration: 86400
+        icmp_timeout_msec: 1000
+        options: []
+      dhcpv6:
+        range_start: ""
+        lease_duration: 86400
+        ra_slaac_only: false
+        ra_allow_slaac: false
+    filtering:
+      blocking_ipv4: ""
+      blocking_ipv6: ""
+      blocked_services:
+        schedule:
+          time_zone: Europe/Paris
+        ids: []
+      protection_disabled_until: null
+      safe_search:
+        enabled: false
+        bing: true
+        duckduckgo: true
+        ecosia: true
+        google: true
+        pixabay: true
+        yandex: true
+        youtube: true
+      blocking_mode: default
+      parental_block_host: family-block.dns.adguard.com
+      safebrowsing_block_host: standard-block.dns.adguard.com
+      rewrites:
+        - domain: qnap.fredcorp.com
+          answer: 192.168.1.250
+        - domain: proxmox-small.fredcorp.com
+          answer: 192.168.1.252
+        - domain: proxmox-big.fredcorp.com
+          answer: 192.168.1.251
+        - domain: k0s.fullstack.fredcorp.com
+          answer: 192.168.1.190
+        - domain: '*.k0s-fullstack.fredcorp.com'
+          answer: 192.168.1.191
+        - domain: talos-cluster.genmachine.fredcorp.com
+          answer: 192.168.1.150
+        - domain: talos-1.genmachine.fredcorp.com
+          answer: 192.168.1.151
+        - domain: talos-2.genmachine.fredcorp.com
+          answer: 192.168.1.152
+        - domain: talos-3.genmachine.fredcorp.com
+          answer: 192.168.1.153
+        - domain: '*.talos-genmachine.fredcorp.com'
+          answer: 192.168.1.160
+      safe_fs_patterns:
+        - /opt/adguardhome/work/data/userfilters/*
+      safebrowsing_cache_size: 1048576
+      safesearch_cache_size: 1048576
+      parental_cache_size: 1048576
+      cache_time: 30
+      filters_update_interval: 24
+      blocked_response_ttl: 10
+      filtering_enabled: true
+      parental_enabled: false
+      safebrowsing_enabled: false
+      protection_enabled: true
+    clients:
+      runtime_sources:
+        whois: true
+        arp: true
+        rdns: true
+        dhcp: true
+        hosts: true
+      persistent: []
+    log:
+      enabled: true
+      file: ""
+      max_backups: 0
+      max_size: 100
+      max_age: 3
+      compress: true
+      local_time: true
+      verbose: false
+    verbose: false
+    os:
+      group: ""
+      user: ""
+      rlimit_nofile: 0
+    schema_version: 29
