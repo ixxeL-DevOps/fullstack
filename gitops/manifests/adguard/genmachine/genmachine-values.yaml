@@ -5,10 +5,11 @@ adguard-home:
     pullPolicy: Always
     tag: v0.107.59
 
+  # ask to delete 1 pod before making update. Combination with affinity
   strategy:
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 33%
+      maxSurge: 0
+      maxUnavailable: 1
 
   replicaCount: 3
 
@@ -18,7 +19,7 @@ adguard-home:
       - labelSelector:
           matchLabels:
             app.kubernetes.io/instance: adguard
-        topologyKey: "kubernetes.io/hostname"
+        topologyKey: "kubernetes.io/hostname" 
 
   priorityClassName: "infra-apps-priority"
 
