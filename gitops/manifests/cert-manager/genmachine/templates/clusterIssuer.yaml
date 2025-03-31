@@ -40,14 +40,14 @@ metadata:
   name: fredcorp-ca
 spec:
   vault:
-    server: https://vault.talos-genmachine.fredcorp.com
+    server: https://vault.k0s-fullstack.fredcorp.com
     path: pki_int/sign/fredcorp.com
     caBundleSecretRef:
       key: ca.crt
       name: root-ca-chain
     auth:
       kubernetes:
-        mountPath: /v1/auth/genmachine
+        mountPath: /v1/auth/genmachine-k8s
         role: certmanager
         secretRef:
           name: certmanager-auth

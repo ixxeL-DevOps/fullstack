@@ -1,7 +1,7 @@
 ---
 coredns:
   replicaCount: 2
-  priorityClassName: "system-cluster-critical"
+  priorityClassName: 'system-cluster-critical'
   serviceAccount:
     create: true
   service:
