@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: proxmox-csi-plugin
+  name: coredns
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,33 +13,33 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/proxmox-csi-plugin/*'
+          - path: 'gitops/manifests/coredns/*'
             exclude: false
-          - path: 'gitops/manifests/proxmox-csi-plugin/values'
+          - path: 'gitops/manifests/coredns/values'
             exclude: true
-          - path: 'gitops/manifests/proxmox-csi-plugin/beelink'
+          - path: 'gitops/manifests/coredns/beelink'
             exclude: true
-          - path: 'gitops/manifests/proxmox-csi-plugin/k0s'
+          - path: 'gitops/manifests/coredns/k0s'
             exclude: true
   template:
     metadata:
-      name: 'proxmox-csi-plugin-{{ .path.basenameNormalized }}'
+      name: 'coredns-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
-      project: infra-storage
+      project: infra-network
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: proxmox-csi-plugin
+        namespace: kube-system
       sources:
-        - path: 'gitops/manifests/proxmox-csi-plugin/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/coredns/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: proxmox-csi-plugin
+            releaseName: coredns
             valueFiles:
-              - $values/gitops/manifests/proxmox-csi-plugin/values/common-values.yaml
-              - $values/gitops/manifests/proxmox-csi-plugin/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/coredns/values/common-values.yaml
+              - $values/gitops/manifests/coredns/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
@@ -57,11 +57,8 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
         retry:
-          limit: 5
+          limit: 6
           backoff:
             duration: 10s
             factor: 2
-            maxDuration: 2m
-        managedNamespaceMetadata:
-          labels:
-            pod-security.kubernetes.io/enforce: privileged
+            maxDuration: 3m

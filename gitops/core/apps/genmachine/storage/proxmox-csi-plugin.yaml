@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: minio
+  name: proxmox-csi-plugin
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,33 +13,33 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/minio/*'
+          - path: 'gitops/manifests/proxmox-csi-plugin/*'
             exclude: false
-          - path: 'gitops/manifests/minio/values'
+          - path: 'gitops/manifests/proxmox-csi-plugin/values'
             exclude: true
-          - path: 'gitops/manifests/minio/beelink'
+          - path: 'gitops/manifests/proxmox-csi-plugin/beelink'
             exclude: true
-          - path: 'gitops/manifests/minio/k0s'
+          - path: 'gitops/manifests/proxmox-csi-plugin/k0s'
             exclude: true
   template:
     metadata:
-      name: 'minio-{{ .path.basenameNormalized }}'
+      name: 'proxmox-csi-plugin-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
       project: infra-storage
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: minio
+        namespace: proxmox-csi-plugin
       sources:
-        - path: 'gitops/manifests/minio/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/proxmox-csi-plugin/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: minio
+            releaseName: proxmox-csi-plugin
             valueFiles:
-              - $values/gitops/manifests/minio/values/common-values.yaml
-              - $values/gitops/manifests/minio/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/proxmox-csi-plugin/values/common-values.yaml
+              - $values/gitops/manifests/proxmox-csi-plugin/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
@@ -57,11 +57,11 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
         retry:
-          limit: 5
+          limit: 6
           backoff:
             duration: 10s
             factor: 2
-            maxDuration: 2m
+            maxDuration: 3m
         managedNamespaceMetadata:
           labels:
             pod-security.kubernetes.io/enforce: privileged

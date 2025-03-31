@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: coredns
+  name: wireguard
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -13,33 +13,31 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/coredns/*'
+          - path: 'gitops/manifests/wireguard/*'
             exclude: false
-          - path: 'gitops/manifests/coredns/values'
+          - path: 'gitops/manifests/wireguard/common'
             exclude: true
-          - path: 'gitops/manifests/coredns/beelink'
-            exclude: true
-          - path: 'gitops/manifests/coredns/k0s'
+          - path: 'gitops/manifests/wireguard/beelink'
             exclude: true
   template:
     metadata:
-      name: 'coredns-{{ .path.basenameNormalized }}'
+      name: 'wireguard-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
-      project: infra-network
+      project: infra-security
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: kube-system
+        namespace: wireguard
       sources:
-        - path: 'gitops/manifests/coredns/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/wireguard/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: coredns
+            releaseName: wireguard
             valueFiles:
-              - $values/gitops/manifests/coredns/values/common-values.yaml
-              - $values/gitops/manifests/coredns/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/wireguard/common/common-values.yaml
+              - $values/gitops/manifests/wireguard/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
@@ -57,8 +55,13 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
         retry:
-          limit: 5
+          limit: 6
           backoff:
             duration: 10s
             factor: 2
-            maxDuration: 2m
+            maxDuration: 3m
+        managedNamespaceMetadata:
+          annotations:
+            volsync.backube/privileged-movers: 'true'
+          labels:
+            bundle.chain/inject: 'enabled'

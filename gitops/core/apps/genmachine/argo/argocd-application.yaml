@@ -5,14 +5,17 @@ metadata:
   name: argocd-apps
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: /gitops/core/apps/genmachine/system-upgrade;/gitops/core/apps/genmachine/core;/gitops/core/apps/genmachine/infra;/gitops/core/apps/genmachine/system;/gitops/core/apps/genmachine/observability;/gitops/core/apps/genmachine/security;/gitops/core/appProjects;/gitops/core/repos;/gitops/core/clusters/genmachine
+    argocd.argoproj.io/manifest-generate-paths: /gitops/core/apps/genmachine/storage;/gitops/core/apps/genmachine/system-upgrade;/gitops/core/apps/genmachine/kube-system;/gitops/core/apps/genmachine/infra;/gitops/core/apps/genmachine/system;/gitops/core/apps/genmachine/observability;/gitops/core/appProjects;/gitops/core/repos;/gitops/core/clusters/genmachine
 spec:
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
   project: argocd
   sources:
-    - path: gitops/core/apps/genmachine/core
+    - path: gitops/core/apps/genmachine/argo
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+    - path: gitops/core/apps/genmachine/kube-system
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
     - path: gitops/core/apps/genmachine/infra
@@ -21,7 +24,7 @@ spec:
     - path: gitops/core/apps/genmachine/observability
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
-    - path: gitops/core/apps/genmachine/security
+    - path: gitops/core/apps/genmachine/storage
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
     - path: gitops/core/apps/genmachine/system
@@ -52,8 +55,8 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
     retry:
-      limit: 5
+      limit: 6
       backoff:
         duration: 10s
         factor: 2
-        maxDuration: 2m
+        maxDuration: 3m

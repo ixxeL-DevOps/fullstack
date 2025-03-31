@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: wireguard
+  name: minio
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../common
+    argocd.argoproj.io/manifest-generate-paths: .;../values
 spec:
   goTemplate: true
   generators:
@@ -13,31 +13,33 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/wireguard/*'
+          - path: 'gitops/manifests/minio/*'
             exclude: false
-          - path: 'gitops/manifests/wireguard/common'
+          - path: 'gitops/manifests/minio/values'
             exclude: true
-          - path: 'gitops/manifests/wireguard/beelink'
+          - path: 'gitops/manifests/minio/beelink'
+            exclude: true
+          - path: 'gitops/manifests/minio/k0s'
             exclude: true
   template:
     metadata:
-      name: 'wireguard-{{ .path.basenameNormalized }}'
+      name: 'minio-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../common
+        argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
-      project: infra-security
+      project: infra-storage
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: wireguard
+        namespace: minio
       sources:
-        - path: 'gitops/manifests/wireguard/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/minio/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: wireguard
+            releaseName: minio
             valueFiles:
-              - $values/gitops/manifests/wireguard/common/common-values.yaml
-              - $values/gitops/manifests/wireguard/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/minio/values/common-values.yaml
+              - $values/gitops/manifests/minio/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
@@ -55,13 +57,11 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
         retry:
-          limit: 5
+          limit: 6
           backoff:
             duration: 10s
             factor: 2
-            maxDuration: 2m
+            maxDuration: 3m
         managedNamespaceMetadata:
-          annotations:
-            volsync.backube/privileged-movers: 'true'
           labels:
-            bundle.chain/inject: 'enabled'
+            pod-security.kubernetes.io/enforce: privileged

@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kubelet-csr-approver
+  name: kyverno
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,33 +13,33 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/kubelet-csr-approver/*'
+          - path: 'gitops/manifests/kyverno/*'
             exclude: false
-          - path: 'gitops/manifests/kubelet-csr-approver/values'
+          - path: 'gitops/manifests/kyverno/values'
             exclude: true
-          - path: 'gitops/manifests/kubelet-csr-approver/beelink'
+          - path: 'gitops/manifests/kyverno/beelink'
             exclude: true
-          - path: 'gitops/manifests/kubelet-csr-approver/k0s'
+          - path: 'gitops/manifests/kyverno/k0s'
             exclude: true
   template:
     metadata:
-      name: 'kubelet-csr-approver-{{ .path.basenameNormalized }}'
+      name: 'kyverno-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
-      project: infra-security
+      project: infra-network
       destination:
         name: '{{ .path.basenameNormalized }}'
-        namespace: kube-system
+        namespace: kyverno
       sources:
-        - path: 'gitops/manifests/kubelet-csr-approver/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/kyverno/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: kubelet-csr-approver
+            releaseName: kyverno
             valueFiles:
-              - $values/gitops/manifests/kubelet-csr-approver/values/common-values.yaml
-              - $values/gitops/manifests/kubelet-csr-approver/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/kyverno/values/common-values.yaml
+              - $values/gitops/manifests/kyverno/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
@@ -57,11 +57,8 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
         retry:
-          limit: 5
+          limit: 6
           backoff:
             duration: 10s
             factor: 2
-            maxDuration: 2m
-        managedNamespaceMetadata:
-          labels:
-            pod-security.kubernetes.io/enforce: privileged
+            maxDuration: 3m

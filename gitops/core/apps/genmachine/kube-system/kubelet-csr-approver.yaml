@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cilium
+  name: kubelet-csr-approver
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,33 +13,33 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/cilium/*'
+          - path: 'gitops/manifests/kubelet-csr-approver/*'
             exclude: false
-          - path: 'gitops/manifests/cilium/values'
+          - path: 'gitops/manifests/kubelet-csr-approver/values'
             exclude: true
-          - path: 'gitops/manifests/cilium/beelink'
+          - path: 'gitops/manifests/kubelet-csr-approver/beelink'
             exclude: true
-          - path: 'gitops/manifests/cilium/k0s'
+          - path: 'gitops/manifests/kubelet-csr-approver/k0s'
             exclude: true
   template:
     metadata:
-      name: 'cilium-{{ .path.basenameNormalized }}'
+      name: 'kubelet-csr-approver-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
     spec:
-      project: infra-network
+      project: infra-security
       destination:
         name: '{{ .path.basenameNormalized }}'
         namespace: kube-system
       sources:
-        - path: 'gitops/manifests/cilium/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/kubelet-csr-approver/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: cilium
+            releaseName: kubelet-csr-approver
             valueFiles:
-              - $values/gitops/manifests/cilium/values/common-values.yaml
-              - $values/gitops/manifests/cilium/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/kubelet-csr-approver/values/common-values.yaml
+              - $values/gitops/manifests/kubelet-csr-approver/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
@@ -57,11 +57,11 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
         retry:
-          limit: 5
+          limit: 6
           backoff:
             duration: 10s
             factor: 2
-            maxDuration: 2m
+            maxDuration: 3m
         managedNamespaceMetadata:
           labels:
             pod-security.kubernetes.io/enforce: privileged
