@@ -66,13 +66,21 @@ tasks:
       - helmfile --quiet --file {{.TALOS_DIR}}/bootstrap/resources/helmfile.yaml apply --skip-diff-on-install --suppress-diff
       - kubectl apply -f {{.GITOPS_ROOT}}/core/appProjects -n argocd
       - kubectl apply -f {{.GITOPS_ROOT}}/core/clusters/{{.CLUSTER}} -n argocd
-      - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}' -n argocd
+      - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/system' -n argocd
       - task: :vault:eso-auth-setup
         vars:
           cluster: '{{.CLUSTER}}'
       - task: :vault:certmanager-auth-setup
         vars:
           cluster: '{{.CLUSTER}}'
+      - sleep 60
+      - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/infra' -n argocd
+      - sleep 60
+      - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/security' -n argocd
+      - sleep 30
+      - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/observability' -n argocd
+      - sleep 15
+      - kubectl apply -f '{{.GITOPS_ROOT}}/core/apps/{{.CLUSTER}}/core' -n argocd
       - task: :helm:delete-secrets
 
   save-config:

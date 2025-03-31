@@ -1,6 +1,5 @@
 ---
 coredns:
-  replicaCount: 2
   priorityClassName: 'system-cluster-critical'
   serviceAccount:
     create: true
@@ -47,6 +46,14 @@ coredns:
         - name: reload
         - name: loadbalance
   affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/instance: coredns
+            topologyKey: kubernetes.io/hostname
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
@@ -65,7 +72,7 @@ coredns:
   topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: kubernetes.io/hostname
-      whenUnsatisfiable: DoNotSchedule
+      whenUnsatisfiable: ScheduleAnyway
       labelSelector:
         matchLabels:
           app.kubernetes.io/instance: coredns
