@@ -1,67 +1,67 @@
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationSource
-metadata:
-  name: backup-authentik-pgsql
-spec:
-  sourcePVC: authentik-pgsql-1
-  trigger:
-    schedule: "0 1 * * 3" # On wednesday every week at 01:00 AM
-  restic:
-    customCA:
-      secretName: fredcorp-ca-chain
-      key: fredcorp-ca-chain.pem
-    pruneIntervalDays: 7
-    repository: restic-config
-    retain:
-      hourly: 2
-      daily: 2
-      weekly: 4
-      monthly: 4
-      yearly: 1
-      within: 24h
-    copyMethod: Direct
-    storageClassName: nfs-csi-delete
----
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: restic-config
-spec:
-  refreshInterval: 1h
-  secretStoreRef:
-    name: admin
-    kind: ClusterSecretStore
-  target:
-    name: restic-config
-    creationPolicy: Owner
-    deletionPolicy: Retain
-    template:
-      engineVersion: v2
-      data:
-        RESTIC_REPOSITORY: s3:https://minio-api.talos-genmachine.fredcorp.com/restic/volsync/authentik/genmachine/pgsql
-        RESTIC_PASSWORD: '{{ "{{" }}.restic_password{{ "}}" }}'
-        AWS_ACCESS_KEY_ID: '{{ "{{" }}.minio_user{{ "}}" }}'
-        AWS_SECRET_ACCESS_KEY: '{{ "{{" }}.minio_password{{ "}}" }}'
-  data:
-    - secretKey: restic_password
-      remoteRef:
-        conversionStrategy: Default
-        decodingStrategy: None
-        metadataPolicy: None
-        key: restic/repo/minio-backup
-        property: password
-    - secretKey: minio_user
-      remoteRef:
-        conversionStrategy: Default
-        decodingStrategy: None
-        metadataPolicy: None
-        key: minio/creds/admin
-        property: user
-    - secretKey: minio_password
-      remoteRef:
-        conversionStrategy: Default
-        decodingStrategy: None
-        metadataPolicy: None
-        key: minio/creds/admin
-        property: password
+# ---
+# apiVersion: volsync.backube/v1alpha1
+# kind: ReplicationSource
+# metadata:
+#   name: backup-authentik-pgsql
+# spec:
+#   sourcePVC: authentik-pgsql-1
+#   trigger:
+#     schedule: "0 1 * * 3" # On wednesday every week at 01:00 AM
+#   restic:
+#     customCA:
+#       secretName: fredcorp-ca-chain
+#       key: fredcorp-ca-chain.pem
+#     pruneIntervalDays: 7
+#     repository: restic-config
+#     retain:
+#       hourly: 2
+#       daily: 2
+#       weekly: 4
+#       monthly: 4
+#       yearly: 1
+#       within: 24h
+#     copyMethod: Direct
+#     storageClassName: nfs-csi-delete
+# ---
+# apiVersion: external-secrets.io/v1beta1
+# kind: ExternalSecret
+# metadata:
+#   name: restic-config
+# spec:
+#   refreshInterval: 1h
+#   secretStoreRef:
+#     name: admin
+#     kind: ClusterSecretStore
+#   target:
+#     name: restic-config
+#     creationPolicy: Owner
+#     deletionPolicy: Retain
+#     template:
+#       engineVersion: v2
+#       data:
+#         RESTIC_REPOSITORY: s3:https://minio-api.talos-genmachine.fredcorp.com/restic/volsync/authentik/genmachine/pgsql
+#         RESTIC_PASSWORD: '{{ "{{" }}.restic_password{{ "}}" }}'
+#         AWS_ACCESS_KEY_ID: '{{ "{{" }}.minio_user{{ "}}" }}'
+#         AWS_SECRET_ACCESS_KEY: '{{ "{{" }}.minio_password{{ "}}" }}'
+#   data:
+#     - secretKey: restic_password
+#       remoteRef:
+#         conversionStrategy: Default
+#         decodingStrategy: None
+#         metadataPolicy: None
+#         key: restic/repo/minio-backup
+#         property: password
+#     - secretKey: minio_user
+#       remoteRef:
+#         conversionStrategy: Default
+#         decodingStrategy: None
+#         metadataPolicy: None
+#         key: minio/creds/admin
+#         property: user
+#     - secretKey: minio_password
+#       remoteRef:
+#         conversionStrategy: Default
+#         decodingStrategy: None
+#         metadataPolicy: None
+#         key: minio/creds/admin
+#         property: password

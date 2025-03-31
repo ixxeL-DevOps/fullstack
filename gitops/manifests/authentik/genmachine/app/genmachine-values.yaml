@@ -33,14 +33,14 @@ authentik:
           secretName: authentik-pgsql-creds
 
   authentik:
-    log_level: debug
+    log_level: info
     secret_key: file:///secrets/secret-key
     error_reporting:
       enabled: false
     postgresql:
-      host: 'authentik-pgsql-rw'
-      name: 'authentik'
-      port: 5432
+      # host: 'authentik-pgsql-rw'
+      # name: 'authentik'
+      # port: 5432
       user: file:///pgsql-creds/username
       password: file:///pgsql-creds/password
 
@@ -64,7 +64,7 @@ authentik:
       https: false
 
   postgresql:
-    enabled: false
+    enabled: true
     auth:
       username: authentik
       database: authentik
