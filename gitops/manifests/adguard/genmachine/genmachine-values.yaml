@@ -23,6 +23,22 @@ adguard-home:
 
   priorityClassName: "infra-apps-priority"
 
+  extraVolumeMounts:
+    - name: doh-cert
+      mountPath: /opt/adguardhome/conf/tls.crt
+      subPath: tls.crt
+      readOnly: true
+    - name: doh-cert
+      mountPath: /opt/adguardhome/conf/tls.key
+      subPath: tls.key
+      readOnly: true
+
+  extraVolumes:
+    - name: doh-cert
+      secret:
+        defaultMode: 420
+        secretName: adguard-tls-cert
+
   services:
     http:
       annotations:
@@ -30,7 +46,11 @@ adguard-home:
         traefik.ingress.kubernetes.io/service.sticky.cookie.name: cookie
         traefik.ingress.kubernetes.io/service.sticky.cookie.secure: "true"
     https:
-      enabled: false
+      enabled: true
+      port: 443
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+      loadBalancerIP: 192.168.1.198
     dns:
       enabled: true
       type: LoadBalancer
@@ -185,8 +205,8 @@ adguard-home:
       strict_sni_check: false
       certificate_chain: ""
       private_key: ""
-      certificate_path: ""
-      private_key_path: ""
+      certificate_path: /opt/adguardhome/conf/tls.crt
+      private_key_path: /opt/adguardhome/conf/tls.key
     filters:
     - enabled: true
       url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
