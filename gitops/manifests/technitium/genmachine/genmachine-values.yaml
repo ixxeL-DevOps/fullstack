@@ -1,0 +1,100 @@
+---
+app-template:
+  defaultPodOptions:
+    automountServiceAccountToken: false
+    priorityClassName: 'infra-apps-priority'
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/instance: technitium
+              topologyKey: 'kubernetes.io/hostname'
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: 'kubernetes.io/hostname'
+        whenUnsatisfiable: 'ScheduleAnyway'
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: technitium
+
+  controllers:
+    main:
+      replicas: 3
+      type: deployment
+      strategy: RollingUpdate
+      rollingUpdate:
+        unavailable: 1
+        surge: 0
+
+      containers:
+        main:
+          image:
+            repository: technitium/dns-server
+            tag: '13.4.3'
+            pullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5380
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+
+  service:
+    main:
+      enabled: true
+      primary: true
+      controller: main
+      type: ClusterIP
+      annotations:
+        traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+        traefik.ingress.kubernetes.io/service.sticky.cookie.name: cookie
+        traefik.ingress.kubernetes.io/service.sticky.cookie.secure: 'true'
+      ports:
+        http:
+          enabled: true
+          port: 80
+          targetPort: http
+          protocol: TCP
+    dns-udp:
+      enabled: true
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+      controller: main
+      ports:
+        dns:
+          enabled: true
+          port: 53
+          protocol: UDP
+          targetPort: dns-udp
+
+  ingress:
+    http:
+      className: 'traefik'
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: &host technitium.talos-genmachine.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
+      hosts:
+        - host: *host
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http
+      tls:
+        - hosts:
+            - *host
+          secretName: technitium-tls-cert
+
+  persistence:
+    config:
+      enabled: true
+      type: emptyDir
+      globalMounts:
+        - path: /etc/dns
