@@ -62,7 +62,7 @@ adguard-home:
         cert-manager.io/common-name: adguard.talos-genmachine.fredcorp.com
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/service.scheme: https
-        # traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
       hosts:
         - host: adguard.talos-genmachine.fredcorp.com
           paths:

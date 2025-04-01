@@ -1,21 +1,21 @@
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: adguard
-spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`adguard.talos-genmachine.fredcorp.com`)
-    kind: Rule
-    services:
-    - name: adguard-adguard-home-http
-      port: 80
-      sticky:
-        cookie:
-          httpOnly: true
-  tls:
-    secretName: adguard-tls-cert
-    domains:
-    - main: adguard.talos-genmachine.fredcorp.com
+# ---
+# apiVersion: traefik.io/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: adguard
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#   - match: Host(`adguard.talos-genmachine.fredcorp.com`)
+#     kind: Rule
+#     services:
+#     - name: adguard-adguard-home-http
+#       port: 80
+#       sticky:
+#         cookie:
+#           httpOnly: true
+#   tls:
+#     secretName: adguard-tls-cert
+#     domains:
+#     - main: adguard.talos-genmachine.fredcorp.com
