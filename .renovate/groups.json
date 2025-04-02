@@ -11,7 +11,7 @@
       },
       {
         "matchDatasources": ["docker", "github-releases", "github-tags", "helm"],
-        "matchFileNames": ["bootstrap/**"],
+        "matchFileNames": ["gitops/bootstrap/**"],
         "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
         "addLabels": ["env/{{ lookup (split packageFileDir '/') 2 }}", "argocd"],
         "separateMinorPatch": false,
