@@ -10,7 +10,7 @@ gha-runner-scale-set-controller:
     name: 'arc-runner-controller'
 
   flags:
-    logLevel: 'info'
+    logLevel: 'debug'
     logFormat: 'text'
     runnerMaxConcurrentReconciles: 2
     updateStrategy: 'immediate'
