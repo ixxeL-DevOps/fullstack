@@ -7,11 +7,11 @@
 - name: area/infra
   color: '72ccf3'
   description: >-
-    Changes made in the infrastructure directory
+    Changes made in the infra directory
 - name: area/gitops
   color: '72ccf3'
   description: >-
-    Changes made in the infrastructure gitops
+    Changes made in the gitops directory
 - name: area/taskfile
   color: '72ccf3'
   description: >-
@@ -19,22 +19,32 @@
 - name: env/genmachine
   color: '0636CF'
   description: >-
-    Changes made in the main cluster
+    Changes made in the Talos cluster
 - name: env/beelink
   color: '0636CF'
   description: >-
-    Changes made in the staging cluster
+    Changes made in the k0s cluster
 # Renovate
 - name: renovate/docker
-  color: '007BFF'
+  color: '006B75'
+  description: >-
+    Changes related to docker image update
 - name: renovate/github-action
-  color: '007BFF'
+  color: '006B75'
+  description: >-
+    Changes related to GitHub Actions update
 - name: renovate/github-release
-  color: '007BFF'
+  color: '006B75'
+  description: >-
+    Changes related to GitHub tag/release update
 - name: renovate/grafana-dashboard
-  color: '007BFF'
+  color: '006B75'
+  description: >-
+    Changes related to Grafana dashboard update
 - name: renovate/helm
-  color: '007BFF'
+  color: '006B75'
+  description: >-
+    Changes related to Helm Chart update
 # Semantic Type
 - name: type/digest
   color: 'ffec19'
@@ -45,44 +55,82 @@
 - name: type/major
   color: 'f6412d'
 # apps
-- name: adguard
+- name: app/adguard
   color: '66B574'
-- name: argocd
+  description: >-
+    Changes made to AdGuard application
+- name: app/argocd
   color: 'FF6E00'
-- name: authentik
+  description: >-
+    Changes made to ArgoCD application
+- name: app/authentik
   color: 'FD4B2D'
-- name: cilium
+  description: >-
+    Changes made to Authentik application
+- name: app/cilium
   color: 'F8C517'
-- name: coredns
+  description: >-
+    Changes made to Cilium application
+- name: app/coredns
   color: '5F259F'
-- name: csi-driver-nfs
+  description: >-
+    Changes made to CoreDNS application
+- name: app/csi-driver-nfs
   color: '00366B'
-- name: external-secrets
+  description: >-
+    Changes made to CSI Driver NFS application
+- name: app/external-secrets
   color: '121212'
-- name: gha-arc-controller
+  description: >-
+    Changes made to External Secrets application
+- name: app/gha-arc-controller
   color: '24292E'
-- name: homarr
+  description: >-
+    Changes made to GitHub ARC controller application
+- name: app/homarr
   color: 'CF300C'
-- name: loki
+  description: >-
+    Changes made to Homarr application
+- name: app/loki
   color: 'FFE000'
-- name: minio
+  description: >-
+    Changes made to Loki application
+- name: app/minio
   color: '061729'
-- name: prometheus
+  description: >-
+    Changes made to Minio application
+- name: app/prometheus
   color: 'F45B04'
-- name: proxmox-csi-plugin
+  description: >-
+    Changes made to Prometheus application
+- name: app/proxmox-csi-plugin
   color: 'F45B04'
-- name: spegel
+  description: >-
+    Changes made to Proxmox CSI plugin application
+- name: app/spegel
   color: '677872'
-- name: stakater
+  description: >-
+    Changes made to Spegel application
+- name: app/stakater
   color: '5A6CE5'
-- name: traefik
+  description: >-
+    Changes made to Stakater application
+- name: app/traefik
   color: '27A2DB'
-- name: system-upgrade-controller
+  description: >-
+    Changes made to Traefik application
+- name: app/system-upgrade-controller
   color: '4E0DA8'
-- name: vault
+  description: >-
+    Changes made to System Upgrade Controller application
+- name: app/vault
   color: '0B0D06'
-- name: wireguard
+  description: >-
+    Changes made to HashiCorp Vault application
+- name: app/wireguard
   color: '8B0000'
+  description: >-
+    Changes made to Wireguard application
 # Uncategorized
 - name: bug
   color: 'd73a4a'

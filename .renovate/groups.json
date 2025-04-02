@@ -2,20 +2,16 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
       {
-        "matchManagers": ["helmv3", "helm-values", "docker"],
+        "matchManagers": ["helmv3", "helm-values", "docker", "regex"],
         "matchFileNames": ["gitops/manifests/**"],
-        "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
-        "addLabels": ["app/{{ lookup (split packageFileDir '/') 2 }}", "env/{{ lookup (split packageFileDir '/') 3 }}"],
-        "separateMinorPatch": false,
-        "separateMultipleMinor": false
+        "groupName": "{{ lookup (split packageFileDir '/') 2 }}-{{ lookup (split packageFileDir '/') 3 }}",
+        "addLabels": ["app/{{ lookup (split packageFileDir '/') 2 }}", "env/{{ lookup (split packageFileDir '/') 3 }}"]
       },
       {
         "matchDatasources": ["docker", "github-releases", "github-tags", "helm"],
-        "matchFileNames": ["bootstrap/**"],
-        "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
-        "addLabels": ["env/{{ lookup (split packageFileDir '/') 2 }}", "argocd"],
-        "separateMinorPatch": false,
-        "separateMultipleMinor": false
+        "matchFileNames": ["gitops/bootstrap/**"],
+        "groupName": "{{ lookup (split packageFileDir '/') 2 }}-argocd",
+        "addLabels": ["env/{{ lookup (split packageFileDir '/') 2 }}", "app/argocd"]
       }
     ]
   }
