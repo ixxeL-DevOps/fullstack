@@ -1,0 +1,100 @@
+---
+# Area
+- name: area/github
+  color: '72ccf3'
+  description: >-
+    Changes made in the github directory
+- name: area/infra
+  color: '72ccf3'
+  description: >-
+    Changes made in the infrastructure directory
+- name: area/gitops
+  color: '72ccf3'
+  description: >-
+    Changes made in the infrastructure gitops
+- name: area/taskfile
+  color: '72ccf3'
+  description: >-
+    Changes made in the taskfile directory
+- name: env/genmachine
+  color: '0636CF'
+  description: >-
+    Changes made in the main cluster
+- name: env/beelink
+  color: '0636CF'
+  description: >-
+    Changes made in the staging cluster
+# Renovate
+- name: renovate/docker
+  color: '007BFF'
+- name: renovate/github-action
+  color: '007BFF'
+- name: renovate/github-release
+  color: '007BFF'
+- name: renovate/grafana-dashboard
+  color: '007BFF'
+- name: renovate/helm
+  color: '007BFF'
+# Semantic Type
+- name: type/digest
+  color: 'ffec19'
+- name: type/patch
+  color: '4E911C'
+- name: type/minor
+  color: 'ff9800'
+- name: type/major
+  color: 'f6412d'
+# apps
+- name: adguard
+  color: '66B574'
+- name: argocd
+  color: 'FF6E00'
+- name: authentik
+  color: 'FD4B2D'
+- name: cilium
+  color: 'F8C517'
+- name: coredns
+  color: '5F259F'
+- name: csi-driver-nfs
+  color: '00366B'
+- name: external-secrets
+  color: '121212'
+- name: gha-arc-controller
+  color: '24292E'
+- name: homarr
+  color: 'CF300C'
+- name: loki
+  color: 'FFE000'
+- name: minio
+  color: '061729'
+- name: prometheus
+  color: 'F45B04'
+- name: proxmox-csi-plugin
+  color: 'F45B04'
+- name: spegel
+  color: '677872'
+- name: stakater
+  color: '5A6CE5'
+- name: traefik
+  color: '27A2DB'
+- name: system-upgrade-controller
+  color: '4E0DA8'
+- name: vault
+  color: '0B0D06'
+- name: wireguard
+  color: '8B0000'
+# Uncategorized
+- name: bug
+  color: 'd73a4a'
+- name: docs
+  color: '0075ca'
+- name: do-not-merge
+  color: 'ee0701'
+- name: enhancement
+  color: 'a2eeef'
+- name: link-checker
+  color: '7b55d7'
+- name: question
+  color: 'd876e3'
+- name: wontfix
+  color: 'ffffff'

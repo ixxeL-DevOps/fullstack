@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>ixxeL-DevOps/renovate-cfg",
+    "github>ixxeL-DevOps/renovate-cfg//templates/gitops/main.json",
     "github>ixxeL-DevOps/fullstack//.renovate/common.json",
     "github>ixxeL-DevOps/fullstack//.renovate/automerge.json",
     "github>ixxeL-DevOps/fullstack//.renovate/custom-managers.json",

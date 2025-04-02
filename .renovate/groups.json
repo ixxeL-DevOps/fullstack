@@ -3,8 +3,17 @@
   "packageRules": [
       {
         "matchManagers": ["helmv3", "helm-values", "docker"],
+        "matchFileNames": ["gitops/manifests/**"],
         "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
-        "addLabels": ["{{ lookup (split packageFileDir '/') 2 }}"],
+        "addLabels": ["app/{{ lookup (split packageFileDir '/') 2 }}", "env/{{ lookup (split packageFileDir '/') 3 }}"],
+        "separateMinorPatch": false,
+        "separateMultipleMinor": false
+      },
+      {
+        "matchDatasources": ["docker", "github-releases", "github-tags", "helm"],
+        "matchFileNames": ["bootstrap/**"],
+        "groupName": "{{ lookup (split packageFileDir '/') 2 }}",
+        "addLabels": ["env/{{ lookup (split packageFileDir '/') 2 }}", "argocd"],
         "separateMinorPatch": false,
         "separateMultipleMinor": false
       }
