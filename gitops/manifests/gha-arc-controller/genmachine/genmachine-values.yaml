@@ -10,7 +10,7 @@ gha-runner-scale-set-controller:
     name: 'arc-runner-controller'
 
   flags:
-    logLevel: 'info'
+    logLevel: 'debug'
     logFormat: 'text'
     runnerMaxConcurrentReconciles: 2
     updateStrategy: 'immediate'
@@ -49,6 +49,7 @@ gha-runner-scale-set:
         - name: runner
           # renovate: datasource=docker depName=ghcr.io/actions/actions-runner
           image: ghcr.io/actions/actions-runner:2.323.0
+          command: ['/home/runner/run.sh']
           env:
             - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER # disable container job checking : https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/deploying-runner-scale-sets-with-actions-runner-controller#configuring-kubernetes-mode
               value: 'false'
