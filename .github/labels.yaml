@@ -16,6 +16,7 @@
   color: '72ccf3'
   description: >-
     Changes made in the taskfile directory
+# Environments
 - name: env/genmachine
   color: '0636CF'
   description: >-

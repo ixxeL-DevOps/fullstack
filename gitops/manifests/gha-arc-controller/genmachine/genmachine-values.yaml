@@ -47,8 +47,32 @@ gha-runner-scale-set:
         fsGroup: 123
       containers:
         - name: runner
-          image: ghcr.io/actions/actions-runner:latest
-          command: ['/home/runner/run.sh']
+          # renovate: datasource=docker depName=ghcr.io/actions/actions-runner
+          image: ghcr.io/actions/actions-runner:2.323.0
           env:
             - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER # disable container job checking : https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/deploying-runner-scale-sets-with-actions-runner-controller#configuring-kubernetes-mode
               value: 'false'
+
+  listenerMetrics:
+    counters:
+      gha_started_jobs_total:
+        labels: ['repository', 'organization', 'enterprise', 'job_name', 'event_name']
+      gha_completed_jobs_total:
+        labels: ['repository', 'organization', 'enterprise', 'job_name', 'event_name', 'job_result']
+    gauges:
+      gha_assigned_jobs:
+        labels: ['name', 'namespace', 'repository', 'organization', 'enterprise']
+      gha_running_jobs:
+        labels: ['name', 'namespace', 'repository', 'organization', 'enterprise']
+      gha_registered_runners:
+        labels: ['name', 'namespace', 'repository', 'organization', 'enterprise']
+      gha_busy_runners:
+        labels: ['name', 'namespace', 'repository', 'organization', 'enterprise']
+      gha_min_runners:
+        labels: ['name', 'namespace', 'repository', 'organization', 'enterprise']
+      gha_max_runners:
+        labels: ['name', 'namespace', 'repository', 'organization', 'enterprise']
+      gha_desired_runners:
+        labels: ['name', 'namespace', 'repository', 'organization', 'enterprise']
+      gha_idle_runners:
+        labels: ['name', 'namespace', 'repository', 'organization', 'enterprise']
