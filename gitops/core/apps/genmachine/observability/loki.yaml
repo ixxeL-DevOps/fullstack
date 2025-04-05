@@ -50,6 +50,7 @@ spec:
           selfHeal: true
         syncOptions:
           - Validate=true
+          - ApplyOnly=true
           - PruneLast=true
           - RespectIgnoreDifferences=true
           - Replace=false

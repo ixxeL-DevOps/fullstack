@@ -256,7 +256,7 @@ kube-prometheus-stack:
         folder: /tmp/dashboards
         folderAnnotation: grafana_folder
         label: grafana_dashboard
-        labelValue: 1
+        labelValue: '1'
         provider:
           allowUiUpdates: true
           disableDelete: false

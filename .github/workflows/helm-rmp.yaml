@@ -23,7 +23,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Generate Token
-        uses: actions/create-github-app-token@d72941d797fd3113feb6b93fd0dec494b13a2547 # v1.12.0
+        uses: actions/create-github-app-token@3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5 # v2.0.2
         id: app-token
         with:
           app-id: ${{ secrets.GHAPP_APP_ID }}
@@ -37,7 +37,7 @@ jobs:
 
       - name: Find modified Chart.yaml files
         id: changed-files
-        uses: tj-actions/changed-files@823fcebdb31bb35fdf2229d9f769b400309430d0 # v46
+        uses: tj-actions/changed-files@6cb76d07bee4c9772c6882c06c37837bf82a04d3 # v46
         with:
           files: |
             **/Chart.yaml
