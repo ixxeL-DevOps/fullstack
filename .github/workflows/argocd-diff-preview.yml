@@ -38,9 +38,10 @@ jobs:
         uses: tj-actions/changed-files@6cb76d07bee4c9772c6882c06c37837bf82a04d3 # v46
         with:
           files: |
-            gitops/manifests/**
-            gitops/core/**
-            gitops/bootstrap/**
+            **/Chart.yaml
+            **/Chart.yml
+            **/*values.yaml
+            **/*values.yml
 
       - name: Checkout PR path
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
