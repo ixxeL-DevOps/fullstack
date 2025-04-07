@@ -105,8 +105,32 @@ argo-cd:
           release: prometheus
 
   dex:
-    enabled: false
+    enabled: true
     name: dex-server
+    image:
+      repository: ghcr.io/dexidp/dex
+      tag: v2.42.0
+      imagePullPolicy: IfNotPresent
+    pdb:
+      enabled: true
+      maxUnavailable: 1
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+        additionalLabels:
+          release: prometheus
+    volumeMounts:
+      - mountPath: /etc/ssl/certs/fredcorp-ca-chain.pem
+        subPath: fredcorp-ca-chain.pem
+        name: fredcorp-ca-chain
+        readOnly: true
+    volumes:
+      - name: fredcorp-ca-chain
+        secret:
+          defaultMode: 420
+          secretName: fredcorp-ca-chain
 
   notifications:
     metrics:
@@ -181,6 +205,21 @@ argo-cd:
       accounts.pipeline: 'apiKey'
       # -- Argo CD's externally facing base URL (optional). Required when configuring SSO
       url: 'https://argocd.talos-genmachine.fredcorp.com'
+      dex.config: |
+        connectors:
+          - name: authentik
+            id: authentik
+            type: oidc
+            config:
+              issuer: https://authentik.talos-genmachine.fredcorp.com/application/o/genmachine-argocd/
+              clientID: $oidc-argocd:client-id
+              clientSecret: $oidc-argocd:client-secret
+              insecureEnableGroups: true
+              scopes:
+                - openid
+                - profile
+                - email
+
       server.rbac.log.enforce.enable: false
       exec.enabled: true
       admin.enabled: true
@@ -208,6 +247,7 @@ argo-cd:
         g, pipeline, role:admin
         p, role:readonly, extensions, invoke, metrics, allow
         p, role:admin, extensions, invoke, metrics, allow
+        g, Argocd admins, role:admin
 
       # See : https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
     params:
