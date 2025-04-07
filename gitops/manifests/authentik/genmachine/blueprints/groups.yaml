@@ -40,6 +40,12 @@ entries:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
     identifiers:
+      name: Argocd admins
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    identifiers:
       name: sa-homarr
     attrs:
       name: sa-homarr
