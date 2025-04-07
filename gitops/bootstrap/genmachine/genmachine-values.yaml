@@ -196,9 +196,9 @@ argo-cd:
       # -- Bcrypt hashed admin password
       ## Argo expects the password in the secret to be bcrypt hashed. You can create this hash with
       ## `htpasswd -nbBC 10 "" $ARGO_PWD | tr -d ':\n' | sed 's/$2y/$2a/'`
-      argocdServerAdminPassword: '$2a$10$EKno1mbVegvSeibj3UeYguY3NS6sb9JVWj9B5m8/baoQIv2mQBkSS'
+      argocdServerAdminPassword: '$2a$10$jq66ukJIBcl15J8R63Z.huvar5Ni1FVeyH/4gDph6y3Hifz/2lOOq'
       # -- Admin password modification time. Eg. `"2006-01-02T15:04:05Z"`
-      argocdServerAdminPasswordMtime: '2025-01-01T23:02:00Z'
+      argocdServerAdminPasswordMtime: '2025-04-04T23:02:00Z'
     cm:
       create: true
       accounts.fred: 'apiKey, login'
