@@ -15,6 +15,7 @@ vars:
   MKDOCS_DOCS_ROOT: '{{.ROOT_DIR}}/docs'
   MKDOCS_CFG: '{{.ROOT_DIR}}/mkdocs.yml'
   VAULT_ENDPOINT: 'https://vault.k0s-fullstack.fredcorp.com'
+  AUTHENTIK_ENDPOINT: 'https://authentik.talos-genmachine.fredcorp.com'
   K8S_API: 'talos-cluster.genmachine.fredcorp.com'
   MINIO_API: 'minio-api.talos-genmachine.fredcorp.com'
 
@@ -32,6 +33,7 @@ includes:
   vault: .taskfiles/vault
   helm: .taskfiles/helm
   restic: .taskfiles/restic
+  authentik: .taskfiles/authentik
 
 tasks:
   default:

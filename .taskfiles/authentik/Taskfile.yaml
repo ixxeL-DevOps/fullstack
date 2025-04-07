@@ -1,0 +1,42 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  oicd-argocd-refresh:
+    desc: refresh client ID and Client Secret for ArgoCD
+    vars:
+      cluster: genmachine
+      service: argocd
+    cmds:
+      - task: refresh-oauth2
+        vars:
+          cluster: '{{.cluster}}'
+          service: '{{.service}}'
+
+  refresh-oauth2:
+    desc: Refresh OAuth2 client ID and client secret in Vault
+    preconditions:
+      - which vault jq
+    requires:
+      vars:
+        - cluster
+        - service
+    vars:
+      AUTHENTIK_TOKEN:
+        sh: vault kv get -field=token -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/authentik/bootstrap
+    cmds:
+      - |
+        CLIENT_ID=$(curl -sSfkL '{{.AUTHENTIK_ENDPOINT}}/api/v3/providers/oauth2/' \
+                  -H 'Authorization: Bearer {{.AUTHENTIK_TOKEN}}' \
+                  -H 'Accept: application/json' \
+                  | jq -r '.results[] | select(.name == "{{.cluster}}-{{.service}}") | .client_id')
+
+        CLIENT_SECRET=$(curl -sSfkL '{{.AUTHENTIK_ENDPOINT}}/api/v3/providers/oauth2/' \
+                  -H 'Authorization: Bearer {{.AUTHENTIK_TOKEN}}' \
+                  -H 'Accept: application/json' \
+                  | jq -r '.results[] | select(.name == "{{.cluster}}-{{.service}}") | .client_secret')
+
+        vault kv put -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/{{.service}}/oidc \
+                      client-id=$CLIENT_ID \
+                      client-secret=$CLIENT_SECRET
