@@ -6,7 +6,7 @@ minio:
     pullPolicy: IfNotPresent
   mcImage:
     repository: quay.io/minio/mc
-    tag: RELEASE.2025-03-12T17-29-24Z
+    tag: RELEASE.2025-04-03T17-07-56Z
     pullPolicy: IfNotPresent
 
   mode: standalone
