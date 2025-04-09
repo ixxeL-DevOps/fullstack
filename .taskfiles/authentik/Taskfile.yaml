@@ -14,6 +14,17 @@ tasks:
           cluster: '{{.cluster}}'
           service: '{{.service}}'
 
+  oicd-wireguard-refresh:
+    desc: refresh client ID and Client Secret for Wireguard
+    vars:
+      cluster: genmachine
+      service: wireguard
+    cmds:
+      - task: refresh-oauth2
+        vars:
+          cluster: '{{.cluster}}'
+          service: '{{.service}}'
+
   refresh-oauth2:
     desc: Refresh OAuth2 client ID and client secret in Vault
     preconditions:

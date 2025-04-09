@@ -33,7 +33,7 @@ authentik:
           secretName: authentik-pgsql-creds
 
   authentik:
-    log_level: info
+    log_level: debug
     secret_key: file:///secrets/secret-key
     error_reporting:
       enabled: false
