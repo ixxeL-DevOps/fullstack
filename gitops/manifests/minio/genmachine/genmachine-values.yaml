@@ -2,11 +2,11 @@
 minio:
   image:
     repository: quay.io/minio/minio
-    tag: RELEASE.2025-04-03T14-56-28Z
+    tag: RELEASE.2025-04-08T15-41-24Z
     pullPolicy: IfNotPresent
   mcImage:
     repository: quay.io/minio/mc
-    tag: RELEASE.2025-04-03T17-07-56Z
+    tag: RELEASE.2025-04-08T15-39-49Z
     pullPolicy: IfNotPresent
 
   mode: standalone
