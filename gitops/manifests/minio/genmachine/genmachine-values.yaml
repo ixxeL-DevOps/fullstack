@@ -77,3 +77,14 @@ minio:
       enabled: true
       additionalLabels:
         release: prometheus
+
+  oidc:
+    enabled: false
+    configUrl: 'https://authentik.talos-genmachine.fredcorp.com/application/o/genmachine-minio/'
+    existingClientSecretName: 'oidc-minio'
+    existingClientIdKey: 'client-id'
+    existingClientSecretKey: 'client-secret'
+    claimName: 'policy'
+    scopes: 'openid,profile,email'
+    redirectUri: 'https://minio.talos-genmachine.fredcorp.com/oauth_callback'
+    displayName: 'OIDC Authentik'

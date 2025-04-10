@@ -46,6 +46,12 @@ entries:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
     identifiers:
+      name: Minio admins
+    attrs:
+      users:
+        - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    identifiers:
       name: sa-homarr
     attrs:
       name: sa-homarr
