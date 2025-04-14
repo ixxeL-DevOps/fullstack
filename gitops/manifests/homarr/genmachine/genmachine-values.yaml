@@ -18,9 +18,9 @@ homarr:
 
   envSecrets:
     # authOidcCredentials:
-    #   existingSecret: auth-oidc-secret
-    #   oidcClientId: oidc-client-id
-    #   oidcClientSecret: oidc-client-secret
+    #   existingSecret: oidc-homarr
+    #   oidcClientId: client-id
+    #   oidcClientSecret: client-secret
     dbCredentials:
       existingSecret: db-secret
       dbEncryptionKey: db-encryption-key

@@ -3,27 +3,23 @@
 version: '3'
 
 tasks:
-  oicd-argocd-refresh:
-    desc: refresh client ID and Client Secret for ArgoCD
+  oidc-refresh:
+    desc: Refresh client-id and secret for OIDC auth
+    interactive: true
+    preconditions:
+      - which gum
     vars:
-      cluster: genmachine
-      service: argocd
+      cluster:
+        sh: gum choose --header="Select cluster environment" "genmachine" "fullstack"
+      service:
+        sh: gum choose --header="Select service" "argocd" "homarr" "minio" "wireguard"
+      authentik_endpoint: '{{if eq .cluster "genmachine"}}{{.AUTHENTIK_ENDPOINT_GENMACHINE}}{{else}}{{.AUTHENTIK_ENDPOINT_BEELINK}}{{end}}'
     cmds:
       - task: refresh-oauth2
         vars:
           cluster: '{{.cluster}}'
           service: '{{.service}}'
-
-  oicd-wireguard-refresh:
-    desc: refresh client ID and Client Secret for Wireguard
-    vars:
-      cluster: genmachine
-      service: wireguard
-    cmds:
-      - task: refresh-oauth2
-        vars:
-          cluster: '{{.cluster}}'
-          service: '{{.service}}'
+          authentik_endpoint: '{{.authentik_endpoint}}'
 
   refresh-oauth2:
     desc: Refresh OAuth2 client ID and client secret in Vault
@@ -33,21 +29,25 @@ tasks:
       vars:
         - cluster
         - service
+        - authentik_endpoint
     vars:
       AUTHENTIK_TOKEN:
         sh: vault kv get -field=token -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/authentik/bootstrap
     cmds:
       - |
-        CLIENT_ID=$(curl -sSfkL '{{.AUTHENTIK_ENDPOINT}}/api/v3/providers/oauth2/' \
+        echo "{{.authentik_endpoint}}"
+        echo "{{.cluster}}"
+        CLIENT_ID=$(curl -sSfkL '{{.authentik_endpoint}}/api/v3/providers/oauth2/' \
                   -H 'Authorization: Bearer {{.AUTHENTIK_TOKEN}}' \
                   -H 'Accept: application/json' \
                   | jq -r '.results[] | select(.name == "{{.cluster}}-{{.service}}") | .client_id')
 
-        CLIENT_SECRET=$(curl -sSfkL '{{.AUTHENTIK_ENDPOINT}}/api/v3/providers/oauth2/' \
+        CLIENT_SECRET=$(curl -sSfkL '{{.authentik_endpoint}}/api/v3/providers/oauth2/' \
                   -H 'Authorization: Bearer {{.AUTHENTIK_TOKEN}}' \
                   -H 'Accept: application/json' \
                   | jq -r '.results[] | select(.name == "{{.cluster}}-{{.service}}") | .client_secret')
+        echo "CLIENT_ID : $CLIENT_ID"
 
-        vault kv put -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/{{.service}}/oidc \
+        vault kv put -tls-skip-verify -address={{.VAULT_ENDPOINT}} admin/{{.service}}/oidc/{{.cluster}} \
                       client-id=$CLIENT_ID \
                       client-secret=$CLIENT_SECRET
