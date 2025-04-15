@@ -30,9 +30,9 @@ spec:
         repoURL: https://github.com/ixxeL-DevOps/fullstack.git
         targetRevision: main
       syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+        # automated:
+        #   prune: true
+        #   selfHeal: true
         syncOptions:
           - Validate=true
           - PruneLast=true
