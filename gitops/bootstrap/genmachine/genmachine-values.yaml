@@ -8,7 +8,7 @@ argo-cd:
     image:
       imagePullPolicy: IfNotPresent
       repository: quay.io/argoproj/argocd
-      tag: v2.14.9
+      tag: v2.14.10
     logging:
       format: text
       level: info
@@ -109,7 +109,7 @@ argo-cd:
     name: dex-server
     image:
       repository: ghcr.io/dexidp/dex
-      tag: v2.42.0
+      tag: v2.42.1
       imagePullPolicy: IfNotPresent
     pdb:
       enabled: true
