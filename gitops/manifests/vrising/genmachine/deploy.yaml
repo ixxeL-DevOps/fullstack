@@ -1,0 +1,113 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vrising-config
+data:
+  V_RISING_SERVER_PERSISTENT_DATA_PATH: '/app/vrising'
+  V_RISING_SERVER_BRANCH: 'public'
+  V_RISING_SERVER_START_MODE: '2'
+  V_RISING_SERVER_UPDATE_MODE: '1'
+  V_RISING_SERVER_NAME: 'V Rising Kubernetes Test Server'
+  V_RISING_SERVER_DESCRIPTION: 'Test server.'
+  V_RISING_SERVER_GAME_PORT: '9876'
+  V_RISING_SERVER_QUERY_PORT: '9877'
+  V_RISING_SERVER_RCON_PORT: '9878'
+  V_RISING_SERVER_RCON_ENABLED: 'true'
+  V_RISING_SERVER_RCON_PASSWORD: 'rc0n'
+  V_RISING_SERVER_MAX_CONNECTED_USERS: '4'
+  V_RISING_SERVER_MAX_CONNECTED_ADMINS: '1'
+  V_RISING_SERVER_SAVE_NAME: 'ixxeL-vrising'
+  V_RISING_SERVER_PASSWORD: 't35t'
+  V_RISING_SERVER_LIST_ON_MASTER_SERVER: 'false'
+  V_RISING_SERVER_LIST_ON_STEAM: 'false'
+  V_RISING_SERVER_LIST_ON_EOS: 'false'
+  V_RISING_SERVER_AUTO_SAVE_COUNT: '5'
+  V_RISING_SERVER_AUTO_SAVE_INTERVAL: '10'
+  V_RISING_SERVER_GAME_SETTINGS_PRESET: 'StandardPvE'
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vrising-saves-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: proxmox-retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vrising-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: proxmox-retain
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vrising
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vrising
+  template:
+    metadata:
+      labels:
+        app: vrising
+    spec:
+      containers:
+        - name: vrising
+          image: didstopia/vrising-server:latest
+          envFrom:
+            - configMapRef:
+                name: vrising-config
+          ports:
+            - containerPort: 9876
+              protocol: UDP
+            - containerPort: 9877
+              protocol: UDP
+            - containerPort: 9878
+              protocol: TCP
+          volumeMounts:
+            - name: vrising-saves
+              mountPath: /app/vrising
+            - name: vrising-data
+              mountPath: /steamcmd/vrising
+      volumes:
+        - name: vrising-saves
+          persistentVolumeClaim:
+            claimName: vrising-saves-pvc
+        - name: vrising-data
+          persistentVolumeClaim:
+            claimName: vrising-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vrising
+spec:
+  selector:
+    app: vrising
+  type: LoadBalancer
+  ports:
+    - name: game-port
+      port: 9876
+      targetPort: 9876
+      protocol: UDP
+    - name: query-port
+      port: 9877
+      targetPort: 9877
+      protocol: UDP
+    - name: rcon-port
+      port: 9878
+      targetPort: 9878
+      protocol: TCP

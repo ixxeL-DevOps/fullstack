@@ -1,0 +1,54 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: vrising
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/vrising/*'
+            exclude: false
+  template:
+    metadata:
+      name: 'vrising-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .
+    spec:
+      project: infra-network
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: vrising
+      source:
+        path: gitops/manifests/vrising/genmachine
+        repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+        targetRevision: main
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 6
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 3m
+        managedNamespaceMetadata:
+          annotations:
+            volsync.backube/privileged-movers: 'true'
+          labels:
+            bundle.chain/inject: 'enabled'
