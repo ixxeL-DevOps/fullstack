@@ -6,4 +6,4 @@ external-secrets:
     createClusterSecretStore: true
     createPushSecret: true
     conversion:
-      enabled: true
+      enabled: false
