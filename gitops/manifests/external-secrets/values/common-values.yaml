@@ -1,9 +1,9 @@
 ---
 external-secrets:
-  installCRDs: false # try to fix for update v0.16+
+  installCRDs: true # try to fix for update v0.16+
   crds:
     createClusterExternalSecret: true
     createClusterSecretStore: true
     createPushSecret: true
     conversion:
-      enabled: false
+      enabled: true
