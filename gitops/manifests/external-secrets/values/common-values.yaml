@@ -1,6 +1,6 @@
 ---
 external-secrets:
-  installCRDs: true
+  installCRDs: false # try to fix for update v0.16+
   crds:
     createClusterExternalSecret: true
     createClusterSecretStore: true

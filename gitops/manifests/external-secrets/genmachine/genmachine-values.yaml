@@ -9,7 +9,3 @@ external-secrets:
     enabled: true
     additionalLabels:
       release: prometheus
-
-  crds:
-    conversion:
-      enabled: false
