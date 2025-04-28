@@ -19,10 +19,10 @@ data:
       "RelicSpawnType": "Unique",
       "CanLootEnemyContainers": true,
       "BloodBoundEquipment": true,
-      "TeleportBoundItems": false,
+      "TeleportBoundItems": true,
       "BatBoundItems": false,
       "AllowGlobalChat": true,
-      "AllWaypointsUnlocked": false,
+      "AllWaypointsUnlocked": true,
       "FreeCastleRaid": false,
       "FreeCastleClaim": false,
       "FreeCastleDestroy": false,
@@ -75,7 +75,148 @@ data:
       "Death_DurabilityLossFactorAsResources": 1.0,
       "StarterEquipmentId": 28431735,
       "StarterResourcesId": 548330870,
-      "VBloodUnitSettings": [],
+      "VBloodUnitSettings": [
+        {
+          "UnitId": -1905691330,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 1124739990,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 2122229952,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -2025101517,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 763273073,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 1106149033,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 577478542,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -2039908510,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 1896428751,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -484556888,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -1391546313,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 153390636,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -1659822956,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -1942352521,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -29797003,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -99012450,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 939467639,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -1065970933,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 850622034,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 24378719,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 1688478381,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -680831417,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -548489519,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -203043163,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -1968372384,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -1208888966,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -1007062401,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -2013903325,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 685266977,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": 114912615,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -1347412392,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -910296704,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -910296704,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -910296704,
+          "DefaultUnlocked": true
+        },
+        {
+          "UnitId": -910296704,
+          "DefaultUnlocked": true
+        }
+      ],
       "UnlockedAchievements": [],
       "UnlockedResearchs": [],
       "GameTimeModifiers": {
