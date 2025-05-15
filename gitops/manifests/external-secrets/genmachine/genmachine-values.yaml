@@ -3,7 +3,7 @@ external-secrets:
   image:
     repository: oci.external-secrets.io/external-secrets/external-secrets
     pullPolicy: IfNotPresent
-    tag: v0.16.2
+    tag: v0.17.0
 
   serviceMonitor:
     enabled: true
