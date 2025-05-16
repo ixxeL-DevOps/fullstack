@@ -6,7 +6,7 @@ authentik:
   global:
     image:
       repository: ghcr.io/goauthentik/server
-      tag: '2025.4.0'
+      tag: '2025.4.1'
       pullPolicy: IfNotPresent
     env:
       - name: AUTHENTIK_BOOTSTRAP_PASSWORD
