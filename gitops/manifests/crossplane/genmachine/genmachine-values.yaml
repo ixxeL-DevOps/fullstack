@@ -2,7 +2,7 @@
 crossplane:
   image:
     repository: xpkg.upbound.io/crossplane/crossplane
-    tag: 'v1.19.1'
+    tag: 'v1.20.0'
     pullPolicy: IfNotPresent
 
 komoplane:
