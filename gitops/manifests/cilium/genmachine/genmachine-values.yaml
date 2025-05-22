@@ -20,6 +20,12 @@ cilium:
   envoy:
     enabled: false
 
+  # Egress test
+  egressGateway:
+    enabled: true
+  bpf:
+    masquerade: true
+
   operator:
     image:
       repository: 'quay.io/cilium/operator'
