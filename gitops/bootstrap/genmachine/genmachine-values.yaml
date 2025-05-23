@@ -109,7 +109,7 @@ argo-cd:
     name: dex-server
     image:
       repository: ghcr.io/dexidp/dex
-      tag: v2.43.0
+      tag: v2.43.1
       imagePullPolicy: IfNotPresent
     pdb:
       enabled: true
