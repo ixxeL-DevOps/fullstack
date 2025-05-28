@@ -3,4 +3,4 @@ kubelet-csr-approver:
   image:
     repository: ghcr.io/postfinance/kubelet-csr-approver
     pullPolicy: IfNotPresent
-    tag: v1.2.7
+    tag: v1.2.8
