@@ -3,7 +3,7 @@ adguard-home:
   image:
     repository: adguard/adguardhome
     pullPolicy: Always
-    tag: v0.107.61
+    tag: v0.107.62
 
   # ask to delete 1 pod before making update. Combination with affinity
   strategy:
