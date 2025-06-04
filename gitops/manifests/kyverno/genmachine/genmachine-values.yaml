@@ -5,7 +5,7 @@ kyverno:
       image:
         registry: ghcr.io
         repository: kyverno/kyverno
-        tag: v1.14.1
+        tag: v1.14.2
         pullPolicy: IfNotPresent
     serviceMonitor:
       enabled: true
@@ -16,7 +16,7 @@ kyverno:
     image:
       registry: ghcr.io
       repository: kyverno/background-controller
-      tag: v1.14.1
+      tag: v1.14.2
       pullPolicy: IfNotPresent
     serviceMonitor:
       enabled: true
@@ -27,7 +27,7 @@ kyverno:
     image:
       registry: ghcr.io
       repository: kyverno/cleanup-controller
-      tag: v1.14.1
+      tag: v1.14.2
       pullPolicy: IfNotPresent
     serviceMonitor:
       enabled: true
@@ -38,7 +38,7 @@ kyverno:
     image:
       registry: ghcr.io
       repository: kyverno/reports-controller
-      tag: v1.14.1
+      tag: v1.14.2
       pullPolicy: IfNotPresent
     serviceMonitor:
       enabled: true
