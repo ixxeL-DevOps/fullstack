@@ -113,6 +113,70 @@
         }
       }
     },
+    "ggshield@latest": {
+      "last_modified": "2025-05-29T08:12:58Z",
+      "resolved": "github:NixOS/nixpkgs/3866ad91cfc172f08a6839def503d8fc2923c603#ggshield",
+      "source": "devbox-search",
+      "version": "1.40.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0lbz77vszmc1qds4f55f80383hbk1lmb-ggshield-1.40.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/l7v805ybgclpzlkdcl0s52x0ny10v4iy-ggshield-1.40.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/0lbz77vszmc1qds4f55f80383hbk1lmb-ggshield-1.40.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ilyrz9ai1zw3qkpgpxy7px8r2rlrlspm-ggshield-1.40.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/2ykj1gf3c35is8c8asq8yj1p0nka6jyh-ggshield-1.40.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/ilyrz9ai1zw3qkpgpxy7px8r2rlrlspm-ggshield-1.40.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1yi259kp6fvhn9rv6cj8hab9frpg3j91-ggshield-1.40.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/z7kfbfvzfvwxbgw59ksbnpzq8ph0zja2-ggshield-1.40.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/1yi259kp6fvhn9rv6cj8hab9frpg3j91-ggshield-1.40.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/miljw3rci0rrl0zfwpw1rvlac489pxx5-ggshield-1.40.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/hyay02k831h335j1s58ql21lr1j274dd-ggshield-1.40.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/miljw3rci0rrl0zfwpw1rvlac489pxx5-ggshield-1.40.0"
+        }
+      }
+    },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
       "resolved": "github:NixOS/nixpkgs/b2b0718004cc9a5bca610326de0a82e6ea75920b?lastModified=1744096231&narHash=sha256-kUfx3FKU1Etnua3EaKvpeuXs7zoFiAcli1gBwkPvGSs%3D"
     },
@@ -1109,6 +1173,70 @@
         }
       }
     },
+    "python312Packages.cffi@latest": {
+      "last_modified": "2025-05-16T20:19:48Z",
+      "resolved": "github:NixOS/nixpkgs/12a55407652e04dcf2309436eb06fef0d3713ef3#python312Packages.cffi",
+      "source": "devbox-search",
+      "version": "1.17.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/pcdpc1z0fkcbi7w80pzk4fdgfl48di2n-python3.12-cffi-1.17.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/0s595k4g6kpn0bs8kz2rzi8hh834d35x-python3.12-cffi-1.17.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/pcdpc1z0fkcbi7w80pzk4fdgfl48di2n-python3.12-cffi-1.17.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cm7pn7x0z9vbib4a7kdjc8z721i92797-python3.12-cffi-1.17.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/zknnpg1jxavq34lfrdxvn4cpxi0zks8l-python3.12-cffi-1.17.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/cm7pn7x0z9vbib4a7kdjc8z721i92797-python3.12-cffi-1.17.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hr29kz5y1pjmhw1jlyjlsxi0nnzg5rwr-python3.12-cffi-1.17.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/d9nbw8sr28y7cm3i2jb39bgxi04qz99q-python3.12-cffi-1.17.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/hr29kz5y1pjmhw1jlyjlsxi0nnzg5rwr-python3.12-cffi-1.17.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/w56z2iwqp4c3k0bx1rnh2kkmh8jysk48-python3.12-cffi-1.17.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/3zcfc2yz67sf3vwnndhnp1xdx3ij26xf-python3.12-cffi-1.17.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/w56z2iwqp4c3k0bx1rnh2kkmh8jysk48-python3.12-cffi-1.17.1"
+        }
+      }
+    },
     "python312Packages.mkdocs-material-extensions@latest": {
       "last_modified": "2025-03-11T17:52:14Z",
       "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#python312Packages.mkdocs-material-extensions",
@@ -1298,6 +1426,198 @@
             }
           ],
           "store_path": "/nix/store/w9ivw437bj7gn06kjsa68dkd3f87pf15-python3.12-mkdocs-1.6.1"
+        }
+      }
+    },
+    "python312Packages.oauthlib@latest": {
+      "last_modified": "2025-05-16T20:19:48Z",
+      "resolved": "github:NixOS/nixpkgs/12a55407652e04dcf2309436eb06fef0d3713ef3#python312Packages.oauthlib",
+      "source": "devbox-search",
+      "version": "3.2.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/syb57xfbrz3kag36ir0vy4qapqk7jii7-python3.12-oauthlib-3.2.2",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/qghd93sd229nwzhikm012rfh9r89lv51-python3.12-oauthlib-3.2.2-dist"
+            }
+          ],
+          "store_path": "/nix/store/syb57xfbrz3kag36ir0vy4qapqk7jii7-python3.12-oauthlib-3.2.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1fc4ivssr8i14bfbwfczdfap4i3i2hds-python3.12-oauthlib-3.2.2",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/bp9nndi6mxy0j8fjsj2kwx6r0gmiczx1-python3.12-oauthlib-3.2.2-dist"
+            }
+          ],
+          "store_path": "/nix/store/1fc4ivssr8i14bfbwfczdfap4i3i2hds-python3.12-oauthlib-3.2.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cfrhf0440jnkqx37wfdgris42xpypnn0-python3.12-oauthlib-3.2.2",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/mflarcj2xsay00bmmqwymgs920sm51mr-python3.12-oauthlib-3.2.2-dist"
+            }
+          ],
+          "store_path": "/nix/store/cfrhf0440jnkqx37wfdgris42xpypnn0-python3.12-oauthlib-3.2.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/vvrjk22b6710rg16zgccz292spav69kr-python3.12-oauthlib-3.2.2",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/y8v53ppajpm9hx2vzzzhn5y3zmybmm5p-python3.12-oauthlib-3.2.2-dist"
+            }
+          ],
+          "store_path": "/nix/store/vvrjk22b6710rg16zgccz292spav69kr-python3.12-oauthlib-3.2.2"
+        }
+      }
+    },
+    "python312Packages.pygitguardian@latest": {
+      "last_modified": "2025-05-28T04:23:31Z",
+      "resolved": "github:NixOS/nixpkgs/3d1f29646e4b57ed468d60f9d286cde23a8d1707#python312Packages.pygitguardian",
+      "source": "devbox-search",
+      "version": "1.22.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/sargvm8fhf5p7fadry5b0p3l4d50m1h0-python3.12-pygitguardian-1.22.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/ivakcq53b5ljrkkdvz9y03gzc79z0b94-python3.12-pygitguardian-1.22.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/sargvm8fhf5p7fadry5b0p3l4d50m1h0-python3.12-pygitguardian-1.22.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/yn01xfipdi7mdl79jfdpggriicdg6yif-python3.12-pygitguardian-1.22.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/qvjgp75fzsifpa1bxwl6g74b57m4rvmy-python3.12-pygitguardian-1.22.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/yn01xfipdi7mdl79jfdpggriicdg6yif-python3.12-pygitguardian-1.22.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/mhdm6r4ybcwwicaaqn9a5l31l0jix05f-python3.12-pygitguardian-1.22.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/fmjwkpilgkzbfypk36fxviq1vkzhri83-python3.12-pygitguardian-1.22.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/mhdm6r4ybcwwicaaqn9a5l31l0jix05f-python3.12-pygitguardian-1.22.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/aac0vqjxcyr51d4szffybq7n5sgfv837-python3.12-pygitguardian-1.22.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/76k9qva5jvaxwi8ai940r23s91aa974l-python3.12-pygitguardian-1.22.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/aac0vqjxcyr51d4szffybq7n5sgfv837-python3.12-pygitguardian-1.22.0"
+        }
+      }
+    },
+    "python312Packages.truststore@latest": {
+      "last_modified": "2025-05-16T20:19:48Z",
+      "resolved": "github:NixOS/nixpkgs/12a55407652e04dcf2309436eb06fef0d3713ef3#python312Packages.truststore",
+      "source": "devbox-search",
+      "version": "0.10.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1xs368yl1hn1njl5yrmdvmvck2871ldy-python3.12-truststore-0.10.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/90v0d8rg1s1pr2xi4az002l0cvkjw1ns-python3.12-truststore-0.10.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/1xs368yl1hn1njl5yrmdvmvck2871ldy-python3.12-truststore-0.10.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3x6b0rqin3d8d5sj784xsnh8lvgbba1j-python3.12-truststore-0.10.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/z55g27v6j3vz7wv05apghgq9m6gfqvn5-python3.12-truststore-0.10.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/3x6b0rqin3d8d5sj784xsnh8lvgbba1j-python3.12-truststore-0.10.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1gmclbfkwikm8mhk5iv8z9m0033wp8zd-python3.12-truststore-0.10.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/4hgcm2pchjygkm8bjhqp08linn5m31bh-python3.12-truststore-0.10.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/1gmclbfkwikm8mhk5iv8z9m0033wp8zd-python3.12-truststore-0.10.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/avvw0a5j8lykr1079c90k563bpsq7zqw-python3.12-truststore-0.10.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/6wy3jcnk7f5sqynn878dkiq1jzj8lm1s-python3.12-truststore-0.10.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/avvw0a5j8lykr1079c90k563bpsq7zqw-python3.12-truststore-0.10.1"
         }
       }
     },

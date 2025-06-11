@@ -239,10 +239,10 @@ kube-prometheus-stack:
           gnetId: 16293
           revision: 5
           datasource: Prometheus
-      # grafana-dashboards-arc:
-      #   arc:
-      #     url: 'https://raw.githubusercontent.com/actions/actions-runner-controller/refs/heads/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json'
-      #     token: ''
+          # grafana-dashboards-arc:
+          #   arc:
+          #     url: 'https://raw.githubusercontent.com/actions/actions-runner-controller/refs/heads/master/docs/gha-runner-scale-set-controller/samples/grafana-dashboard/ARC-Autoscaling-Runner-Set-Monitoring_1692627561838.json'
+          #     token: ''
           # grafana-dashboards-logs:
           #   loki:
           #     gnetId: 12611

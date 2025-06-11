@@ -33,7 +33,12 @@
     "popeye@latest",
     "pwgen@latest",
     "restic@latest",
-    "gum@latest"
+    "gum@latest",
+    "ggshield@latest",
+    "python312Packages.cffi@latest",
+    "python312Packages.pygitguardian@latest",
+    "python312Packages.oauthlib@latest",
+    "python312Packages.truststore@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"

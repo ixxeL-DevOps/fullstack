@@ -14,30 +14,38 @@ exclude: |
 
 repos:
   - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v4.0.0
+    rev: v4.2.0
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
         args: []
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.1
+    rev: v1.37.1
     hooks:
       - id: yamllint
         args:
           - --config-file
           - .yamllint.yaml
+        stages: [pre-commit]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
+        stages: [pre-commit]
       - id: end-of-file-fixer
+        stages: [pre-commit]
       - id: detect-private-key
+        stages: [pre-commit]
       - id: fix-byte-order-marker
+        stages: [pre-commit]
       - id: mixed-line-ending
+        stages: [pre-commit]
       - id: check-merge-conflict
+        stages: [pre-commit]
       - id: check-executables-have-shebangs
+        stages: [pre-commit]
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 3.0.0
@@ -46,21 +54,33 @@ repos:
         language: script
         args: [--severity=error]
         additional_dependencies: []
+        stages: [pre-commit]
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.5
     hooks:
       - id: forbid-crlf
+        stages: [pre-commit]
       - id: forbid-tabs
+        stages: [pre-commit]
       - id: remove-crlf
+        stages: [pre-commit]
 
   - repo: https://github.com/google/yamlfmt
-    rev: v0.16.0
+    rev: v0.17.0
     hooks:
       - id: yamlfmt
         args:
           - -conf
           - .yamlfmt
+        stages: [pre-commit]
+
+  - repo: https://github.com/gitguardian/ggshield
+    rev: v1.40.0
+    hooks:
+      - id: ggshield
+        language_version: python3
+        stages: [pre-commit]
 
   - repo: local
     hooks:
@@ -69,6 +89,7 @@ repos:
         entry: bash -c "task sops:check-encryption"
         language: system
         pass_filenames: false
+        stages: [pre-commit]
 
   - repo: local
     hooks:
@@ -76,3 +97,4 @@ repos:
         name: Prettier linting
         entry: bash -c "task lint:all"
         language: system
+        stages: [pre-commit]
