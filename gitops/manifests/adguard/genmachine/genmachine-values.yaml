@@ -173,7 +173,7 @@ adguard-home:
       serve_plain_dns: true
       hostsfile_enabled: true
     tls:
-      enabled: false
+      enabled: true
       server_name: adguard.talos-genmachine.fredcorp.com
       force_https: false
       port_https: 443
@@ -181,7 +181,7 @@ adguard-home:
       port_dns_over_quic: 784
       port_dnscrypt: 0
       dnscrypt_config_file: ''
-      allow_unencrypted_doh: false
+      allow_unencrypted_doh: true
       strict_sni_check: false
       certificate_chain: ''
       private_key: ''
