@@ -3,7 +3,7 @@ gha-runner-scale-set-controller:
   image:
     repository: 'ghcr.io/actions/gha-runner-scale-set-controller'
     pullPolicy: IfNotPresent
-    tag: '0.11.0'
+    tag: '0.12.0'
 
   serviceAccount:
     create: true
