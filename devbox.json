@@ -38,7 +38,8 @@
     "python312Packages.cffi@latest",
     "python312Packages.pygitguardian@latest",
     "python312Packages.oauthlib@latest",
-    "python312Packages.truststore@latest"
+    "python312Packages.truststore@latest",
+    "age@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"
