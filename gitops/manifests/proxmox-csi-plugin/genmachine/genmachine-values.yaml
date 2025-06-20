@@ -20,7 +20,7 @@ proxmox-csi-plugin:
       image:
         repository: registry.k8s.io/sig-storage/csi-resizer
         pullPolicy: IfNotPresent
-        tag: v1.13.2
+        tag: v1.14.0
   node:
     plugin:
       image:
