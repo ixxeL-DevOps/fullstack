@@ -7,6 +7,9 @@ repo_name: !ENV [REPO_NAME, 'ixxeL-DevOps/fullstack']
 repo_url: !ENV [REPO_URL, 'https://github.com/ixxeL-DevOps/fullstack']
 extra_css:
   - stylesheets/extra.css
+extra_javascript:
+  - https://unpkg.com/mermaid@10.0.0/dist/mermaid.min.js
+  - javascripts/mermaid.js
 theme:
   favicon: assets/k8s-home.png
   font:
@@ -61,14 +64,17 @@ theme:
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: true
   - pymdownx.tabbed:
       alternate_style: true
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
   - codehilite:
       css_class: highlight
 
@@ -76,8 +82,10 @@ nav:
   - Documentation:
       - Cluster:
           - K0S: cluster/k0s.md
+          - New Cluster Provisioning: NEW_CLUSTER_PROVISIONING.md
       - GitOps:
           - ArgoCD: argocd/argocd.md
+          - ArgoCD Application Deployment: ARGOCD_APPLICATION_DEPLOYMENT_GUIDE.md
       - TLS/HTTPS:
           - Certmanager: certificates/certmanager.md
           - Encryption: certificates/tls.md
@@ -86,4 +94,6 @@ nav:
           - Auth Forwarding: authentication/proxy-auth.md
       - VPN:
           - Cluster config: VPN/wireguard.md
+      - Complete Platform Guide: FULL_DOCUMENTATION.md
+      - Mermaid Test: mermaid-test.md
   - Home: index.md

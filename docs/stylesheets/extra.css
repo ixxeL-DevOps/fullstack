@@ -2,3 +2,28 @@
   height: 80px; /* Ajuste la hauteur */
   width: auto; /* Garde les proportions */
 }
+
+/* Mermaid diagram styling */
+.mermaid {
+  text-align: center;
+  margin: 1em 0;
+}
+
+/* Ensure Mermaid diagrams are responsive */
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Improve readability in dark mode */
+[data-md-color-scheme="slate"] .mermaid {
+  filter: brightness(0.8);
+}
+
+/* Center align Mermaid diagrams */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
