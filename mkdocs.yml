@@ -10,6 +10,37 @@ extra_css:
 extra_javascript:
   - https://unpkg.com/mermaid@10.0.0/dist/mermaid.min.js
   - javascripts/mermaid.js
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ixxeL-DevOps/fullstack
+    - icon: fontawesome/solid/book
+      link: https://ixxel-devops.github.io/fullstack/
+plugins:
+  - search
+  - git-revision-date-localized:
+      type: timeago
+      timezone: UTC
+      locale: en
+      enable_creation_date: true
+      exclude:
+        - index.md
+  - git-committers:
+      repository: ixxeL-DevOps/fullstack
+      branch: main
+      exclude:
+        - index.md
+  - git-authors:
+      show_contribution: true
+      show_line_count: true
+      count_empty_lines: false
+      fallback_to_empty: false
+      sort_authors_by: contribution
+      authorship_threshold_percent: 10
+      exclude:
+        - index.md
+
 theme:
   favicon: assets/k8s-home.png
   font:
@@ -96,4 +127,6 @@ nav:
           - Cluster config: VPN/wireguard.md
       - Complete Platform Guide: FULL_DOCUMENTATION.md
       - Mermaid Test: mermaid-test.md
+  - Repository:
+      - Git Summary: git-summary.md
   - Home: index.md

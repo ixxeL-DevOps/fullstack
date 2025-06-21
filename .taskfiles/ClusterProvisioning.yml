@@ -229,3 +229,23 @@ tasks:
     cmds:
       - echo "Testing Vault integration"
       - python3 scripts/cluster-provisioning/test_vault.py
+
+  # Documentation tasks
+  docs:generate-git-summary:
+    desc: Generate git repository summary for documentation
+    cmds:
+      - echo "Generating git repository summary"
+      - python3 scripts/generate_git_summary.py
+      - echo "Git summary updated in docs/git-summary.md"
+
+  docs:serve:
+    desc: Serve documentation locally with MkDocs
+    cmds:
+      - echo "Starting MkDocs development server"
+      - mkdocs serve
+
+  docs:build:
+    desc: Build documentation with MkDocs
+    cmds:
+      - echo "Building MkDocs documentation"
+      - mkdocs build

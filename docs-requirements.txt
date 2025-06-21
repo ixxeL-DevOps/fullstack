@@ -1,0 +1,19 @@
+# MkDocs Documentation Requirements
+# Install with: pip install -r docs-requirements.txt
+
+# Core MkDocs
+mkdocs>=1.5.0
+mkdocs-material>=9.4.0
+
+# Git integration plugins
+mkdocs-git-revision-date-localized-plugin>=1.2.0
+mkdocs-git-committers-plugin-2>=1.2.0
+mkdocs-git-authors-plugin>=0.7.0
+
+# Additional useful plugins
+mkdocs-awesome-pages-plugin>=2.9.0
+mkdocs-minify-plugin>=0.7.0
+
+# Python dependencies for git operations
+GitPython>=3.1.40
+pytz>=2023.3
