@@ -126,7 +126,6 @@ nav:
       - VPN:
           - Cluster config: VPN/wireguard.md
       - Complete Platform Guide: FULL_DOCUMENTATION.md
-      - Mermaid Test: mermaid-test.md
   - Repository:
       - Git Summary: git-summary.md
   - Home: index.md
