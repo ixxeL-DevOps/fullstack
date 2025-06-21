@@ -249,3 +249,33 @@ tasks:
     cmds:
       - echo "Building MkDocs documentation"
       - mkdocs build
+
+  docs:pdf-check:
+    desc: Check dependencies for PDF generation
+    cmds:
+      - echo "Checking PDF generation dependencies"
+      - python3 scripts/generate_pdf_docs.py check
+
+  docs:pdf-generate:
+    desc: Generate PDF documentation
+    cmds:
+      - echo "Generating PDF documentation"
+      - python3 scripts/generate_pdf_docs.py generate
+
+  docs:pdf-preview:
+    desc: Preview generated PDF documentation
+    cmds:
+      - echo "Opening PDF documentation for preview"
+      - python3 scripts/generate_pdf_docs.py preview
+
+  docs:pdf-clean:
+    desc: Clean PDF files and build artifacts
+    cmds:
+      - echo "Cleaning PDF files"
+      - python3 scripts/generate_pdf_docs.py clean
+
+  docs:install-deps:
+    desc: Install documentation dependencies including PDF support
+    cmds:
+      - echo "Installing documentation dependencies"
+      - pip3 install -r docs-requirements.txt

@@ -40,6 +40,34 @@ plugins:
       authorship_threshold_percent: 10
       exclude:
         - index.md
+  - with-pdf:
+      author: ixxeL2097
+      copyright: Copyright © 2025 ixxeL-DevOps
+      cover: true
+      cover_title: ixxeL-DevOps HomeLab Documentation
+      cover_subtitle: Complete Infrastructure Guide
+      cover_logo: assets/k8s-home.png
+      back_cover: true
+      toc_title: Table of Contents
+      heading_shift: false
+      toc_level: 3
+      ordered_chapter_level: 2
+      excludes_children:
+        - 'Repository/Git Summary'
+      exclude_pages:
+        - 'git-summary.md'
+      convert_iframe:
+        - src: IFRAME SRC
+          img: POSTER IMAGE URL
+          text: ALTERNATE TEXT
+      two_columns_level: 3
+      render_js: true
+      headless_chrome_path: chromium
+      output_path: pdf/ixxel-homelab-documentation.pdf
+      enabled_if_env: ENABLE_PDF_EXPORT
+      debug_html: false
+      show_anchors: false
+      verbose: true
 
 theme:
   favicon: assets/k8s-home.png
@@ -128,4 +156,5 @@ nav:
       - Complete Platform Guide: FULL_DOCUMENTATION.md
   - Repository:
       - Git Summary: git-summary.md
+      - PDF Generation: PDF_GENERATION.md
   - Home: index.md

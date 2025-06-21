@@ -13,6 +13,7 @@ mkdocs-git-authors-plugin>=0.7.0
 # Additional useful plugins
 mkdocs-awesome-pages-plugin>=2.9.0
 mkdocs-minify-plugin>=0.7.0
+mkdocs-with-pdf>=0.9.3
 
 # Python dependencies for git operations
 GitPython>=3.1.40
