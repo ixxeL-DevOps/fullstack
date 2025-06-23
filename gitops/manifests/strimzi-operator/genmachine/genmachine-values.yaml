@@ -29,3 +29,15 @@ kafka-ui:
     tls:
       enabled: true
       secretName: "kafka-ui-tls-cert"
+
+  yamlApplicationConfig:
+    kafka:
+      clusters:
+        - name: kafka-cluster
+          bootstrapServers: kafka-cluster-kafka-bootstrap.strimzi.svc.cluster.local:9092
+    auth:
+      type: disabled
+    management:
+      health:
+        ldap:
+          enabled: false
