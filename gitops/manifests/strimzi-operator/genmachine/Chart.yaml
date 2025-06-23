@@ -6,3 +6,6 @@ dependencies:
   - name: strimzi-kafka-operator
     version: 0.46.0
     repository: oci://quay.io/strimzi-helm
+  - name: kafka-ui
+    version: 1.5.0
+    repository: https://ui.charts.kafbat.io/
