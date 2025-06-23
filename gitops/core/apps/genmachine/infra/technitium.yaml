@@ -1,67 +1,67 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: technitium
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../common
-spec:
-  goTemplate: true
-  generators:
-    - git:
-        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
-        revision: main
-        directories:
-          - path: 'gitops/manifests/technitium/*'
-            exclude: false
-          - path: 'gitops/manifests/technitium/common'
-            exclude: true
-          - path: 'gitops/manifests/technitium/beelink'
-            exclude: true
-  template:
-    metadata:
-      name: 'technitium-{{ .path.basenameNormalized }}'
-      annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../common
-    spec:
-      project: infra-network
-      destination:
-        name: '{{ .path.basenameNormalized }}'
-        namespace: technitium
-      sources:
-        - path: 'gitops/manifests/technitium/{{ .path.basenameNormalized }}'
-          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-          targetRevision: main
-          helm:
-            releaseName: technitium
-            valueFiles:
-              - $values/gitops/manifests/technitium/common/common-values.yaml
-              - $values/gitops/manifests/technitium/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
-            ignoreMissingValueFiles: true
-        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
-          targetRevision: main
-          ref: values
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - Validate=true
-          - PruneLast=true
-          - RespectIgnoreDifferences=true
-          - Replace=false
-          - ApplyOutOfSyncOnly=true
-          - CreateNamespace=true
-          - ServerSideApply=true
-        retry:
-          limit: 6
-          backoff:
-            duration: 10s
-            factor: 2
-            maxDuration: 3m
-        managedNamespaceMetadata:
-          annotations:
-            volsync.backube/privileged-movers: 'true'
-          labels:
-            bundle.chain/inject: 'enabled'
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: technitium
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/manifest-generate-paths: .;../common
+# spec:
+#   goTemplate: true
+#   generators:
+#     - git:
+#         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+#         revision: main
+#         directories:
+#           - path: 'gitops/manifests/technitium/*'
+#             exclude: false
+#           - path: 'gitops/manifests/technitium/common'
+#             exclude: true
+#           - path: 'gitops/manifests/technitium/beelink'
+#             exclude: true
+#   template:
+#     metadata:
+#       name: 'technitium-{{ .path.basenameNormalized }}'
+#       annotations:
+#         argocd.argoproj.io/manifest-generate-paths: .;../common
+#     spec:
+#       project: infra-network
+#       destination:
+#         name: '{{ .path.basenameNormalized }}'
+#         namespace: technitium
+#       sources:
+#         - path: 'gitops/manifests/technitium/{{ .path.basenameNormalized }}'
+#           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+#           targetRevision: main
+#           helm:
+#             releaseName: technitium
+#             valueFiles:
+#               - $values/gitops/manifests/technitium/common/common-values.yaml
+#               - $values/gitops/manifests/technitium/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+#             ignoreMissingValueFiles: true
+#         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+#           targetRevision: main
+#           ref: values
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#           - Validate=true
+#           - PruneLast=true
+#           - RespectIgnoreDifferences=true
+#           - Replace=false
+#           - ApplyOutOfSyncOnly=true
+#           - CreateNamespace=true
+#           - ServerSideApply=true
+#         retry:
+#           limit: 6
+#           backoff:
+#             duration: 10s
+#             factor: 2
+#             maxDuration: 3m
+#         managedNamespaceMetadata:
+#           annotations:
+#             volsync.backube/privileged-movers: 'true'
+#           labels:
+#             bundle.chain/inject: 'enabled'
