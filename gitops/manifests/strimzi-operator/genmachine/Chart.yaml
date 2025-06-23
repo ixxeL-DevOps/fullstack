@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: strimzi-kafka-operator
+version: 1.0.0
+dependencies:
+  - name: strimzi-kafka-operator
+    version: 0.46.0
+    repository: oci://quay.io/strimzi-helm/strimzi-kafka-operator

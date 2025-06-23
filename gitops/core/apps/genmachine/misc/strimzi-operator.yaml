@@ -1,0 +1,62 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: strimzi-operator
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../common
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/strimzi-operator/*'
+            exclude: false
+          - path: 'gitops/manifests/strimzi-operator/common'
+            exclude: true
+          - path: 'gitops/manifests/strimzi-operator/beelink'
+            exclude: true
+  template:
+    metadata:
+      name: 'strimzi-operator-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../common
+    spec:
+      project: infra-core
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: strimzi
+      sources:
+        - path: 'gitops/manifests/strimzi-operator/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: strimzi-operator
+            valueFiles:
+              - $values/gitops/manifests/strimzi-operator/common/common-values.yaml
+              - $values/gitops/manifests/strimzi-operator/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+            ignoreMissingValueFiles: true
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 6
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 3m
