@@ -240,6 +240,13 @@ argo-cd:
       resource.customizations.ignoreDifferences.apiregistration.k8s.io_APIService: |
         jqPathExpressions:
         - .spec.insecureSkipTLSVerify
+      resource.exclusions: |
+        - apiGroups:
+          - cilium.io
+          kinds:
+          - CiliumIdentity
+          - CiliumEndpoint
+          - CiliumEndpointSlice
     rbac:
       create: true
       policy.csv: |
