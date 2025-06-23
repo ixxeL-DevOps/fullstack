@@ -1,5 +1,5 @@
 ---
-apiVersion: external-secrets.io/v1beta1
+apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: github-app-hydrator-fullstack
@@ -47,7 +47,7 @@ spec:
         decodingStrategy: Base64
         metadataPolicy: None
 ---
-apiVersion: external-secrets.io/v1beta1
+apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: github-app-repocreds
