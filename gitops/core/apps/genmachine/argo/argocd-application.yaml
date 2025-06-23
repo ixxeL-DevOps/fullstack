@@ -33,6 +33,9 @@ spec:
     - path: gitops/core/apps/genmachine/system-upgrade
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
+    - path: gitops/core/apps/genmachine/misc
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
     - path: gitops/core/appProjects
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
