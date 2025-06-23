@@ -1,2 +1,11 @@
 ---
 strimzi-kafka-operator:
+  defaultImageRegistry: quay.io
+  defaultImageRepository: strimzi
+  defaultImageTag: 0.46.0
+
+  image:
+    registry: ""
+    repository: ""
+    name: operator
+    tag: ""
