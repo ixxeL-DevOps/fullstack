@@ -9,7 +9,20 @@ fail_fast: false
 
 exclude: |
   (?x)^(
-      gitops/local-storage/.*
+    .*/__pycache__/.*|
+    .*\.pyc$|
+    .*/node_modules/.*|
+    .*/build/.*|
+    .*/dist/.*|
+    .*/\.venv/.*|
+    .*/venv/.*|
+    .*/site/.*|
+    .*/devbox/.*|
+    .*\.min\.(js|css)$|
+    .*/migrations/.*|
+    .*/static/.*|
+    .*\.generated\..*|
+    gitops/local-storage/.*
   )$
 
 repos:
@@ -67,7 +80,7 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/google/yamlfmt
-    rev: v0.17.0
+    rev: v0.17.2
     hooks:
       - id: yamlfmt
         args:

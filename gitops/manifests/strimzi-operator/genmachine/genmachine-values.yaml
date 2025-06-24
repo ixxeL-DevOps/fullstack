@@ -5,17 +5,17 @@ strimzi-kafka-operator:
   defaultImageTag: 0.46.0
 
   image:
-    registry: ""
-    repository: ""
+    registry: ''
+    repository: ''
     name: operator
-    tag: ""
+    tag: ''
 
 kafka-ui:
   image:
     registry: ghcr.io
     repository: kafbat/kafka-ui
     pullPolicy: IfNotPresent
-    tag: "v1.2.0"
+    tag: 'v1.2.0'
 
   ingress:
     enabled: true
@@ -24,11 +24,11 @@ kafka-ui:
       cert-manager.io/common-name: kafka-ui.talos-genmachine.fredcorp.com
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       traefik.ingress.kubernetes.io/service.scheme: https
-    ingressClassName: "traefik"
-    host: "kafka-ui.talos-genmachine.fredcorp.com"
+    ingressClassName: 'traefik'
+    host: 'kafka-ui.talos-genmachine.fredcorp.com'
     tls:
       enabled: true
-      secretName: "kafka-ui-tls-cert"
+      secretName: 'kafka-ui-tls-cert'
 
   yamlApplicationConfig:
     kafka:
