@@ -1,0 +1,14 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+httpx==0.25.2
+aiofiles==23.2.1
+gitpython==3.1.40
+python-multipart==0.0.6
+jinja2==3.1.2
+pyyaml==6.0.1
+hvac==2.0.0
+proxmoxer==2.0.1
+paramiko==3.3.1
+asyncio-subprocess==0.1.0

@@ -32,6 +32,9 @@ node_modules
 .venv
 # mkdocs output directory
 site/
+.cache/
+pdf/
+*.pdf
 
 # Talos config and kubeconfig
 **/kubeconfig*
