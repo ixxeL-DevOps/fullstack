@@ -1,0 +1,281 @@
+# Cluster Provisioning Tasks
+# This file extends the main Taskfile with cluster provisioning capabilities
+
+version: '3'
+
+vars:
+  CLUSTER_NAME: '{{.CLUSTER_NAME | default "newcluster"}}'
+  VMID_PREFIX: '{{.VMID_PREFIX | default "50"}}'
+  CLUSTER_VIP: '{{.CLUSTER_VIP | default "192.168.2.200"}}'
+  CONTROL_PLANE_IPS: '{{.CONTROL_PLANE_IPS | default "192.168.2.201,192.168.2.202,192.168.2.203"}}'
+  WORKER_IPS: '{{.WORKER_IPS | default "192.168.2.204,192.168.2.205"}}'
+  CPU_CORES: '{{.CPU_CORES | default "4"}}'
+  MEMORY_GB: '{{.MEMORY_GB | default "8"}}'
+  STORAGE_GB: '{{.STORAGE_GB | default "100"}}'
+
+tasks:
+  # Main cluster creation task
+  cluster:create:
+    desc: Create a new Kubernetes cluster using the genmachine pattern
+    cmds:
+      - task: cluster:validate
+      - task: cluster:provision-vms
+      - task: cluster:bootstrap-talos
+      - task: cluster:store-secrets
+      - task: cluster:generate-gitops
+      - task: cluster:verify
+    vars:
+      CLUSTER_NAME: '{{.CLUSTER_NAME}}'
+      VMID_PREFIX: '{{.VMID_PREFIX}}'
+
+  # Validation tasks
+  cluster:validate:
+    desc: Validate cluster creation parameters
+    cmds:
+      - |
+        if [ -z "{{.CLUSTER_NAME}}" ]; then
+          echo "Error: CLUSTER_NAME is required"
+          exit 1
+        fi
+      - |
+        if [ "{{.CLUSTER_NAME}}" = "genmachine" ] || [ "{{.CLUSTER_NAME}}" = "beelink" ]; then
+          echo "Error: Cluster name '{{.CLUSTER_NAME}}' is reserved"
+          exit 1
+        fi
+      - echo "Validating cluster parameters for '{{.CLUSTER_NAME}}'"
+      - echo "VMID Prefix: {{.VMID_PREFIX}}"
+      - echo "Control Plane VIP: {{.CLUSTER_VIP}}"
+
+  # VM provisioning
+  cluster:provision-vms:
+    desc: Create VMs in Proxmox for the new cluster
+    cmds:
+      - echo "Creating VMs for cluster {{.CLUSTER_NAME}}"
+      - python3 scripts/cluster-provisioning/create_vms.py --cluster {{.CLUSTER_NAME}} --prefix {{.VMID_PREFIX}} --vip {{.CLUSTER_VIP}} --control-plane-ips {{.CONTROL_PLANE_IPS}} --worker-ips {{.WORKER_IPS}}
+
+  # Talos bootstrap
+  cluster:bootstrap-talos:
+    desc: Bootstrap Talos cluster
+    dir: infra/talos
+    cmds:
+      - echo "Bootstrapping Talos cluster {{.CLUSTER_NAME}}"
+      - task: cluster:generate-talos-config
+      - task: cluster:apply-talos-config
+      - task: cluster:bootstrap-etcd
+      - task: cluster:fetch-kubeconfig
+
+  cluster:generate-talos-config:
+    desc: Generate Talos configuration for new cluster
+    dir: infra/talos
+    cmds:
+      - mkdir -p clusters/{{.CLUSTER_NAME}}
+      - |
+        talosctl gen config {{.CLUSTER_NAME}} https://{{.CLUSTER_VIP}}:6443 \
+          --output-dir clusters/{{.CLUSTER_NAME}} \
+          --with-examples=false \
+          --with-docs=false
+
+  cluster:apply-talos-config:
+    desc: Apply Talos configuration to VMs
+    dir: infra/talos
+    cmds:
+      - |
+        IFS=',' read -ra CP_IPS <<< "{{.CONTROL_PLANE_IPS}}"
+        for ip in "${CP_IPS[@]}"; do
+          echo "Applying control plane config to $ip"
+          talosctl apply-config --insecure --nodes $ip --file clusters/{{.CLUSTER_NAME}}/controlplane.yaml
+        done
+      - |
+        IFS=',' read -ra WK_IPS <<< "{{.WORKER_IPS}}"
+        for ip in "${WK_IPS[@]}"; do
+          echo "Applying worker config to $ip"
+          talosctl apply-config --insecure --nodes $ip --file clusters/{{.CLUSTER_NAME}}/worker.yaml
+        done
+
+  cluster:bootstrap-etcd:
+    desc: Bootstrap etcd on the first control plane node
+    dir: infra/talos
+    cmds:
+      - |
+        FIRST_CP_IP=$(echo "{{.CONTROL_PLANE_IPS}}" | cut -d',' -f1)
+        echo "Bootstrapping etcd on $FIRST_CP_IP"
+        talosctl --talosconfig clusters/{{.CLUSTER_NAME}}/talosconfig bootstrap --nodes $FIRST_CP_IP
+
+  cluster:fetch-kubeconfig:
+    desc: Fetch kubeconfig for the new cluster
+    dir: infra/talos
+    cmds:
+      - |
+        FIRST_CP_IP=$(echo "{{.CONTROL_PLANE_IPS}}" | cut -d',' -f1)
+        echo "Fetching kubeconfig from $FIRST_CP_IP"
+        talosctl --talosconfig clusters/{{.CLUSTER_NAME}}/talosconfig kubeconfig clusters/{{.CLUSTER_NAME}}/kubeconfig --nodes $FIRST_CP_IP
+
+  # Vault secret storage
+  cluster:store-secrets:
+    desc: Store cluster secrets in Vault
+    cmds:
+      - echo "Storing secrets for cluster {{.CLUSTER_NAME}} in Vault"
+      - python3 scripts/cluster-provisioning/store_secrets.py --cluster {{.CLUSTER_NAME}}
+
+  # GitOps manifest generation
+  cluster:generate-gitops:
+    desc: Generate GitOps manifests for the new cluster
+    cmds:
+      - echo "Generating GitOps manifests for cluster {{.CLUSTER_NAME}}"
+      - python3 scripts/cluster-provisioning/generate_gitops.py --cluster {{.CLUSTER_NAME}}
+      - task: cluster:commit-gitops
+
+  cluster:commit-gitops:
+    desc: Commit GitOps manifests to git
+    cmds:
+      - git add gitops/
+      - git commit -m "feat: add GitOps manifests for cluster {{.CLUSTER_NAME}}"
+      - echo "GitOps manifests committed. Consider creating a PR to merge changes."
+
+  # Cluster verification
+  cluster:verify:
+    desc: Verify cluster health and readiness
+    cmds:
+      - echo "Verifying cluster {{.CLUSTER_NAME}} health"
+      - python3 scripts/cluster-provisioning/verify_cluster.py --cluster {{.CLUSTER_NAME}}
+
+  # Cluster deletion
+  cluster:delete:
+    desc: Delete a cluster and all its resources
+    prompt: "Are you sure you want to delete cluster '{{.CLUSTER_NAME}}'? This action cannot be undone."
+    cmds:
+      - task: cluster:delete-gitops
+      - task: cluster:delete-vms
+      - task: cluster:cleanup-secrets
+      - task: cluster:cleanup-local
+
+  cluster:delete-gitops:
+    desc: Remove GitOps manifests for the cluster
+    cmds:
+      - echo "Removing GitOps manifests for cluster {{.CLUSTER_NAME}}"
+      - rm -rf gitops/core/apps/{{.CLUSTER_NAME}}
+      - rm -rf gitops/core/clusters/{{.CLUSTER_NAME}}
+      - rm -rf gitops/bootstrap/{{.CLUSTER_NAME}}
+      - find gitops/manifests -name "{{.CLUSTER_NAME}}" -type d -exec rm -rf {} +
+      - git add gitops/
+      - git commit -m "feat: remove GitOps manifests for cluster {{.CLUSTER_NAME}}" || true
+
+  cluster:delete-vms:
+    desc: Delete VMs from Proxmox
+    cmds:
+      - echo "Deleting VMs for cluster {{.CLUSTER_NAME}}"
+      - python3 scripts/cluster-provisioning/delete_vms.py --cluster {{.CLUSTER_NAME}}
+
+  cluster:cleanup-secrets:
+    desc: Clean up secrets from Vault
+    cmds:
+      - echo "Cleaning up Vault secrets for cluster {{.CLUSTER_NAME}}"
+      - python3 scripts/cluster-provisioning/cleanup_secrets.py --cluster {{.CLUSTER_NAME}}
+
+  cluster:cleanup-local:
+    desc: Clean up local configuration files
+    cmds:
+      - echo "Cleaning up local files for cluster {{.CLUSTER_NAME}}"
+      - rm -rf infra/talos/clusters/{{.CLUSTER_NAME}}
+
+  # Utility tasks
+  cluster:list:
+    desc: List all managed clusters
+    cmds:
+      - echo "Managed clusters:"
+      - ls -1 gitops/core/clusters/ | grep -v genmachine | grep -v beelink || echo "No additional clusters found"
+
+  cluster:status:
+    desc: Show status of a cluster
+    cmds:
+      - echo "Status for cluster {{.CLUSTER_NAME}}:"
+      - python3 scripts/cluster-provisioning/cluster_status.py --cluster {{.CLUSTER_NAME}}
+
+  # Service management
+  service:start:
+    desc: Start the cluster provisioning service
+    cmds:
+      - echo "Starting cluster provisioning service"
+      - cd scripts/cluster-provisioning && python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  service:install:
+    desc: Install cluster provisioning service dependencies
+    cmds:
+      - echo "Installing cluster provisioning service dependencies"
+      - cd scripts/cluster-provisioning && pip3 install -r requirements.txt
+
+  # Development and testing
+  dev:validate-service:
+    desc: Validate the cluster provisioning service
+    cmds:
+      - echo "Validating cluster provisioning service"
+      - cd scripts/cluster-provisioning && python3 -m pytest tests/ -v
+
+  dev:generate-config:
+    desc: Generate example configuration for cluster provisioning
+    cmds:
+      - echo "Generating example configuration"
+      - python3 scripts/cluster-provisioning/generate_example_config.py
+
+  # Integration with existing infrastructure
+  integrate:proxmox:
+    desc: Test Proxmox integration
+    cmds:
+      - echo "Testing Proxmox integration"
+      - python3 scripts/cluster-provisioning/test_proxmox.py
+
+  integrate:vault:
+    desc: Test Vault integration
+    cmds:
+      - echo "Testing Vault integration"
+      - python3 scripts/cluster-provisioning/test_vault.py
+
+  # Documentation tasks
+  docs:generate-git-summary:
+    desc: Generate git repository summary for documentation
+    cmds:
+      - echo "Generating git repository summary"
+      - python3 scripts/generate_git_summary.py
+      - echo "Git summary updated in docs/git-summary.md"
+
+  docs:serve:
+    desc: Serve documentation locally with MkDocs
+    cmds:
+      - echo "Starting MkDocs development server"
+      - mkdocs serve
+
+  docs:build:
+    desc: Build documentation with MkDocs
+    cmds:
+      - echo "Building MkDocs documentation"
+      - mkdocs build
+
+  docs:pdf-check:
+    desc: Check dependencies for PDF generation
+    cmds:
+      - echo "Checking PDF generation dependencies"
+      - python3 scripts/generate_pdf_docs.py check
+
+  docs:pdf-generate:
+    desc: Generate PDF documentation
+    cmds:
+      - echo "Generating PDF documentation"
+      - python3 scripts/generate_pdf_docs.py generate
+
+  docs:pdf-preview:
+    desc: Preview generated PDF documentation
+    cmds:
+      - echo "Opening PDF documentation for preview"
+      - python3 scripts/generate_pdf_docs.py preview
+
+  docs:pdf-clean:
+    desc: Clean PDF files and build artifacts
+    cmds:
+      - echo "Cleaning PDF files"
+      - python3 scripts/generate_pdf_docs.py clean
+
+  docs:install-deps:
+    desc: Install documentation dependencies including PDF support
+    cmds:
+      - echo "Installing documentation dependencies"
+      - pip3 install -r docs-requirements.txt

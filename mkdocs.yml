@@ -7,6 +7,68 @@ repo_name: !ENV [REPO_NAME, 'ixxeL-DevOps/fullstack']
 repo_url: !ENV [REPO_URL, 'https://github.com/ixxeL-DevOps/fullstack']
 extra_css:
   - stylesheets/extra.css
+extra_javascript:
+  - https://unpkg.com/mermaid@10.0.0/dist/mermaid.min.js
+  - javascripts/mermaid.js
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ixxeL-DevOps/fullstack
+    - icon: fontawesome/solid/book
+      link: https://ixxel-devops.github.io/fullstack/
+plugins:
+  - search
+  - git-revision-date-localized:
+      type: timeago
+      timezone: UTC
+      locale: en
+      enable_creation_date: true
+      exclude:
+        - index.md
+  - git-committers:
+      repository: ixxeL-DevOps/fullstack
+      branch: main
+      exclude:
+        - index.md
+  - git-authors:
+      show_contribution: true
+      show_line_count: true
+      count_empty_lines: false
+      fallback_to_empty: false
+      sort_authors_by: contribution
+      authorship_threshold_percent: 10
+      exclude:
+        - index.md
+  - with-pdf:
+      author: ixxeL2097
+      copyright: Copyright © 2025 ixxeL-DevOps
+      cover: true
+      cover_title: ixxeL-DevOps HomeLab Documentation
+      cover_subtitle: Complete Infrastructure Guide
+      cover_logo: assets/k8s-home.png
+      back_cover: true
+      toc_title: Table of Contents
+      heading_shift: false
+      toc_level: 3
+      ordered_chapter_level: 2
+      excludes_children:
+        - 'Repository/Git Summary'
+      exclude_pages:
+        - 'git-summary.md'
+      convert_iframe:
+        - src: IFRAME SRC
+          img: POSTER IMAGE URL
+          text: ALTERNATE TEXT
+      two_columns_level: 3
+      render_js: true
+      headless_chrome_path: chromium
+      output_path: pdf/ixxel-homelab-documentation.pdf
+      enabled_if_env: ENABLE_PDF_EXPORT
+      debug_html: false
+      show_anchors: false
+      verbose: true
+
 theme:
   favicon: assets/k8s-home.png
   font:
@@ -61,14 +123,17 @@ theme:
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: true
   - pymdownx.tabbed:
       alternate_style: true
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
   - codehilite:
       css_class: highlight
 
@@ -76,8 +141,10 @@ nav:
   - Documentation:
       - Cluster:
           - K0S: cluster/k0s.md
+          - New Cluster Provisioning: NEW_CLUSTER_PROVISIONING.md
       - GitOps:
           - ArgoCD: argocd/argocd.md
+          - ArgoCD Application Deployment: ARGOCD_APPLICATION_DEPLOYMENT_GUIDE.md
       - TLS/HTTPS:
           - Certmanager: certificates/certmanager.md
           - Encryption: certificates/tls.md
@@ -86,4 +153,8 @@ nav:
           - Auth Forwarding: authentication/proxy-auth.md
       - VPN:
           - Cluster config: VPN/wireguard.md
+      - Complete Platform Guide: FULL_DOCUMENTATION.md
+  - Repository:
+      - Git Summary: git-summary.md
+      - PDF Generation: PDF_GENERATION.md
   - Home: index.md
