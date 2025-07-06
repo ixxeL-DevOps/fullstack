@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: 3.9
       - run: pip install \ mkdocs-material
-      - run: mkdocs gh-deploy --config-file mkdocs.yaml --force
+      - run: mkdocs gh-deploy --config-file mkdocs.yml --force
 
   deploy_mkdocs:
     needs: build_mkdocs

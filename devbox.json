@@ -40,7 +40,12 @@
     "python312Packages.oauthlib@latest",
     "python312Packages.truststore@latest",
     "age@latest",
-    "python312Packages.mkdocs-mermaid2-plugin@latest"
+    "python312Packages.mkdocs-mermaid2-plugin@latest",
+    "python312Packages.mkdocs-git-revision-date-localized-plugin@latest",
+    "python312Packages.mkdocs-git-committers-plugin-2@latest",
+    "python312Packages.mkdocs-git-authors-plugin@latest",
+    "python312Packages.mkdocs-awesome-pages-plugin@latest",
+    "python312Packages.mkdocs-minify-plugin@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"

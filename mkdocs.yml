@@ -75,10 +75,21 @@ markdown_extensions:
   - codehilite:
       css_class: highlight
 
+plugins:
+  - search
+  - git-revision-date-localized:
+      type: timeago
+      timezone: UTC
+      locale: en
+      enable_creation_date: true
+      exclude:
+        - index.md
+
 nav:
   - Documentation:
       - Cluster:
           - K0S: cluster/k0s.md
+          - Talos: cluster/talos.md
       - GitOps:
           - ArgoCD: argocd/argocd.md
       - TLS/HTTPS:
@@ -87,6 +98,14 @@ nav:
       - Authentication:
           - OIDC: authentication/oidc.md
           - Auth Forwarding: authentication/proxy-auth.md
+      - Networking:
+          - Cilium: network/cilium.md
+      - Storage:
+          - Proxmox-CSI: storage/csi-promox.md
+      - Secrets:
+          - ESO: secrets/externalsecrets.md
       - VPN:
           - Cluster config: VPN/wireguard.md
+      - Encryption:
+          - SOPS: encryption/sops.md
   - Home: index.md

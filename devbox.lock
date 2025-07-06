@@ -1286,6 +1286,262 @@
         }
       }
     },
+    "python312Packages.mkdocs-awesome-pages-plugin@latest": {
+      "last_modified": "2025-03-11T17:52:14Z",
+      "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#python312Packages.mkdocs-awesome-pages-plugin",
+      "source": "devbox-search",
+      "version": "2.10.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2llw3kywrz8ha60zv173bgqs9505d16v-python3.12-mkdocs-awesome-pages-plugin-2.10.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/mi1a9ln2idjb3kv4x59mrirrbb48hwr2-python3.12-mkdocs-awesome-pages-plugin-2.10.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/2llw3kywrz8ha60zv173bgqs9505d16v-python3.12-mkdocs-awesome-pages-plugin-2.10.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/j7sc4y5v6gfpbmh4bzls67iiimn9axh8-python3.12-mkdocs-awesome-pages-plugin-2.10.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/as33ynry0ykjqvllrlcmra5rb6pna3ks-python3.12-mkdocs-awesome-pages-plugin-2.10.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/j7sc4y5v6gfpbmh4bzls67iiimn9axh8-python3.12-mkdocs-awesome-pages-plugin-2.10.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/84lbhhz4s9hf5ggn1p7jvg636pw000y5-python3.12-mkdocs-awesome-pages-plugin-2.10.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/lmikzwwx38xaa20famgqs24pnjiidc1h-python3.12-mkdocs-awesome-pages-plugin-2.10.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/84lbhhz4s9hf5ggn1p7jvg636pw000y5-python3.12-mkdocs-awesome-pages-plugin-2.10.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/46fiianam5qxiy2j5znga591jfkhglp2-python3.12-mkdocs-awesome-pages-plugin-2.10.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/4msrnalyghdb9piq7ikyk0kp1633zzjs-python3.12-mkdocs-awesome-pages-plugin-2.10.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/46fiianam5qxiy2j5znga591jfkhglp2-python3.12-mkdocs-awesome-pages-plugin-2.10.1"
+        }
+      }
+    },
+    "python312Packages.mkdocs-git-authors-plugin@latest": {
+      "last_modified": "2025-06-20T02:24:11Z",
+      "resolved": "github:NixOS/nixpkgs/076e8c6678d8c54204abcb4b1b14c366835a58bb#python312Packages.mkdocs-git-authors-plugin",
+      "source": "devbox-search",
+      "version": "0.9.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/88lxm602gcpzr6hw0prmz26490lcqbn7-python3.12-mkdocs-git-authors-plugin-0.9.2",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/q3hnca7svihzxl5q7l5klmswml2xc1n0-python3.12-mkdocs-git-authors-plugin-0.9.2-dist"
+            }
+          ],
+          "store_path": "/nix/store/88lxm602gcpzr6hw0prmz26490lcqbn7-python3.12-mkdocs-git-authors-plugin-0.9.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/dqm6vamaybmkdbdlvx5z85jvlnwszgac-python3.12-mkdocs-git-authors-plugin-0.9.2",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/h3w0yh9ppqq6f5s30q41si8dznp9dly0-python3.12-mkdocs-git-authors-plugin-0.9.2-dist"
+            }
+          ],
+          "store_path": "/nix/store/dqm6vamaybmkdbdlvx5z85jvlnwszgac-python3.12-mkdocs-git-authors-plugin-0.9.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/bbp4wqbz7cvxwv3rm7f5f80d0yn9xv6c-python3.12-mkdocs-git-authors-plugin-0.9.2",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/xgv1bycg03jp4k13cbfiiijps6gbldj6-python3.12-mkdocs-git-authors-plugin-0.9.2-dist"
+            }
+          ],
+          "store_path": "/nix/store/bbp4wqbz7cvxwv3rm7f5f80d0yn9xv6c-python3.12-mkdocs-git-authors-plugin-0.9.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/5i01yk2pqc6zh9yqahc202yp0xyi2h29-python3.12-mkdocs-git-authors-plugin-0.9.2",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/9qkn18v1jv87zlw123q6qbmk2rgg4mb3-python3.12-mkdocs-git-authors-plugin-0.9.2-dist"
+            }
+          ],
+          "store_path": "/nix/store/5i01yk2pqc6zh9yqahc202yp0xyi2h29-python3.12-mkdocs-git-authors-plugin-0.9.2"
+        }
+      }
+    },
+    "python312Packages.mkdocs-git-committers-plugin-2@latest": {
+      "last_modified": "2025-06-20T02:24:11Z",
+      "resolved": "github:NixOS/nixpkgs/076e8c6678d8c54204abcb4b1b14c366835a58bb#python312Packages.mkdocs-git-committers-plugin-2",
+      "source": "devbox-search",
+      "version": "2-2.5.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/5mh79n5qi41np85x3ky5pw36zs5jvric-python3.12-mkdocs-git-committers-plugin-2-2.5.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/cvqmf3hh1sx009j99kkpzks2mz8p9pdl-python3.12-mkdocs-git-committers-plugin-2-2.5.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/5mh79n5qi41np85x3ky5pw36zs5jvric-python3.12-mkdocs-git-committers-plugin-2-2.5.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/bfk6plgl6b2fc0c7yhfsn30bsv0dnnqr-python3.12-mkdocs-git-committers-plugin-2-2.5.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/2p3mddx35142w3k01ffl16z174kawgji-python3.12-mkdocs-git-committers-plugin-2-2.5.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/bfk6plgl6b2fc0c7yhfsn30bsv0dnnqr-python3.12-mkdocs-git-committers-plugin-2-2.5.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cyb36fydnxijibgdyzbh2nx633pcbggf-python3.12-mkdocs-git-committers-plugin-2-2.5.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/xpgdxz65l7jivw9s2m5xpjghpgxwb17c-python3.12-mkdocs-git-committers-plugin-2-2.5.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/cyb36fydnxijibgdyzbh2nx633pcbggf-python3.12-mkdocs-git-committers-plugin-2-2.5.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2j40vsanm8zrq394dxwm02b7cmppcn64-python3.12-mkdocs-git-committers-plugin-2-2.5.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/h9bsxs6s2gxp9x6fjr20qc2x5im61ys2-python3.12-mkdocs-git-committers-plugin-2-2.5.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/2j40vsanm8zrq394dxwm02b7cmppcn64-python3.12-mkdocs-git-committers-plugin-2-2.5.0"
+        }
+      }
+    },
+    "python312Packages.mkdocs-git-revision-date-localized-plugin@latest": {
+      "last_modified": "2025-06-29T07:09:35Z",
+      "resolved": "github:NixOS/nixpkgs/a48741b083d4f36dd79abd9f760c84da6b4dc0e5#python312Packages.mkdocs-git-revision-date-localized-plugin",
+      "source": "devbox-search",
+      "version": "1.4.7",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/r9rs6i5bm23jcq6sdz2ari7rqv0030fl-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/b44kg46h6mp5ys7qi15y1wznsz4n6lhz-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7-dist"
+            }
+          ],
+          "store_path": "/nix/store/r9rs6i5bm23jcq6sdz2ari7rqv0030fl-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/604p4mrwjlqwa7pzfqyb9x1cr94qmv8p-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/7f7kfjqxqkd5bic0yjps4wvxwa8gr9bi-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7-dist"
+            }
+          ],
+          "store_path": "/nix/store/604p4mrwjlqwa7pzfqyb9x1cr94qmv8p-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/v9ss64agkb7rbfpizwdk35kb61mmxmgf-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/59l80bk32ra4l7mkwwsi82dcq9qsdrf5-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7-dist"
+            }
+          ],
+          "store_path": "/nix/store/v9ss64agkb7rbfpizwdk35kb61mmxmgf-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/5kggni8jg9iyhj9y9zqr5jgqbhqyl4cf-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/l58g7klc40y5x60wipajc9v1f6dhkgc6-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7-dist"
+            }
+          ],
+          "store_path": "/nix/store/5kggni8jg9iyhj9y9zqr5jgqbhqyl4cf-python3.12-mkdocs-git-revision-date-localized-plugin-1.4.7"
+        }
+      }
+    },
     "python312Packages.mkdocs-material-extensions@latest": {
       "last_modified": "2025-03-11T17:52:14Z",
       "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#python312Packages.mkdocs-material-extensions",
@@ -1475,6 +1731,70 @@
             }
           ],
           "store_path": "/nix/store/2qvlvdrgraj74xbk98p68kipmfrlk02j-python3.12-mkdocs-mermaid2-plugin-1.1.0"
+        }
+      }
+    },
+    "python312Packages.mkdocs-minify-plugin@latest": {
+      "last_modified": "2025-06-20T02:24:11Z",
+      "resolved": "github:NixOS/nixpkgs/076e8c6678d8c54204abcb4b1b14c366835a58bb#python312Packages.mkdocs-minify-plugin",
+      "source": "devbox-search",
+      "version": "0.7.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/w1z99my2b14z8831srfa9nml4px6h44v-python3.12-mkdocs-minify-plugin-0.7.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/f16cdc15ga78yr37pslg83ihvzsfaak8-python3.12-mkdocs-minify-plugin-0.7.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/w1z99my2b14z8831srfa9nml4px6h44v-python3.12-mkdocs-minify-plugin-0.7.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2xslw8bcq6wzykvpns5hbsz9q6vc1h5v-python3.12-mkdocs-minify-plugin-0.7.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/1bbafv12f99yzgxnxashjag05n6xbbmb-python3.12-mkdocs-minify-plugin-0.7.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/2xslw8bcq6wzykvpns5hbsz9q6vc1h5v-python3.12-mkdocs-minify-plugin-0.7.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3g11ky8jicn27m6rfgfs1jhddximxn2r-python3.12-mkdocs-minify-plugin-0.7.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/kw0h5bzylij4v0x0wf6n2xwmylwja9ng-python3.12-mkdocs-minify-plugin-0.7.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/3g11ky8jicn27m6rfgfs1jhddximxn2r-python3.12-mkdocs-minify-plugin-0.7.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/znsm6sd0p4ff2sbrvyla2qj6vykfxmjg-python3.12-mkdocs-minify-plugin-0.7.1",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/9nd0dlr9hyq1a7xsxjpxvfh09vx8ky46-python3.12-mkdocs-minify-plugin-0.7.1-dist"
+            }
+          ],
+          "store_path": "/nix/store/znsm6sd0p4ff2sbrvyla2qj6vykfxmjg-python3.12-mkdocs-minify-plugin-0.7.1"
         }
       }
     },
