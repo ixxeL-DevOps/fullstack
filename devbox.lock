@@ -226,7 +226,8 @@
       }
     },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
-      "resolved": "github:NixOS/nixpkgs/b2b0718004cc9a5bca610326de0a82e6ea75920b?lastModified=1744096231&narHash=sha256-kUfx3FKU1Etnua3EaKvpeuXs7zoFiAcli1gBwkPvGSs%3D"
+      "last_modified": "2025-07-06T07:15:37Z",
+      "resolved": "github:NixOS/nixpkgs/ceb24d94c6feaa4e8737a8e2bd3cf71c3a7eaaa0?lastModified=1751786137&narHash=sha256-lIlUKVGCGsh0Q2EA7%2F6xRtKUZjaQ%2Fur8uUyY%2BMynHXQ%3D"
     },
     "go-task@latest": {
       "last_modified": "2025-03-11T17:52:14Z",
@@ -1410,6 +1411,70 @@
             }
           ],
           "store_path": "/nix/store/kmvrm6bd1i8ys3j8k93z1qs0z4z0f7yz-python3.12-mkdocs-material-9.6.4"
+        }
+      }
+    },
+    "python312Packages.mkdocs-mermaid2-plugin@latest": {
+      "last_modified": "2025-06-20T02:24:11Z",
+      "resolved": "github:NixOS/nixpkgs/076e8c6678d8c54204abcb4b1b14c366835a58bb#python312Packages.mkdocs-mermaid2-plugin",
+      "source": "devbox-search",
+      "version": "1.1.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0hka0lbpvlgfj0vr2fylpnqhahl0sfg8-python3.12-mkdocs-mermaid2-plugin-1.1.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/lihqr5z61ah8ngqafc7spr1smkml97b6-python3.12-mkdocs-mermaid2-plugin-1.1.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/0hka0lbpvlgfj0vr2fylpnqhahl0sfg8-python3.12-mkdocs-mermaid2-plugin-1.1.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3awcsgclv35l2jw1a4ak1n0vgfz9mdm6-python3.12-mkdocs-mermaid2-plugin-1.1.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/9s11prjw1w33rlk2231hj85x5p4xcchm-python3.12-mkdocs-mermaid2-plugin-1.1.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/3awcsgclv35l2jw1a4ak1n0vgfz9mdm6-python3.12-mkdocs-mermaid2-plugin-1.1.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8vx6vqgl6h192l6x6fg2binaijdjabl4-python3.12-mkdocs-mermaid2-plugin-1.1.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/kb8qif492dc9hanjqxgrdrpn1b8grz05-python3.12-mkdocs-mermaid2-plugin-1.1.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/8vx6vqgl6h192l6x6fg2binaijdjabl4-python3.12-mkdocs-mermaid2-plugin-1.1.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2qvlvdrgraj74xbk98p68kipmfrlk02j-python3.12-mkdocs-mermaid2-plugin-1.1.0",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/amv3vp7rp06jg0nkra9rlir0vs9vxgi2-python3.12-mkdocs-mermaid2-plugin-1.1.0-dist"
+            }
+          ],
+          "store_path": "/nix/store/2qvlvdrgraj74xbk98p68kipmfrlk02j-python3.12-mkdocs-mermaid2-plugin-1.1.0"
         }
       }
     },

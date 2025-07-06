@@ -2,3 +2,65 @@
   height: 80px; /* Ajuste la hauteur */
   width: auto; /* Garde les proportions */
 }
+
+.md-main__inner.md-grid {
+  max-width: initial;
+}
+
+/* Git revision information styling */
+.md-source-file {
+  font-size: 0.7rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-source-file__fact {
+  margin-right: 1rem;
+}
+
+/* Git authors styling */
+.git-page-authors {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: var(--md-code-bg-color);
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+}
+
+.git-page-authors h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Git revision date styling */
+.md-source-file {
+  border-top: 0.05rem solid var(--md-default-fg-color--lightest);
+  padding-top: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Custom git summary page styling */
+.git-summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.git-summary-card {
+  padding: 1rem;
+  background-color: var(--md-code-bg-color);
+  border-radius: 0.3rem;
+  border-left: 0.2rem solid var(--md-accent-fg-color);
+}
+
+.git-summary-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: var(--md-accent-fg-color);
+}
+
+.git-summary-card p {
+  margin: 0;
+  font-size: 0.9rem;
+}

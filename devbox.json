@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.2/.schema/devbox.schema.json",
   "packages": [
     "yq-go@latest",
     "go-task@latest",
@@ -39,7 +39,8 @@
     "python312Packages.pygitguardian@latest",
     "python312Packages.oauthlib@latest",
     "python312Packages.truststore@latest",
-    "age@latest"
+    "age@latest",
+    "python312Packages.mkdocs-mermaid2-plugin@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"
