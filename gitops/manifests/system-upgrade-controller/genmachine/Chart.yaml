@@ -4,5 +4,5 @@ name: system-upgrade-controller
 version: 1.0.0
 dependencies:
   - name: system-upgrade-controller
-    version: 0.2.3
+    version: 0.2.4
     repository: https://helm-charts.sinextra.dev
