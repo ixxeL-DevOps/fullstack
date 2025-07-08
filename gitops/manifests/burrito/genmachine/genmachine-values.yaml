@@ -1,0 +1,76 @@
+---
+burrito:
+  config:
+    create: true
+    burrito:
+      controller:
+        # -- By default, the controller will only watch the tenants namespaces
+        namespaces: []
+        timers:
+          driftDetection: 10m
+          repositorySync: 5m
+          onError: 10s
+          waitAction: 10s
+          failureGracePeriod: 30
+        maxConcurrentReconciles: 1
+        maxConcurrentRunnerPods: 0
+        terraformMaxRetries: 3
+        # TODO: enable repository controller by default
+        # -- Resource types to watch for reconciliation. Note: by default repository controller is disabled as it is not yet fully usable.
+        types: ['layer', 'run', 'pullrequest']
+        leaderElection:
+          # -- Enable/Disable leader election
+          enabled: true
+          # -- Leader election lock name
+          id: 6d185457.terraform.padok.cloud
+      hermitcrab: {}
+      datastore:
+        serviceAccounts: []
+        storage:
+          # -- Use in-memory storage for testing - not intended for production use, data will be lost on datastore restart
+          mock: true
+          gcs:
+            bucket: ''
+          azure:
+            storageAccount: ''
+            container: ''
+          s3:
+            bucket: ''
+            usePathStyle: false
+        hostname: 'burrito-datastore.burrito-system.svc.cluster.local'
+      runner:
+        sshKnownHostsConfigMapName: burrito-ssh-known-hosts
+        image:
+          repository: ghcr.io/padok-team/burrito
+          tag: '' # By default use Chart's appVersion
+          pullPolicy: Always
+
+  global:
+    deployment:
+      mode: Release
+      replicas: 1
+      image:
+        repository: ghcr.io/padok-team/burrito
+        tag: '' # By default use Chart's appVersion
+        pullPolicy: Always
+    service:
+      enabled: true
+  server:
+    service:
+      ports:
+        - name: http
+          port: 80
+          targetPort: http
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: burrito.talos-genmachine.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
+      ingressClassName: traefik
+      host: burrito.talos-genmachine.fredcorp.com
+      tls:
+        - secretName: burrito-tls-cert
+          hosts:
+            - burrito.talos-genmachine.fredcorp.com
