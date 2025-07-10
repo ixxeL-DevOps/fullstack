@@ -9,7 +9,7 @@ system-upgrade-controller:
   image:
     repository: rancher/system-upgrade-controller
     pullPolicy: IfNotPresent
-    tag: v0.15.3
+    tag: v0.16.0
 
   plan:
     kubernetes:
