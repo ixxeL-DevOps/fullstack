@@ -1,0 +1,265 @@
+---
+argo-cd:
+  crds:
+    install: true
+    keep: false
+  global:
+    domain: argocd.k0s-fullstack.fredcorp.com
+    image:
+      imagePullPolicy: IfNotPresent
+      repository: quay.io/argoproj/argocd
+      tag: v3.0.10
+    logging:
+      format: text
+      level: info
+    priorityClassName: 'system-cluster-critical'
+    affinity:
+      podAntiAffinity: soft
+      nodeAffinity:
+        type: hard
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+    deploymentStrategy:
+      type: RollingUpdate
+
+  server:
+    clusterAdminAccess:
+      enabled: true
+    replicas: 1
+    pdb:
+      enabled: true
+      maxUnavailable: 1
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: argocd.k0s-fullstack.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/service.scheme: https
+      ingressClassName: 'traefik'
+      hostname: argocd.k0s-fullstack.fredcorp.com
+      path: /
+      pathType: Prefix
+      tls: true
+
+    extensions:
+      enabled: false
+
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+        interval: 30s
+        additionalLabels:
+          release: prometheus
+
+  controller:
+    clusterAdminAccess:
+      enabled: true
+    replicas: 1
+    pdb:
+      enabled: true
+      maxUnavailable: 1
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+        interval: 30s
+        additionalLabels:
+          release: prometheus
+
+  applicationSet:
+    enabled: false
+    replicas: 1
+    pdb:
+      enabled: true
+      maxUnavailable: 1
+    args:
+      metricsAddr: :8080
+      probeBindAddr: :8081
+      enableLeaderElection: false
+      policy: sync
+      debug: false
+      dryRun: false
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+        interval: 30s
+        additionalLabels:
+          release: prometheus
+
+  dex:
+    enabled: true
+    name: dex-server
+    image:
+      repository: ghcr.io/dexidp/dex
+      tag: v2.43.1
+      imagePullPolicy: IfNotPresent
+    pdb:
+      enabled: true
+      maxUnavailable: 1
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+        interval: 30s
+        additionalLabels:
+          release: prometheus
+    volumeMounts:
+      - mountPath: /etc/ssl/certs/fredcorp-ca-chain.pem
+        subPath: fredcorp-ca-chain.pem
+        name: fredcorp-ca-chain
+        readOnly: true
+    volumes:
+      - name: fredcorp-ca-chain
+        secret:
+          defaultMode: 420
+          secretName: fredcorp-ca-chain
+
+  notifications:
+    enabled: false
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+        interval: 30s
+        additionalLabels:
+          release: prometheus
+    argocdUrl: 'https://argocd.k0s-fullstack.fredcorp.com'
+
+  redisSecretInit:
+    enabled: true
+    # containerSecurityContext:
+    #   privileged: true # in Talos, needed
+    #   allowPrivilegeEscalation: true
+
+  redis:
+    enabled: true
+    pdb:
+      enabled: true
+      maxUnavailable: 1
+
+  redis-ha:
+    enabled: false
+    # prometheus exporter
+    exporter:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+    persistentVolume:
+      enabled: false
+    auth: true
+
+  commitServer:
+    enabled: true
+
+  repoServer:
+    replicas: 1
+    pdb:
+      enabled: true
+      maxUnavailable: 1
+    rbac:
+      - verbs:
+          - get
+          - list
+          - watch
+        apiGroups:
+          - ''
+        resources:
+          - secrets
+          - configmaps
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+        additionalLabels:
+          release: prometheus
+
+  configs:
+    secret:
+      # -- Bcrypt hashed admin password
+      ## Argo expects the password in the secret to be bcrypt hashed. You can create this hash with
+      ## `htpasswd -nbBC 10 "" $ARGO_PWD | tr -d ':\n' | sed 's/$2y/$2a/'`
+      argocdServerAdminPassword: '$2a$10$jq66ukJIBcl15J8R63Z.huvar5Ni1FVeyH/4gDph6y3Hifz/2lOOq'
+      # -- Admin password modification time. Eg. `"2006-01-02T15:04:05Z"`
+      argocdServerAdminPasswordMtime: '2025-04-04T23:02:00Z'
+    cm:
+      create: true
+      accounts.fred: 'apiKey, login'
+      accounts.pipeline: 'apiKey'
+      # -- Argo CD's externally facing base URL (optional). Required when configuring SSO
+      url: 'https://argocd.k0s-fullstack.fredcorp.com'
+      dex.config: |
+        connectors:
+          - name: authentik
+            id: authentik
+            type: oidc
+            config:
+              issuer: https://authentik.k0s-fullstack.fredcorp.com/application/o/genmachine-argocd/
+              clientID: $oidc-argocd:client-id
+              clientSecret: $oidc-argocd:client-secret
+              insecureEnableGroups: true
+              scopes:
+                - openid
+                - profile
+                - email
+
+      server.rbac.log.enforce.enable: false
+      exec.enabled: true
+      admin.enabled: true
+      timeout.reconciliation: 180s
+      timeout.hard.reconciliation: 0
+      statusbadge.enabled: true
+      resource.customizations.ignoreDifferences.apps_StatefulSet: |
+        jqPathExpressions:
+        - .spec.volumeClaimTemplates[]?
+      resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
+        jqPathExpressions:
+        - .spec.conversion.webhook.clientConfig.caBundle
+      resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
+        jqPathExpressions:
+        - .webhooks[]?.clientConfig.caBundle
+        - .webhooks[].namespaceSelector.matchExpressions[] | select(.key == "control-plane")
+        - .webhooks[].failurePolicy
+      resource.customizations.ignoreDifferences.apiregistration.k8s.io_APIService: |
+        jqPathExpressions:
+        - .spec.insecureSkipTLSVerify
+      resource.exclusions: |
+        - apiGroups:
+          - cilium.io
+          kinds:
+          - CiliumIdentity
+          - CiliumEndpoint
+          - CiliumEndpointSlice
+    rbac:
+      create: true
+      policy.csv: |
+        g, fred, role:admin
+        g, pipeline, role:admin
+        p, role:readonly, extensions, invoke, metrics, allow
+        p, role:admin, extensions, invoke, metrics, allow
+        g, Argocd admins, role:admin
+
+      # See : https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
+    params:
+      hydrator.enabled: 'true'
+      controller.status.processors: 20
+      controller.operation.processors: 10
+      controller.self.heal.timeout.seconds: 5
+      controller.repo.server.timeout.seconds: 60
+      controller.sync.timeout.seconds: 240 # provide Timeout for sync
+      controller.diff.server.side: 'true'
+      server.insecure: true
+      server.basehref: /
+      server.rootpath: ''
+      server.staticassets: /shared/app
+      server.disable.auth: false
+      server.enable.gzip: false
+      server.x.frame.options: sameorigin
+      server.enable.proxy.extension: 'true'
+      # See : https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
+      reposerver.parallelism.limit: 0

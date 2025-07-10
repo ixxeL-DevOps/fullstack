@@ -6,7 +6,6 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .
-    argocd-diff-preview/watch-pattern: 'gitops/bootstrap/beelink/.*'
 spec:
   destination:
     namespace: argocd
@@ -16,21 +15,65 @@ spec:
     path: gitops/bootstrap/beelink
     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
     targetRevision: main
+    helm:
+      releaseName: argocd
+      valueFiles:
+        - beelink-values.yaml
+      ignoreMissingValueFiles: true
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - Validate=true
-      - PruneLast=false
+      - PruneLast=true
       - RespectIgnoreDifferences=true
       - Replace=false
       - ApplyOutOfSyncOnly=true
       - CreateNamespace=true
       - ServerSideApply=true
     retry:
-      limit: 2
+      limit: 6
       backoff:
-        duration: 5s
+        duration: 10s
         factor: 2
-        maxDuration: 2m
+        maxDuration: 3m
+    managedNamespaceMetadata:
+      labels:
+        bundle.chain/inject: 'enabled'
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: argocd
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/manifest-generate-paths: .
+#     argocd-diff-preview/watch-pattern: 'gitops/bootstrap/beelink/.*'
+# spec:
+#   destination:
+#     namespace: argocd
+#     server: https://kubernetes.default.svc
+#   project: argocd
+#   source:
+#     path: gitops/bootstrap/beelink
+#     repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+#     targetRevision: main
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - Validate=true
+#       - PruneLast=false
+#       - RespectIgnoreDifferences=true
+#       - Replace=false
+#       - ApplyOutOfSyncOnly=true
+#       - CreateNamespace=true
+#       - ServerSideApply=true
+#     retry:
+#       limit: 2
+#       backoff:
+#         duration: 5s
+#         factor: 2
+#         maxDuration: 2m
