@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: argocd
 resources:
   - https://raw.githubusercontent.com/argoproj/argo-cd/v3.0.6/manifests/install-with-hydrator.yaml
+  - ingress.yaml
 patches:
   - target:
       kind: ConfigMap
