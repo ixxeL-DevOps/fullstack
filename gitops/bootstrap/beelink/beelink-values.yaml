@@ -199,7 +199,7 @@ argo-cd:
             id: authentik
             type: oidc
             config:
-              issuer: https://authentik.k0s-fullstack.fredcorp.com/application/o/genmachine-argocd/
+              issuer: https://authentik.k0s-fullstack.fredcorp.com/application/o/fullstack-argocd/
               clientID: $oidc-argocd:client-id
               clientSecret: $oidc-argocd:client-secret
               insecureEnableGroups: true
