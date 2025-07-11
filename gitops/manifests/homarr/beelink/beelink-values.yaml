@@ -52,10 +52,10 @@ homarr:
       volumeClaimName: pv-homarr-data
     homarrTrustedCerts:
       enabled: true
-      type: secret
-      existingSecret: homarr-trusted-certs
-      certificates:
-        authentik-self-signed.crt: ''
-        root-ca.crt: ''
-        int-ca.crt: ''
-        fullstack-wildcard.crt: ''
+      type: existingSecret
+      existingSecretName: homarr-trusted-certs
+      existingSecretKeys:
+        - authentik-self-signed.crt
+        - root-ca.crt
+        - int-ca.crt
+        - fullstack-wildcard.crt
