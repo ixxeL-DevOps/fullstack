@@ -10,7 +10,7 @@ tasks:
       - which gum
     vars:
       cluster:
-        sh: gum choose --header="Select cluster environment" "genmachine" "fullstack"
+        sh: gum choose --header="Select cluster environment" "genmachine" "fullstack" "beelink"
       service:
         sh: gum choose --header="Select service" "argocd" "homarr" "minio" "wireguard"
       authentik_endpoint: '{{if eq .cluster "genmachine"}}{{.AUTHENTIK_ENDPOINT_GENMACHINE}}{{else}}{{.AUTHENTIK_ENDPOINT_BEELINK}}{{end}}'
