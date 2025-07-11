@@ -6,7 +6,7 @@ authentik:
   global:
     image:
       repository: ghcr.io/goauthentik/server
-      tag: '2025.6.3'
+      tag: '2025.4.1'
       pullPolicy: IfNotPresent
     env:
       - name: AUTHENTIK_BOOTSTRAP_PASSWORD
@@ -62,6 +62,9 @@ authentik:
 
   postgresql:
     enabled: true
+    image:
+      repository: bitnami/postgresql
+      tag: 15.8.0-debian-12-r18
     auth:
       username: authentik
       database: authentik
