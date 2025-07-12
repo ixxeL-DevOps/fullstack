@@ -64,7 +64,7 @@ authentik:
     enabled: true
     image:
       repository: bitnami/postgresql
-      tag: 17.5.0-debian-12-r16
+      tag: 17.5.0-debian-12-r17
     auth:
       username: authentik
       database: authentik
