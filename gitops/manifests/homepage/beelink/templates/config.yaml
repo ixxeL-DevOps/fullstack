@@ -1,0 +1,243 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+data:
+  kubernetes.yaml: |
+    mode: cluster
+  settings.yaml: |
+    color: zinc
+    headerStyle: boxed
+    statusStyle: "dot"
+    hideVersion: false
+    disableCollapse: true
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: true
+      showSearchSuggestions: true
+      hideVisitURL: true
+      provider: google
+    language: fr
+    target: _blank
+    base: homepage.k0s-fullstack.fredcorp.com
+    title: HomePage FredCorp
+    theme: dark
+    background:
+      image: https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80
+      blur: sm
+      saturate: 50
+      brightness: 50
+      opacity: 50
+    layout:
+      Networking k0s:
+        style: column
+        tab: k0s
+        icon: mdi-lan-connect
+      Monitoring k0s:
+        style: column
+        tab: k0s
+        icon: mdi-monitor-dashboard
+      Infrastructure k0s:
+        style: column
+        tab: k0s
+        icon: mdi-server
+      Security k0s:
+        style: column
+        tab: k0s
+        icon: mdi-security
+      Networking Talos:
+        style: column
+        tab: Talos
+        icon: mdi-lan-connect
+      Monitoring Talos:
+        style: column
+        tab: Talos
+        icon: mdi-monitor-dashboard
+      Infrastructure Talos:
+        style: column
+        tab: Talos
+        icon: mdi-server
+      Security Talos:
+        style: column
+        tab: Talos
+        icon: mdi-security
+
+
+  docker.yaml: ""
+  custom.js: ""
+  bookmarks.yaml: |
+    - Git:
+        - GitHub:
+            - abbr: GH FullStack
+              href: https://github.com/ixxeL-DevOps/fullstack
+  services.yaml: |
+    - Monitoring Talos:
+        - Prometheus:
+            href: https://prometheus.talos-genmachine.fredcorp.com
+            icon: prometheus.png
+            siteMonitor: https://prometheus.talos-genmachine.fredcorp.com
+            description: Monitoring scraper
+            widget:
+                type: prometheus
+                url: https://prometheus.talos-genmachine.fredcorp.com
+                fields: ["targets_up", "targets_down", "targets_total"]
+        - Grafana:
+            href: https://grafana.talos-genmachine.fredcorp.com
+            icon: grafana.png
+            siteMonitor: https://grafana.talos-genmachine.fredcorp.com
+            description: Dashboarding
+            widget:
+                type: grafana
+                url: https://grafana.talos-genmachine.fredcorp.com
+                fields: ["dashboards", "datasources", "totalalerts", "alertstriggered"]
+                username: admin
+                password:
+    - Networking k0s:
+        - Traefik:
+            href: https://traefik.k0s-fullstack.fredcorp.com
+            icon: traefik.png
+            siteMonitor: https://traefik.k0s-fullstack.fredcorp.com
+            description: Network router for k0s cluster
+            widget:
+              type: traefik
+              url: https://traefik.k0s-fullstack.fredcorp.com
+              fields: ["routers", "services", "middleware"]
+              username: sa-homarr
+              password: ''
+
+    - Networking Talos:
+        - Traefik:
+            href: https://traefik.talos-genmachine.fredcorp.com
+            icon: traefik.png
+            siteMonitor: https://traefik.talos-genmachine.fredcorp.com
+            description: Network router for Talos cluster
+            widget:
+              type: traefik
+              url: https://traefik.talos-genmachine.fredcorp.com
+              fields: ["routers", "services", "middleware"]
+
+    - Infrastructure k0s:
+        - ArgoCD:
+            href: https://argocd.k0s-fullstack.fredcorp.com
+            icon: argo-cd.png
+            siteMonitor: https://argocd.k0s-fullstack.fredcorp.com
+            description: Network router for k0s cluster
+            widget:
+              type: argocd
+              url: https://argocd.k0s-fullstack.fredcorp.com
+              fields: ["apps", "outOfSync", "healthy", "degraded"]
+              username: sa-homarr
+              password: ''
+
+        - AdGuard:
+            href: https://adguard.k0s-fullstack.fredcorp.com
+            icon: adguard-home.png
+            siteMonitor: https://adguard.k0s-fullstack.fredcorp.com
+            description: Network router for k0s cluster
+            widget:
+              type: adguard
+              url: https://adguard.k0s-fullstack.fredcorp.com
+              fields: ["queries", "blocked", "filtered", "latency"]
+              username: sa-homarr
+              password: ''
+
+    - Infrastructure Talos:
+        - ArgoCD:
+            href: https://argocd.talos-genmachine.fredcorp.com
+            icon: argo-cd.png
+            siteMonitor: https://argocd.talos-genmachine.fredcorp.com
+            description: Network router for Talos cluster
+            widget:
+              type: argocd
+              url: https://argocd.talos-genmachine.fredcorp.com
+              fields: ["apps", "outOfSync", "healthy", "degraded"]
+        - AdGuard:
+            href: https://adguard.talos-genmachine.fredcorp.com
+            icon: adguard-home.png
+            siteMonitor: https://adguard.talos-genmachine.fredcorp.com
+            description: Network router for Talos cluster
+            widget:
+              type: adguard
+              url: https://adguard.talos-genmachine.fredcorp.com
+              fields: ["queries", "blocked", "filtered", "latency"]
+        - Minio:
+            href: https://minio.talos-genmachine.fredcorp.com
+            icon: minio.png
+            siteMonitor: https://minio.talos-genmachine.fredcorp.com
+            description: Network router for Talos cluster
+
+    - Security k0s:
+        - Authentik:
+            href: https://authentik.k0s-fullstack.fredcorp.com
+            icon: authentik.png
+            siteMonitor: https://authentik.k0s-fullstack.fredcorp.com
+            description: Network router for k0s cluster
+            widget:
+              type: authentik
+              url: https://authentik.k0s-fullstack.fredcorp.com
+              fields: ["users", "loginsLast24H", "failedLoginsLast24H"]
+              username: sa-homarr
+              password: ''
+
+        - WireGuard:
+            href: https://wireguard.k0s-fullstack.fredcorp.com/
+            icon: wireguard.png
+            siteMonitor: https://wireguard.k0s-fullstack.fredcorp.com/
+            description: Network router for Talos cluster
+        - Vault:
+            href: https://vault.k0s-fullstack.fredcorp.com
+            icon: vault.png
+            siteMonitor: https://vault.k0s-fullstack.fredcorp.com
+            description: Network router for k0s cluster
+    - Security Talos:
+        - Authentik:
+            href: https://authentik.talos-genmachine.fredcorp.com
+            icon: authentik.png
+            siteMonitor: https://authentik.talos-genmachine.fredcorp.com
+            description: Network router for Talos cluster
+            widget:
+              type: authentik
+              url: https://authentik.talos-genmachine.fredcorp.com
+              fields: ["users", "loginsLast24H", "failedLoginsLast24H"]
+
+  widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    - resources:
+        backend: resources
+        expanded: true
+        cpu: true
+        memory: true
+        network: default
+    - search:
+        provider: google
+        showSearchSuggestions: true
+        target: _blank
+    - logo:
+        icon: kubernetes.png
+    - datetime:
+        text_size: xl
+        format:
+          dateStyle: short
+          timeStyle: short
+          hour12: false
+    - openmeteo:
+        label: Lille
+        latitude: 50.633333
+        longitude: 3.066667
+        timezone: Europe/Paris
+        units: metric
+        cache: 5
+        format:
+          maximumFractionDigits: 1

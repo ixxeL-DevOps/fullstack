@@ -1,0 +1,63 @@
+---
+homepage:
+  image:
+    registry: ghcr.io
+    repository: gethomepage/homepage
+    pullPolicy: IfNotPresent
+    tag: 'v1.3.2'
+
+  # extraEnv:
+  #   - name: GRAFANA_PASSWORD
+  #     value: password
+  # extraEnvFrom: []
+
+  volumes:
+    - name: homepage-config
+      configMap:
+        name: homepage-config
+        # - name: grafana-secrets
+        #   secret:
+        #     secretName: grafana-secrets
+
+  volumeMounts:
+    # - mountPath: /secrets
+    #   name: grafana-secrets
+    - mountPath: /app/config/custom.css
+      name: homepage-config
+      subPath: custom.css
+    - mountPath: /app/config/bookmarks.yaml
+      name: homepage-config
+      subPath: bookmarks.yaml
+    - mountPath: /app/config/docker.yaml
+      name: homepage-config
+      subPath: docker.yaml
+    - mountPath: /app/config/kubernetes.yaml
+      name: homepage-config
+      subPath: kubernetes.yaml
+    - mountPath: /app/config/services.yaml
+      name: homepage-config
+      subPath: services.yaml
+    - mountPath: /app/config/settings.yaml
+      name: homepage-config
+      subPath: settings.yaml
+    - mountPath: /app/config/widgets.yaml
+      name: homepage-config
+      subPath: widgets.yaml
+
+  ingress:
+    enabled: true
+    ingressClassName: 'traefik'
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: homepage.k0s-fullstack.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    hosts:
+      - host: homepage.k0s-fullstack.fredcorp.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: homepage-tls-cert
+        hosts:
+          - homepage.k0s-fullstack.fredcorp.com

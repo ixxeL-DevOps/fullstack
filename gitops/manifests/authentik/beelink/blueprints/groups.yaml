@@ -6,18 +6,21 @@ metadata:
   name: Groups
 entries:
   - model: authentik_core.group
+    id: vault-admins
     identifiers:
       name: Vault admins
     attrs:
       users:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
+    id: homarr-admins
     identifiers:
       name: Homarr admins
     attrs:
       users:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
+    id: adguard-admins
     identifiers:
       name: Adguard admins
     attrs:
@@ -27,27 +30,35 @@ entries:
       users:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
+    id: wireguard-admins
     identifiers:
       name: Wireguard admins
     attrs:
       users:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
+    id: traefik-admins
     identifiers:
       name: Traefik admins
     attrs:
       users:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
-    identifiers:
-      name: sa-homarr
-    attrs:
-      name: sa-homarr
-      users:
-        - !Find [authentik_core.user, [username, sa-homarr]]
-  - model: authentik_core.group
+    id: argocd-admins
     identifiers:
       name: Argocd admins
     attrs:
       users:
         - !Find [authentik_core.user, [username, ixxel]]
+  - model: authentik_core.group
+    id: sa-homarr
+    identifiers:
+      name: sa-homarr
+    attrs:
+      name: sa-homarr
+  - model: authentik_core.group
+    id: sa-homepage
+    identifiers:
+      name: sa-homepage
+    attrs:
+      name: sa-homepage

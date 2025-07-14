@@ -1,0 +1,13 @@
+---
+homepage:
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      add: ['NET_RAW']
+    readOnlyRootFilesystem: false
+    runAsNonRoot: false
+    privileged: false
+    runAsUser: 0
+    runAsGroup: 0
+    seccompProfile:
+      type: RuntimeDefault

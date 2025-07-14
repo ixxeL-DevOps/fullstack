@@ -12,5 +12,6 @@ entries:
       providers:
         - [!Find [authentik_providers_proxy.proxyprovider, [name, fullstack-traefik]]]
         - [!Find [authentik_providers_proxy.proxyprovider, [name, fullstack-adguard]]]
+        - [!Find [authentik_providers_proxy.proxyprovider, [name, fullstack-homepage]]]
       config:
         authentik_host: 'https://authentik.k0s-fullstack.fredcorp.com'
