@@ -40,6 +40,7 @@ wg-portal:
       appProtocol: http
     wireguard:
       type: LoadBalancer
+      loadBalancerIP: 192.168.1.198
       externalTrafficPolicy: Local
       ports:
         - 51820
@@ -69,8 +70,8 @@ wg-portal:
             - openid
             - is_admin
           field_map:
-            email: email
-            user_identifier: email
+            email: email # Ensure Authentik user has an email, otherwise it wont work for wireguard OIDC
+            user_identifier: email # Ensure Authentik user has an email, otherwise it wont work for wireguard OIDC
             is_admin: is_admin
           registration_enabled: true
           log_user_info: false
