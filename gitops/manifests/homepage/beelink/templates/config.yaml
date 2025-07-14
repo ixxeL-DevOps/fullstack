@@ -103,7 +103,7 @@ data:
               type: traefik
               url: https://traefik.k0s-fullstack.fredcorp.com
               fields: ["routers", "services", "middleware"]
-              username: sa-homarr
+              username: sa-homepage
               password: ''
 
     - Networking Talos:
@@ -127,7 +127,7 @@ data:
               type: argocd
               url: https://argocd.k0s-fullstack.fredcorp.com
               fields: ["apps", "outOfSync", "healthy", "degraded"]
-              username: sa-homarr
+              username: sa-homepage
               password: ''
 
         - AdGuard:
@@ -139,7 +139,7 @@ data:
               type: adguard
               url: https://adguard.k0s-fullstack.fredcorp.com
               fields: ["queries", "blocked", "filtered", "latency"]
-              username: sa-homarr
+              username: sa-homepage
               password: ''
 
     - Infrastructure Talos:
