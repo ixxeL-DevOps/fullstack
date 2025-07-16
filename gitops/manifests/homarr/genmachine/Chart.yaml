@@ -4,5 +4,5 @@ name: homarr
 version: 1.0.0
 dependencies:
   - name: homarr
-    version: 5.2.1
+    version: 5.2.2
     repository: https://homarr-labs.github.io/charts
