@@ -3,7 +3,7 @@ volsync:
   image:
     repository: quay.io/backube/volsync
     pullPolicy: IfNotPresent
-    tag: '0.12.1'
+    tag: '0.13.0'
   rclone:
     repository: quay.io/backube/volsync
     tag: '0.12.0'
