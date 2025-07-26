@@ -7,5 +7,5 @@ dependencies:
     version: 0.47.0
     repository: oci://quay.io/strimzi-helm
   - name: kafka-ui
-    version: 1.5.0
+    version: 1.5.1
     repository: https://ui.charts.kafbat.io/
