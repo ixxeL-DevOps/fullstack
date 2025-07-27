@@ -45,3 +45,4 @@ site/
 .cache/
 pdf/
 *.pdf
+.task

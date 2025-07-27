@@ -34,7 +34,6 @@
     "pwgen@latest",
     "restic@latest",
     "gum@latest",
-    "ggshield@latest",
     "python312Packages.cffi@latest",
     "python312Packages.pygitguardian@latest",
     "python312Packages.oauthlib@latest",
@@ -45,7 +44,8 @@
     "python312Packages.mkdocs-git-committers-plugin-2@latest",
     "python312Packages.mkdocs-git-authors-plugin@latest",
     "python312Packages.mkdocs-awesome-pages-plugin@latest",
-    "python312Packages.mkdocs-minify-plugin@latest"
+    "python312Packages.mkdocs-minify-plugin@latest",
+    "commitizen@latest"
   ],
   "env": {
     "DEVBOX_SYSTEM_BASH": "/usr/bin/fish"
