@@ -23,6 +23,7 @@ exclude: |
     .*/static/.*|
     .*\.generated\..*|
     .*/task/.*|
+    .*/cache/.*|
     gitops/local-storage/.*
   )$
 
