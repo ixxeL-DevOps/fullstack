@@ -24,6 +24,8 @@ exclude: |
     .*\.generated\..*|
     .*/task/.*|
     .*/cache/.*|
+    .*/\.task/.*|
+    .*/\.cache/.*|
     gitops/local-storage/.*
   )$
 
