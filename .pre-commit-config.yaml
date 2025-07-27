@@ -26,12 +26,18 @@ exclude: |
   )$
 
 repos:
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v4.2.0
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.8.3
     hooks:
-      - id: conventional-pre-commit
+      - id: commitizen
         stages: [commit-msg]
-        args: []
+
+  # - repo: https://github.com/compilerla/conventional-pre-commit
+  #   rev: v4.2.0
+  #   hooks:
+  #     - id: conventional-pre-commit
+  #       stages: [commit-msg]
+  #       args: []
 
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.37.1
