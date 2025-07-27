@@ -62,7 +62,10 @@ data:
         style: column
         tab: Talos
         icon: mdi-security
-
+      HardWare:
+        style: column
+        tab: Core
+        icon: mdi-server
 
   docker.yaml: ""
   custom.js: ""
@@ -98,20 +101,20 @@ data:
             href: https://traefik.k0s-fullstack.fredcorp.com
             icon: traefik.png
             siteMonitor: https://traefik.k0s-fullstack.fredcorp.com
-            description: Network router for k0s cluster
+            description: Ingress Controller
             widget:
               type: traefik
               url: https://traefik.k0s-fullstack.fredcorp.com
               fields: ["routers", "services", "middleware"]
               username: sa-homepage
-              password: ''
+              password: 'ek6WJ8fbz2pzXdBVwctWmSZi8T2kGnwHIh6hFTVxLc3HXNjKc4gwVVxsKu7t'
 
     - Networking Talos:
         - Traefik:
             href: https://traefik.talos-genmachine.fredcorp.com
             icon: traefik.png
             siteMonitor: https://traefik.talos-genmachine.fredcorp.com
-            description: Network router for Talos cluster
+            description: Ingress Controller
             widget:
               type: traefik
               url: https://traefik.talos-genmachine.fredcorp.com
@@ -122,32 +125,32 @@ data:
             href: https://argocd.k0s-fullstack.fredcorp.com
             icon: argo-cd.png
             siteMonitor: https://argocd.k0s-fullstack.fredcorp.com
-            description: Network router for k0s cluster
+            description: GitOps Controller
             widget:
               type: argocd
               url: https://argocd.k0s-fullstack.fredcorp.com
               fields: ["apps", "outOfSync", "healthy", "degraded"]
               username: sa-homepage
-              password: ''
+              password: 'ek6WJ8fbz2pzXdBVwctWmSZi8T2kGnwHIh6hFTVxLc3HXNjKc4gwVVxsKu7t'
 
         - AdGuard:
             href: https://adguard.k0s-fullstack.fredcorp.com
             icon: adguard-home.png
             siteMonitor: https://adguard.k0s-fullstack.fredcorp.com
-            description: Network router for k0s cluster
+            description: DNS resolver
             widget:
               type: adguard
               url: https://adguard.k0s-fullstack.fredcorp.com
               fields: ["queries", "blocked", "filtered", "latency"]
               username: sa-homepage
-              password: ''
+              password: 'ek6WJ8fbz2pzXdBVwctWmSZi8T2kGnwHIh6hFTVxLc3HXNjKc4gwVVxsKu7t'
 
     - Infrastructure Talos:
         - ArgoCD:
             href: https://argocd.talos-genmachine.fredcorp.com
             icon: argo-cd.png
             siteMonitor: https://argocd.talos-genmachine.fredcorp.com
-            description: Network router for Talos cluster
+            description: GitOps Controller
             widget:
               type: argocd
               url: https://argocd.talos-genmachine.fredcorp.com
@@ -156,7 +159,7 @@ data:
             href: https://adguard.talos-genmachine.fredcorp.com
             icon: adguard-home.png
             siteMonitor: https://adguard.talos-genmachine.fredcorp.com
-            description: Network router for Talos cluster
+            description: DNS resolver
             widget:
               type: adguard
               url: https://adguard.talos-genmachine.fredcorp.com
@@ -165,41 +168,70 @@ data:
             href: https://minio.talos-genmachine.fredcorp.com
             icon: minio.png
             siteMonitor: https://minio.talos-genmachine.fredcorp.com
-            description: Network router for Talos cluster
+            description: Storage Object server
 
     - Security k0s:
         - Authentik:
             href: https://authentik.k0s-fullstack.fredcorp.com
             icon: authentik.png
             siteMonitor: https://authentik.k0s-fullstack.fredcorp.com
-            description: Network router for k0s cluster
+            description: Identity Provider
             widget:
               type: authentik
               url: https://authentik.k0s-fullstack.fredcorp.com
               fields: ["users", "loginsLast24H", "failedLoginsLast24H"]
-              username: sa-homarr
-              password: ''
+              key: 'xpyWXRfBVifvb426n54vZJPKCLJ5AnTxQv499yThvozp0bShV8wJ7vDJcwGy'
 
         - WireGuard:
             href: https://wireguard.k0s-fullstack.fredcorp.com/
             icon: wireguard.png
             siteMonitor: https://wireguard.k0s-fullstack.fredcorp.com/
-            description: Network router for Talos cluster
+            description: VPN server
         - Vault:
             href: https://vault.k0s-fullstack.fredcorp.com
             icon: vault.png
             siteMonitor: https://vault.k0s-fullstack.fredcorp.com
-            description: Network router for k0s cluster
+            description: Secret Manager
     - Security Talos:
         - Authentik:
             href: https://authentik.talos-genmachine.fredcorp.com
             icon: authentik.png
             siteMonitor: https://authentik.talos-genmachine.fredcorp.com
-            description: Network router for Talos cluster
+            description: Identity Provider
             widget:
               type: authentik
               url: https://authentik.talos-genmachine.fredcorp.com
               fields: ["users", "loginsLast24H", "failedLoginsLast24H"]
+
+    - HardWare:
+        - Asus GT-BE98:
+            href: http://192.168.1.1
+            icon: asus.png
+            siteMonitor: http://192.168.1.1
+            description: Router
+        - Proxmox:
+            href: https://proxmox-big.fredcorp.com:8006/
+            icon: proxmox.png
+            siteMonitor: https://proxmox-big.fredcorp.com:8006/
+            description: Hypervisor
+            widget:
+              type: proxmox
+              url: https://proxmox-big.fredcorp.com:8006/
+              fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
+              username: api@pam!homarr
+              password: '3ff8335c-bff4-43c4-b010-ca824eaa4398'
+        - QNAP:
+            href: https://qnap.fredcorp.com/
+            icon: qnap.png
+            siteMonitor: https://qnap.fredcorp.com/
+            description: NAS
+            widget:
+              type: qnap
+              url: https://qnap.fredcorp.com/
+              fields: ["cpuUsage", "memUsage", "systemTempC", "poolUsage", "volumeUsage"]
+              username: admin
+              password: '@Coucou2097'
+              volume: DataVol2
 
   widgets.yaml: |
     - kubernetes:
@@ -208,7 +240,7 @@ data:
           cpu: true
           memory: true
           showLabel: true
-          label: "cluster"
+          label: "beelink"
         nodes:
           show: true
           cpu: true
