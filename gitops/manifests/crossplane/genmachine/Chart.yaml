@@ -4,7 +4,7 @@ name: crossplane
 version: 1.0.0
 dependencies:
   - name: crossplane
-    version: 1.20.0
+    version: 1.20.1
     repository: https://charts.crossplane.io/stable
   - name: komoplane
     version: 0.1.6
