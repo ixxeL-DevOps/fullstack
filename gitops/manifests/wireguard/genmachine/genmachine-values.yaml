@@ -3,7 +3,7 @@ wg-portal:
   image:
     repository: wgportal/wg-portal
     pullPolicy: IfNotPresent
-    tag: v2.0.3
+    tag: v2.0.4
 
   # Trusted cert config (OIDC)
   volumes:
