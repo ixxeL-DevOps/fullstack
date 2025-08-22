@@ -4,7 +4,7 @@ homepage:
     registry: ghcr.io
     repository: gethomepage/homepage
     pullPolicy: IfNotPresent
-    tag: 'v1.4.5'
+    tag: 'v1.4.6'
 
   # extraEnv:
   #   - name: GRAFANA_PASSWORD
