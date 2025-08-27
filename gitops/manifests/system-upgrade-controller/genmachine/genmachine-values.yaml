@@ -3,7 +3,7 @@ plan:
   # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
   kubeversion: v1.33.4
   # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-  talosVersion: v1.10.6
+  talosVersion: v1.10.7
 
 system-upgrade-controller:
   image:
