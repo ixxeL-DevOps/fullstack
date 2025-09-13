@@ -3,7 +3,7 @@ homarr:
   image:
     repository: ghcr.io/homarr-labs/homarr
     pullPolicy: IfNotPresent
-    tag: v1.36.1
+    tag: v1.37.0
 
   # env:
   #   AUTH_PROVIDERS: credentials,oidc
