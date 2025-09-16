@@ -3,7 +3,7 @@ adguard-home:
   image:
     repository: adguard/adguardhome
     pullPolicy: Always
-    tag: v0.107.65
+    tag: v0.107.66
 
   services:
     adminPanel:
