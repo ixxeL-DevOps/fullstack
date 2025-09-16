@@ -3,5 +3,5 @@ reloader:
   image:
     name: stakater/reloader
     repository: ghcr.io/stakater/reloader
-    tag: v1.4.7
+    tag: v1.4.8
     pullPolicy: IfNotPresent
