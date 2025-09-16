@@ -28,7 +28,7 @@ spec:
     force: true
   upgrade:
     # renovate: datasource=docker depName=ghcr.io/jfroy/tnu
-    image: ghcr.io/jfroy/tnu:0.4.3
+    image: ghcr.io/jfroy/tnu:0.4.4
     envs:
       - name: NODE_IP
         valueFrom:
