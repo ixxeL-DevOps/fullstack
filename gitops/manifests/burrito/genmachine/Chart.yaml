@@ -4,5 +4,5 @@ name: burrito
 version: 1.0.0
 dependencies:
   - name: burrito
-    version: 0.8.0
+    version: 0.8.1
     repository: oci://ghcr.io/padok-team/charts
