@@ -10,7 +10,13 @@ cilium:
   debug:
     enabled: false
   gatewayAPI:
-    enabled: false
+    enabled: true
+    gatewayClass:
+      create: auto
+    secretsNamespace:
+      create: true
+      name: cilium-secrets
+      sync: true      
   ipam:
     mode: kubernetes
   cgroup:
