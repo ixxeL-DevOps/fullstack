@@ -8,7 +8,7 @@ argo-cd:
     image:
       imagePullPolicy: IfNotPresent
       repository: quay.io/argoproj/argocd
-      tag: v3.1.8
+      tag: v3.1.9
     logging:
       format: text
       level: info
