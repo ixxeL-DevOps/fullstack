@@ -13,7 +13,7 @@ kube-prometheus-stack:
       image:
         registry: quay.io
         repository: prometheus/prometheus
-        tag: v3.7.2
+        tag: v3.7.3
       retention: 7d
       scrapeInterval: '30s'
       logLevel: info
@@ -84,7 +84,7 @@ prometheus-blackbox-exporter:
 prometheus-pushgateway:
   image:
     repository: quay.io/prometheus/pushgateway
-    tag: v1.11.1
+    tag: v1.11.2
     pullPolicy: IfNotPresent
   ingress:
     enabled: true
