@@ -4,5 +4,5 @@ name: proxmox-csi-plugin
 version: 1.0.0
 dependencies:
   - name: proxmox-csi-plugin
-    version: 0.4.0
+    version: 0.4.1
     repository: oci://ghcr.io/sergelogvinov/charts
