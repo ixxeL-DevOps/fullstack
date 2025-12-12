@@ -4,7 +4,7 @@ loki:
     image:
       registry: docker.io
       repository: grafana/loki
-      tag: 3.6.2
+      tag: 3.6.3
 
   ingress:
     enabled: true
