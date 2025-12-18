@@ -7,7 +7,7 @@ ipamIpPool:
 cilium:
   image:
     repository: 'quay.io/cilium/cilium'
-    tag: v1.18.4
+    tag: v1.18.5
     pullPolicy: 'IfNotPresent'
 
   hubble:
@@ -29,7 +29,7 @@ cilium:
   operator:
     image:
       repository: 'quay.io/cilium/operator'
-      tag: v1.18.4
+      tag: v1.18.5
       pullPolicy: 'IfNotPresent'
 
     podDisruptionBudget:
