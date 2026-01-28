@@ -4,7 +4,7 @@ kube-prometheus-stack:
     image:
       registry: quay.io
       repository: prometheus-operator/prometheus-operator
-      tag: v0.88.0
+      tag: v0.88.1
       pullPolicy: IfNotPresent
 
   prometheus:
@@ -44,7 +44,7 @@ kube-prometheus-stack:
     image:
       registry: docker.io
       repository: grafana/grafana
-      tag: '12.3.1'
+      tag: '12.3.2'
       pullPolicy: IfNotPresent
     ingress:
       enabled: true
