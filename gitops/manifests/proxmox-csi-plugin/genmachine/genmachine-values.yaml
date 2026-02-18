@@ -10,7 +10,7 @@ proxmox-csi-plugin:
       image:
         repository: registry.k8s.io/sig-storage/csi-attacher
         pullPolicy: IfNotPresent
-        tag: v4.10.0
+        tag: v4.11.0
     provisioner:
       image:
         repository: registry.k8s.io/sig-storage/csi-provisioner
@@ -31,12 +31,12 @@ proxmox-csi-plugin:
       image:
         repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
         pullPolicy: IfNotPresent
-        tag: v2.15.0
+        tag: v2.16.0
   livenessprobe:
     image:
       repository: registry.k8s.io/sig-storage/livenessprobe
       pullPolicy: IfNotPresent
-      tag: v2.17.0
+      tag: v2.18.0
 
   existingConfigSecret: proxmox-csi-plugin-config
   existingConfigSecretKey: config.yaml
