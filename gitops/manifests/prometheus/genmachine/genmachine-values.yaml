@@ -13,7 +13,7 @@ kube-prometheus-stack:
       image:
         registry: quay.io
         repository: prometheus/prometheus
-        tag: v3.9.1
+        tag: v3.10.0
       retention: 7d
       scrapeInterval: '30s'
       logLevel: info
