@@ -33,7 +33,7 @@ app-template:
         main:
           image:
             repository: technitium/dns-server
-            tag: '13.6.0'
+            tag: '14.3.0'
             pullPolicy: Always
           ports:
             - name: http
