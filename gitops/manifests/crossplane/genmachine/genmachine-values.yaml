@@ -9,7 +9,7 @@ komoplane:
   image:
     repository: komodorio/komoplane
     pullPolicy: IfNotPresent
-    tag: '0.2.0'
+    tag: '0.2.1'
 
   ingress:
     enabled: true
