@@ -17,7 +17,6 @@ vars:
   VAULT_ENDPOINT: 'https://vault.k0s-fullstack.fredcorp.com'
   AUTHENTIK_ENDPOINT_GENMACHINE: 'https://authentik.talos-genmachine.fredcorp.com'
   AUTHENTIK_ENDPOINT_BEELINK: 'https://authentik.k0s-fullstack.fredcorp.com'
-  K8S_API: 'talos-cluster.genmachine.fredcorp.com'
   MINIO_API: 'minio-api.talos-genmachine.fredcorp.com'
 
 includes:
