@@ -5,8 +5,9 @@ version: '3'
 tasks:
   oicd-setup:
     desc: Configure k8s auth for Vault External Secrets
-    vars:
-      cluster: genmachine
+    requires:
+      vars:
+        - cluster
     cmds:
       - task: enable-vault-oidc
         vars:
@@ -14,8 +15,9 @@ tasks:
 
   eso-auth-setup:
     desc: Configure k8s auth for Vault External Secrets
-    vars:
-      cluster: genmachine
+    requires:
+      vars:
+        - cluster
     cmds:
       - task: enable-vault-k8s
         vars:
@@ -35,8 +37,9 @@ tasks:
 
   certmanager-auth-setup:
     desc: Configure k8s auth for Vault Certmanager
-    vars:
-      cluster: genmachine
+    requires:
+      vars:
+        - cluster
     cmds:
       - task: enable-vault-k8s
         vars:
@@ -84,10 +87,11 @@ tasks:
           sleep 5
         done
         kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode > ca.crt
+        K8S_HOST="$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.server}')"
         TOKEN="$(kubectl get secret -n {{.namespace}} {{.service_account}} -o jsonpath='{.data.token}' | base64 -d)"
         vault write -tls-skip-verify -address={{.VAULT_ENDPOINT}}  \
           auth/{{.cluster}}-k8s/config token_reviewer_jwt="$TOKEN" \
-          kubernetes_host="https://{{.K8S_API}}:6443" \
+          kubernetes_host="$K8S_HOST" \
           kubernetes_ca_cert=@ca.crt
         rm ca.crt
     requires:
