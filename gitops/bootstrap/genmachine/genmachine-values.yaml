@@ -111,17 +111,6 @@ argo-cd:
       repository: ghcr.io/dexidp/dex
       tag: v2.45.1
       imagePullPolicy: IfNotPresent
-    containerSecurityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      runAsNonRoot: true
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-      capabilities:
-        drop:
-          - ALL
-      seccompProfile:
-        type: RuntimeDefault
     pdb:
       enabled: true
       maxUnavailable: 1
