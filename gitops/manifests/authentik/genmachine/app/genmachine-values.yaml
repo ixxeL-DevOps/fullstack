@@ -66,7 +66,7 @@ authentik:
   postgresql:
     enabled: true
     image:
-      repository: docker.io/library/postgres
+      repository: library/postgres
       tag: 17.7-bookworm
     auth:
       username: authentik
