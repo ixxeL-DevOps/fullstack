@@ -3,7 +3,7 @@ spegel:
   image:
     repository: ghcr.io/spegel-org/spegel
     pullPolicy: IfNotPresent
-    tag: v0.6.0
+    tag: v0.7.0
   serviceMonitor:
     enabled: true
     labels:
