@@ -15,7 +15,7 @@ kafka-ui:
     registry: ghcr.io
     repository: kafbat/kafka-ui
     pullPolicy: IfNotPresent
-    tag: 'v1.4.2'
+    tag: 'v1.5.0'
 
   ingress:
     enabled: true
