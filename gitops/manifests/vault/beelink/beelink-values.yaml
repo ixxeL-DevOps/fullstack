@@ -32,6 +32,11 @@ vault:
     #   whenDeleted: Retain
     #   whenScaled: Retain
 
+    extraSecretEnvironmentVars:
+      - envName: TRANSIT_UNSEAL_TOKEN
+        secretName: vault-transit-token
+        secretKey: token
+
     ingress:
       enabled: true
       annotations:
@@ -62,6 +67,13 @@ vault:
       }
       storage "file" {
         path = "/vault/data"
+      }
+      seal "transit" {
+        address         = "https://vault.talos-genmachine.fredcorp.com"
+        token           = "$TRANSIT_UNSEAL_TOKEN"
+        key_name        = "unseal-beelink"
+        mount_path      = "transit/"
+        tls_skip_verify = "true"
       }
 
   ui:
