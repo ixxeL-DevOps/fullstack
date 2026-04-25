@@ -124,6 +124,23 @@
   color: '4E0DA8'
   description: >-
     Changes made to System Upgrade Controller application
+- name: app/tuppr
+  color: '39FF14'
+  description: >-
+    Changes made to tuppr upgrade controller application
+# System
+- name: system/cluster
+  color: 'FF00FF'
+  description: >-
+    Cluster-level upgrade (Talos or Kubernetes)
+- name: system/talos
+  color: 'FF1493'
+  description: >-
+    Talos OS upgrade
+- name: system/kubernetes
+  color: '00CFFF'
+  description: >-
+    Kubernetes upgrade
 - name: app/vault
   color: '0B0D06'
   description: >-
