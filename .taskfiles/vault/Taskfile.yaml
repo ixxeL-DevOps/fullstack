@@ -142,6 +142,50 @@ tasks:
     silent: true
     continue: true
 
+  unseal-secret:beelink:
+    desc: 'Recreate vault-transit-token K8s secret on genmachine from Vault KV (admin/unseal/genmachine/vault)'
+    vars:
+      VAULT_ADDR_GENMACHINE: 'https://vault.talos-genmachine.fredcorp.com'
+      KUBE_CONTEXT: 'admin@genmachine'
+    cmds:
+      - task: unseal-secret:apply
+        vars:
+          vault_addr: '{{.VAULT_ADDR_GENMACHINE}}'
+          kv_path: 'admin/unseal/beelink/vault'
+
+  unseal-secret:genmachine:
+    desc: 'Recreate vault-transit-token K8s secret on beelink from Vault KV (admin/unseal/beelink/vault)'
+    vars:
+      VAULT_ADDR_BEELINK: 'https://vault.k0s-fullstack.fredcorp.com'
+      KUBE_CONTEXT: 'k0s-fullstack'
+    cmds:
+      - task: unseal-secret:apply
+        vars:
+          vault_addr: '{{.VAULT_ADDR_BEELINK}}'
+          kv_path: 'admin/unseal/genmachine/vault'
+
+  unseal-secret:apply:
+    internal: true
+    requires:
+      vars:
+        - vault_addr
+        - kv_path
+    cmds:
+      - |
+        echo "Reading transit token from Vault ({{.vault_addr}}) at {{.kv_path}}..."
+        TOKEN=$(vault kv get -tls-skip-verify -address={{.vault_addr}} -field=token {{.kv_path}})
+        if [ -z "$TOKEN" ]; then
+          echo "ERROR: failed to read token from {{.kv_path}}"
+          exit 1
+        fi
+        echo "Creating/updating vault-transit-token secret..."
+        kubectl create secret generic vault-transit-token \
+          --namespace=vault \
+          --from-literal=token="$TOKEN" \
+          --dry-run=client -o yaml | kubectl apply -f -
+        echo "Done."
+    silent: true
+
   login:token:
     desc: Login to Vault using a token
     silent: true
