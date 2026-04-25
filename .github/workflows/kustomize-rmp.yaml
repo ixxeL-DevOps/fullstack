@@ -14,13 +14,14 @@ on:
       - '**/kustomization.yml'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   rendered-manifest:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    if: github.event_name == 'pull_request'
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
@@ -94,7 +95,7 @@ jobs:
           target: pr/*_manifest_pr.yaml
 
       - name: Post diff as comment
-        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request' && github.event.pull_request.number != ''
+        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request'
         run: |
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md --edit-last || \
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md
