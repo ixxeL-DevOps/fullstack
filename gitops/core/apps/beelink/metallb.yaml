@@ -20,7 +20,7 @@ spec:
       targetRevision: main
       helm:
         valueFiles:
-          - $values/gitops/manifests/metallb/values/common-values.yaml
+          - $values/gitops/manifests/metallb/common/common-values.yaml
           - $values/gitops/manifests/metallb/beelink/beelink-values.yaml
     - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main

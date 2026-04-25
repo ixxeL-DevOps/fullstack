@@ -5,8 +5,8 @@ metadata:
   name: homarr-k0s
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
-    argocd-diff-preview/watch-pattern: 'gitops/manifests/homarr/beelink/.*, gitops/manifests/homarr/values/.*'
+    argocd.argoproj.io/manifest-generate-paths: .;../common
+    argocd-diff-preview/watch-pattern: 'gitops/manifests/homarr/beelink/.*, gitops/manifests/homarr/common/.*'
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -20,7 +20,7 @@ spec:
       targetRevision: main
       helm:
         valueFiles:
-          - $values/gitops/manifests/homarr/values/common-values.yaml
+          - $values/gitops/manifests/homarr/common/common-values.yaml
           - $values/gitops/manifests/homarr/beelink/beelink-values.yaml
     - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main

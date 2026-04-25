@@ -5,7 +5,7 @@ metadata:
   name: cert-manager
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -15,17 +15,15 @@ spec:
         directories:
           - path: 'gitops/manifests/cert-manager/*'
             exclude: false
-          - path: 'gitops/manifests/cert-manager/values'
+          - path: 'gitops/manifests/cert-manager/common'
             exclude: true
           - path: 'gitops/manifests/cert-manager/beelink'
-            exclude: true
-          - path: 'gitops/manifests/cert-manager/k0s'
             exclude: true
   template:
     metadata:
       name: 'cert-manager-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
       project: infra-security
       destination:
@@ -38,7 +36,7 @@ spec:
           helm:
             releaseName: cert-manager
             valueFiles:
-              - $values/gitops/manifests/cert-manager/values/common-values.yaml
+              - $values/gitops/manifests/cert-manager/common/common-values.yaml
               - $values/gitops/manifests/cert-manager/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git

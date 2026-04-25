@@ -5,7 +5,7 @@ metadata:
   name: coredns
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -15,17 +15,15 @@ spec:
         directories:
           - path: 'gitops/manifests/coredns/*'
             exclude: false
-          - path: 'gitops/manifests/coredns/values'
+          - path: 'gitops/manifests/coredns/common'
             exclude: true
           - path: 'gitops/manifests/coredns/beelink'
-            exclude: true
-          - path: 'gitops/manifests/coredns/k0s'
             exclude: true
   template:
     metadata:
       name: 'coredns-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
       project: infra-network
       destination:
@@ -38,7 +36,7 @@ spec:
           helm:
             releaseName: coredns
             valueFiles:
-              - $values/gitops/manifests/coredns/values/common-values.yaml
+              - $values/gitops/manifests/coredns/common/common-values.yaml
               - $values/gitops/manifests/coredns/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git

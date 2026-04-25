@@ -5,7 +5,7 @@
 #   name: system-upgrade-controller
 #   namespace: argocd
 #   annotations:
-#     argocd.argoproj.io/manifest-generate-paths: .;../values
+#     argocd.argoproj.io/manifest-generate-paths: .;../common
 # spec:
 #   goTemplate: true
 #   generators:
@@ -15,17 +15,15 @@
 #         directories:
 #           - path: 'gitops/manifests/system-upgrade-controller/*'
 #             exclude: false
-#           - path: 'gitops/manifests/system-upgrade-controller/values'
+#           - path: 'gitops/manifests/system-upgrade-controller/common'
 #             exclude: true
 #           - path: 'gitops/manifests/system-upgrade-controller/beelink'
-#             exclude: true
-#           - path: 'gitops/manifests/system-upgrade-controller/k0s'
 #             exclude: true
 #   template:
 #     metadata:
 #       name: 'system-upgrade-controller-{{ .path.basenameNormalized }}'
 #       annotations:
-#         argocd.argoproj.io/manifest-generate-paths: .;../values
+#         argocd.argoproj.io/manifest-generate-paths: .;../common
 #     spec:
 #       project: infra-core
 #       destination:
@@ -38,7 +36,7 @@
 #           helm:
 #             releaseName: system-upgrade-controller
 #             valueFiles:
-#               - $values/gitops/manifests/system-upgrade-controller/values/common-values.yaml
+#               - $values/gitops/manifests/system-upgrade-controller/common/common-values.yaml
 #               - $values/gitops/manifests/system-upgrade-controller/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
 #             ignoreMissingValueFiles: true
 #         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
