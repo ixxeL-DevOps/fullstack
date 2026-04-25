@@ -23,9 +23,20 @@ spec:
     - name: system-upgrade-talos
       path: /var/run/secrets/talos.dev
       ignoreUpdates: true
+  # Wait for all nodes to be Ready before running upgrade-k8s — prevents starting
+  # the k8s upgrade while a node is still rebooting after a Talos OS upgrade.
+  prepare:
+    image: registry.k8s.io/kubectl:{{ .Values.plan.kubeversion }}
+    args:
+      - wait
+      - node
+      - --all
+      - --for=condition=Ready
+      - --timeout=600s
   drain:
     ignoreDaemonSets: true
     force: true
+    timeout: 600
   upgrade:
     image: ghcr.io/siderolabs/talosctl:{{ .Values.plan.talosVersion }}
     envs:
