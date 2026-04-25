@@ -18,4 +18,4 @@ entries:
       path: users
       password: !Env ${AUTHENTIK_IXXEL_PASSWORD}
       groups:
-        - !Find [authentik_core.group, [name, admins]]
+        - !Find [authentik_core.group, [name, "authentik Admins"]]
