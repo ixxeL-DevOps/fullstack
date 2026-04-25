@@ -1,0 +1,21 @@
+---
+apiVersion: tuppr.home-operations.com/v1alpha1
+kind: KubernetesUpgrade
+metadata:
+  name: kubernetes
+  namespace: system-upgrade
+spec:
+  kubernetes:
+    # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+    version: v1.33.11
+  healthChecks:
+    - apiVersion: v1
+      kind: Node
+      expr: "status.conditions.filter(c, c.type == 'Ready').all(c, c.status == 'True')"
+      timeout: 10m
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: kube-system
+      name: coredns
+      expr: "status.conditions.exists(c, c.type == 'Available' && c.status == 'True')"
+      timeout: 5m

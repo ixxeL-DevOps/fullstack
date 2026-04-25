@@ -2,12 +2,44 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "packageRules": [
       {
-        "description": "Separate PRs for cluster upgrade",
-        "matchFileNames": ["gitops/manifests/system-upgrade-controller/**"],
+        "description": "Separate PRs for cluster upgrade (no automerge, cluster/ branch prefix)",
+        "matchFileNames": [
+          "gitops/manifests/system-upgrade-controller/**",
+          "gitops/manifests/system-upgrade/**"
+        ],
         "matchUpdateTypes": ["major", "minor"],
         "automerge": false,
         "addLabels": ["system/cluster"],
         "additionalBranchPrefix": "cluster/"
+      },
+      {
+        "description": "tuppr controller upgrades: dedicated PR, separate from k8s and Talos",
+        "matchFileNames": ["gitops/manifests/system-upgrade/**"],
+        "matchPackageNames": [
+          "home-operations/tuppr",
+          "ghcr.io/home-operations/tuppr"
+        ],
+        "groupName": "system-upgrade-tuppr-genmachine",
+        "addLabels": ["app/tuppr"]
+      },
+      {
+        "description": "Talos OS upgrades: dedicated PR per minor version",
+        "matchFileNames": ["gitops/manifests/system-upgrade/**"],
+        "matchPackageNames": ["ghcr.io/siderolabs/installer"],
+        "groupName": "system-upgrade-talos-genmachine",
+        "addLabels": ["system/talos"],
+        "separateMultipleMinor": true
+      },
+      {
+        "description": "Kubernetes upgrades: dedicated PR per minor version",
+        "matchFileNames": ["gitops/manifests/system-upgrade/**"],
+        "matchPackageNames": [
+          "ghcr.io/siderolabs/kubelet",
+          "registry.k8s.io/kubectl"
+        ],
+        "groupName": "system-upgrade-k8s-genmachine",
+        "addLabels": ["system/kubernetes"],
+        "separateMultipleMinor": true
       }
     ]
   }
