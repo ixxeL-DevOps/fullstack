@@ -2,7 +2,6 @@
 ---
 name: Kustomize Dynamic Rendered Manifest
 on:
-  merge_group:
   pull_request:
     types:
       - opened
@@ -14,12 +13,13 @@ on:
       - '**/kustomization.yml'
 
 concurrency:
-  group: ${{ github.ref_name }}-${{ github.event.pull_request.number }}
+  group: ${{ github.workflow }}-${{ github.ref_name }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   rendered-manifest:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     if: github.event_name == 'pull_request'
     steps:
       - name: Generate Token
@@ -67,9 +67,12 @@ jobs:
 
             template "pr"
 
-            git checkout origin/main -- "$path"
-
-            template "main"
+            if git checkout origin/main -- "$path" 2>/dev/null
+            then
+              template "main"
+            else
+              echo "[ WARN ] Path ${path} not present on origin/main, skipping main render"
+            fi
             echo ""
           done
 
@@ -105,3 +108,15 @@ jobs:
         uses: ixxeL-DevOps/gha-templates/.github/actions/kubeconform@main
         with:
           target: pr
+
+      - name: Surface Kubeconform outcome
+        if: steps.changed-files.outputs.any_changed == 'true' && always()
+        run: |
+          OUTCOME="${{ steps.kubeconform.outcome }}"
+          if [ "${OUTCOME}" = "success" ]
+          then
+            echo "### Kubeconform: passed" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Kubeconform: ${OUTCOME} (non-blocking)" >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning title=Kubeconform::Validation outcome=${OUTCOME} — review the step logs"
+          fi
