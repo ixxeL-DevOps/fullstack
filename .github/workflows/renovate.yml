@@ -43,5 +43,6 @@ jobs:
           LOG_LEVEL: debug
           RENOVATE_AUTODISCOVER: 'false'
           RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_PR_HOURLY_LIMIT: '2'
           NODE_TLS_REJECT_UNAUTHORIZED: '0'
           NPM_CONFIG_USERCONFIG: /github-action/.npmrc
