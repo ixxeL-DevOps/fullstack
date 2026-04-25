@@ -3,24 +3,12 @@
 version: '3'
 
 tasks:
-  re-encrypt:
-    desc: Decrypt and re-encrypt all sops secrets
-    silent: true
-    dir: '{{.USER_WORKING_DIR}}'
-    vars:
-      SECRET_FILES:
-        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
-    cmds:
-      - for: {var: SECRET_FILES}
-        cmd: |
-          echo "Re-encrypting {{ .ITEM }}"
-          sops decrypt --in-place "{{ .ITEM }}"
-          sops encrypt --in-place "{{ .ITEM }}"
-
   encrypt:
-    desc: Encrypt all sops secrets
+    desc: Encrypt all SOPS files (safe, idempotent)
     silent: true
     dir: '{{.USER_WORKING_DIR}}'
+    env:
+      SOPS_AGE_KEY_FILE: age.key
     vars:
       SECRET_FILES:
         sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
@@ -28,8 +16,9 @@ tasks:
       - for: {var: SECRET_FILES}
         cmd: |
           echo "Encrypting {{ .ITEM }}"
-          if sops -d "{{ .ITEM }}" >/dev/null 2>&1; then
-            echo "🔒 File {{ .ITEM }} is already encrypted, skipping."
+          if grep -q 'ENC\[' {{ .ITEM }}; then
+            echo "🔒 already encrypted: {{ .ITEM }}"
+            continue
           else
             if sops encrypt --in-place "{{ .ITEM }}"; then
               echo "✅ Successfully encrypted {{ .ITEM }}"
@@ -39,7 +28,54 @@ tasks:
           fi
 
   decrypt:
-    desc: Decrypt all sops secrets
+    desc: Decrypt all SOPS files (safe)
+    silent: true
+    dir: '{{.USER_WORKING_DIR}}'
+    env:
+      SOPS_AGE_KEY_FILE: age.key
+    vars:
+      SECRET_FILES:
+        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    cmds:
+      - for: {var: SECRET_FILES}
+        cmd: |
+          echo "Decrypting {{ .ITEM }}"
+          if grep -q 'ENC\[' {{ .ITEM }}; then
+            if sops decrypt --in-place "{{ .ITEM }}"; then
+              echo "✅ Successfully decrypted {{ .ITEM }}"
+            else
+              echo "❌ Error decrypting {{ .ITEM }}" >&2
+            fi
+          else
+            echo "🟢 File {{ .ITEM }} is already decrypted, skipping."
+          fi
+
+  vault:encrypt:
+    desc: Decrypt SOPS files using AGE key from Vault
+    silent: true
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      SECRET_FILES:
+        sh: find . -type f -name '*.sops.yaml' ! -name ".sops.yaml"
+    cmds:
+      - for: {var: SECRET_FILES}
+        cmd: |
+          echo "Encrypting {{ .ITEM }}"
+          echo "🔓 Fetching AGE public key from Vault..."
+          SOPS_AGE_KEY=$(vault kv get -address={{ .VAULT_ENDPOINT }} -field=public-key admin/sops/age)
+          if grep -q 'ENC\[' {{ .ITEM }}; then
+            echo "🔒 already encrypted: {{ .ITEM }}"
+            continue
+          else
+            if sops encrypt --in-place "{{ .ITEM }}"; then
+              echo "✅ Successfully encrypted {{ .ITEM }}"
+            else
+              echo "❌ Error encrypting {{ .ITEM }}" >&2
+            fi
+          fi
+
+  vault:decrypt:
+    desc: Decrypt SOPS files using AGE key from Vault
     silent: true
     dir: '{{.USER_WORKING_DIR}}'
     vars:
@@ -49,7 +85,10 @@ tasks:
       - for: {var: SECRET_FILES}
         cmd: |
           echo "Decrypting {{ .ITEM }}"
-          if sops -d "{{ .ITEM }}" >/dev/null 2>&1; then
+          echo "🔓 Fetching AGE secret key from Vault..."
+          SOPS_AGE_KEY=$(vault kv get -address={{ .VAULT_ENDPOINT }} -field=private-key admin/sops/age)
+          echo "key $SOPS_AGE_KEY"
+          if grep -q 'ENC\[' {{ .ITEM }}; then
             if sops decrypt --in-place "{{ .ITEM }}"; then
               echo "✅ Successfully decrypted {{ .ITEM }}"
             else

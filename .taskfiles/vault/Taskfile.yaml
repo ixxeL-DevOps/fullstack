@@ -141,3 +141,26 @@ tasks:
         - cluster
     silent: true
     continue: true
+
+  login:token:
+    desc: Login to Vault using a token
+    silent: true
+    cmds:
+      - |
+        echo "🔐 Logging into Vault with token..."
+        vault login -address={{ .VAULT_ENDPOINT }} >/dev/null
+
+        echo "✅ Vault login successful"
+        vault token lookup | grep -E "display_name|ttl"
+
+  login:sso:
+    desc: Login to Vault using SSO (OIDC)
+    silent: true
+    cmds:
+      - |
+        echo "🔑 Logging into Vault via SSO..."
+
+        vault login -address={{ .VAULT_ENDPOINT }} -method=oidc
+
+        echo "✅ Vault SSO login successful"
+        vault token lookup | grep -E "display_name|ttl"

@@ -1,4 +1,6 @@
 ---
 creation_rules:
   - path_regex: .*\.sops\.ya?ml$
-    hc_vault_transit_uri: "https://vault.k0s-fullstack.fredcorp.com/v1/sops/keys/talos"
+    age: age1jksfnknuztg6tfs2ttd0k7g5x2fqxhl3xdm8hq0ux8jz5u2tmghsmhyxnn
+  # - path_regex: .*\.sops\.ya?ml$
+  #   hc_vault_transit_uri: "https://vault.k0s-fullstack.fredcorp.com/v1/sops/keys/talos"
