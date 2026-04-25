@@ -2,6 +2,7 @@
 ---
 name: Helm Dynamic Rendered Manifest
 on:
+  merge_group:
   pull_request:
     types:
       - opened
@@ -10,14 +11,13 @@ on:
       - main
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref_name }}-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   rendered-manifest:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    if: github.event_name == 'pull_request'
     permissions:
       contents: read
       pull-requests: write
@@ -194,7 +194,7 @@ jobs:
           target: pr/*_manifest_pr.yaml
 
       - name: Post diff as comment
-        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request'
+        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request' && github.event.pull_request.number != ''
         run: |
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md --edit-last || \
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md
