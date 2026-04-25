@@ -38,6 +38,7 @@ vault:
         secretKey: token
 
     standalone:
+      enabled: true
       config: |-
         ui = true
 
@@ -74,9 +75,6 @@ vault:
         - secretName: vault-tls-cert
           hosts:
             - vault.k0s-fullstack.fredcorp.com
-
-  standalone:
-    enabled: true
 
   ui:
     enabled: true

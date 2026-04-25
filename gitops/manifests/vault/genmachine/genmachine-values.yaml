@@ -18,6 +18,7 @@ vault:
         secretKey: token
 
     standalone:
+      enabled: true
       config: |-
         ui = true
 
