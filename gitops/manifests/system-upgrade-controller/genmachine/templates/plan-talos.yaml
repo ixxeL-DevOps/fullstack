@@ -26,6 +26,7 @@ spec:
   drain:
     ignoreDaemonSets: true
     force: true
+    timeout: 600
   upgrade:
     # renovate: datasource=docker depName=ghcr.io/jfroy/tnu
     image: ghcr.io/jfroy/tnu:0.4.4
