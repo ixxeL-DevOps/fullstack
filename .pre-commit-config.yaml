@@ -31,7 +31,7 @@ exclude: |
 
 repos:
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.8.3
+    rev: v4.13.10
     hooks:
       - id: commitizen
         stages: [commit-msg]
@@ -44,7 +44,7 @@ repos:
   #       args: []
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.1
+    rev: v1.38.0
     hooks:
       - id: yamllint
         args:
@@ -53,7 +53,7 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
         stages: [pre-commit]
@@ -80,7 +80,7 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.5
+    rev: v1.5.6
     hooks:
       - id: forbid-crlf
         stages: [pre-commit]
@@ -90,7 +90,7 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/google/yamlfmt
-    rev: v0.17.2
+    rev: v0.21.0
     hooks:
       - id: yamlfmt
         args:
