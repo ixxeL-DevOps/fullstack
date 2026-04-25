@@ -124,10 +124,10 @@
   color: '4E0DA8'
   description: >-
     Changes made to System Upgrade Controller application
-- name: app/tuppr
-  color: '39FF14'
+- name: app/system-upgrade
+  color: '4E0DA8'
   description: >-
-    Changes made to tuppr upgrade controller application
+    Changes made to System Upgrade Controller application
 # System
 - name: system/cluster
   color: 'FF00FF'
