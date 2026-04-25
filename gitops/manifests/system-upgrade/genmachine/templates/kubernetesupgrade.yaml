@@ -19,3 +19,8 @@ spec:
       name: coredns
       expr: "status.conditions.exists(c, c.type == 'Available' && c.status == 'True')"
       timeout: 5m
+  talosctl:
+    image:
+      # renovate: datasource=docker depName=ghcr.io/siderolabs/talosctl
+      tag: v1.11.0                             # Optional, auto-detected
+      pullPolicy: IfNotPresent                 # Optional, default
