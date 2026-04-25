@@ -17,6 +17,26 @@ vault:
         secretName: vault-transit-token
         secretKey: token
 
+    standalone:
+      config: |-
+        ui = true
+
+        listener "tcp" {
+          tls_disable = 1
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+        }
+        storage "file" {
+          path = "/vault/data"
+        }
+        seal "transit" {
+          address         = "https://vault.k0s-fullstack.fredcorp.com"
+          token           = "$TRANSIT_UNSEAL_TOKEN"
+          key_name        = "unseal-genmachine"
+          mount_path      = "transit/"
+          tls_skip_verify = "true"
+        }
+
     ingress:
       enabled: true
       annotations:
@@ -34,24 +54,3 @@ vault:
         - secretName: vault-tls-cert
           hosts:
             - vault.talos-genmachine.fredcorp.com
-
-  standalone:
-    enabled: true
-    config: |-
-      ui = true
-
-      listener "tcp" {
-        tls_disable = 1
-        address = "[::]:8200"
-        cluster_address = "[::]:8201"
-      }
-      storage "file" {
-        path = "/vault/data"
-      }
-      seal "transit" {
-        address         = "https://vault.k0s-fullstack.fredcorp.com"
-        token           = "$TRANSIT_UNSEAL_TOKEN"
-        key_name        = "unseal-genmachine"
-        mount_path      = "transit/"
-        tls_skip_verify = "true"
-      }

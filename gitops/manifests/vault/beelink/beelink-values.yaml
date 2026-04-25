@@ -37,6 +37,26 @@ vault:
         secretName: vault-transit-token
         secretKey: token
 
+    standalone:
+      config: |-
+        ui = true
+
+        listener "tcp" {
+          tls_disable = 1
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+        }
+        storage "file" {
+          path = "/vault/data"
+        }
+        seal "transit" {
+          address         = "https://vault.talos-genmachine.fredcorp.com"
+          token           = "$TRANSIT_UNSEAL_TOKEN"
+          key_name        = "unseal-beelink"
+          mount_path      = "transit/"
+          tls_skip_verify = "true"
+        }
+
     ingress:
       enabled: true
       annotations:
@@ -57,24 +77,6 @@ vault:
 
   standalone:
     enabled: true
-    config: |-
-      ui = true
-
-      listener "tcp" {
-        tls_disable = 1
-        address = "[::]:8200"
-        cluster_address = "[::]:8201"
-      }
-      storage "file" {
-        path = "/vault/data"
-      }
-      seal "transit" {
-        address         = "https://vault.talos-genmachine.fredcorp.com"
-        token           = "$TRANSIT_UNSEAL_TOKEN"
-        key_name        = "unseal-beelink"
-        mount_path      = "transit/"
-        tls_skip_verify = "true"
-      }
 
   ui:
     enabled: true
