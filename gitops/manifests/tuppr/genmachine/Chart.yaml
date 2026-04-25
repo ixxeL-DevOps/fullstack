@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: tuppr
+version: 1.0.0
+dependencies:
+  - name: tuppr
+    # renovate: datasource=github-releases depName=home-operations/tuppr
+    version: 0.1.7
+    repository: oci://ghcr.io/home-operations/charts

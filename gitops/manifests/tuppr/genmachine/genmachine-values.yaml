@@ -1,0 +1,36 @@
+---
+tuppr:
+  image:
+    repository: ghcr.io/home-operations/tuppr
+    pullPolicy: IfNotPresent
+    # renovate: datasource=github-releases depName=home-operations/tuppr
+    tag: "0.1.7"
+
+  replicaCount: 1
+
+  controller:
+    logLevel: info
+    leaderElection:
+      enabled: true
+
+  priorityClassName: system-node-critical
+
+  tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+      operator: Exists
+    - effect: NoExecute
+      key: node-role.kubernetes.io/control-plane
+      operator: Exists
+
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    fsGroup: 65532

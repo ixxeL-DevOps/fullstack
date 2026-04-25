@@ -1,0 +1,64 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tuppr
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../values
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/tuppr/*'
+            exclude: false
+          - path: 'gitops/manifests/tuppr/values'
+            exclude: true
+  template:
+    metadata:
+      name: 'tuppr-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../values
+      labels:
+        app/tuppr: '{{ .path.basenameNormalized }}'
+    spec:
+      project: infra-core
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: system-upgrade
+      sources:
+        - path: 'gitops/manifests/tuppr/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: tuppr
+            valueFiles:
+              - $values/gitops/manifests/tuppr/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+            ignoreMissingValueFiles: true
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 6
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 3m
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged
