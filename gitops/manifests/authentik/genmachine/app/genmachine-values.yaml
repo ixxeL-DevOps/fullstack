@@ -9,6 +9,11 @@ authentik:
       tag: '2025.12.4'
       pullPolicy: IfNotPresent
     env:
+      - name: AUTHENTIK_IXXEL_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-bootstrap
+            key: ixxel-password
       - name: AUTHENTIK_BOOTSTRAP_PASSWORD
         valueFrom:
           secretKeyRef:

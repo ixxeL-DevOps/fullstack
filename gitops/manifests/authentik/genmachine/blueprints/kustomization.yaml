@@ -19,3 +19,4 @@ configMapGenerator:
       - ./properties.yaml
       - ./flows.yaml
       - ./enrollment.yaml
+      - ./users.yaml
