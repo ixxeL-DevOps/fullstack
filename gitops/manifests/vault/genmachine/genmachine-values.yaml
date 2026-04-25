@@ -3,7 +3,7 @@ vault:
   server:
     image:
       repository: 'hashicorp/vault'
-      tag: '1.21.4'
+      tag: '2.0.0'
       pullPolicy: IfNotPresent
 
     dataStorage:
