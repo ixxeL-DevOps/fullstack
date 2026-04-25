@@ -1,0 +1,23 @@
+---
+plan:
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+  kubeversion: v1.33.4
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+  talosVersion: v1.10.7
+
+system-upgrade-controller:
+  image:
+    repository: rancher/system-upgrade-controller
+    pullPolicy: IfNotPresent
+    tag: v0.16.3
+
+  plan:
+    kubernetes:
+      enabled: false
+
+  envs:
+    SYSTEM_UPGRADE_CONTROLLER_DEBUG: false
+    SYSTEM_UPGRADE_CONTROLLER_THREADS: 2
+    SYSTEM_UPGRADE_JOB_IMAGE_PULL_POLICY: IfNotPresent
+    SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: registry.k8s.io/kubectl:v1.33.4
+    SYSTEM_UPGRADE_JOB_PRIVILEGED: true

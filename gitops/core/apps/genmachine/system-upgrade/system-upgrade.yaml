@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: tuppr
+  name: system-upgrade
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../values
@@ -13,30 +13,30 @@ spec:
         repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
         revision: main
         directories:
-          - path: 'gitops/manifests/tuppr/*'
+          - path: 'gitops/manifests/system-upgrade/*'
             exclude: false
-          - path: 'gitops/manifests/tuppr/values'
+          - path: 'gitops/manifests/system-upgrade/values'
             exclude: true
   template:
     metadata:
-      name: 'tuppr-{{ .path.basenameNormalized }}'
+      name: 'system-upgrade-{{ .path.basenameNormalized }}'
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../values
       labels:
-        app/tuppr: '{{ .path.basenameNormalized }}'
+        app/system-upgrade: '{{ .path.basenameNormalized }}'
     spec:
       project: infra-core
       destination:
         name: '{{ .path.basenameNormalized }}'
         namespace: system-upgrade
       sources:
-        - path: 'gitops/manifests/tuppr/{{ .path.basenameNormalized }}'
+        - path: 'gitops/manifests/system-upgrade/{{ .path.basenameNormalized }}'
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: tuppr
+            releaseName: system-upgrade
             valueFiles:
-              - $values/gitops/manifests/tuppr/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+              - $values/gitops/manifests/system-upgrade/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
