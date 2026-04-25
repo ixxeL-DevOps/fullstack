@@ -7,16 +7,17 @@ generatorOptions:
 configMapGenerator:
   - name: authentik-blueprints
     files:
-      - ./oidc-minio.yaml
-      - ./oidc-argocd.yaml
-      - ./oidc-vault.yaml
-      - ./oidc-homarr.yaml
-      - ./oidc-wireguard.yaml
-      - ./proxy-traefik.yaml
-      - ./proxy-adguard.yaml
-      - ./groups.yaml
-      - ./service-accounts.yaml
-      - ./properties.yaml
-      - ./flows.yaml
+      - ./080-oidc-minio.yaml
+      - ./040-oidc-argocd.yaml
+      - ./060-oidc-vault.yaml
+      - ./050-oidc-homarr.yaml
+      - ./070-oidc-wireguard.yaml
+      - ./100-proxy-traefik.yaml
+      - ./090-proxy-adguard.yaml
+      - ./030-groups.yaml
+      - ./020-service-accounts.yaml
+      - ./120-properties.yaml
+      - ./000-flows.yaml
       - ./enrollment.yaml
-      - ./users.yaml
+      - ./010-users.yaml
+      - ./110-embedded-outpost.yaml
