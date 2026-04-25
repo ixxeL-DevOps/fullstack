@@ -23,7 +23,7 @@ entries:
     attrs:
       attributes:
         app_username: admin
-        app_password: xxxx
+        app_password: !Env ADGUARD_ADMIN_PWD
       users:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group

@@ -9,6 +9,11 @@ authentik:
       tag: '2025.12.4'
       pullPolicy: IfNotPresent
     env:
+      - name: ADGUARD_ADMIN_PWD
+        valueFrom:
+          secretKeyRef:
+            name: adguard-creds
+            key: ADGUARD_ADMIN_PWD
       - name: AUTHENTIK_IXXEL_PASSWORD
         valueFrom:
           secretKeyRef:
