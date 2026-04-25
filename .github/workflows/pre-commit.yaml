@@ -34,7 +34,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
         with:
-          python-version: '3.x'
+          python-version: '3.13'
 
       - name: Cache pre-commit hooks
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -46,6 +46,10 @@ jobs:
 
       - name: Install Task
         uses: arduino/setup-task@v2
+        with:
+          version: 3.48.0
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Install pre-commit
         run: pip install pre-commit
