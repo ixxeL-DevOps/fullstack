@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: tuppr
+version: 1.0.0
+dependencies:
+  - name: renovate-operator
+    # renovate: datasource=github-releases depName=mogenius/renovate-operator
+    version: 4.5.1
+    repository: oci://ghcr.io/mogenius/helm-charts
