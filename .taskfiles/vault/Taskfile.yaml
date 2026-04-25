@@ -153,6 +153,92 @@ tasks:
           vault_addr: '{{.VAULT_ADDR_GENMACHINE}}'
           kv_path: 'admin/unseal/beelink/vault'
 
+  break-deadlock:genmachine:
+    desc: 'Break transit seal deadlock on genmachine: strip seal block, restart pod, unseal with Shamir, then re-enable transit and migrate'
+    vars:
+      VAULT_ADDR_GENMACHINE: 'https://vault.talos-genmachine.fredcorp.com'
+      KUBE_CONTEXT: 'admin@genmachine'
+      CONFIGMAP: 'vault-config'
+    cmds:
+      - task: break-deadlock:apply
+        vars:
+          vault_addr: '{{.VAULT_ADDR_GENMACHINE}}'
+          kube_context: '{{.KUBE_CONTEXT}}'
+          configmap: '{{.CONFIGMAP}}'
+          seal_address: 'https://vault.k0s-fullstack.fredcorp.com'
+          seal_key_name: 'unseal-genmachine'
+          pod_name: 'vault-0'
+
+  break-deadlock:beelink:
+    desc: 'Break transit seal deadlock on beelink: strip seal block, restart pod, unseal with Shamir, then re-enable transit and migrate'
+    vars:
+      KUBE_CONTEXT: 'k0s-fullstack'
+      CONFIGMAP: 'vault-k0s-config'
+    cmds:
+      - task: break-deadlock:apply
+        vars:
+          vault_addr: '{{.VAULT_ENDPOINT}}'
+          kube_context: '{{.KUBE_CONTEXT}}'
+          configmap: '{{.CONFIGMAP}}'
+          seal_address: 'https://vault.talos-genmachine.fredcorp.com'
+          seal_key_name: 'unseal-beelink'
+          pod_name: 'vault-k0s-0'
+
+  break-deadlock:apply:
+    internal: true
+    requires:
+      vars:
+        - vault_addr
+        - kube_context
+        - configmap
+        - seal_address
+        - seal_key_name
+        - pod_name
+    cmds:
+      - |
+        echo "==> Step 1: stripping seal block from ConfigMap {{.configmap}}..."
+        BASE_HCL=$(kubectl --context={{.kube_context}} get configmap {{.configmap}} -n vault \
+          -o jsonpath='{.data.extraconfig-from-values\.hcl}' \
+          | sed '/^seal "transit"/,/^}/d' | sed '/^$/N;/^\n$/d')
+        kubectl --context={{.kube_context}} patch configmap {{.configmap}} -n vault \
+          --type merge -p "{\"data\":{\"extraconfig-from-values.hcl\":$(echo "$BASE_HCL" | jq -Rs .)}}"
+        echo "==> Step 2: deleting pod {{.pod_name}} to pick up new config..."
+        kubectl --context={{.kube_context}} delete pod {{.pod_name}} -n vault
+        echo "==> Waiting for pod to be Running..."
+        kubectl --context={{.kube_context}} wait pod/{{.pod_name}} -n vault \
+          --for=condition=Ready=false --timeout=60s 2>/dev/null || true
+        until kubectl --context={{.kube_context}} get pod {{.pod_name}} -n vault \
+          -o jsonpath='{.status.phase}' 2>/dev/null | grep -q Running; do sleep 2; done
+        sleep 3
+        echo ""
+        echo "==> Step 3: Vault is running with Shamir seal."
+        echo "    Run: vault operator unseal -tls-skip-verify -address={{.vault_addr}} <shamir_key>"
+        echo "    Then come back and run the migrate step."
+        echo ""
+        read -p "Press ENTER once Vault is unsealed to restore transit seal and migrate..."
+        echo "==> Step 4: restoring seal block in ConfigMap..."
+        FULL_HCL="${BASE_HCL}
+        seal \"transit\" {
+          address         = \"{{.seal_address}}\"
+          token           = \"\$TRANSIT_UNSEAL_TOKEN\"
+          key_name        = \"{{.seal_key_name}}\"
+          mount_path      = \"transit/\"
+          tls_skip_verify = \"true\"
+        }"
+        kubectl --context={{.kube_context}} patch configmap {{.configmap}} -n vault \
+          --type merge -p "{\"data\":{\"extraconfig-from-values.hcl\":$(echo "$FULL_HCL" | jq -Rs .)}}"
+        echo "==> Step 5: deleting pod to reload config with transit seal..."
+        kubectl --context={{.kube_context}} delete pod {{.pod_name}} -n vault
+        until kubectl --context={{.kube_context}} get pod {{.pod_name}} -n vault \
+          -o jsonpath='{.status.phase}' 2>/dev/null | grep -q Running; do sleep 2; done
+        sleep 3
+        echo ""
+        echo "==> Step 6: migrating from Shamir to Transit seal..."
+        vault operator unseal -migrate -tls-skip-verify -address={{.vault_addr}}
+        echo ""
+        echo "Done. Vault will auto-unseal via transit on next restart."
+    silent: true
+
   unseal-secret:genmachine:
     desc: 'Recreate vault-transit-token K8s secret on beelink from Vault KV (admin/unseal/beelink/vault)'
     vars:
