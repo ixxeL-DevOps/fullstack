@@ -1,0 +1,15 @@
+---
+renovate-operator:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: renovate-operator.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/service.scheme: https
+    host: homarr.talos-genmachine.fredcorp.com
+    tls:
+      - hosts:
+          - homarr.talos-genmachine.fredcorp.com
+        secretName: renovate-tls-cert
