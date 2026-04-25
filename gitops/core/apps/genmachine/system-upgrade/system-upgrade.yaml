@@ -5,7 +5,7 @@ metadata:
   name: system-upgrade
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -15,13 +15,13 @@ spec:
         directories:
           - path: 'gitops/manifests/system-upgrade/*'
             exclude: false
-          - path: 'gitops/manifests/system-upgrade/values'
+          - path: 'gitops/manifests/system-upgrade/common'
             exclude: true
   template:
     metadata:
       name: 'system-upgrade-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
       labels:
         app/system-upgrade: '{{ .path.basenameNormalized }}'
     spec:

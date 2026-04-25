@@ -15,13 +15,13 @@ spec:
     namespace: cert-manager
   project: infra-security
   sources:
-    - path: gitops/manifests/cert-manager/k0s
+    - path: gitops/manifests/cert-manager/beelink
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
       helm:
         valueFiles:
-          - $values/gitops/manifests/cert-manager/values/common-values.yaml
-          - $values/gitops/manifests/cert-manager/k0s/k0s-values.yaml
+          - $values/gitops/manifests/cert-manager/common/common-values.yaml
+          - $values/gitops/manifests/cert-manager/beelink/beelink-values.yaml
     - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
       ref: values
