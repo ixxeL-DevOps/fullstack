@@ -21,6 +21,16 @@
         ],
         "datasourceTemplate": "github-releases",
         "versioningTemplate": "semver"
+      },
+      {
+        "customType": "regex",
+        "description": "Process nested Helm values image blocks (image.<name>.repository + tag)",
+        "fileMatch": ["(^|/).*values.*\\.ya?ml$"],
+        "matchStrings": [
+          "repository:\\s*(?<depName>[^\\s]+)\\n\\s+tag:\\s*(?<currentValue>v?[\\d][^\\s]+)"
+        ],
+        "datasourceTemplate": "docker",
+        "versioningTemplate": "semver"
       }
     ]
   }
