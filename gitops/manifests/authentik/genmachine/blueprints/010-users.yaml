@@ -16,6 +16,6 @@ entries:
       is_active: true
       is_superuser: true
       path: users
-      password: !Env ${AUTHENTIK_IXXEL_PASSWORD}
+      password: !Env AUTHENTIK_IXXEL_PASSWORD
       groups:
         - !Find [authentik_core.group, [name, "authentik Admins"]]
