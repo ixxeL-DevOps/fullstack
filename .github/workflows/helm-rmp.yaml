@@ -177,9 +177,20 @@ jobs:
             fi
           done
 
+      - name: Check main manifests exist
+        id: check-main
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          if ls main/*_manifest_main.yaml 2>/dev/null | grep -q .; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "No main manifests found (new chart) — skipping dyff/diff"
+          fi
+
       - name: Generate dyff on release
         id: dyff-helm
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' && steps.check-main.outputs.exists == 'true'
         uses: ixxeL-DevOps/gha-templates/.github/actions/dyff@main
         with:
           source: main/*_manifest_main.yaml
@@ -188,14 +199,14 @@ jobs:
 
       - name: Generate diff on release
         id: diff-helm
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' && steps.check-main.outputs.exists == 'true'
         uses: ixxeL-DevOps/gha-templates/.github/actions/diff@main
         with:
           source: main/*_manifest_main.yaml
           target: pr/*_manifest_pr.yaml
 
       - name: Post diff as comment
-        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request'
+        if: steps.changed-files.outputs.any_changed == 'true' && steps.check-main.outputs.exists == 'true' && github.event_name == 'pull_request'
         run: |
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md --edit-last || \
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body-file diff.md
