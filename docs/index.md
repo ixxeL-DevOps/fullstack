@@ -2,15 +2,15 @@
 <p align="center"><img style="display: block; margin: auto; width: 400px;"  src="assets/k8s-home2.png"></p>
 </div>
 
-# 🚀 **My home-lab repository**
+# **My home-lab repository**
 
-**✨ Hosted with k0s & Talos**
+**Hosted with k0s & Talos**
 
-**✨ Managed by ArgoCD**
+**Managed by ArgoCD**
 
-**✨ Powered by Renovate and GitHub**'
+**Powered by Renovate and GitHub**
 
-**✨ Fueled by Cilium**
+**Fueled by Cilium**
 
 ---
 
@@ -21,7 +21,7 @@
 
 **TOOLING**
 
-![traefik](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Ftraefik%2Fk0s%2Fk0s-values.yaml&query=%24.traefik.image.tag&style=for-the-badge&logo=traefikproxy&logoColor=%239D0FB0&label=traefik&color=%239D0FB0)
+![traefik](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Ftraefik%2Fbeelink%2Fbeelink-values.yaml&query=%24.traefik.image.tag&style=for-the-badge&logo=traefikproxy&logoColor=%239D0FB0&label=traefik&color=%239D0FB0)
 ![adguard](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fadguard%2Fbeelink%2Fbeelink-values.yaml&query=%24.adguard-home.image.tag&style=for-the-badge&logo=adguard&label=AdGuard&color=%2366B574)
 ![authentik](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fauthentik%2Fbeelink%2Fapp%2Fbeelink-values.yaml&query=%24.authentik.global.image.tag&style=for-the-badge&logo=authentik&label=Authentik&color=%23FD4B2D)
 ![vault](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fvault%2Fbeelink%2Fbeelink-values.yaml&query=%24.vault.server.image.tag&style=for-the-badge&logo=vault&label=Vault&color=%23FFB81C)
@@ -56,3 +56,62 @@
 ---
 
 This project utilizes Infrastructure as Code and GitOps to automate provisioning, operating, and updating self-hosted services in my homelab.
+
+## Architecture Overview
+
+```mermaid
+graph TB
+    subgraph internet["Internet"]
+        user["User"]
+    end
+
+    subgraph home["Home Network (192.168.1.x)"]
+        router["Router"]
+        adguard["AdGuard Home\nDNS resolver"]
+    end
+
+    subgraph github["GitHub"]
+        repo["fullstack\nrepository"]
+        renovate["Renovate Bot\nautomated PRs"]
+        actions["GitHub Actions\nCI / helm-rmp"]
+    end
+
+    subgraph beelink["Beelink — k0s cluster"]
+        traefik_b["Traefik\nIngress"]
+        argocd_b["ArgoCD"]
+        authentik["Authentik\nIdP / SSO"]
+        vault_b["Vault\nbeelink"]
+        wireguard["WireGuard\nVPN"]
+    end
+
+    subgraph genmachine["Genmachine — Talos cluster"]
+        subgraph proxmox["Proxmox hypervisor"]
+            vm1["talos-1\n192.168.1.151"]
+            vm2["talos-2\n192.168.1.152"]
+            vm3["talos-3\n192.168.1.153"]
+        end
+        traefik_g["Traefik\nIngress"]
+        argocd_g["ArgoCD"]
+        vault_g["Vault\ngenmachine"]
+        prometheus["Prometheus\n+ Grafana"]
+        minio["MinIO\nobject storage"]
+    end
+
+    user -->|HTTPS| router
+    router -->|ingress| traefik_b
+    router -->|ingress| traefik_g
+    router -->|DNS| adguard
+
+    argocd_b -->|pull| repo
+    argocd_g -->|pull| repo
+    renovate -->|auto-PR| repo
+    actions -->|helm diff| repo
+
+    vault_b <-->|transit auto-unseal| vault_g
+
+    style beelink fill:#1a3a5c,stroke:#4d94ff,color:#fff
+    style genmachine fill:#1a3a1a,stroke:#4dff4d,color:#fff
+    style github fill:#2d1a3a,stroke:#9d4dff,color:#fff
+    style home fill:#3a2d1a,stroke:#ffb84d,color:#fff
+    style proxmox fill:#2a3a2a,stroke:#4dff4d,color:#fff
+```

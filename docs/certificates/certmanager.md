@@ -1,8 +1,43 @@
 # Cert-Manager
 
+## Overview
+
+`cert-manager` automates the full lifecycle of TLS certificates in the cluster. It integrates with HashiCorp Vault as the PKI backend, using Kubernetes ServiceAccount authentication.
+
+```mermaid
+graph TB
+    subgraph vault["HashiCorp Vault"]
+        root_pki["Root PKI\npki/"]
+        int_pki["Intermediate PKI\npki_int/"]
+        k8s_auth["Kubernetes Auth\n(cluster-k8s/)"]
+    end
+
+    subgraph cluster["Kubernetes Cluster"]
+        cm["cert-manager"]
+        issuer["ClusterIssuer\nfredcorp-ca"]
+        sa["ServiceAccount\ncertmanager-auth"]
+        cert["Certificate\nresource"]
+        secret["TLS Secret\n(cert + key)"]
+        bundle["trust-manager\nBundle"]
+        cm_map["CA chain\nConfigMap / Secret\n(all namespaces)"]
+    end
+
+    root_pki -->|signs| int_pki
+    int_pki -->|signs CSRs| issuer
+    k8s_auth -->|validates SA token| sa
+    sa -->|authenticates| k8s_auth
+    issuer -->|uses| cm
+    cert -->|requests via| cm
+    cm -->|CSR sign request\npki_int/sign/fredcorp.com| int_pki
+    cm -->|creates| secret
+    bundle -->|distributes CA chain| cm_map
+
+    style vault fill:#1a2a3a,stroke:#FFB81C,color:#FFB81C
+```
+
 ## Installation
 
-Cert-manager can be used to handle certificates lifecycle in your cluster. `cert-manager` and `trust-manager` should be installed to get a complete lifycle management.
+Cert-manager can be used to handle certificates lifecycle in your cluster. `cert-manager` and `trust-manager` should be installed to get a complete lifecycle management.
 
 ## Configuration
 

@@ -1,5 +1,39 @@
 # OIDC
 
+## Overview
+
+[Authentik](https://goauthentik.io/) acts as the central Identity Provider (IdP) for the homelab. It provides OIDC/OAuth2 SSO for all applications that support it.
+
+```mermaid
+sequenceDiagram
+    actor user as User
+    participant app as Application<br/>(Vault / Homarr / WireGuard)
+    participant authentik as Authentik IdP
+
+    user->>app: Access resource
+    app-->>user: Redirect to Authentik login
+    user->>authentik: Submit credentials + MFA
+    authentik-->>user: Authorization code (redirect back)
+    user->>app: Code callback
+    app->>authentik: Exchange code for tokens
+    authentik-->>app: ID token + Access token<br/>(claims: email, groups, is_admin…)
+    app-->>user: Session granted
+```
+
+Group-based authorization is enforced via claims injected by Authentik scope mappings:
+
+```mermaid
+graph LR
+    authentik["Authentik\nGroup membership"]
+    scope["Scope Mapping\nPython expression"]
+    claim["JWT claim\ngroups / is_admin"]
+    app["Application\nauthorization check"]
+
+    authentik -->|evaluated by| scope
+    scope -->|produces| claim
+    claim -->|consumed by| app
+```
+
 ## Vault
 
 Blueprint for Vault OIDC auth :

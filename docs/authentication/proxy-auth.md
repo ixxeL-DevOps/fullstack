@@ -1,5 +1,33 @@
 # Forward Auth
 
+## Overview
+
+Traefik uses the Authentik embedded outpost as a forward authentication provider. Every request to a protected application is checked against Authentik before being proxied upstream.
+
+```mermaid
+sequenceDiagram
+    actor user as User
+    participant traefik as Traefik
+    participant outpost as Authentik Outpost<br/>(ForwardAuth)
+    participant app as Protected App
+
+    user->>traefik: HTTPS request
+    traefik->>outpost: GET /outpost.goauthentik.io/auth/traefik
+    alt No valid session
+        outpost-->>traefik: 302 → Authentik login
+        traefik-->>user: Redirect to login page
+        user->>outpost: Authenticate (credentials + MFA)
+        outpost-->>user: Session cookie set
+        user->>traefik: Retry original request
+        traefik->>outpost: Auth check (session cookie present)
+    end
+    outpost-->>traefik: 200 + X-authentik-* headers
+    traefik->>app: Proxied request + headers<br/>(X-authentik-username, X-authentik-groups…)
+    app-->>user: Response
+```
+
+The `X-authentik-*` response headers expose identity information to the upstream application without it needing to implement OIDC itself.
+
 ## Reverse-Proxy setup : Traefik
 
 ### In-cluster setup
