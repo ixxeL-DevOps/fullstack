@@ -5,7 +5,7 @@ metadata:
   name: traefik
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -15,7 +15,7 @@ spec:
         directories:
           - path: 'gitops/manifests/traefik/*'
             exclude: false
-          - path: 'gitops/manifests/traefik/values'
+          - path: 'gitops/manifests/traefik/common'
             exclude: true
           - path: 'gitops/manifests/traefik/beelink'
             exclude: true
@@ -25,7 +25,7 @@ spec:
     metadata:
       name: 'traefik-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
       project: infra-network
       destination:
@@ -38,7 +38,7 @@ spec:
           helm:
             releaseName: traefik
             valueFiles:
-              - $values/gitops/manifests/traefik/values/common-values.yaml
+              - $values/gitops/manifests/traefik/common/common-values.yaml
               - $values/gitops/manifests/traefik/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
