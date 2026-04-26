@@ -1,0 +1,10 @@
+---
+fstrim:
+  schedule: "0 2 * * 0"
+  image:
+    repository: alpine
+    tag: "3.21"
+    pullPolicy: IfNotPresent
+  nodeCount: 3
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
