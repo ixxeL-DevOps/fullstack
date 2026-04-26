@@ -5,7 +5,7 @@ metadata:
   name: crossplane
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -15,7 +15,7 @@ spec:
         directories:
           - path: 'gitops/manifests/crossplane/*'
             exclude: false
-          - path: 'gitops/manifests/crossplane/values'
+          - path: 'gitops/manifests/crossplane/common'
             exclude: true
           - path: 'gitops/manifests/crossplane/beelink'
             exclude: true
@@ -23,7 +23,7 @@ spec:
     metadata:
       name: 'crossplane-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
       project: infra-monitoring
       destination:
@@ -36,7 +36,7 @@ spec:
           helm:
             releaseName: crossplane
             valueFiles:
-              - $values/gitops/manifests/crossplane/values/common-values.yaml
+              - $values/gitops/manifests/crossplane/common/common-values.yaml
               - $values/gitops/manifests/crossplane/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
