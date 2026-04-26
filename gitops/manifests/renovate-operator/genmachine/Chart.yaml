@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: renovate-operator
+version: 1.0.0
+dependencies:
+  - name: renovate-operator
+    # renovate: datasource=helm depName=renovate-operator registryUrl=https://helm.mogenius.com/public
+    version: 4.5.1
+    repository: https://helm.mogenius.com/public

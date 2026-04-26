@@ -1,0 +1,34 @@
+---
+renovate-operator:
+  replicaCount: 1
+
+  crd:
+    install: true
+    mode: template
+
+  image:
+    registry: ghcr.io
+    repository: mogenius/renovate-operator
+    pullPolicy: IfNotPresent
+
+  config:
+    defaultJobBackoffLimit: 1
+    defaultJobActiveDeadlineSeconds: 3600
+    deleteSuccessfulJobs: false
+    jobTTLSecondsAfterFinished: 86400
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+  logging:
+    level: info
+    format: json
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
