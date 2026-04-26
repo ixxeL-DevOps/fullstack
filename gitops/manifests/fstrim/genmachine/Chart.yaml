@@ -1,0 +1,5 @@
+---
+apiVersion: v2
+name: fstrim
+version: 1.0.0
+description: Weekly fstrim CronJob for SSD health on Talos nodes
