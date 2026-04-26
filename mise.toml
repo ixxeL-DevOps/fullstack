@@ -2,7 +2,7 @@
 [tools]
 
 # ── Python (managed by uv, packages declared in pyproject.toml) ─────────────
-python = "3.12"
+python = "3.14.4"
 uv = "latest"
 
 # ── Node (required for prettier) ─────────────────────────────────────────────
