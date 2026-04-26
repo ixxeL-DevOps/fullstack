@@ -117,8 +117,6 @@ graph TB
     ci -->|"diff preview"| repo
     argocd_b & argocd_g -->|"pull reconcile"| repo
 
-    vault_b <-->|"transit auto-unseal"| vault_g
-
     style github fill:#21262d,stroke:#6e40c9,color:#e6edf3
     style access fill:#161b22,stroke:#3fb950,color:#e6edf3
     style beelink fill:#0d2137,stroke:#4d94ff,color:#e6edf3
