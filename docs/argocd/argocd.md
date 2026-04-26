@@ -1,4 +1,4 @@
-# GitOps-core
+# GitOps with ArgoCD
 
 > [!CAUTION]
 > This structure is opinionated and results from multiple experiences using ArgoCD in enterprise-grade environments.
@@ -9,78 +9,118 @@ This Git repository serves as the central ArgoCD repository, containing the defi
 
 The installation of ArgoCD follows the [App of Apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern), a recommended best practice for managing GitOps deployments at scale.
 
-## Repository Structure
+## GitOps Reconciliation Loop
 
-Below is the directory structure of the `gitops` repository:
+```mermaid
+flowchart LR
+    dev["Developer\npush / PR"]
+    renovate["Renovate Bot\nautomated PRs"]
+    repo["GitHub\nrepository"]
+    ci["GitHub Actions\nhelm-rmp CI\n(diff preview)"]
+    argocd_b["ArgoCD\nbeelink"]
+    argocd_g["ArgoCD\ngenmachine"]
+    cluster_b["k0s cluster\nbeelink"]
+    cluster_g["Talos cluster\ngenmachine"]
+
+    dev -->|git push| repo
+    renovate -->|auto-PR| repo
+    repo -->|webhook / poll| ci
+    repo -->|poll main| argocd_b
+    repo -->|poll main| argocd_g
+    argocd_b -->|apply| cluster_b
+    argocd_g -->|apply| cluster_g
+```
+
+## App of Apps Pattern
+
+```mermaid
+graph TD
+    bootstrap["bootstrap/\nArgoCD install\n(Helm + kustomize)"]
+
+    bootstrap -->|creates| root_b["Root App\nbeelink"]
+    bootstrap -->|creates| root_g["Root App\ngenmachine"]
+
+    root_b -->|generates| appsets_b["ApplicationSets\nbeelink"]
+    root_g -->|generates| appsets_g["ApplicationSets\ngenmachine"]
+
+    appsets_b -->|creates| app1["cert-manager\nbeelink"]
+    appsets_b -->|creates| app2["traefik\nbeelink"]
+    appsets_b -->|creates| app3["vault\nbeelink"]
+    appsets_b -->|creates| appN["..."]
+
+    appsets_g -->|creates| app4["cilium\ngenmachine"]
+    appsets_g -->|creates| app5["prometheus\ngenmachine"]
+    appsets_g -->|creates| app6["vault\ngenmachine"]
+    appsets_g -->|creates| appM["..."]
+```
+
+## Repository Structure
 
 ```bash
 gitops
 ├── bootstrap
-│   └── kustomization.yaml
+│   ├── beelink
+│   │   └── beelink-values.yaml   # ArgoCD Helm values for beelink
+│   └── genmachine
+│       └── genmachine-values.yaml
 ├── core
-│   ├── appProjects
+│   ├── appProjects               # RBAC project definitions
 │   ├── apps
-│   └── repos
-├── local-storage
-│   ├── adguard-data
-│   ├── headscale-data
-│   └── vault-data
+│   │   ├── beelink               # ApplicationSets for k0s cluster
+│   │   └── genmachine            # ApplicationSets for Talos cluster
+│   ├── clusters                  # Cluster secret references
+│   └── repos                    # Repository credentials
 └── manifests
-    ├── adguard
-    ├── authentik
-    ├── crowdsec
-    ├── external-secrets
-    ├── headscale
-    ├── homarr
-    ├── local-path-provisioner
-    ├── metallb
+    ├── cert-manager
+    ├── cilium
     ├── traefik
     ├── vault
-    └── wireguard
+    └── ...                       # 30+ applications
 ```
 
-### Directory Breakdown
+## Multi-Environment Helm Structure
 
-- **`bootstrap/`**: Contains the ArgoCD installation manifests, which can be managed via `kustomization.yaml` or Helm charts.
-- **`core/`**: Includes core ArgoCD resources such as `Application`, `ApplicationSet`, and `AppProject` definitions.
-- **`local-storage/`** (optional): Used for applications requiring persistent storage, mapped via a local-path provisioner.
-- **`manifests/`**: Stores Kubernetes manifests and Helm configurations for different cluster services and applications.
-
-## Multi-Environment Setup
-
-For a structured multi-environment approach, the `manifests` directory is organized as follows:
+Each application directory follows a consistent layout that separates shared configuration from cluster-specific overrides:
 
 ```bash
 gitops/manifests/
-├── metallb
-│   ├── k0s
+├── cert-manager
+│   ├── common                    # shared across all clusters
+│   │   └── common-values.yaml
+│   ├── beelink                   # k0s cluster overrides
 │   │   ├── Chart.yaml
-│   │   ├── k0s-values.yaml
+│   │   ├── beelink-values.yaml
 │   │   └── templates
-│   ├── talos
-│   │   ├── Chart.yaml
-│   │   ├── talos-values.yaml
-│   │   └── templates
-│   └── values
-│       └── common-values.yaml
+│   └── genmachine                # Talos cluster overrides
+│       ├── Chart.yaml
+│       ├── genmachine-values.yaml
+│       └── templates
 └── traefik
-    ├── k0s
-    │   ├── Chart.yaml
-    │   ├── k0s-values.yaml
-    │   └── templates
-    ├── talos
-    │   ├── Chart.yaml
-    │   ├── talos-values.yaml
-    │   └── templates
-    └── values
-        └── common-values.yaml
+    ├── common
+    │   └── common-values.yaml
+    ├── beelink
+    │   └── ...
+    └── genmachine
+        └── ...
 ```
 
-Each application directory contains subdirectories for different environments (`k0s`, `talos`), allowing environment-specific Helm values while maintaining shared configurations in `common-values.yaml`.
+```mermaid
+graph LR
+    subgraph values["Helm value hierarchy (lowest → highest priority)"]
+        common["common/\ncommon-values.yaml\nshared defaults"]
+        env["beelink/ or genmachine/\nenv-values.yaml\ncluster overrides"]
+    end
+
+    common -->|merged into| render["helm template\nfinal manifest"]
+    env -->|merged into| render
+
+    appset["ApplicationSet\ngit directory generator"] -->|discovers| env
+    appset -->|excludes| common
+```
 
 ## ApplicationSet Usage
 
-To efficiently deploy applications while supporting multiple environments, `ApplicationSet` is utilized:
+`ApplicationSet` discovers cluster-specific directories automatically, then overlays the common values file on top.
 
 ```yaml
 ---
@@ -90,7 +130,7 @@ metadata:
   name: cert-manager
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -100,13 +140,13 @@ spec:
         directories:
           - path: "gitops/manifests/cert-manager/*"
             exclude: false
-          - path: "gitops/manifests/cert-manager/values/*"
+          - path: "gitops/manifests/cert-manager/common"
             exclude: true
   template:
     metadata:
       name: "cert-manager-{{ .path.basenameNormalized }}"
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
       project: infra-security
       destination:
@@ -118,8 +158,9 @@ spec:
           targetRevision: main
           helm:
             valueFiles:
-              - $values/gitops/manifests/cert-manager/values/common-values.yaml
+              - $values/gitops/manifests/cert-manager/common/common-values.yaml
               - $values/gitops/manifests/cert-manager/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+            ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           ref: values
@@ -137,13 +178,11 @@ spec:
           - ServerSideApply=true
 ```
 
-The ApplicationSet is annotated following [ArgoCD optimization recommendations](https://argo-cd.readthedocs.io/en/stable/operator-manual/high_availability/#manifest-paths-annotation).
+The `manifest-generate-paths` annotation (`.;../common`) ensures that ArgoCD refreshes the application when either the cluster-specific directory **or** the shared `common/` directory changes, following [ArgoCD optimization recommendations](https://argo-cd.readthedocs.io/en/stable/operator-manual/high_availability/#manifest-paths-annotation).
 
 ### Key Features
 
-- **Multi-environment support**: Uses directory-based environment segregation.
-- **Hierarchical Helm values**: Supports multiple value files (`common-values.yaml` and environment-specific values).
-- **Automated synchronization**: Ensures ArgoCD keeps applications up-to-date and reconciled with Git.
-- **Flexible exclusions**: Allows selective inclusion of manifests while ignoring specific files if necessary.
-
-By leveraging `ApplicationSet`, managing deployments across multiple clusters and environments becomes more scalable and maintainable.
+- **Multi-cluster support**: The git directory generator discovers `beelink/` and `genmachine/` subdirectories and deploys to the matching cluster destination.
+- **Hierarchical Helm values**: `common-values.yaml` provides shared defaults; cluster-specific files override them.
+- **Automated synchronization**: Prune + self-heal keeps clusters reconciled with Git at all times.
+- **Selective exclusions**: The `common/` directory is excluded from the generator so it is never deployed as a standalone application.

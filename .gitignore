@@ -26,6 +26,11 @@ k3d-home/k3d.yaml
 
 node_modules
 .devbox
+.mise-local.toml
+
+# uv / Python — .venv is excluded, uv.lock is committed intentionally
+__pycache__/
+*.pyc
 
 # database
 *.sqlite

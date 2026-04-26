@@ -1,8 +1,35 @@
 # ExternalSecrets
 
-## Installation
+## Overview
 
-ExternalSecret make GitOps secured by using
+ExternalSecrets Operator (ESO) bridges Kubernetes and HashiCorp Vault, allowing applications to consume secrets as native Kubernetes `Secret` objects while the source of truth stays in Vault.
+
+```mermaid
+graph LR
+    subgraph vault["HashiCorp Vault"]
+        kv["KV Engine v2\nadmin/"]
+        k8s_auth["Kubernetes Auth\n(cluster-k8s/)"]
+    end
+
+    subgraph cluster["Kubernetes Cluster"]
+        sa["ServiceAccount\neso-auth"]
+        css["ClusterSecretStore\nadmin"]
+        es["ExternalSecret"]
+        secret["K8s Secret"]
+        app["Application\n(env / volume)"]
+    end
+
+    sa -->|JWT token| k8s_auth
+    k8s_auth -->|validates| sa
+    css -->|authenticates via| k8s_auth
+    es -->|references| css
+    css -->|reads from| kv
+    css -->|creates| secret
+    es -->|triggers sync| css
+    app -->|mounts| secret
+
+    style vault fill:#1a2a3a,stroke:#FFB81C,color:#FFB81C
+```
 
 ## Configuration
 

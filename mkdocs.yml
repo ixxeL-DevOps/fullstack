@@ -65,7 +65,11 @@ markdown_extensions:
   - pymdownx.blocks.caption
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: true
   - pymdownx.tabbed:
@@ -104,6 +108,7 @@ nav:
           - Proxmox-CSI: storage/csi-promox.md
       - Secrets:
           - ESO: secrets/externalsecrets.md
+          - Vault: secrets/vault.md
       - VPN:
           - Cluster config: VPN/wireguard.md
       - Encryption:

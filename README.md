@@ -1,52 +1,36 @@
 <div align="center">
-<p align="center"><img style="display: block; margin: auto; width: 220px;"  src="docs/assets/k8s-home2.png"></p>
+<img src="docs/assets/k8s-home2.png" width="180px" />
 
-<!-- markdownlint-disable no-trailing-punctuation -->
+# ixxeL-DevOps HomeLab
 
-### My home-lab repository :rocket:
-
-✨*managed with k0s/Talos, ArgoCD, Renovate and GitHub*✨
+_Infrastructure as Code · GitOps · Self-hosted · Fully automated_
 
 </div>
 
 <div align="center">
 
----
-
-**INFRASTRUCTURE K0S**
+**BEELINK — k0s**
 
 ![K0sVersion](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Finfra%2Fk0s%2Ffullstack.yaml&query=%24.spec.k0s.version&style=for-the-badge&logo=kubernetes&logoColor=%23326CE5&label=k0s&color=%23326CE5)
 ![ArgoCD](https://img.shields.io/badge/argocd-v2.14.8-version?style=for-the-badge&logo=argo&logoColor=%23F76B39&color=%23F76B39)
-
-**TOOLING**
-
-![traefik](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Ftraefik%2Fk0s%2Fk0s-values.yaml&query=%24.traefik.image.tag&style=for-the-badge&logo=traefikproxy&logoColor=%239D0FB0&label=traefik&color=%239D0FB0)
-![adguard](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fadguard%2Fbeelink%2Fbeelink-values.yaml&query=%24.adguard-home.image.tag&style=for-the-badge&logo=adguard&label=AdGuard&color=%2366B574)
-![authentik](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fauthentik%2Fbeelink%2Fapp%2Fbeelink-values.yaml&query=%24.authentik.global.image.tag&style=for-the-badge&logo=authentik&label=Authentik&color=%23FD4B2D)
+![traefik](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Ftraefik%2Fbeelink%2Fbeelink-values.yaml&query=%24.traefik.image.tag&style=for-the-badge&logo=traefikproxy&logoColor=%239D0FB0&label=traefik&color=%239D0FB0)
 ![vault](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fvault%2Fbeelink%2Fbeelink-values.yaml&query=%24.vault.server.image.tag&style=for-the-badge&logo=vault&label=Vault&color=%23FFB81C)
+![authentik](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fauthentik%2Fbeelink%2Fapp%2Fbeelink-values.yaml&query=%24.authentik.global.image.tag&style=for-the-badge&logo=authentik&label=Authentik&color=%23FD4B2D)
 ![wireguard](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fwireguard%2Fbeelink%2Fbeelink-values.yaml&query=%24.wg-portal.image.tag&style=for-the-badge&logo=wireguard&logoColor=%23841618&label=wireguard&color=%23841618)
+![adguard](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fadguard%2Fbeelink%2Fbeelink-values.yaml&query=%24.adguard-home.image.tag&style=for-the-badge&logo=adguard&label=AdGuard&color=%2366B574)
 ![homarr](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fhomarr%2Fbeelink%2Fbeelink-values.yaml&query=%24.homarr.image.tag&style=for-the-badge&logo=homarr&label=homarr&color=%23F44336)
 
-</div>
-
-<div align="center">
-
----
-
-**INFRASTRUCTURE TALOS**
+**GENMACHINE — Talos**
 
 ![TalosVersion](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Finfra%2Ftalos%2Fgenmachine%2Fbootstrap%2Ftalconfig.yaml&query=%24.talosVersion&style=for-the-badge&logo=talos&label=Talos&color=%23FF4400)
 ![k8s](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Finfra%2Ftalos%2Fgenmachine%2Fbootstrap%2Ftalconfig.yaml&query=%24.kubernetesVersion&style=for-the-badge&logo=kubernetes&label=K8s&color=%23326CE5)
 ![Cilium](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fcilium%2Fgenmachine%2Fgenmachine-values.yaml&query=%24.cilium.image.tag&style=for-the-badge&logo=cilium&label=Cilium&color=%23E9B824)
-
-**TOOLING**
-
 ![Argocd](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fbootstrap%2Fgenmachine%2Fgenmachine-values.yaml&query=%24.argo-cd.global.image.tag&style=for-the-badge&logo=argo&label=Argocd&color=%23EF5A29)
 ![traefik](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Ftraefik%2Fgenmachine%2Fgenmachine-values.yaml&query=%24.traefik.image.tag&style=for-the-badge&logo=traefikproxy&logoColor=%239D0FB0&label=traefik&color=%239D0FB0)
+![vault](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fvault%2Fgenmachine%2Fgenmachine-values.yaml&query=%24.vault.server.image.tag&style=for-the-badge&logo=vault&label=Vault&color=%23FFB81C)
 ![prometheus](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fprometheus%2Fgenmachine%2Fgenmachine-values.yaml&query=%24.kube-prometheus-stack.prometheus.prometheusSpec.image.tag&style=for-the-badge&logo=prometheus&label=prometheus&color=%23E6522C)
 ![grafana](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fprometheus%2Fgenmachine%2Fgenmachine-values.yaml&query=%24.kube-prometheus-stack.grafana.image.tag&style=for-the-badge&logo=grafana&label=grafana&color=%23F46800)
 ![minio](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fminio%2Fgenmachine%2Fgenmachine-values.yaml&query=%24.minio.image.tag&style=for-the-badge&logo=minio&logoColor=e0e0e0&label=minio&color=e0e0e0)
-![adguard](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FixxeL-DevOps%2Ffullstack%2Frefs%2Fheads%2Fmain%2Fgitops%2Fmanifests%2Fadguard%2Fgenmachine%2Fgenmachine-values.yaml&query=%24.adguard-home.image.tag&style=for-the-badge&logo=adguard&label=AdGuard&color=%2366B574)
 
 </div>
 
@@ -60,36 +44,98 @@
 
 ---
 
-# Overview
+## Overview
 
-This is my mono repo for my home infrastructure. It's based loosely on the ideas from [szinn/k8s-homelab](https://github.com/szinn/k8s-homelab) as well as various templates and resources from GitHub and Reddit.
+This repository is the single source of truth for a homelab running on two Kubernetes clusters, following **GitOps** and **Infrastructure as Code** principles. Every component — cluster bootstrap, application configuration, secret management, and certificate lifecycle — is declared as code and reconciled automatically.
 
-It follows the concept of **Infrastructure as Code** and [**GitOps**](https://opengitops.dev/), leveraging tools such as ArgoCD, Renovate, and go-task to create an easily bootstrappable and manageable home lab environment, with a strong focus on automation for Day 1/Day 2 operations.
+The infrastructure evolved from a Raspberry Pi running Docker Compose into a production-grade Kubernetes platform. The two clusters are complementary: **Beelink** (k0s, bare metal) hosts the security and access infrastructure, while **Genmachine** (Talos Linux, Proxmox VMs) runs production workloads and the observability stack.
 
-The motivation behind setting up this home lab was to refactor my original environment, which was primarily based on a Raspberry Pi 4 running Docker Compose. While this setup worked, it lacked scalability, automation, and was not GitOps-friendly. To address these limitations, I decided to migrate to a fully Kubernetes-based infrastructure, leveraging its rich and advanced ecosystem. This transition allows for better workload orchestration, improved automation through GitOps practices, and seamless integration with cloud-native tools, making the entire environment more maintainable, resilient, and future-proof.
+## Architecture
 
-The entire infrastructure is fully virtualized on **Proxmox**, where each server runs as a virtual machine within the Proxmox cluster. This setup provides flexibility, isolation, and ease of management while allowing efficient resource allocation.
+```mermaid
+graph TB
+    subgraph GH["GitHub"]
+        repo[("fullstack\nrepository")]
+        renovate["🤖 Renovate\nauto-update PRs"]
+        ci["⚙️ GitHub Actions\nhelm diff · kubeconform"]
+    end
 
-![Schéma Excalidraw](./docs/assets/extract.platform.excalidraw.svg)
+    subgraph NET["Home Network"]
+        user(["👤 User"])
+        adguard["🛡️ AdGuard\nDNS · *.fredcorp.com"]
+        vpn["🔒 WireGuard VPN"]
+    end
 
-My homelab is built on a self-hosted Kubernetes platform, fully automated and managed using a suite of DevOps tools. GitHub serves as the central repository for code and configurations, with GitHub Actions ensuring reliable and reproducible deployments. Repetitive tasks are orchestrated using Taskfile, while Helm facilitates modular application deployment and management. Renovate automates dependency updates, keeping the infrastructure up to date with minimal manual intervention. This ecosystem enables me to efficiently manage my platform while experimenting with modern infrastructure-as-code and automation practices.
+    subgraph BK["🖥️ Beelink — k0s (bare metal)"]
+        traefik_b["Traefik\nIngress + TLS"]
+        authentik["Authentik\nSSO · IdP · ForwardAuth"]
+        vault_b["Vault\nPKI · KV"]
+        eso_b["ExternalSecrets"]
+        certmgr_b["cert-manager"]
+        argocd_b["ArgoCD"]
+    end
 
-![Schéma Excalidraw](./docs/assets/extract.capabilities.excalidraw.svg)
+    subgraph GM["🖥️ Genmachine — Talos (3× VM on Proxmox)"]
+        traefik_g["Traefik\nIngress + TLS"]
+        vault_g["Vault\nPKI · KV"]
+        eso_g["ExternalSecrets"]
+        certmgr_g["cert-manager"]
+        argocd_g["ArgoCD"]
+        prometheus["Prometheus · Grafana\nLoki"]
+        minio["MinIO\nS3 object store"]
+    end
 
-# Kubernetes
+    user -- "DNS" --> adguard
+    user -- "VPN" --> vpn
+    adguard -- "ingress" --> traefik_b & traefik_g
+    traefik_b -- "ForwardAuth" --> authentik
 
-To experiment with different Kubernetes distributions, I use a mix of **k0s** and **Talos**. Each of these distributions offers unique advantages and match different requirements of my environment.
+    renovate -- "auto-PR" --> repo
+    ci -- "diff preview" --> repo
+    argocd_b & argocd_g -- "pull · reconcile" --> repo
 
-- A cluster running k0s, intended for a lab environment running on the BeeLink hardware
-- Another cluster running Talos, used for a production environment running on the GenMachine hardware.
+    vault_b -- "PKI signs" --> certmgr_b
+    vault_g -- "PKI signs" --> certmgr_g
+    vault_b -- "KV secrets" --> eso_b
+    vault_g -- "KV secrets" --> eso_g
+```
 
-The choice of k0s for the lab cluster is due to its suitability for hardware with limited resources. In this case, k0s has been configured with a minimal setup and a low footprint.
-On the other hand, Talos is used for the production cluster, allowing me to take advantage of advanced features and capabilities.
+## GitOps Flow
 
-# GitOps
+```mermaid
+flowchart LR
+    dev(["💻 Developer\ngit push"])
+    bot(["🤖 Renovate\nauto-PR"])
+    repo(["📦 GitHub\nrepository"])
+    ci["⚙️ CI\nhelm-rmp diff"]
+    argocd["🔄 ArgoCD\nbeelink + genmachine"]
+    clusters["☸️ Clusters\nbeelink · genmachine"]
 
-ArgoCD watches both clusters, leveraging `ApplicationSet` CRDs to centralize management in the main cluster.
+    dev -->|push / PR| repo
+    bot -->|dependency PR| repo
+    repo -->|triggers| ci
+    repo -->|poll main| argocd
+    argocd -->|apply manifests| clusters
+    ci -->|posts diff comment| repo
+```
 
-Renovate monitors my entire repository for dependency updates. When updates are found, a PR is automatically created and sometimes merged automatically. Once PRs are merged, ArgoCD applies the changes to my clusters.
+## Stack
 
-The security aspect of GitOps is managed using **HC Vault** as a secret manager and **External Secrets** for synchronization to prevent pushing sensitive information into Git.
+| Layer | Tool | Role |
+|---|---|---|
+| Cluster | Talos Linux + k0s | Immutable OS (Genmachine) · lightweight K8s (Beelink) |
+| GitOps | ArgoCD + Renovate | Continuous reconciliation · automated dependency updates |
+| Networking | Cilium + Traefik | eBPF CNI · L2 LB announcements · TLS ingress |
+| DNS | AdGuard Home | Local resolver · `*.fredcorp.com` split-horizon |
+| PKI / Secrets | HashiCorp Vault | CA · KV secrets · SOPS transit encryption |
+| Certificates | cert-manager + trust-manager | Automated TLS lifecycle from Vault PKI |
+| Secret sync | ExternalSecrets | Vault → Kubernetes Secret synchronisation |
+| Auth | Authentik | SSO IdP · OIDC provider · ForwardAuth outpost |
+| VPN | WireGuard Portal | Self-hosted VPN management |
+| Observability | Prometheus · Grafana · Loki | Metrics · dashboards · logs |
+| Storage | MinIO · Proxmox CSI | S3 object store · block volumes |
+| Encryption | SOPS | Secrets encrypted at rest in Git |
+
+## Documentation
+
+Full documentation is available at the [project docs site](https://ixxel-devops.github.io/fullstack).
