@@ -59,3 +59,12 @@ cilium:
   rollOutCiliumPods: true
 
   localRedirectPolicy: true
+
+  bpf:
+    preallocateMaps: true
+
+  bandwidthManager:
+    enabled: true
+    bbr: true
+
+  enableIPv4BIGTCP: false
