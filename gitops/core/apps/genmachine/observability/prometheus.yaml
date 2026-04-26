@@ -5,7 +5,7 @@ metadata:
   name: prometheus
   namespace: argocd
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: .;../values
+    argocd.argoproj.io/manifest-generate-paths: .;../common
 spec:
   goTemplate: true
   generators:
@@ -15,7 +15,7 @@ spec:
         directories:
           - path: 'gitops/manifests/prometheus/*'
             exclude: false
-          - path: 'gitops/manifests/prometheus/values'
+          - path: 'gitops/manifests/prometheus/common'
             exclude: true
           - path: 'gitops/manifests/prometheus/beelink'
             exclude: true
@@ -27,7 +27,7 @@ spec:
     metadata:
       name: 'prometheus-{{ .path.basenameNormalized }}'
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: .;../values
+        argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
       project: infra-monitoring
       destination:
@@ -40,7 +40,7 @@ spec:
           helm:
             releaseName: prometheus
             valueFiles:
-              - $values/gitops/manifests/prometheus/values/common-values.yaml
+              - $values/gitops/manifests/prometheus/common/common-values.yaml
               - $values/gitops/manifests/prometheus/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
             ignoreMissingValueFiles: true
         - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
