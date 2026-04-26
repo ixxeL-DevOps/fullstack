@@ -66,5 +66,3 @@ cilium:
   bandwidthManager:
     enabled: true
     bbr: true
-
-  enableIPv4BIGTCP: true
