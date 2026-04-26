@@ -30,10 +30,10 @@ gitops/manifests/{app}/
 ```yaml
 ---
 apiVersion: v2
-name: {app}
+name: { app }
 version: 1.0.0
-dependencies:             # Only present if wrapping an upstream chart
-  - name: {upstream}
+dependencies: # Only present if wrapping an upstream chart
+  - name: { upstream }
     # renovate: datasource=helm depName={upstream} registryUrl={url}
     version: 1.2.3
     repository: https://...
@@ -47,9 +47,10 @@ dependencies:             # Only present if wrapping an upstream chart
 ### Release Name
 
 Helm release name always matches the app directory name:
+
 ```yaml
 helm:
-  releaseName: {app}
+  releaseName: { app }
 ```
 
 ---
@@ -61,7 +62,7 @@ helm:
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: {app}
+  name: { app }
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: .;../common
@@ -69,33 +70,33 @@ spec:
   goTemplate: true
   generators:
     - git:
-        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        repoURL: "https://github.com/ixxeL-DevOps/fullstack.git"
         revision: main
         directories:
-          - path: 'gitops/manifests/{app}/*'
+          - path: "gitops/manifests/{app}/*"
             exclude: false
-          - path: 'gitops/manifests/{app}/common'
+          - path: "gitops/manifests/{app}/common"
             exclude: true
-          - path: 'gitops/manifests/{app}/beelink'  # only if beelink dir exists
+          - path: "gitops/manifests/{app}/beelink" # only if beelink dir exists
             exclude: true
-          - path: 'gitops/manifests/{app}/k0s'       # legacy — exclude if present
+          - path: "gitops/manifests/{app}/k0s" # legacy — exclude if present
             exclude: true
   template:
     metadata:
-      name: '{app}-{{ .path.basenameNormalized }}'
+      name: "{app}-{{ .path.basenameNormalized }}"
       annotations:
         argocd.argoproj.io/manifest-generate-paths: .;../common
     spec:
-      project: {project}
+      project: { project }
       destination:
-        name: '{{ .path.basenameNormalized }}'
-        namespace: {namespace}
+        name: "{{ .path.basenameNormalized }}"
+        namespace: { namespace }
       sources:
-        - path: 'gitops/manifests/{app}/{{ .path.basenameNormalized }}'
+        - path: "gitops/manifests/{app}/{{ .path.basenameNormalized }}"
           repoURL: https://github.com/ixxeL-DevOps/fullstack.git
           targetRevision: main
           helm:
-            releaseName: {app}
+            releaseName: { app }
             valueFiles:
               - $values/gitops/manifests/{app}/common/common-values.yaml
               - $values/gitops/manifests/{app}/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
@@ -124,6 +125,7 @@ spec:
 ```
 
 **Important**:
+
 - `manifest-generate-paths: .;../common` appears **twice**: on the ApplicationSet metadata AND the template metadata
 - If the app requires namespace labels (e.g., for CA injection), add `managedNamespaceMetadata.labels`
 - AppProject must be chosen from the existing list — never create a new project without discussion
@@ -203,6 +205,7 @@ ingress:
 ```
 
 Cluster domains:
+
 - Beelink: `k0s-fullstack.fredcorp.com`
 - Genmachine: `talos-genmachine.fredcorp.com`
 
@@ -296,13 +299,13 @@ managedNamespaceMetadata:
 
 ## Naming Summary
 
-| Resource | Pattern |
-|---|---|
-| ApplicationSet name | `{app}` |
-| Application name | `{app}-{cluster}` |
-| Helm release | `{app}` |
-| ArgoCD app (generated) | `{app}-{cluster}` |
-| Vault path | `{app}/{secret-type}/{cluster}` |
-| K8s Secret (from ESO) | `{app}-{secret-type}` |
-| TLS Secret | `{app}-tls-cert` |
-| Ingress hostname | `{app}.{cluster-domain}.fredcorp.com` |
+| Resource               | Pattern                               |
+| ---------------------- | ------------------------------------- |
+| ApplicationSet name    | `{app}`                               |
+| Application name       | `{app}-{cluster}`                     |
+| Helm release           | `{app}`                               |
+| ArgoCD app (generated) | `{app}-{cluster}`                     |
+| Vault path             | `{app}/{secret-type}/{cluster}`       |
+| K8s Secret (from ESO)  | `{app}-{secret-type}`                 |
+| TLS Secret             | `{app}-tls-cert`                      |
+| Ingress hostname       | `{app}.{cluster-domain}.fredcorp.com` |

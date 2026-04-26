@@ -9,26 +9,26 @@ categories: ["Reference[100%]"]
 
 ## Glossary
 
-| Term | Definition |
-|---|---|
-| **genmachine** | The Talos-based 3-node Kubernetes cluster running on Proxmox VMs |
-| **beelink** | The k0s-based single-node Kubernetes cluster on bare-metal BeeLink hardware |
-| **talconfig.yaml** | Talhelper input file that generates per-node Talos machineconfigs |
-| **talhelper** | CLI tool that renders `talconfig.yaml` into Talos machineconfig YAML |
-| **ApplicationSet** | ArgoCD resource that generates multiple Applications from a template + generator |
-| **Application** | ArgoCD resource defining a single app's source, destination, and sync policy |
-| **AppProject** | ArgoCD resource scoping allowed sources, destinations, and cluster resources |
-| **common/** | Directory holding Helm values shared across all clusters for an app |
-| **ExternalSecret** | ESO CRD that pulls a secret from Vault and creates a Kubernetes Secret |
-| **ClusterSecretStore** | ESO CRD defining how to connect to Vault; always named `admin` |
-| **SOPS** | Secrets Operations tooling; files ending in `.sops.yaml` are Age-encrypted |
-| **Age** | Asymmetric encryption algorithm used by SOPS for secret files |
-| **Capsule** | A structured documentation unit with Invariant, Example, Depth sections |
-| **Renovate** | Bot that opens PRs to update versions; driven by inline `# renovate:` comments |
-| **tuppr** | Talos/k8s upgrade controller replacing system-upgrade-controller |
-| **wg-portal** | WireGuard Portal — web UI for managing WireGuard VPN users and peers |
-| **Authentik** | Self-hosted OIDC identity provider; source of OIDC tokens for all apps |
-| **fredcorp.com** | Internal domain; all services live under `*.{cluster-domain}.fredcorp.com` |
+| Term                   | Definition                                                                       |
+| ---------------------- | -------------------------------------------------------------------------------- |
+| **genmachine**         | The Talos-based 3-node Kubernetes cluster running on Proxmox VMs                 |
+| **beelink**            | The k0s-based single-node Kubernetes cluster on bare-metal BeeLink hardware      |
+| **talconfig.yaml**     | Talhelper input file that generates per-node Talos machineconfigs                |
+| **talhelper**          | CLI tool that renders `talconfig.yaml` into Talos machineconfig YAML             |
+| **ApplicationSet**     | ArgoCD resource that generates multiple Applications from a template + generator |
+| **Application**        | ArgoCD resource defining a single app's source, destination, and sync policy     |
+| **AppProject**         | ArgoCD resource scoping allowed sources, destinations, and cluster resources     |
+| **common/**            | Directory holding Helm values shared across all clusters for an app              |
+| **ExternalSecret**     | ESO CRD that pulls a secret from Vault and creates a Kubernetes Secret           |
+| **ClusterSecretStore** | ESO CRD defining how to connect to Vault; always named `admin`                   |
+| **SOPS**               | Secrets Operations tooling; files ending in `.sops.yaml` are Age-encrypted       |
+| **Age**                | Asymmetric encryption algorithm used by SOPS for secret files                    |
+| **Capsule**            | A structured documentation unit with Invariant, Example, Depth sections          |
+| **Renovate**           | Bot that opens PRs to update versions; driven by inline `# renovate:` comments   |
+| **tuppr**              | Talos/k8s upgrade controller replacing system-upgrade-controller                 |
+| **wg-portal**          | WireGuard Portal — web UI for managing WireGuard VPN users and peers             |
+| **Authentik**          | Self-hosted OIDC identity provider; source of OIDC tokens for all apps           |
+| **fredcorp.com**       | Internal domain; all services live under `*.{cluster-domain}.fredcorp.com`       |
 
 ---
 
@@ -51,13 +51,13 @@ These are facts that must not be violated when making changes:
 
 ### Clusters
 
-| Identifier | Beelink | Genmachine |
-|---|---|---|
-| ArgoCD cluster name | `beelink` | `genmachine` |
-| Directory name | `beelink/` | `genmachine/` |
-| Values file | `beelink-values.yaml` | `genmachine-values.yaml` |
-| DNS subdomain | `k0s-fullstack.fredcorp.com` | `talos-genmachine.fredcorp.com` |
-| Vault k8s auth mount | `beelink-k8s` | `genmachine` |
+| Identifier           | Beelink                      | Genmachine                      |
+| -------------------- | ---------------------------- | ------------------------------- |
+| ArgoCD cluster name  | `beelink`                    | `genmachine`                    |
+| Directory name       | `beelink/`                   | `genmachine/`                   |
+| Values file          | `beelink-values.yaml`        | `genmachine-values.yaml`        |
+| DNS subdomain        | `k0s-fullstack.fredcorp.com` | `talos-genmachine.fredcorp.com` |
+| Vault k8s auth mount | `beelink-k8s`                | `genmachine`                    |
 
 ### Applications
 
@@ -136,12 +136,12 @@ Repeat (rolling)
 
 ## AppProject Assignment Rules
 
-| App type | Project |
-|---|---|
-| CNI, DNS, core k8s | `infra-core` |
-| Ingress, LB, VPN, DNS UI | `infra-network` |
-| Secrets, PKI, OIDC, policy | `infra-security` |
-| CSI drivers, object store, backup | `infra-storage` |
-| Dashboards, runners, operators, fstrim | `infra-tools` |
-| Prometheus, Grafana, Loki, metrics | `monitoring` |
-| ArgoCD bootstrap | `argocd` |
+| App type                               | Project          |
+| -------------------------------------- | ---------------- |
+| CNI, DNS, core k8s                     | `infra-core`     |
+| Ingress, LB, VPN, DNS UI               | `infra-network`  |
+| Secrets, PKI, OIDC, policy             | `infra-security` |
+| CSI drivers, object store, backup      | `infra-storage`  |
+| Dashboards, runners, operators, fstrim | `infra-tools`    |
+| Prometheus, Grafana, Loki, metrics     | `monitoring`     |
+| ArgoCD bootstrap                       | `argocd`         |

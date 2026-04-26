@@ -25,21 +25,21 @@ uv sync
 
 ## Core Tools
 
-| Tool | Purpose | Install |
-|---|---|---|
-| `kubectl` | Kubernetes CLI | mise |
-| `talosctl` | Talos OS management | mise |
-| `helm` | Kubernetes package manager | mise |
-| `task` | Taskfile runner | mise |
-| `argocd` | ArgoCD CLI | mise |
-| `vault` | HashiCorp Vault CLI | mise |
-| `sops` | Secret file encryption | mise |
-| `age` | Age encryption (used by SOPS) | mise |
-| `talhelper` | Talos machineconfig generator | mise |
-| `helmfile` | Declarative Helm deployment | mise |
-| `kustomize` | Kubernetes manifest overlays | mise |
-| `cilium` | Cilium CLI | mise |
-| `mkdocs` | Documentation site generator | uv (Python) |
+| Tool        | Purpose                       | Install     |
+| ----------- | ----------------------------- | ----------- |
+| `kubectl`   | Kubernetes CLI                | mise        |
+| `talosctl`  | Talos OS management           | mise        |
+| `helm`      | Kubernetes package manager    | mise        |
+| `task`      | Taskfile runner               | mise        |
+| `argocd`    | ArgoCD CLI                    | mise        |
+| `vault`     | HashiCorp Vault CLI           | mise        |
+| `sops`      | Secret file encryption        | mise        |
+| `age`       | Age encryption (used by SOPS) | mise        |
+| `talhelper` | Talos machineconfig generator | mise        |
+| `helmfile`  | Declarative Helm deployment   | mise        |
+| `kustomize` | Kubernetes manifest overlays  | mise        |
+| `cilium`    | Cilium CLI                    | mise        |
+| `mkdocs`    | Documentation site generator  | uv (Python) |
 
 ---
 

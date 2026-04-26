@@ -32,10 +32,12 @@ All deployments require: a manifest in `gitops/manifests/` **and** a definition 
 ### 4. Renovate Owns Version Bumps
 
 When pinning an image or chart version, always add the appropriate Renovate comment:
+
 ```yaml
 # renovate: datasource=docker depName=ghcr.io/someorg/someimage
 tag: "v1.2.3"
 ```
+
 Manual version bumps without Renovate annotations will immediately fall out of automation.
 
 ### 5. Don't Invent Conventions — Match Existing Ones

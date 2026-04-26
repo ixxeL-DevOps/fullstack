@@ -103,6 +103,7 @@ cert-manager issues all TLS certificates using Vault as the PKI backend. The `Cl
 Both clusters use AdGuard Home at `192.168.1.195` as the local DNS server.
 
 Wildcard DNS entries resolve all `*.fredcorp.com` subdomains to MetalLB IPs:
+
 - `*.k0s-fullstack.fredcorp.com` → `192.168.1.191`
 - `*.talos-genmachine.fredcorp.com` → `192.168.1.160`
 
@@ -112,9 +113,9 @@ Genmachine runs CoreDNS for in-cluster DNS (`cluster.local`). Beelink uses k0s b
 
 ### Naming Pattern
 
-| Cluster | Pattern | Example |
-|---|---|---|
-| Beelink | `{app}.k0s-fullstack.fredcorp.com` | `vault.k0s-fullstack.fredcorp.com` |
+| Cluster    | Pattern                               | Example                               |
+| ---------- | ------------------------------------- | ------------------------------------- |
+| Beelink    | `{app}.k0s-fullstack.fredcorp.com`    | `vault.k0s-fullstack.fredcorp.com`    |
 | Genmachine | `{app}.talos-genmachine.fredcorp.com` | `vault.talos-genmachine.fredcorp.com` |
 
 ---
@@ -126,6 +127,7 @@ Authentik is the OIDC identity provider for both clusters. It runs independently
 ### Provider Configuration Pattern
 
 Each application requiring OIDC needs:
+
 1. An Authentik `OAuth2Provider` (configured via Blueprint or UI)
 2. An Authentik `Application` linked to the provider
 3. Application-specific OIDC env vars injected via `ExternalSecret` → Kubernetes Secret
@@ -184,10 +186,10 @@ Genmachine uses Cilium as CNI, installed at bootstrap before any pods can start.
 
 ## Network CIDRs (Genmachine)
 
-| Range | CIDR |
-|---|---|
-| Pod CIDR | 10.244.0.0/16 |
-| Service CIDR | 10.96.0.0/12 |
-| Node IPs | 192.168.1.151–153 |
-| VIP (control plane) | 192.168.1.150 |
-| Traefik LB | 192.168.1.160 |
+| Range               | CIDR              |
+| ------------------- | ----------------- |
+| Pod CIDR            | 10.244.0.0/16     |
+| Service CIDR        | 10.96.0.0/12      |
+| Node IPs            | 192.168.1.151–153 |
+| VIP (control plane) | 192.168.1.150     |
+| Traefik LB          | 192.168.1.160     |

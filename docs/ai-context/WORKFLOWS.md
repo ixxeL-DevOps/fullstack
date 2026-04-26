@@ -12,6 +12,7 @@ categories: ["Reference[95%]"]
 ### On Genmachine (ApplicationSet pattern)
 
 1. **Create the Helm chart directory**:
+
    ```
    gitops/manifests/{app}/
    ├── common/common-values.yaml    ← shared values
@@ -37,6 +38,7 @@ categories: ["Reference[95%]"]
 ### On Beelink (Application pattern)
 
 Same as above but:
+
 - Use `beelink/` directory instead of `genmachine/`
 - Create a plain `Application` in `gitops/core/apps/beelink/{app}.yaml`
 - Follow the Application template in CONVENTIONS.md
@@ -58,11 +60,13 @@ Same as above but:
 ## Add a Secret
 
 1. **Add the secret to Vault** at path `{app}/{secret-type}/{cluster}`:
+
    ```bash
    vault kv put -address=https://vault.k0s-fullstack.fredcorp.com {app}/{secret-type}/{cluster} key=value
    ```
 
 2. **Create an ExternalSecret** in `gitops/manifests/{app}/{cluster}/templates/externalsecret.yaml`:
+
    ```yaml
    apiVersion: external-secrets.io/v1beta1
    kind: ExternalSecret
@@ -94,6 +98,7 @@ task sops:encrypt -- path/to/secret.sops.yaml
 The file must be named `*.sops.yaml`. The pre-commit hook blocks unencrypted SOPS files from being committed.
 
 To edit an encrypted file:
+
 ```bash
 task sops:decrypt -- path/to/secret.sops.yaml
 # edit the file
@@ -134,6 +139,7 @@ kubectl apply -k gitops/bootstrap/genmachine/
 Upgrades are handled automatically by **tuppr** (system-upgrade namespace).
 
 To trigger manually:
+
 ```bash
 # Check current versions
 task talos:versions
@@ -162,6 +168,7 @@ argocd app logs {app}-genmachine
 ```
 
 Common causes:
+
 - ExternalSecret not synced → `kubectl describe externalsecret -n {ns} {name}`
 - Helm render error → check values files for typos, missing keys
 - ServerSideApply conflict → add field to `ignoreDifferences`

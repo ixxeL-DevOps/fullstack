@@ -24,6 +24,7 @@ Answer these questions before touching a single file:
 ### Phase 1 — Clarify
 
 If the request is ambiguous:
+
 - Ask which cluster before writing manifests
 - Ask if an existing pattern should be followed or if this is intentionally different
 - Ask if secrets need to be created in Vault first
@@ -31,6 +32,7 @@ If the request is ambiguous:
 ### Phase 2 — Locate
 
 Before writing, locate:
+
 - The most similar existing app (same type: upstream Helm chart, pure-template chart, etc.)
 - The correct `gitops/core/apps/{cluster}/{category}/` directory
 - Any required pre-existing resources (namespaces, secrets, storage classes)
@@ -38,6 +40,7 @@ Before writing, locate:
 ### Phase 3 — Plan (list files to create/modify)
 
 State explicitly:
+
 - Files to create (with relative paths)
 - Files to modify (and what changes)
 - Files NOT to touch (and why — e.g., "coredns is excluded from refactor because it's a Talos built-in")
@@ -50,6 +53,7 @@ Follow CONVENTIONS.md for every file written. Use existing files as templates, n
 ### Phase 5 — Validate
 
 After committing:
+
 - Pre-commit hooks must pass (yamllint, SOPS check, prettier, commitizen)
 - Commit message must follow conventional commits format: `{type}({scope}): {description}`
 - After PR merge: check the CI manifest diff comment to verify the rendered output matches intent
@@ -70,6 +74,7 @@ Types: `feat`, `fix`, `refactor`, `docs`, `chore`
 Scope: app name or area (e.g., `fstrim`, `traefik`, `talos`, `vault`)
 
 Examples:
+
 ```
 feat(fstrim): add weekly SSD fstrim CronJob for Talos nodes
 fix(traefik): correct wildcard certificate secret name
@@ -82,11 +87,13 @@ docs(architecture): add Capsule for CiliumCNI
 ## Scope of Changes
 
 When asked to implement something on "both clusters":
+
 1. Implement genmachine first (ApplicationSet pattern — more complex)
 2. Implement beelink second (plain Application — simpler, mirrors genmachine)
 3. Commit both in one PR unless the changes are independent
 
 When a change touches `common/common-values.yaml`:
+
 - This affects all clusters that include that file
 - Verify the change is intentionally shared; if cluster-specific, put it in the cluster values file instead
 

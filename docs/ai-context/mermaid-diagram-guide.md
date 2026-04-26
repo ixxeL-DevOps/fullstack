@@ -10,20 +10,21 @@ categories: ["Reference[90%]"]
 ## Supported Diagram Types
 
 Mermaid is rendered natively in:
+
 - **MkDocs** (via `pymdownx.superfences` — configured in `mkdocs.yml`)
 - **GitHub** (native support since 2022 — works in `.md` files, issues, PRs)
-- **README.md and docs/*.md** — use ` ```mermaid ` fences
+- **README.md and docs/\*.md** — use ` ```mermaid ` fences
 
 ---
 
 ## Diagram Types and When to Use Them
 
-| Type | Directive | Use for |
-|---|---|---|
+| Type      | Directive               | Use for                                           |
+| --------- | ----------------------- | ------------------------------------------------- |
 | Flowchart | `graph TB` / `graph LR` | Architecture, component relationships, data flows |
-| Sequence | `sequenceDiagram` | Protocol flows, auth sequences, request/response |
-| State | `stateDiagram-v2` | Lifecycle states (pod, ESO, ArgoCD app) |
-| Gitgraph | `gitGraph` | Branch strategies |
+| Sequence  | `sequenceDiagram`       | Protocol flows, auth sequences, request/response  |
+| State     | `stateDiagram-v2`       | Lifecycle states (pod, ESO, ArgoCD app)           |
+| Gitgraph  | `gitGraph`              | Branch strategies                                 |
 
 ---
 

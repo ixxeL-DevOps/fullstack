@@ -1,9 +1,9 @@
 ---
 fstrim:
-  schedule: "0 2 * * 0"
+  schedule: '0 2 * * 0'
   image:
     repository: alpine
-    tag: "3.23"
+    tag: '3.23'
     pullPolicy: IfNotPresent
   nodeCount: 3
   successfulJobsHistoryLimit: 3

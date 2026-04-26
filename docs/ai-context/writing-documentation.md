@@ -10,12 +10,14 @@ categories: ["Reference[85%]"]
 ## When to Write Documentation
 
 Write or update documentation when:
+
 - A new architectural decision is made that future collaborators need to understand
 - A non-obvious operational procedure is established (the "why" would surprise a reader)
 - A component's integration with others is complex enough to warrant a diagram
 - A hard invariant is added or changed
 
 Do **not** write documentation for:
+
 - Things that are obvious from reading the code
 - Temporary states (in-progress work, current PR status)
 - Things that will be outdated within days
@@ -52,15 +54,15 @@ docs/
 
 Write a documentation update when you encounter any of these:
 
-| Trigger | Document in |
-|---|---|
-| "Why is this configured this way?" | A Capsule in ARCHITECTURE.md or the relevant doc file |
+| Trigger                                         | Document in                                             |
+| ----------------------------------------------- | ------------------------------------------------------- |
+| "Why is this configured this way?"              | A Capsule in ARCHITECTURE.md or the relevant doc file   |
 | "This broke because of X undocumented behavior" | DOMAIN.md (invariant) or WORKFLOWS.md (troubleshooting) |
-| "You have to do Y before Z or it fails" | WORKFLOWS.md |
-| "This only applies to cluster X not Y" | ARCHITECTURE.md or CONVENTIONS.md with explicit callout |
-| "The naming here is confusing" | DOMAIN.md (glossary) |
-| A new OIDC integration | docs/authentication/oidc.md |
-| A new certificate pattern | docs/secrets/ or NETWORKING.md |
+| "You have to do Y before Z or it fails"         | WORKFLOWS.md                                            |
+| "This only applies to cluster X not Y"          | ARCHITECTURE.md or CONVENTIONS.md with explicit callout |
+| "The naming here is confusing"                  | DOMAIN.md (glossary)                                    |
+| A new OIDC integration                          | docs/authentication/oidc.md                             |
+| A new certificate pattern                       | docs/secrets/ or NETWORKING.md                          |
 
 ---
 

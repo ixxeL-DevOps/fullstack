@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://mise.jdx.dev/schema/mise.json
+[tools]
+
+# ── Python (managed by uv, packages declared in pyproject.toml) ─────────────
+python = "3.12"
+uv = "latest"
+
+# ── Node (required for prettier) ─────────────────────────────────────────────
+node = "lts"
+
+# ── Kubernetes ────────────────────────────────────────────────────────────────
+kubectl = "latest"
+helm = "latest"
+k9s = "latest"
+kustomize = "latest"
+talosctl = "latest"
+argocd = "latest"
+helmfile = "latest"
+k0sctl = "latest"
+kubectx = "latest"
+krew = "latest"
+popeye = "latest"
+
+# ── Secrets & encryption ──────────────────────────────────────────────────────
+vault = "latest"
+sops = "latest"
+age = "latest"
+
+# ── Infrastructure ────────────────────────────────────────────────────────────
+terraform = "latest"
+
+# ── Dev tooling ───────────────────────────────────────────────────────────────
+task = "latest"
+yq = "latest"
+jq = "latest"
+shellcheck = "latest"
+yamlfmt = "latest"
+gum = "latest"
+restic = "latest"
+"npm:prettier" = "latest"
+
+# ── Python venv ───────────────────────────────────────────────────────────────
+# Auto-activates the uv-managed venv when entering the repo directory.
+# Run `uv sync` once after `mise install` to populate it.
+[env]
+_.python.venv = { path = ".venv", create = true }
+
+# ── Post-install tasks ────────────────────────────────────────────────────────
+[tasks.setup]
+description = "Full first-time setup: install Python packages + Helm/kubectl plugins"
+run = """
+  uv sync
+  helm plugin install https://github.com/databus23/helm-diff 2>/dev/null || true
+  kubectl krew install neat 2>/dev/null || true
+"""
+
+[tasks.update]
+description = "Update all Python packages and regenerate uv.lock"
+run = "uv sync --upgrade"
+
+[tasks.docs]
+description = "Serve MkDocs documentation locally"
+run = "mkdocs serve"
+
+[tasks.docs-build]
+description = "Build static MkDocs site"
+run = "mkdocs build --strict"

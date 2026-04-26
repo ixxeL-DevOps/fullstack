@@ -52,11 +52,13 @@ A concrete instance of the invariant in action. Use real code or real hostnames.
 ## When to Write a Capsule
 
 Write a Capsule when:
+
 - You need to explain something that would surprise an experienced Kubernetes user
 - You are documenting a cross-cutting concern that affects multiple files
 - You are establishing an invariant that must not be broken
 
 Do **not** write a Capsule for:
+
 - Simple YAML configuration — a code block with comments is enough
 - Something that is obvious from the Kubernetes docs
 - A one-off procedure — use a numbered list in WORKFLOWS.md instead

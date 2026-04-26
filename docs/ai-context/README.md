@@ -11,17 +11,17 @@ This directory provides structured context for AI assistants (Claude and others)
 
 ## Document Map
 
-| Document | When to Read |
-|---|---|
-| **ARCHITECTURE.md** | Always — cluster topology, app inventory, GitOps patterns |
-| **CONVENTIONS.md** | Before writing or editing any Helm chart, ApplicationSet, or manifest |
-| **NETWORKING.md** | When touching ingress, DNS, certificates, VPN, or OIDC |
-| **DOMAIN.md** | For naming rules, glossary, and hard invariants |
-| **WORKFLOWS.md** | When deploying a new app, updating a chart, or troubleshooting |
-| **TOOLS.md** | Before running CLI commands — Taskfile tasks, talosctl, kubectl |
-| **PLANNING.md** | Before starting a multi-step implementation |
-| **writing-capsules.md** | When writing or updating capsule-format documentation |
-| **mermaid-diagram-guide.md** | When writing Mermaid diagrams for docs/ |
+| Document                     | When to Read                                                          |
+| ---------------------------- | --------------------------------------------------------------------- |
+| **ARCHITECTURE.md**          | Always — cluster topology, app inventory, GitOps patterns             |
+| **CONVENTIONS.md**           | Before writing or editing any Helm chart, ApplicationSet, or manifest |
+| **NETWORKING.md**            | When touching ingress, DNS, certificates, VPN, or OIDC                |
+| **DOMAIN.md**                | For naming rules, glossary, and hard invariants                       |
+| **WORKFLOWS.md**             | When deploying a new app, updating a chart, or troubleshooting        |
+| **TOOLS.md**                 | Before running CLI commands — Taskfile tasks, talosctl, kubectl       |
+| **PLANNING.md**              | Before starting a multi-step implementation                           |
+| **writing-capsules.md**      | When writing or updating capsule-format documentation                 |
+| **mermaid-diagram-guide.md** | When writing Mermaid diagrams for docs/                               |
 
 ## Critical Facts (Read Before Everything Else)
 

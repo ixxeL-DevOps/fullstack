@@ -75,18 +75,18 @@ and creates a Kubernetes Secret; the pod mounts it via `secretRef`.
 
 ## Cluster Topology
 
-| Aspect | Beelink (k0s) | Genmachine (Talos) |
-|---|---|---|
-| **Hardware** | Bare-metal BeeLink mini-PC | 3× Proxmox VMs |
-| **OS / Distro** | k0s v1.32.2 | Talos v1.12.7 |
-| **Kubernetes** | v1.32.2 | v1.36.0 |
-| **CNI** | KubeRouter | Cilium |
-| **Load Balancer** | MetalLB | MetalLB |
-| **Nodes** | 1 (192.168.1.190) | 3 (192.168.1.151-153, VIP .150) |
-| **Traefik IP** | 192.168.1.191 | 192.168.1.160 |
-| **DNS domain** | `*.k0s-fullstack.fredcorp.com` | `*.talos-genmachine.fredcorp.com` |
-| **ArgoCD URL** | argocd.k0s-fullstack.fredcorp.com | argocd.talos-genmachine.fredcorp.com |
-| **Vault URL** | vault.k0s-fullstack.fredcorp.com | vault.talos-genmachine.fredcorp.com |
+| Aspect            | Beelink (k0s)                     | Genmachine (Talos)                   |
+| ----------------- | --------------------------------- | ------------------------------------ |
+| **Hardware**      | Bare-metal BeeLink mini-PC        | 3× Proxmox VMs                       |
+| **OS / Distro**   | k0s v1.32.2                       | Talos v1.12.7                        |
+| **Kubernetes**    | v1.32.2                           | v1.36.0                              |
+| **CNI**           | KubeRouter                        | Cilium                               |
+| **Load Balancer** | MetalLB                           | MetalLB                              |
+| **Nodes**         | 1 (192.168.1.190)                 | 3 (192.168.1.151-153, VIP .150)      |
+| **Traefik IP**    | 192.168.1.191                     | 192.168.1.160                        |
+| **DNS domain**    | `*.k0s-fullstack.fredcorp.com`    | `*.talos-genmachine.fredcorp.com`    |
+| **ArgoCD URL**    | argocd.k0s-fullstack.fredcorp.com | argocd.talos-genmachine.fredcorp.com |
+| **Vault URL**     | vault.k0s-fullstack.fredcorp.com  | vault.talos-genmachine.fredcorp.com  |
 
 ---
 
@@ -94,56 +94,56 @@ and creates a Kubernetes Secret; the pod mounts it via `secretRef`.
 
 ### Genmachine (Talos) — ApplicationSets
 
-| App | Namespace | AppProject | Notes |
-|---|---|---|---|
-| cilium | kube-system | infra-core | CNI; deployed at bootstrap via helmfile |
-| coredns | kube-system | infra-core | Cluster DNS |
-| kubelet-csr-approver | kube-system | infra-core | Auto-approves kubelet CSRs |
-| metrics-server | kube-system | infra-tools | Resource metrics |
-| spegel | spegel | infra-storage | Distributed OCI image mirror |
-| metallb | metallb-system | infra-network | L2 load balancer |
-| traefik | traefik | infra-network | Ingress controller |
-| adguard | adguard | infra-network | DNS / ad-blocking |
-| cert-manager | cert-manager | infra-security | TLS certificates via Vault PKI |
-| external-secrets | external-secrets | infra-security | ESO pulling from Vault |
-| kyverno | kyverno | infra-security | Policy enforcement |
-| vault | vault | infra-security | Secret store (PKI + KV + Transit/SOPS) |
-| authentik | authentik | infra-security | OIDC identity provider |
-| wireguard | wireguard | infra-network | VPN portal (wg-portal) |
-| prometheus | monitoring | monitoring | kube-prometheus-stack |
-| loki | loki | monitoring | Log aggregation |
-| minio | minio | infra-storage | S3-compatible object store |
-| minio-operator | minio-operator | infra-storage | MinIO tenant operator |
-| csi-driver-nfs | csi-driver-nfs | infra-storage | NFS PVC provisioner |
-| proxmox-csi-plugin | proxmox-csi-plugin | infra-storage | Proxmox block storage CSI |
-| volsync | volsync | infra-storage | PVC backup/restore |
-| local-path-provisioner | local-path-storage | infra-storage | HostPath PVC provisioner |
-| homarr | homarr | infra-tools | Dashboard |
-| homepage | homepage | infra-tools | Dashboard alternative |
-| stakater | stakater | infra-tools | Reloader for configmap/secret changes |
-| crossplane | crossplane | infra-tools | Infrastructure CRD provisioner |
-| popeye | popeye | monitoring | Cluster linter |
-| gha-arc-controller | arc-system | infra-tools | GitHub Actions runner controller |
-| system-upgrade | system-upgrade | infra-tools | tuppr — Talos/k8s upgrade controller |
-| fstrim | kube-system | infra-tools | Weekly SSD fstrim CronJob |
-| vrising | vrising | misc | V Rising game server |
+| App                    | Namespace          | AppProject     | Notes                                   |
+| ---------------------- | ------------------ | -------------- | --------------------------------------- |
+| cilium                 | kube-system        | infra-core     | CNI; deployed at bootstrap via helmfile |
+| coredns                | kube-system        | infra-core     | Cluster DNS                             |
+| kubelet-csr-approver   | kube-system        | infra-core     | Auto-approves kubelet CSRs              |
+| metrics-server         | kube-system        | infra-tools    | Resource metrics                        |
+| spegel                 | spegel             | infra-storage  | Distributed OCI image mirror            |
+| metallb                | metallb-system     | infra-network  | L2 load balancer                        |
+| traefik                | traefik            | infra-network  | Ingress controller                      |
+| adguard                | adguard            | infra-network  | DNS / ad-blocking                       |
+| cert-manager           | cert-manager       | infra-security | TLS certificates via Vault PKI          |
+| external-secrets       | external-secrets   | infra-security | ESO pulling from Vault                  |
+| kyverno                | kyverno            | infra-security | Policy enforcement                      |
+| vault                  | vault              | infra-security | Secret store (PKI + KV + Transit/SOPS)  |
+| authentik              | authentik          | infra-security | OIDC identity provider                  |
+| wireguard              | wireguard          | infra-network  | VPN portal (wg-portal)                  |
+| prometheus             | monitoring         | monitoring     | kube-prometheus-stack                   |
+| loki                   | loki               | monitoring     | Log aggregation                         |
+| minio                  | minio              | infra-storage  | S3-compatible object store              |
+| minio-operator         | minio-operator     | infra-storage  | MinIO tenant operator                   |
+| csi-driver-nfs         | csi-driver-nfs     | infra-storage  | NFS PVC provisioner                     |
+| proxmox-csi-plugin     | proxmox-csi-plugin | infra-storage  | Proxmox block storage CSI               |
+| volsync                | volsync            | infra-storage  | PVC backup/restore                      |
+| local-path-provisioner | local-path-storage | infra-storage  | HostPath PVC provisioner                |
+| homarr                 | homarr             | infra-tools    | Dashboard                               |
+| homepage               | homepage           | infra-tools    | Dashboard alternative                   |
+| stakater               | stakater           | infra-tools    | Reloader for configmap/secret changes   |
+| crossplane             | crossplane         | infra-tools    | Infrastructure CRD provisioner          |
+| popeye                 | popeye             | monitoring     | Cluster linter                          |
+| gha-arc-controller     | arc-system         | infra-tools    | GitHub Actions runner controller        |
+| system-upgrade         | system-upgrade     | infra-tools    | tuppr — Talos/k8s upgrade controller    |
+| fstrim                 | kube-system        | infra-tools    | Weekly SSD fstrim CronJob               |
+| vrising                | vrising            | misc           | V Rising game server                    |
 
 ### Beelink (k0s) — Applications
 
-| App | Namespace | Notes |
-|---|---|---|
-| argocd | argocd | GitOps controller |
-| adguard | adguard | DNS / ad-blocking |
-| authentik | authentik | OIDC identity provider |
-| cert-manager | cert-manager | TLS certificates via Vault PKI |
-| external-secrets | external-secrets | ESO pulling from Vault |
-| homarr | homarr | Dashboard |
-| local-path-provisioner | local-path-storage | HostPath PVC provisioner |
-| metallb | metallb-system | L2 load balancer |
-| stakater | stakater | Reloader |
-| traefik | traefik | Ingress controller |
-| vault | vault | Secret store |
-| wireguard | wireguard | VPN portal |
+| App                    | Namespace          | Notes                          |
+| ---------------------- | ------------------ | ------------------------------ |
+| argocd                 | argocd             | GitOps controller              |
+| adguard                | adguard            | DNS / ad-blocking              |
+| authentik              | authentik          | OIDC identity provider         |
+| cert-manager           | cert-manager       | TLS certificates via Vault PKI |
+| external-secrets       | external-secrets   | ESO pulling from Vault         |
+| homarr                 | homarr             | Dashboard                      |
+| local-path-provisioner | local-path-storage | HostPath PVC provisioner       |
+| metallb                | metallb-system     | L2 load balancer               |
+| stakater               | stakater           | Reloader                       |
+| traefik                | traefik            | Ingress controller             |
+| vault                  | vault              | Secret store                   |
+| wireguard              | wireguard          | VPN portal                     |
 
 ---
 
@@ -212,13 +212,13 @@ ArgoCD Application per matching directory (named after the directory).
 generators:
   - git:
       directories:
-        - path: 'gitops/manifests/traefik/*'
+        - path: "gitops/manifests/traefik/*"
           exclude: false
-        - path: 'gitops/manifests/traefik/common'
+        - path: "gitops/manifests/traefik/common"
           exclude: true
-        - path: 'gitops/manifests/traefik/beelink'
+        - path: "gitops/manifests/traefik/beelink"
           exclude: true
-        - path: 'gitops/manifests/traefik/k0s'
+        - path: "gitops/manifests/traefik/k0s"
           exclude: true
 ```
 
@@ -235,15 +235,15 @@ Generated app name: `traefik-genmachine`. Destination cluster name: `genmachine`
 
 ## AppProjects
 
-| Project | Purpose |
-|---|---|
-| `infra-core` | Core Kubernetes infrastructure (CNI, DNS, CSR approver) |
-| `infra-network` | Networking (MetalLB, Traefik, AdGuard, WireGuard) |
-| `infra-security` | Security (cert-manager, ESO, Kyverno, Vault, Authentik) |
-| `infra-storage` | Storage (CSI drivers, MinIO, Volsync, local-path) |
-| `infra-tools` | Tooling (metrics-server, Stakater, ArgoCD, system-upgrade) |
-| `monitoring` | Observability (Prometheus, Loki, Grafana) |
-| `argocd` | ArgoCD itself |
+| Project          | Purpose                                                    |
+| ---------------- | ---------------------------------------------------------- |
+| `infra-core`     | Core Kubernetes infrastructure (CNI, DNS, CSR approver)    |
+| `infra-network`  | Networking (MetalLB, Traefik, AdGuard, WireGuard)          |
+| `infra-security` | Security (cert-manager, ESO, Kyverno, Vault, Authentik)    |
+| `infra-storage`  | Storage (CSI drivers, MinIO, Volsync, local-path)          |
+| `infra-tools`    | Tooling (metrics-server, Stakater, ArgoCD, system-upgrade) |
+| `monitoring`     | Observability (Prometheus, Loki, Grafana)                  |
+| `argocd`         | ArgoCD itself                                              |
 
 ---
 
@@ -308,10 +308,10 @@ The pre-commit hook (`SOPS check-encryption`) blocks commits of unencrypted SOPS
 
 ## Common Failures
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| Pod stuck `Pending` | ExternalSecret not synced / Vault entry missing | `kubectl describe externalsecret -n <ns> <name>`, check Vault path |
-| ArgoCD app `OutOfSync` loop | ServerSideApply conflict or annotation drift | Check `argocd app diff`, add `RespectIgnoreDifferences` |
-| Certificate not issued | Vault PKI unreachable or wrong issuer name | `kubectl describe certificaterequest -n <ns>` |
-| Pod `CrashLoopBackOff` after secret change | Stakater Reloader not watching annotation | Add `reloader.stakater.com/auto: "true"` annotation |
-| Cilium pod not starting on Talos | `hubble-ui` needs privilege | Check Talos `allowSchedulingOnControlPlanes` and Cilium tolerations |
+| Symptom                                    | Cause                                           | Fix                                                                 |
+| ------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------------- |
+| Pod stuck `Pending`                        | ExternalSecret not synced / Vault entry missing | `kubectl describe externalsecret -n <ns> <name>`, check Vault path  |
+| ArgoCD app `OutOfSync` loop                | ServerSideApply conflict or annotation drift    | Check `argocd app diff`, add `RespectIgnoreDifferences`             |
+| Certificate not issued                     | Vault PKI unreachable or wrong issuer name      | `kubectl describe certificaterequest -n <ns>`                       |
+| Pod `CrashLoopBackOff` after secret change | Stakater Reloader not watching annotation       | Add `reloader.stakater.com/auto: "true"` annotation                 |
+| Cilium pod not starting on Talos           | `hubble-ui` needs privilege                     | Check Talos `allowSchedulingOnControlPlanes` and Cilium tolerations |
