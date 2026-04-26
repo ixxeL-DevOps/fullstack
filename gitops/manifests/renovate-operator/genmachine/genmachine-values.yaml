@@ -1,0 +1,22 @@
+---
+renovate-operator:
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoExecute
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    host: renovate-operator.talos-genmachine.fredcorp.com
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: renovate-operator.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    tls:
+      - hosts:
+          - renovate-operator.talos-genmachine.fredcorp.com
+        secretName: renovate-operator-tls-cert

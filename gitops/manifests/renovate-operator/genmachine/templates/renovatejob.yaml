@@ -1,0 +1,24 @@
+---
+apiVersion: renovate-operator.mogenius.com/v1alpha1
+kind: RenovateJob
+metadata:
+  name: renovate-ixxel-devops
+  namespace: renovate-operator
+spec:
+  # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
+  image: ghcr.io/renovatebot/renovate:43.104.1
+  schedule: "0 */6 * * *"
+  parallelism: 1
+  provider:
+    name: github
+  discoveryFilters:
+    - "ixxeL-DevOps/*"
+  skipForks: true
+  secretRef: renovate-secret
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoExecute
