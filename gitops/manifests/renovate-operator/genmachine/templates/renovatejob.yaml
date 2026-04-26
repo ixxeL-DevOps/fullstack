@@ -13,7 +13,7 @@ spec:
   discoveryFilters:
     - "ixxeL-DevOps/*"
   skipForks: true
-  secretRef: renovate-operator-github
+  secretRef: renovate-secret
   tolerations:
     - key: node-role.kubernetes.io/control-plane
       operator: Exists
