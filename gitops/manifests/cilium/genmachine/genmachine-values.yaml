@@ -11,11 +11,36 @@ cilium:
     pullPolicy: 'IfNotPresent'
 
   hubble:
-    enabled: false
-    ui:
-      enabled: false
+    enabled: true
+    metrics:
+      enabled:
+        - dns:query;ignoreAAAA
+        - drop
+        - tcp
+        - flow
+        - port-distribution
+        - httpV2
+      serviceMonitor:
+        enabled: true
+        labels:
+          release: prometheus
     relay:
-      enabled: false
+      enabled: true
+    ui:
+      enabled: true
+      ingress:
+        enabled: true
+        className: traefik
+        annotations:
+          cert-manager.io/cluster-issuer: fredcorp-ca
+          cert-manager.io/common-name: hubble.talos-genmachine.fredcorp.com
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        hosts:
+          - hubble.talos-genmachine.fredcorp.com
+        tls:
+          - hosts:
+              - hubble.talos-genmachine.fredcorp.com
+            secretName: hubble-tls-cert
 
   envoy:
     enabled: false
