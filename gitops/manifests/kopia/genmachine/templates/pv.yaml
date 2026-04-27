@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kopia
+spec:
+  capacity:
+    storage: {{ .Values.persistence.size }}
+  accessModes:
+    - ReadWriteOnce
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeAttributes:
+      csi.storage.k8s.io/pv/name: kopia
+      csi.storage.k8s.io/pvc/name: pvc-kopia
+      server: {{ .Values.persistence.nfs.server }}
+      share: {{ .Values.persistence.nfs.share }}
+      subdir: {{ .Values.persistence.nfs.subdir }}
+    volumeHandle: {{ .Values.persistence.nfs.server }}#{{ trimPrefix "/" .Values.persistence.nfs.share }}#{{ .Values.persistence.nfs.subdir }}##
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  mountOptions:
+    - nfsvers=4.1
+    - nolock

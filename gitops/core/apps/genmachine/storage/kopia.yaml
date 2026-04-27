@@ -1,0 +1,64 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kopia
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../common
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/kopia/*'
+            exclude: false
+          - path: 'gitops/manifests/kopia/common'
+            exclude: true
+          - path: 'gitops/manifests/kopia/beelink'
+            exclude: true
+          - path: 'gitops/manifests/kopia/k0s'
+            exclude: true
+  template:
+    metadata:
+      name: 'kopia-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../common
+    spec:
+      project: infra-storage
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: kopia
+      sources:
+        - path: 'gitops/manifests/kopia/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: kopia
+            valueFiles:
+              - $values/gitops/manifests/kopia/common/common-values.yaml
+              - $values/gitops/manifests/kopia/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+            ignoreMissingValueFiles: true
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 6
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 3m

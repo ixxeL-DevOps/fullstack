@@ -71,6 +71,16 @@ minio:
       # set objectlocking for
       # bucket [true|false] NOTE: versioning is enabled by default if you use locking
       objectlocking: false
+    - name: kopia
+      policy: none
+      purge: false
+      versioning: false
+      objectlocking: false
+    - name: restic
+      policy: none
+      purge: false
+      versioning: false
+      objectlocking: false
 
   metrics:
     serviceMonitor:

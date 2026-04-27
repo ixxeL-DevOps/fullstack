@@ -47,6 +47,8 @@ cilium:
 
   routingMode: native
   autoDirectNodeRoutes: true
+  # Doit correspondre au podSubnets du cluster Talos (cluster.network.podSubnets).
+  # Indique à Cilium le CIDR des pods pour éviter le SNAT du trafic inter-pod en mode native routing.
   ipv4NativeRoutingCIDR: "10.244.0.0/16"
 
   enableIPv4BIGTCP: true

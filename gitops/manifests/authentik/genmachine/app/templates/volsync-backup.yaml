@@ -2,6 +2,72 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
+  name: backup-kopia-authentik-pgsql
+spec:
+  sourcePVC: pvc-authentik-pgsql-data
+  trigger:
+    schedule: "0 4 * * 1,4" # On monday and thursday every week at 04:00 AM
+  kopia:
+    repository: kopia-config
+    pruneIntervalDays: 7
+    retain:
+      hourly: 2
+      daily: 2
+      weekly: 4
+      monthly: 4
+      yearly: 1
+      within: 24h
+    copyMethod: Direct
+    storageClassName: nfs-csi-delete
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: kopia-config
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: admin
+    kind: ClusterSecretStore
+  target:
+    name: kopia-config
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    template:
+      engineVersion: v2
+      data:
+        KOPIA_PASSWORD: '{{ "{{" }}.kopia_password{{ "}}" }}'
+        AWS_ACCESS_KEY_ID: '{{ "{{" }}.minio_user{{ "}}" }}'
+        AWS_SECRET_ACCESS_KEY: '{{ "{{" }}.minio_password{{ "}}" }}'
+        KOPIA_S3_BUCKET: "kopia"
+        KOPIA_S3_ENDPOINT: "minio-api.talos-genmachine.fredcorp.com"
+        KOPIA_OBJECT_PREFIX: "volsync/authentik/genmachine/"
+  data:
+    - secretKey: kopia_password
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: kopia/repo/minio-backup
+        property: password
+    - secretKey: minio_user
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: minio/creds/admin
+        property: user
+    - secretKey: minio_password
+      remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
+        key: minio/creds/admin
+        property: password
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
   name: backup-authentik-pgsql
 spec:
   sourcePVC: pvc-authentik-pgsql-data
