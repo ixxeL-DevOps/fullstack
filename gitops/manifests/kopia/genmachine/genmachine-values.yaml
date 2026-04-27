@@ -1,28 +1,106 @@
 ---
-image:
-  repository: kopia/kopia
-  tag: "0.18.2"
-  pullPolicy: IfNotPresent
+app-template:
+  controllers:
+    kopia:
+      strategy: Recreate
+      initContainers:
+        # Connect to existing S3 repository or create it on first run
+        init-repo:
+          image:
+            repository: ghcr.io/thespad/kopia-server
+            tag: "0.22.3-spad59"
+          envFrom:
+            - secretRef:
+                name: kopia-creds
+          env:
+            KOPIA_CONFIG_PATH: /config/repository.config
+            KOPIA_CACHE_DIRECTORY: /cache
+            SSL_CERT_FILE: /certs/fredcorp-ca-chain.pem
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              kopia repository connect s3 \
+                --bucket=kopia \
+                --endpoint=minio-api.talos-genmachine.fredcorp.com \
+                --no-check-for-updates \
+                --password="${KOPIA_PASSWORD}" 2>/dev/null \
+              || \
+              kopia repository create s3 \
+                --bucket=kopia \
+                --endpoint=minio-api.talos-genmachine.fredcorp.com \
+                --no-check-for-updates \
+                --password="${KOPIA_PASSWORD}"
 
-config:
-  bucket: kopia
-  endpoint: minio-api.talos-genmachine.fredcorp.com
-  serverUsername: admin
+      containers:
+        app:
+          image:
+            repository: ghcr.io/thespad/kopia-server
+            tag: "0.22.3-spad59"
+          envFrom:
+            - secretRef:
+                name: kopia-creds
+          env:
+            KOPIA_CONFIG_PATH: /config/repository.config
+            KOPIA_CACHE_DIRECTORY: /cache
+            SSL_CERT_FILE: /certs/fredcorp-ca-chain.pem
+          probes:
+            liveness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /api/v1/repo/status
+                  port: 51515
+                initialDelaySeconds: 30
+                periodSeconds: 30
+            readiness:
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /api/v1/repo/status
+                  port: 51515
+                initialDelaySeconds: 10
+                periodSeconds: 10
 
-ingress:
-  className: traefik
-  host: kopia.talos-genmachine.fredcorp.com
-  annotations:
-    cert-manager.io/cluster-issuer: fredcorp-ca
-    cert-manager.io/common-name: kopia.talos-genmachine.fredcorp.com
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-  tls:
-    secretName: kopia-tls-cert
+  service:
+    app:
+      controller: kopia
+      ports:
+        http:
+          port: 51515
 
-persistence:
-  storageClassName: nfs-csi-retain
-  size: 5Gi
-  nfs:
-    server: 192.168.1.250
-    share: /volatile
-    subdir: kopia
+  ingress:
+    app:
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: fredcorp-ca
+        cert-manager.io/common-name: kopia.talos-genmachine.fredcorp.com
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      hosts:
+        - host: kopia.talos-genmachine.fredcorp.com
+          paths:
+            - path: /
+              service:
+                identifier: app
+                port: http
+      tls:
+        - secretName: kopia-tls-cert
+          hosts:
+            - kopia.talos-genmachine.fredcorp.com
+
+  persistence:
+    config:
+      type: emptyDir
+      globalMounts:
+        - path: /config
+    cache:
+      existingClaim: pvc-kopia
+      globalMounts:
+        - path: /cache
+    ca-cert:
+      type: secret
+      name: fredcorp-ca-chain
+      globalMounts:
+        - path: /certs
+          readOnly: true

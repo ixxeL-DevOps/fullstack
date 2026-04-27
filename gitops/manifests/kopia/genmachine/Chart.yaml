@@ -2,3 +2,7 @@
 apiVersion: v2
 name: kopia
 version: 1.0.0
+dependencies:
+  - name: app-template
+    version: 4.6.2
+    repository: https://bjw-s-labs.github.io/helm-charts
