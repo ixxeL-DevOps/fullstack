@@ -6,7 +6,7 @@ metadata:
   namespace: renovate-operator
 spec:
   # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
-  image: ghcr.io/renovatebot/renovate:43.143.1
+  image: ghcr.io/renovatebot/renovate:43.143.2
   schedule: "0 */6 * * *"
   parallelism: 1
   provider:
