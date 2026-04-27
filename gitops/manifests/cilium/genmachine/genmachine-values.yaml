@@ -47,7 +47,7 @@ cilium:
 
   routingMode: native
   autoDirectNodeRoutes: true
-  ipv4NativeRoutingCIDR: "10.244.0.0/16"
+  ipv4NativeRoutingCIDR: '10.244.0.0/16'
 
   enableIPv4BIGTCP: true
 

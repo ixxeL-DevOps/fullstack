@@ -26,23 +26,23 @@
   description: >-
     Changes made in the k0s cluster
 # Renovate
-- name: renovate/docker
+- name: docker
   color: '006B75'
   description: >-
     Changes related to docker image update
-- name: renovate/github-action
+- name: github-action
   color: '006B75'
   description: >-
     Changes related to GitHub Actions update
-- name: renovate/github-release
+- name: github-release
   color: '006B75'
   description: >-
     Changes related to GitHub tag/release update
-- name: renovate/grafana-dashboard
+- name: grafana-dashboard
   color: '006B75'
   description: >-
     Changes related to Grafana dashboard update
-- name: renovate/helm
+- name: helm
   color: '006B75'
   description: >-
     Changes related to Helm Chart update
