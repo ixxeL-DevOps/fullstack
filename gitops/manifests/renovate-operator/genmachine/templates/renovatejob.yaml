@@ -5,7 +5,6 @@ metadata:
   name: renovate-ixxel-devops
   namespace: renovate-operator
 spec:
-  # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
   image: ghcr.io/renovatebot/renovate:43.144.0
   schedule: "0 */6 * * *"
   parallelism: 1

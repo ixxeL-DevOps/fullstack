@@ -6,9 +6,8 @@ on: # yamllint disable-line rule:truthy
   repository_dispatch:
     types:
       - renovate
-  schedule:
-    - cron: 0 2 * * *
-    - cron: 0 3 * * *
+      # schedule:
+      #   - cron: 0 2 * * *
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
