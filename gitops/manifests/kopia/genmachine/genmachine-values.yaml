@@ -1,0 +1,28 @@
+---
+image:
+  repository: kopia/kopia
+  tag: "0.18.2"
+  pullPolicy: IfNotPresent
+
+config:
+  bucket: kopia
+  endpoint: minio-api.talos-genmachine.fredcorp.com
+  serverUsername: admin
+
+ingress:
+  className: traefik
+  host: kopia.talos-genmachine.fredcorp.com
+  annotations:
+    cert-manager.io/cluster-issuer: fredcorp-ca
+    cert-manager.io/common-name: kopia.talos-genmachine.fredcorp.com
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  tls:
+    secretName: kopia-tls-cert
+
+persistence:
+  storageClassName: nfs-csi-retain
+  size: 5Gi
+  nfs:
+    server: 192.168.1.250
+    share: /volatile
+    subdir: kopia
