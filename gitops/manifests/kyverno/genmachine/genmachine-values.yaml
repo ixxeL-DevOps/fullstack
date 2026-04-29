@@ -38,7 +38,7 @@ kyverno:
     image:
       registry: ghcr.io
       repository: kyverno/reports-controller
-      tag: v1.17.2
+      tag: v1.18.0
       pullPolicy: IfNotPresent
     serviceMonitor:
       enabled: true
