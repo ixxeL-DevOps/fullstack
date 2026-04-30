@@ -9,3 +9,6 @@ dependencies:
   - name: komoplane
     version: 0.1.8
     repository: https://helm-charts.komodor.io
+  - name: crossview
+    version: 4.3.0
+    repository: https://crossplane-contrib.github.io/crossview
