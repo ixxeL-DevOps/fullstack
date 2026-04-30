@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: crossplane
 version: 1.0.0
