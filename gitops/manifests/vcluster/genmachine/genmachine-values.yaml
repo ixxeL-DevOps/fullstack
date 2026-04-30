@@ -1,0 +1,49 @@
+---
+vcluster:
+  sync:
+    fromHost:
+      ingressClasses:
+        enabled: true
+      storageClasses:
+        enabled: true
+      customResources:
+        clusterissuers.cert-manager.io:
+          enabled: true
+          scope: Cluster
+        clustersecretstores.external-secrets.io:
+          enabled: true
+          scope: Cluster
+    toHost:
+      ingresses:
+        enabled: true
+      customResources:
+        certificates.cert-manager.io:
+          enabled: true
+          scope: Namespaced
+        externalsecrets.external-secrets.io:
+          enabled: true
+          scope: Namespaced
+        secretstores.external-secrets.io:
+          enabled: true
+          scope: Namespaced
+
+  controlPlane:
+    statefulSet:
+      resources:
+        requests:
+          cpu: 200m
+          memory: 256Mi
+        limits:
+          cpu: 1000m
+          memory: 512Mi
+      persistence:
+        volumeClaim:
+          enabled: false
+
+  exportKubeConfig:
+    context: vcluster
+    server: ''
+    insecure: true
+
+  telemetry:
+    enabled: false
