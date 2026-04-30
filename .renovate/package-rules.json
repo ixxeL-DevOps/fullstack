@@ -17,15 +17,6 @@
         "description": ["Don't pin digests for managers that don't need a digest"],
         "matchManagers": ["helmfile"],
         "pinDigests": false
-      },
-      {
-        "description": ["One PR per minor for Kubernetes and Talos — never jump multiple minors at once"],
-        "matchPackageNames": [
-          "ghcr.io/siderolabs/kubelet",
-          "ghcr.io/siderolabs/installer",
-          "registry.k8s.io/kubectl"
-        ],
-        "separateMultipleMinor": true
       }
     ]
   }

@@ -7,8 +7,6 @@
         "automerge": true,
         "automergeType": "pr",
         "platformAutomerge": true,
-        "automergeStrategy": "squash",
-        "rebaseWhen": "behind-base-branch",
         "matchUpdateTypes": ["minor", "patch"]
       }
     ]
