@@ -1,0 +1,4 @@
+---
+vcluster:
+  telemetry:
+    enabled: false
