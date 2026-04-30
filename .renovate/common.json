@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabledManagers": ["helmv3", "helm-values", "github-actions", "docker", "custom.regex", "kubernetes"],
   "ignorePaths": [
     "docs/**",
     "**/*.sops.*",
