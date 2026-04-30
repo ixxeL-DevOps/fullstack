@@ -44,7 +44,7 @@ kube-prometheus-stack:
     image:
       registry: docker.io
       repository: grafana/grafana
-      tag: '12.4.3'
+      tag: '13.0.1'
       pullPolicy: IfNotPresent
     ingress:
       enabled: true
