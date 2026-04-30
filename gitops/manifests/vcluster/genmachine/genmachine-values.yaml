@@ -76,6 +76,13 @@ vcluster:
             values: |
               crds:
                 enabled: true
+              extraObjects:
+                - apiVersion: cert-manager.io/v1
+                  kind: ClusterIssuer
+                  metadata:
+                    name: selfsigned-issuer
+                  spec:
+                    selfSigned: {}
           - chart:
               name: external-secrets
               repo: https://charts.external-secrets.io
