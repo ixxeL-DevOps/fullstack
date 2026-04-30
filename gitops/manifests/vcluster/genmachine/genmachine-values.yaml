@@ -36,33 +36,34 @@ vcluster:
 
   telemetry:
     enabled: false
+
   experimental:
     deploy:
-      #     host:
-      #       manifests: |
-      #         ---
-      #         apiVersion: external-secrets.io/v1
-      #         kind: ExternalSecret
-      #         metadata:
-      #           name: vault-approle-ci
-      #         spec:
-      #           refreshInterval: 1h
-      #           secretStoreRef:
-      #             name: admin
-      #             kind: ClusterSecretStore
-      #           target:
-      #             name: vault-approle-ci
-      #             creationPolicy: Owner
-      #             deletionPolicy: Retain
-      #           data:
-      #             - secretKey: roleID
-      #               remoteRef:
-      #                 key: apps/ci-vcluster/approle
-      #                 property: ROLE_ID
-      #             - secretKey: secretID
-      #               remoteRef:
-      #                 key: apps/ci-vcluster/approle
-      #                 property: SECRET_ID
+      host:
+        manifests: |
+          ---
+          apiVersion: external-secrets.io/v1
+          kind: ExternalSecret
+          metadata:
+            name: vault-approle-ci
+          spec:
+            refreshInterval: 1h
+            secretStoreRef:
+              name: admin
+              kind: ClusterSecretStore
+            target:
+              name: vault-approle-ci
+              creationPolicy: Owner
+              deletionPolicy: Retain
+            data:
+              - secretKey: roleID
+                remoteRef:
+                  key: apps/ci-vcluster/approle
+                  property: ROLE_ID
+              - secretKey: secretID
+                remoteRef:
+                  key: apps/ci-vcluster/approle
+                  property: SECRET_ID
       vcluster:
         helm:
           - chart:
@@ -84,32 +85,3 @@ vcluster:
               namespace: external-secrets
             values: |
               installCRDs: true
-        manifests: |
-          ---
-          apiVersion: cert-manager.io/v1
-          kind: ClusterIssuer
-          metadata:
-            name: selfsigned-issuer
-          spec:
-            selfSigned: {}
-          # ---
-          # apiVersion: external-secrets.io/v1
-          # kind: ClusterSecretStore
-          # metadata:
-          #   name: admin
-          # spec:
-          #   provider:
-          #     vault:
-          #       server: https://vault.k0s-fullstack.fredcorp.com
-          #       path: admin
-          #       version: v2
-          #       auth:
-          #         appRole:
-          #           path: approle
-          #           roleRef:
-          #             name: vault-approle-ci
-          #             key: roleID
-          #           secretRef:
-          #             name: vault-approle-ci
-          #             key: secretID
-          #             namespace: external-secrets
