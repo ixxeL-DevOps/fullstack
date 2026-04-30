@@ -80,7 +80,7 @@ jobs:
       - name: Generate dyff on release
         id: dyff-helm
         if: steps.changed-files.outputs.any_changed == 'true'
-        uses: ixxeL-DevOps/gha-templates/.github/actions/dyff@main
+        uses: ixxeL-DevOps/gha-templates/.github/actions/dyff@58efe16f40771e0f2f67adfd85925f497b3ce349 # main
         with:
           source: main/*_manifest_main.yaml
           target: pr/*_manifest_pr.yaml
@@ -89,7 +89,7 @@ jobs:
       - name: Generate diff on release
         id: diff-helm
         if: steps.changed-files.outputs.any_changed == 'true'
-        uses: ixxeL-DevOps/gha-templates/.github/actions/diff@main
+        uses: ixxeL-DevOps/gha-templates/.github/actions/diff@58efe16f40771e0f2f67adfd85925f497b3ce349 # main
         with:
           source: main/*_manifest_main.yaml
           target: pr/*_manifest_pr.yaml
@@ -106,7 +106,7 @@ jobs:
         id: kubeconform
         if: steps.changed-files.outputs.any_changed == 'true'
         continue-on-error: true
-        uses: ixxeL-DevOps/gha-templates/.github/actions/kubeconform@main
+        uses: ixxeL-DevOps/gha-templates/.github/actions/kubeconform@58efe16f40771e0f2f67adfd85925f497b3ce349 # main
         with:
           target: pr
 
