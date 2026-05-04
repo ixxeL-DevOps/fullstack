@@ -4,7 +4,7 @@ tuppr:
     repository: ghcr.io/home-operations/tuppr
     pullPolicy: IfNotPresent
     # renovate: datasource=github-releases depName=home-operations/tuppr
-    tag: '0.1.13'
+    tag: '0.1.16'
 
   replicaCount: 1
 
