@@ -4,5 +4,5 @@ name: renovate-operator
 version: 1.0.0
 dependencies:
   - name: renovate-operator
-    version: 4.6.2
+    version: 4.7.0
     repository: https://helm.mogenius.com/public
