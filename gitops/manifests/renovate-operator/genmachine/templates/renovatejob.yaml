@@ -5,7 +5,7 @@ metadata:
   name: renovate-ixxel-devops
   namespace: renovate-operator
 spec:
-  image: ghcr.io/renovatebot/renovate:43.170.15
+  image: ghcr.io/renovatebot/renovate:43.170.16
   schedule: "0 */6 * * *"
   parallelism: 1
   provider:
