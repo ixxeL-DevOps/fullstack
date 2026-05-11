@@ -17,7 +17,6 @@ spec:
     ignoreDaemonSets: true
     force: true
     deleteLocalData: false
-    disableEviction: true
   healthChecks:
     - apiVersion: v1
       kind: Node
