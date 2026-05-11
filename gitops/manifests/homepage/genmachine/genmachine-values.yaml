@@ -1,0 +1,59 @@
+---
+homepage:
+  image:
+    registry: ghcr.io
+    repository: gethomepage/homepage
+    pullPolicy: IfNotPresent
+    tag: 'v1.12.3'
+
+  serviceAccount:
+    create: true
+    automount: true
+
+  rbac:
+    enabled: true
+
+  volumes:
+    - name: homepage-config
+      configMap:
+        name: homepage-config
+
+  volumeMounts:
+    - mountPath: /app/config/custom.css
+      name: homepage-config
+      subPath: custom.css
+    - mountPath: /app/config/bookmarks.yaml
+      name: homepage-config
+      subPath: bookmarks.yaml
+    - mountPath: /app/config/docker.yaml
+      name: homepage-config
+      subPath: docker.yaml
+    - mountPath: /app/config/kubernetes.yaml
+      name: homepage-config
+      subPath: kubernetes.yaml
+    - mountPath: /app/config/services.yaml
+      name: homepage-config
+      subPath: services.yaml
+    - mountPath: /app/config/settings.yaml
+      name: homepage-config
+      subPath: settings.yaml
+    - mountPath: /app/config/widgets.yaml
+      name: homepage-config
+      subPath: widgets.yaml
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: homepage.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - host: homepage.talos-genmachine.fredcorp.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: homepage-tls-cert
+        hosts:
+          - homepage.talos-genmachine.fredcorp.com

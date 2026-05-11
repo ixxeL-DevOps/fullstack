@@ -1,0 +1,65 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: homepage
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../common
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+        revision: main
+        directories:
+          - path: 'gitops/manifests/homepage/*'
+            exclude: false
+          - path: 'gitops/manifests/homepage/common'
+            exclude: true
+          - path: 'gitops/manifests/homepage/beelink'
+            exclude: true
+  template:
+    metadata:
+      name: 'homepage-{{ .path.basenameNormalized }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../common
+    spec:
+      project: infra-tools
+      destination:
+        name: '{{ .path.basenameNormalized }}'
+        namespace: homepage
+      sources:
+        - path: 'gitops/manifests/homepage/{{ .path.basenameNormalized }}'
+          repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          helm:
+            releaseName: homepage
+            valueFiles:
+              - $values/gitops/manifests/homepage/common/common-values.yaml
+              - $values/gitops/manifests/homepage/{{ .path.basenameNormalized }}/{{ .path.basenameNormalized }}-values.yaml
+            ignoreMissingValueFiles: true
+        - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - Replace=false
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 6
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 3m
+        managedNamespaceMetadata:
+          labels:
+            bundle.chain/inject: 'enabled'
