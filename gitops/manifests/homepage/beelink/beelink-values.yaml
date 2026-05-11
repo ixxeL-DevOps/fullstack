@@ -4,24 +4,22 @@ homepage:
     registry: ghcr.io
     repository: gethomepage/homepage
     pullPolicy: IfNotPresent
+    # renovate: datasource=docker depName=ghcr.io/gethomepage/homepage
     tag: 'v1.12.3'
 
-  # extraEnv:
-  #   - name: GRAFANA_PASSWORD
-  #     value: password
-  # extraEnvFrom: []
+  serviceAccount:
+    create: true
+    automount: true
+
+  rbac:
+    enabled: true
 
   volumes:
     - name: homepage-config
       configMap:
         name: homepage-config
-        # - name: grafana-secrets
-        #   secret:
-        #     secretName: grafana-secrets
 
   volumeMounts:
-    # - mountPath: /secrets
-    #   name: grafana-secrets
     - mountPath: /app/config/custom.css
       name: homepage-config
       subPath: custom.css
@@ -51,7 +49,7 @@ homepage:
       cert-manager.io/cluster-issuer: fredcorp-ca
       cert-manager.io/common-name: homepage.k0s-fullstack.fredcorp.com
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      traefik.ingress.kubernetes.io/service.scheme: https
+      # traefik.ingress.kubernetes.io/router.middlewares: traefik-authentik@kubernetescrd
     hosts:
       - host: homepage.k0s-fullstack.fredcorp.com
         paths:

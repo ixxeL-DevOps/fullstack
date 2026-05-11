@@ -4,5 +4,6 @@ name: homepage
 version: 1.0.0
 dependencies:
   - name: homepage
+    # renovate: datasource=helm depName=homepage registryUrl=oci://ghcr.io/m0nsterrr/helm-charts
     version: 4.11.1
     repository: oci://ghcr.io/m0nsterrr/helm-charts

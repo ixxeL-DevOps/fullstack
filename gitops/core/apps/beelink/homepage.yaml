@@ -1,0 +1,47 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homepage-k0s
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: .;../common
+    argocd-diff-preview/watch-pattern: 'gitops/manifests/homepage/beelink/.*, gitops/manifests/homepage/common/.*'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: homepage
+  project: infra-tools
+  sources:
+    - path: gitops/manifests/homepage/beelink
+      repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      helm:
+        releaseName: homepage
+        valueFiles:
+          - $values/gitops/manifests/homepage/common/common-values.yaml
+          - $values/gitops/manifests/homepage/beelink/beelink-values.yaml
+        ignoreMissingValueFiles: true
+    - repoURL: https://github.com/ixxeL-DevOps/fullstack.git
+      targetRevision: main
+      ref: values
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - PruneLast=true
+      - RespectIgnoreDifferences=true
+      - Replace=false
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 6
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m
