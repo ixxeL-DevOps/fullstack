@@ -1,0 +1,67 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: vcluster-pr-preview
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - pullRequest:
+        github:
+          owner: ixxeL-DevOps
+          repo: fullstack
+          labels:
+            - ci/preview
+          tokenRef:
+            secretName: argocd-github-token
+            key: token
+        requeueAfterSeconds: 60
+  template:
+    metadata:
+      name: 'vcluster-pr-{{ .number }}'
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: .;../common
+    spec:
+      project: infra-monitoring
+      destination:
+        name: genmachine
+        namespace: 'vcluster-pr-{{ .number }}'
+      sources:
+        - path: gitops/manifests/vcluster/genmachine
+          repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+          targetRevision: main
+          helm:
+            releaseName: 'vcluster-pr-{{ .number }}'
+            valueFiles:
+              - $values/gitops/manifests/vcluster/common/common-values.yaml
+              - $values/gitops/manifests/vcluster/genmachine/genmachine-values.yaml
+            parameters:
+              - name: vcluster.exportKubeConfig.context
+                value: 'vcluster-pr-{{ .number }}'
+              - name: vcluster.exportKubeConfig.server
+                value: 'https://vcluster-pr-{{ .number }}.vcluster-pr-{{ .number }}.svc.cluster.local:443'
+        - repoURL: 'https://github.com/ixxeL-DevOps/fullstack.git'
+          targetRevision: main
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - PruneLast=true
+        retry:
+          limit: 3
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 1m
+        managedNamespaceMetadata:
+          labels:
+            argocd.argoproj.io/instance: 'vcluster-pr-{{ .number }}'
+          annotations:
+            argocd.argoproj.io/tracking-id: >-
+              vcluster-pr-{{ .number }}:/Namespace:vcluster-pr-{{ .number }}/vcluster-pr-{{ .number }}

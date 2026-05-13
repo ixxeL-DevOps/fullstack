@@ -1,0 +1,94 @@
+---
+vcluster:
+  sync:
+    fromHost:
+      ingressClasses:
+        enabled: true
+      storageClasses:
+        enabled: true
+      secrets:
+        enabled: true
+        mappings:
+          byName:
+            # Sync AppRole credentials from the vcluster host namespace into ESO namespace
+            /vault-approle-ci: external-secrets/vault-approle-ci
+    toHost:
+      ingresses:
+        enabled: true
+
+  controlPlane:
+    statefulSet:
+      resources:
+        requests:
+          cpu: 200m
+          memory: 256Mi
+        limits:
+          cpu: 1000m
+          memory: 512Mi
+      persistence:
+        volumeClaim:
+          enabled: false
+
+  exportKubeConfig:
+    context: vcluster
+    server: ''
+    insecure: true
+
+  telemetry:
+    enabled: false
+  experimental:
+    deploy:
+      #     host:
+      #       manifests: |
+      #         ---
+      #         apiVersion: external-secrets.io/v1
+      #         kind: ExternalSecret
+      #         metadata:
+      #           name: vault-approle-ci
+      #         spec:
+      #           refreshInterval: 1h
+      #           secretStoreRef:
+      #             name: admin
+      #             kind: ClusterSecretStore
+      #           target:
+      #             name: vault-approle-ci
+      #             creationPolicy: Owner
+      #             deletionPolicy: Retain
+      #           data:
+      #             - secretKey: roleID
+      #               remoteRef:
+      #                 key: apps/ci-vcluster/approle
+      #                 property: ROLE_ID
+      #             - secretKey: secretID
+      #               remoteRef:
+      #                 key: apps/ci-vcluster/approle
+      #                 property: SECRET_ID
+      vcluster:
+        helm:
+          - chart:
+              name: cert-manager
+              repo: https://charts.jetstack.io
+              version: v1.20.2
+            release:
+              name: cert-manager
+              namespace: cert-manager
+            values: |
+              crds:
+                enabled: true
+          - chart:
+              name: external-secrets
+              repo: https://charts.external-secrets.io
+              version: 2.4.1
+            release:
+              name: external-secrets
+              namespace: external-secrets
+            values: |
+              installCRDs: true
+        manifests: |
+          ---
+          apiVersion: cert-manager.io/v1
+          kind: ClusterIssuer
+          metadata:
+            name: admin
+          spec:
+            selfSigned: {}
