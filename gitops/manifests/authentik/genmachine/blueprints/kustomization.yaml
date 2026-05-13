@@ -21,3 +21,4 @@ configMapGenerator:
       - ./enrollment.yaml
       - ./010-users.yaml
       - ./110-embedded-outpost.yaml
+      - ./130-oidc-crossview.yaml

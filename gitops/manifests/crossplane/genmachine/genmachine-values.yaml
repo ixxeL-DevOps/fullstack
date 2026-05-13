@@ -43,13 +43,20 @@ crossview:
       oidc:
         enabled: true
         issuer: https://authentik.talos-genmachine.fredcorp.com/application/o/fullstack-crossview/
-        clientId: '' # fill in after creating the Authentik provider
         callbackURL: https://crossview.talos-genmachine.fredcorp.com/api/auth/oidc/callback
         scope: openid profile email
         usernameAttribute: preferred_username
         emailAttribute: email
         firstNameAttribute: given_name
         lastNameAttribute: family_name
+
+  app:
+    extraEnv:
+      - name: OIDC_CLIENT_ID
+        valueFrom:
+          secretKeyRef:
+            name: crossview-oidc
+            key: client-id
 
   secrets:
     adminUsername:
