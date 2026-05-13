@@ -3,3 +3,10 @@ crossplane:
   deploymentStrategy: RollingUpdate
 
 komoplane:
+
+crossview:
+  global:
+    createNamespace: false
+  database:
+    persistence:
+      storageClass: ''

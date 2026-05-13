@@ -28,3 +28,49 @@ komoplane:
       - secretName: komoplane-tls-cert
         hosts:
           - komoplane.talos-genmachine.fredcorp.com
+
+crossview:
+  image:
+    repository: ghcr.io/crossplane-contrib/crossview
+    tag: 'v4.3.0'
+    pullPolicy: IfNotPresent
+
+  config:
+    server:
+      cors:
+        origin: https://crossview.talos-genmachine.fredcorp.com
+
+  secrets:
+    adminUsername:
+      secretKeyRef:
+        name: crossview-credentials
+        key: admin-username
+    adminPassword:
+      secretKeyRef:
+        name: crossview-credentials
+        key: admin-password
+    dbPassword:
+      secretKeyRef:
+        name: crossview-credentials
+        key: db-password
+    sessionSecret:
+      secretKeyRef:
+        name: crossview-credentials
+        key: session-secret
+
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: fredcorp-ca
+      cert-manager.io/common-name: crossview.talos-genmachine.fredcorp.com
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - host: crossview.talos-genmachine.fredcorp.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: crossview-tls-cert
+        hosts:
+          - crossview.talos-genmachine.fredcorp.com
