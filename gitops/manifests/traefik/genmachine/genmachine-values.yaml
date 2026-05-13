@@ -6,6 +6,10 @@ traefik:
     tag: v3.7.1
     pullPolicy: IfNotPresent
 
+  global:
+    checkNewVersion: false
+    sendAnonymousUsage: false
+
   tlsStore:
     default:
       defaultCertificate:
@@ -13,6 +17,14 @@ traefik:
 
   deployment:
     replicas: 2
+
+  ports:
+    web:
+      http:
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
 
   service:
     loadBalancerIP: '192.168.1.160'

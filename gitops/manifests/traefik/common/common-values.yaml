@@ -26,13 +26,6 @@ traefik:
     enabled: true
     name: ''
 
-  ports:
-    web:
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
-
   providers:
     kubernetesCRD:
       enabled: true
@@ -50,9 +43,6 @@ traefik:
   logs:
     general:
       level: TRACE # @schema enum:[TRACE,DEBUG,INFO,WARN,ERROR,FATAL,PANIC]; default: "INFO"
-  globalArguments:
-    - --global.checknewversion=false
-    - --global.sendanonymoususage=false
   additionalArguments: []
   service:
     enabled: true
