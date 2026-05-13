@@ -6,8 +6,9 @@ traefik:
     tag: v3.7.1
     pullPolicy: IfNotPresent
 
-  checkNewVersion: false
-  sendAnonymousUsage: false
+  global:
+    checkNewVersion: false
+    sendAnonymousUsage: false
 
   tlsStore:
     default:
