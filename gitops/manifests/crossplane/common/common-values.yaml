@@ -9,4 +9,4 @@ crossview:
     createNamespace: false
   database:
     persistence:
-      storageClass: ''
+      storageClass: 'proxmox-delete'
