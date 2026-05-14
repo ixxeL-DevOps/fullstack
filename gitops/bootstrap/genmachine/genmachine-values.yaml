@@ -247,6 +247,7 @@ argo-cd:
       resource.customizations.ignoreDifferences.apiextensions.k8s.io_CustomResourceDefinition: |
         jqPathExpressions:
         - .spec.conversion.webhook.clientConfig.caBundle
+        - .metadata.annotations
       resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
         jqPathExpressions:
         - .webhooks[]?.clientConfig.caBundle
@@ -257,7 +258,13 @@ argo-cd:
         - .spec.insecureSkipTLSVerify
       resource.customizations.ignoreDifferences.external-secrets.io_ExternalSecret: |
         jqPathExpressions:
+        - .spec.data[].remoteRef.conversionStrategy
+        - .spec.data[].remoteRef.decodingStrategy
+        - .spec.data[].remoteRef.metadataPolicy
         - .spec.data[].remoteRef.nullBytePolicy
+        - .spec.dataFrom[].extract.conversionStrategy
+        - .spec.dataFrom[].extract.decodingStrategy
+        - .spec.dataFrom[].extract.metadataPolicy
         - .spec.dataFrom[].extract.nullBytePolicy
       resource.exclusions: |
         - apiGroups:
