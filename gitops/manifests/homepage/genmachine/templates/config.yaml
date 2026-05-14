@@ -234,9 +234,9 @@ data:
             siteMonitor: https://wireguard.talos-genmachine.fredcorp.com/
             description: VPN server
         - Vault:
-            href: https://vault.talos-genmachink.fredcorp.com
+            href: https://vault.talos-genmachine.fredcorp.com
             icon: vault.png
-            siteMonitor: https://vault.talos-genmachin.fredcorp.com
+            siteMonitor: https://vault.talos-genmachine.fredcorp.com
             description: Secret Manager
     - HardWare:
         - Asus GT-BE98:
