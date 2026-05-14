@@ -118,7 +118,7 @@ data:
             description: Ingress Controller
             widget:
               type: traefik
-              url: https://traefik.talos-genmachine.fredcorp.com
+              url: http://traefik-api.traefik.svc.cluster.local:8080
               fields: ["routers", "services", "middleware"]
 
     - Infrastructure k0s:
