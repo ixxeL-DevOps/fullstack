@@ -31,15 +31,15 @@ spec:
       selfHeal: true
     syncOptions:
       - Validate=true
-      - PruneLast=false
+      - PruneLast=true
       - RespectIgnoreDifferences=true
       - Replace=false
       - ApplyOutOfSyncOnly=true
       - CreateNamespace=true
       - ServerSideApply=true
     retry:
-      limit: 2
+      limit: 6
       backoff:
-        duration: 5s
+        duration: 10s
         factor: 2
-        maxDuration: 2m
+        maxDuration: 3m
