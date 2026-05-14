@@ -154,7 +154,7 @@ data:
             widget:
               type: argocd
               url: https://argocd.talos-genmachine.fredcorp.com
-              key: "{{HOMEPAGE_FILE_/app/config/secrets/argocd-token}}"
+              key: "{{ "{{" }}HOMEPAGE_FILE_/app/config/secrets/argocd-token{{ "}}" }}"
               fields: ["apps", "outOfSync", "healthy", "degraded"]
         - AdGuard:
             href: https://adguard.talos-genmachine.fredcorp.com
