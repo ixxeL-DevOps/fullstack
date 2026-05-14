@@ -48,9 +48,8 @@ kube-prometheus-stack:
       pullPolicy: IfNotPresent
     podAnnotations:
       reloader.stakater.com/auto: 'true'
-    envFrom:
-      - secretRef:
-          name: grafana-oidc
+    envFromSecrets:
+      - name: grafana-oidc
     extraVolumes:
       - name: fredcorp-ca-chain
         secret:
@@ -138,3 +137,4 @@ prometheus-pushgateway:
     namespace: prometheus
     additionalLabels:
       release: prometheus
+
