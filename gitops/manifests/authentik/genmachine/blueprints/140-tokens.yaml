@@ -10,6 +10,6 @@ entries:
       identifier: homepage-api
     attrs:
       intent: api
-      user: !Find [authentik_core.user, [username, ixxel]]
+      user: !Find [authentik_core.user, [username, sa-homepage]]
       key: !Env HOMEPAGE_AUTHENTIK_API_TOKEN
       expiring: false
