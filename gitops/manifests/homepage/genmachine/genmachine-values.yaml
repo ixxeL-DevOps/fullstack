@@ -33,9 +33,9 @@ homepage:
     - name: homepage-authentik-token
       secret:
         secretName: homepage-authentik-token
-    - name: homepage-adguard-password
+    - name: homepage-adguard-creds
       secret:
-        secretName: homepage-adguard-password
+        secretName: homepage-adguard-creds
 
   volumeMounts:
     - mountPath: /app/config/custom.css
