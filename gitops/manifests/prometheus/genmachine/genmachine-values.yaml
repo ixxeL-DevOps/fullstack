@@ -46,6 +46,37 @@ kube-prometheus-stack:
       repository: grafana/grafana
       tag: '12.4.3'
       pullPolicy: IfNotPresent
+    podAnnotations:
+      reloader.stakater.com/auto: 'true'
+    envFrom:
+      - secretRef:
+          name: grafana-oidc
+    extraVolumes:
+      - name: fredcorp-ca-chain
+        secret:
+          defaultMode: 420
+          secretName: fredcorp-ca-chain
+    extraVolumeMounts:
+      - name: fredcorp-ca-chain
+        mountPath: /etc/ssl/certs/fredcorp-ca-chain.pem
+        subPath: fredcorp-ca-chain.pem
+        readOnly: true
+    grafana.ini:
+      auth:
+        oauth_auto_login: true
+        signout_redirect_url: https://authentik.talos-genmachine.fredcorp.com/application/o/genmachine-grafana/end-session/
+      auth.generic_oauth:
+        enabled: true
+        name: Authentik
+        allow_sign_up: true
+        client_id: ${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}
+        client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+        scopes: openid email profile groups
+        auth_url: https://authentik.talos-genmachine.fredcorp.com/application/o/authorize/
+        token_url: https://authentik.talos-genmachine.fredcorp.com/application/o/token/
+        api_url: https://authentik.talos-genmachine.fredcorp.com/application/o/userinfo/
+        role_attribute_path: contains(groups[*], 'Grafana admins') && 'Admin' || 'Viewer'
+        tls_client_ca: /etc/ssl/certs/fredcorp-ca-chain.pem
     ingress:
       enabled: true
       annotations:
