@@ -12,6 +12,7 @@ configMapGenerator:
       - ./060-oidc-vault.yaml
       - ./050-oidc-homarr.yaml
       - ./070-oidc-wireguard.yaml
+      - ./130-oidc-grafana.yaml
       - ./100-proxy-traefik.yaml
       - ./090-proxy-adguard.yaml
       - ./030-groups.yaml
