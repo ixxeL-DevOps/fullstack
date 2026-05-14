@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+# yamllint disable
+---
+version: 1
+metadata:
+  name: genmachine-tokens
+entries:
+  - model: authentik_core.token
+    identifiers:
+      identifier: homepage-api
+    attrs:
+      intent: api
+      user: !Find [authentik_core.user, [username, sa-homepage]]
+      key: !Env HOMEPAGE_AUTHENTIK_API_TOKEN
+      expiring: false
