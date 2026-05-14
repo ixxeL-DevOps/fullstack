@@ -50,7 +50,7 @@ kube-prometheus-stack:
       reloader.stakater.com/auto: 'true'
     envFromSecrets:
       - name: grafana-oidc
-    extraVolumes:
+    extraContainerVolumes:
       - name: fredcorp-ca-chain
         secret:
           defaultMode: 420
@@ -137,4 +137,3 @@ prometheus-pushgateway:
     namespace: prometheus
     additionalLabels:
       release: prometheus
-
