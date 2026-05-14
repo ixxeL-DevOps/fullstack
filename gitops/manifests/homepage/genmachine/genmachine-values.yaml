@@ -22,6 +22,8 @@ homepage:
       value: /app/config/secrets/adguard-password
     - name: HOMEPAGE_FILE_ADGUARD_USER
       value: /app/config/secrets/adguard-user
+    - name: HOMEPAGE_FILE_GRAFANA_PASSWORD
+      value: /app/config/secrets/grafana-password
 
   volumes:
     - name: homepage-config
@@ -36,6 +38,9 @@ homepage:
     - name: homepage-adguard-creds
       secret:
         secretName: homepage-adguard-creds
+    - name: homepage-grafana-password
+      secret:
+        secretName: homepage-grafana-password
 
   volumeMounts:
     - mountPath: /app/config/custom.css
@@ -75,6 +80,10 @@ homepage:
       name: homepage-adguard-creds
       readOnly: true
       subPath: user
+    - mountPath: /app/config/secrets/grafana-password
+      name: homepage-grafana-password
+      readOnly: true
+      subPath: password
 
   ingress:
     enabled: true
