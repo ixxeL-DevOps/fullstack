@@ -6,6 +6,9 @@ traefik:
     tag: v3.7.1
     pullPolicy: IfNotPresent
 
+  api:
+    insecure: true
+
   global:
     checkNewVersion: false
     sendAnonymousUsage: false
