@@ -25,6 +25,11 @@ spec:
     - path: gitops/core/clusters/beelink
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
+  ignoreDifferences:
+    - group: argoproj.io
+      kind: Application
+      jqPathExpressions:
+        - .status
   syncPolicy:
     automated:
       prune: true
