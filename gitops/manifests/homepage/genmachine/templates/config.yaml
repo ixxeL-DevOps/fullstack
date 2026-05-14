@@ -275,8 +275,8 @@ data:
               type: qnap
               url: https://qnap.fredcorp.com/
               fields: ["cpuUsage", "memUsage", "systemTempC", "poolUsage", "volumeUsage"]
-              username: admin
-              password: '@Coucou2097'
+              username: "{{ "{{" }}HOMEPAGE_FILE_QNAP_USER{{ "}}" }}"
+              password: "{{ "{{" }}HOMEPAGE_FILE_QNAP_PASSWORD{{ "}}" }}"
               volume: DataVol2
 
   widgets.yaml: |
