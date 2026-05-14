@@ -1,0 +1,29 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: adguard-api-tls-cert
+spec:
+  secretName: adguard-api-tls-cert
+  issuerRef:
+    kind: ClusterIssuer
+    name: fredcorp-ca
+  commonName: adguard-api.k0s-fullstack.fredcorp.com
+  dnsNames:
+    - adguard-api.k0s-fullstack.fredcorp.com
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adguard-homepage-api
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`adguard-api.k0s-fullstack.fredcorp.com`)
+      services:
+        - name: adguard-adguard-home-http
+          port: 80
+  tls:
+    secretName: adguard-api-tls-cert
