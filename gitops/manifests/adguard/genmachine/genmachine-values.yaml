@@ -284,6 +284,8 @@ adguard-home:
       rewrites:
         - domain: qnap.fredcorp.com
           answer: 192.168.1.250
+        - domain: asus-router.fredcorp.com
+          answer: 192.168.1.1
         - domain: proxmox-beelink.fredcorp.com
           answer: 192.168.1.249
         - domain: proxmox-genmachine.fredcorp.com
