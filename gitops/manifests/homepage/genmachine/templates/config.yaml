@@ -245,16 +245,16 @@ data:
             siteMonitor: http://192.168.1.1
             description: Router
         - Proxmox:
-            href: https://proxmox-big.fredcorp.com:8006/
+            href: https://proxmox-genmachine.fredcorp.com:8006/
             icon: proxmox.png
-            siteMonitor: https://proxmox-big.fredcorp.com:8006/
+            siteMonitor: https://proxmox-genmachine.fredcorp.com:8006/
             description: Hypervisor
             widget:
               type: proxmox
-              url: https://proxmox-big.fredcorp.com:8006/
+              url: https://proxmox-genmachine.fredcorp.com:8006/
               fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
-              username: api@pam!homarr
-              password: '3ff8335c-bff4-43c4-b010-ca824eaa4398'
+              username: "{{ "{{" }}HOMEPAGE_FILE_PROXMOX_USER{{ "}}" }}"
+              password: "{{ "{{" }}HOMEPAGE_FILE_PROXMOX_PASSWORD{{ "}}" }}"
         - QNAP:
             href: https://qnap.fredcorp.com/
             icon: qnap.png

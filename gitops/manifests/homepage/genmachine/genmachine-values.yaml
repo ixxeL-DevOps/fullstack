@@ -24,6 +24,10 @@ homepage:
       value: /app/config/secrets/adguard-user
     - name: HOMEPAGE_FILE_GRAFANA_PASSWORD
       value: /app/config/secrets/grafana-password
+    - name: HOMEPAGE_FILE_PROXMOX_USER
+      value: /app/config/secrets/proxmox-user
+    - name: HOMEPAGE_FILE_PROXMOX_PASSWORD
+      value: /app/config/secrets/proxmox-token
 
   volumes:
     - name: homepage-config
@@ -41,6 +45,9 @@ homepage:
     - name: homepage-grafana-password
       secret:
         secretName: homepage-grafana-password
+    - name: homepage-proxmox-creds
+      secret:
+        secretName: homepage-proxmox-creds
 
   volumeMounts:
     - mountPath: /app/config/custom.css
@@ -84,6 +91,14 @@ homepage:
       name: homepage-grafana-password
       readOnly: true
       subPath: password
+    - mountPath: /app/config/secrets/proxmox-user
+      name: homepage-proxmox-creds
+      readOnly: true
+      subPath: user
+    - mountPath: /app/config/secrets/proxmox-token
+      name: homepage-proxmox-creds
+      readOnly: true
+      subPath: token
 
   ingress:
     enabled: true

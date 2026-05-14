@@ -284,10 +284,10 @@ adguard-home:
       rewrites:
         - domain: qnap.fredcorp.com
           answer: 192.168.1.250
-        - domain: proxmox-small.fredcorp.com
-          answer: 192.168.1.252
-        - domain: proxmox-big.fredcorp.com
-          answer: 192.168.1.251
+        - domain: proxmox-beelink.fredcorp.com
+          answer: 192.168.1.249
+        - domain: proxmox-genmachine.fredcorp.com
+          answer: 192.168.1.248
         - domain: k0s.fullstack.fredcorp.com
           answer: 192.168.1.190
         - domain: '*.k0s-fullstack.fredcorp.com'
