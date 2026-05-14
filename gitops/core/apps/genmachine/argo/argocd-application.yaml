@@ -45,6 +45,15 @@ spec:
     - path: gitops/core/clusters/genmachine
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
+  ignoreDifferences:
+    - group: argoproj.io
+      kind: ApplicationSet
+      jqPathExpressions:
+        - .status
+    - group: argoproj.io
+      kind: Application
+      jqPathExpressions:
+        - .status
   syncPolicy:
     syncOptions:
       - Validate=true
