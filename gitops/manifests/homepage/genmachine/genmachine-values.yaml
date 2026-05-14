@@ -16,6 +16,8 @@ homepage:
   extraEnv:
     - name: HOMEPAGE_FILE_ARGOCD_TOKEN
       value: /app/config/secrets/argocd-token
+    - name: HOMEPAGE_FILE_AUTHENTIK_TOKEN
+      value: /app/config/secrets/authentik-token
 
   volumes:
     - name: homepage-config
@@ -24,6 +26,9 @@ homepage:
     - name: homepage-argocd-token
       secret:
         secretName: homepage-argocd-token
+    - name: homepage-authentik-token
+      secret:
+        secretName: homepage-authentik-token
 
   volumeMounts:
     - mountPath: /app/config/custom.css
@@ -49,6 +54,10 @@ homepage:
       subPath: widgets.yaml
     - mountPath: /app/config/secrets/argocd-token
       name: homepage-argocd-token
+      readOnly: true
+      subPath: token
+    - mountPath: /app/config/secrets/authentik-token
+      name: homepage-authentik-token
       readOnly: true
       subPath: token
 
