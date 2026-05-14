@@ -13,8 +13,9 @@ homepage:
   rbac:
     enabled: true
 
-  env:
-    HOMEPAGE_FILE_ARGOCD_TOKEN: /app/config/secrets/argocd-token
+  extraEnv:
+    - name: HOMEPAGE_FILE_ARGOCD_TOKEN
+      value: /app/config/secrets/argocd-token
 
   volumes:
     - name: homepage-config
