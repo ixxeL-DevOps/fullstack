@@ -244,7 +244,7 @@ data:
             icon: asus.png
             siteMonitor: http://192.168.1.1
             description: Router
-        - Proxmox:
+        - Proxmox genmachine:
             href: https://proxmox-genmachine.fredcorp.com:8006/
             icon: proxmox.png
             siteMonitor: https://proxmox-genmachine.fredcorp.com:8006/
@@ -252,6 +252,17 @@ data:
             widget:
               type: proxmox
               url: https://proxmox-genmachine.fredcorp.com:8006/
+              fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
+              username: "{{ "{{" }}HOMEPAGE_FILE_PROXMOX_USER{{ "}}" }}"
+              password: "{{ "{{" }}HOMEPAGE_FILE_PROXMOX_PASSWORD{{ "}}" }}"
+        - Proxmox beelink:
+            href: https://proxmox-beelink.fredcorp.com:8006/
+            icon: proxmox.png
+            siteMonitor: https://proxmox-beelink.fredcorp.com:8006/
+            description: Hypervisor
+            widget:
+              type: proxmox
+              url: https://proxmox-beelink.fredcorp.com:8006/
               fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
               username: "{{ "{{" }}HOMEPAGE_FILE_PROXMOX_USER{{ "}}" }}"
               password: "{{ "{{" }}HOMEPAGE_FILE_PROXMOX_PASSWORD{{ "}}" }}"
