@@ -41,6 +41,10 @@ kube-prometheus-stack:
             - prometheus.talos-genmachine.fredcorp.com
           secretName: prometheus-tls-cert
   grafana:
+    admin:
+      existingSecret: grafana-admin-creds
+      userKey: admin-user
+      passwordKey: admin-password
     image:
       registry: docker.io
       repository: grafana/grafana

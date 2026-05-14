@@ -92,10 +92,11 @@ data:
             description: Dashboarding
             widget:
                 type: grafana
+                version: 2
                 url: https://grafana.talos-genmachine.fredcorp.com
                 fields: ["dashboards", "datasources", "totalalerts", "alertstriggered"]
                 username: admin
-                password:
+                password: "{{ "{{" }}HOMEPAGE_FILE_GRAFANA_PASSWORD{{ "}}" }}"
     - Networking k0s:
         - Traefik:
             href: https://traefik.k0s-fullstack.fredcorp.com
