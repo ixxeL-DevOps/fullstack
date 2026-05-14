@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+# yamllint disable
+---
+version: 1
+metadata:
+  name: genmachine-rbac
+entries:
+  - model: authentik_rbac.role
+    identifiers:
+      name: homepage-readonly
+    attrs:
+      permissions:
+        - !Find [auth.permission, [codename, view_user, content_type__app_label, authentik_core]]
+        - !Find [auth.permission, [codename, view_event, content_type__app_label, authentik_events]]
