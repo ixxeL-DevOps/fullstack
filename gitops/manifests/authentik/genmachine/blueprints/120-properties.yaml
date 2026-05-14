@@ -16,3 +16,14 @@ entries:
         }
       name: wireguard-is-admin
       scope_name: is_admin
+  - model: authentik_providers_oauth2.scopemapping
+    identifiers:
+      name: "OAuth mapping: OpenID 'groups' for Grafana"
+    attrs:
+      description: groups claim for Grafana OIDC role mapping
+      expression: |
+        return {
+          "groups": [g.name for g in request.user.ak_groups.all()]
+        }
+      name: grafana-groups
+      scope_name: groups
