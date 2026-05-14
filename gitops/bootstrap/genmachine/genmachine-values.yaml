@@ -255,6 +255,10 @@ argo-cd:
       resource.customizations.ignoreDifferences.apiregistration.k8s.io_APIService: |
         jqPathExpressions:
         - .spec.insecureSkipTLSVerify
+      resource.customizations.ignoreDifferences.external-secrets.io_ExternalSecret: |
+        jqPathExpressions:
+        - .spec.data[].remoteRef.nullBytePolicy
+        - .spec.dataFrom[].extract.nullBytePolicy
       resource.exclusions: |
         - apiGroups:
           - cilium.io
