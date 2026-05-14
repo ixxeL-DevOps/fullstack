@@ -120,6 +120,11 @@ data:
               type: traefik
               url: http://traefik-api.traefik.svc.cluster.local:8080
               fields: ["routers", "services", "middleware"]
+        - Hubble:
+            href: https://hubble.talos-genmachine.fredcorp.com
+            icon: cilium.png
+            siteMonitor: https://hubble.talos-genmachine.fredcorp.com
+            description: Cilium network observability
 
     - Infrastructure k0s:
         - ArgoCD:
@@ -173,6 +178,21 @@ data:
             icon: minio.png
             siteMonitor: https://minio.talos-genmachine.fredcorp.com
             description: Storage Object server
+        - Renovate:
+            href: https://renovate-operator.talos-genmachine.fredcorp.com
+            icon: renovate.png
+            siteMonitor: https://renovate-operator.talos-genmachine.fredcorp.com
+            description: Automated dependency updates
+        - Crossview:
+            href: https://crossview.talos-genmachine.fredcorp.com
+            icon: mdi-layers-triple
+            siteMonitor: https://crossview.talos-genmachine.fredcorp.com
+            description: Crossplane UI
+        - Komoplane:
+            href: https://komoplane.talos-genmachine.fredcorp.com
+            icon: mdi-monitor-dashboard
+            siteMonitor: https://komoplane.talos-genmachine.fredcorp.com
+            description: Crossplane dashboard
 
     - Security k0s:
         - Authentik:
