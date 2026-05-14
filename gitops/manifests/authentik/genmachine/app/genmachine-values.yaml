@@ -14,6 +14,11 @@ authentik:
           secretKeyRef:
             name: adguard-creds
             key: ADGUARD_ADMIN_PWD
+      - name: HOMEPAGE_AUTHENTIK_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: homepage-authentik-api-token
+            key: HOMEPAGE_AUTHENTIK_API_TOKEN
       - name: AUTHENTIK_IXXEL_PASSWORD
         valueFrom:
           secretKeyRef:
