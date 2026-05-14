@@ -203,6 +203,11 @@ data:
               type: authentik
               url: https://authentik.talos-genmachine.fredcorp.com
               fields: ["users", "loginsLast24H", "failedLoginsLast24H"]
+        - WireGuard:
+            href: https://wireguard.talos-genmachine.fredcorp.com
+            icon: wireguard.png
+            siteMonitor: https://wireguard.talos-genmachine.fredcorp.com/
+            description: VPN server
 
     - HardWare:
         - Asus GT-BE98:
