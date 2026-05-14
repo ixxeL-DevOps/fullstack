@@ -18,6 +18,7 @@ configMapGenerator:
       - ./030-groups.yaml
       - ./020-service-accounts.yaml
       - ./120-properties.yaml
+      - ./135-rbac.yaml
       - ./140-tokens.yaml
       - ./000-flows.yaml
       - ./enrollment.yaml
