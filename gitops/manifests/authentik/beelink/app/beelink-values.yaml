@@ -9,6 +9,21 @@ authentik:
       tag: '2026.2.3'
       pullPolicy: IfNotPresent
     env:
+      - name: ADGUARD_ADMIN_PWD
+        valueFrom:
+          secretKeyRef:
+            name: adguard-creds
+            key: ADGUARD_ADMIN_PWD
+      - name: HOMEPAGE_AUTHENTIK_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: homepage-authentik-api-token
+            key: HOMEPAGE_AUTHENTIK_API_TOKEN
+      - name: AUTHENTIK_IXXEL_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-bootstrap
+            key: ixxel-password
       - name: AUTHENTIK_BOOTSTRAP_PASSWORD
         valueFrom:
           secretKeyRef:
@@ -63,8 +78,8 @@ authentik:
   postgresql:
     enabled: true
     image:
-      repository: bitnamilegacy/postgresql
-      tag: 17.6.0-debian-12-r4
+      repository: library/postgres
+      tag: 17.9-bookworm
     auth:
       username: authentik
       database: authentik

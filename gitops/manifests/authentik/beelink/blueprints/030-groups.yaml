@@ -26,7 +26,7 @@ entries:
     attrs:
       attributes:
         app_username: admin
-        app_password: xxxx
+        app_password: !Env ADGUARD_ADMIN_PWD
       users:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
@@ -51,11 +51,12 @@ entries:
       users:
         - !Find [authentik_core.user, [username, ixxel]]
   - model: authentik_core.group
-    id: sa-homarr
     identifiers:
       name: sa-homarr
     attrs:
       name: sa-homarr
+      users:
+        - !Find [authentik_core.user, [username, sa-homarr]]
   - model: authentik_core.group
     id: sa-homepage
     identifiers:
