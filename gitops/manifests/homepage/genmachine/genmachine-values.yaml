@@ -17,6 +17,9 @@ homepage:
     - name: homepage-config
       configMap:
         name: homepage-config
+    - name: homepage-argocd-token
+      secret:
+        secretName: homepage-argocd-token
 
   volumeMounts:
     - mountPath: /app/config/custom.css
@@ -40,6 +43,10 @@ homepage:
     - mountPath: /app/config/widgets.yaml
       name: homepage-config
       subPath: widgets.yaml
+    - mountPath: /app/config/secrets/argocd-token
+      name: homepage-argocd-token
+      readOnly: true
+      subPath: token
 
   ingress:
     enabled: true
