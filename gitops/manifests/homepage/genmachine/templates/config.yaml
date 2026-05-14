@@ -203,6 +203,7 @@ data:
               type: authentik
               url: https://authentik.talos-genmachine.fredcorp.com
               key: "{{ "{{" }}HOMEPAGE_FILE_AUTHENTIK_TOKEN{{ "}}" }}"
+              version: 2
               fields: ["users", "loginsLast24H", "failedLoginsLast24H"]
 
     - HardWare:
