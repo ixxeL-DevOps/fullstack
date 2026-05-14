@@ -202,6 +202,7 @@ data:
             widget:
               type: authentik
               url: https://authentik.talos-genmachine.fredcorp.com
+              key: "{{ "{{" }}HOMEPAGE_FILE_AUTHENTIK_TOKEN{{ "}}" }}"
               fields: ["users", "loginsLast24H", "failedLoginsLast24H"]
 
     - HardWare:
