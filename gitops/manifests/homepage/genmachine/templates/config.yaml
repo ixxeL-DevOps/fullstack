@@ -147,9 +147,9 @@ data:
             widget:
               type: adguard
               url: https://adguard.k0s-fullstack.fredcorp.com
+              username: "{{ "{{" }}HOMEPAGE_FILE_ADGUARD_USER{{ "}}" }}"
+              password: "{{ "{{" }}HOMEPAGE_FILE_ADGUARD_PASSWORD{{ "}}" }}"
               fields: ["queries", "blocked", "filtered", "latency"]
-              username: sa-homepage
-              password: 'ek6WJ8fbz2pzXdBVwctWmSZi8T2kGnwHIh6hFTVxLc3HXNjKc4gwVVxsKu7t'
 
     - Infrastructure Talos:
         - ArgoCD:
