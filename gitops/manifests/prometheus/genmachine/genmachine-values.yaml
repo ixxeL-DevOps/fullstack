@@ -47,7 +47,7 @@ kube-prometheus-stack:
       tag: '12.4.3'
       pullPolicy: IfNotPresent
     podAnnotations:
-      reloader.stakater.com/auto: "true"
+      reloader.stakater.com/auto: 'true'
     envFrom:
       - secretRef:
           name: grafana-oidc
@@ -63,7 +63,7 @@ kube-prometheus-stack:
         readOnly: true
     grafana.ini:
       auth:
-        oauth_auto_login: false
+        oauth_auto_login: true
         signout_redirect_url: https://authentik.talos-genmachine.fredcorp.com/application/o/genmachine-grafana/end-session/
       auth.generic_oauth:
         enabled: true
