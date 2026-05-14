@@ -163,7 +163,9 @@ data:
             description: DNS resolver
             widget:
               type: adguard
-              url: https://adguard.talos-genmachine.fredcorp.com
+              url: http://adguard-adguard-home-http.adguard.svc.cluster.local
+              username: "{{ "{{" }}HOMEPAGE_FILE_ADGUARD_USER{{ "}}" }}"
+              password: "{{ "{{" }}HOMEPAGE_FILE_ADGUARD_PASSWORD{{ "}}" }}"
               fields: ["queries", "blocked", "filtered", "latency"]
         - Minio:
             href: https://minio.talos-genmachine.fredcorp.com

@@ -18,6 +18,10 @@ homepage:
       value: /app/config/secrets/argocd-token
     - name: HOMEPAGE_FILE_AUTHENTIK_TOKEN
       value: /app/config/secrets/authentik-token
+    - name: HOMEPAGE_FILE_ADGUARD_PASSWORD
+      value: /app/config/secrets/adguard-password
+    - name: HOMEPAGE_FILE_ADGUARD_USER
+      value: /app/config/secrets/adguard-user
 
   volumes:
     - name: homepage-config
@@ -29,6 +33,9 @@ homepage:
     - name: homepage-authentik-token
       secret:
         secretName: homepage-authentik-token
+    - name: homepage-adguard-password
+      secret:
+        secretName: homepage-adguard-password
 
   volumeMounts:
     - mountPath: /app/config/custom.css
@@ -60,6 +67,14 @@ homepage:
       name: homepage-authentik-token
       readOnly: true
       subPath: token
+    - mountPath: /app/config/secrets/adguard-password
+      name: homepage-adguard-creds
+      readOnly: true
+      subPath: password
+    - mountPath: /app/config/secrets/adguard-user
+      name: homepage-adguard-creds
+      readOnly: true
+      subPath: user
 
   ingress:
     enabled: true
