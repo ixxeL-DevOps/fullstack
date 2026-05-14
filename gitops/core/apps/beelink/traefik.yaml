@@ -15,7 +15,7 @@ spec:
     namespace: traefik
   project: infra-network
   sources:
-    - path: gitops/manifests/traefik/k0s
+    - path: gitops/manifests/traefik/beelink
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
       helm:

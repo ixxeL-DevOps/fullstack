@@ -15,7 +15,7 @@ spec:
     namespace: cert-manager
   project: infra-security
   sources:
-    - path: gitops/manifests/cert-manager/k0s
+    - path: gitops/manifests/cert-manager/beelink
       repoURL: https://github.com/ixxeL-DevOps/fullstack.git
       targetRevision: main
       helm:
