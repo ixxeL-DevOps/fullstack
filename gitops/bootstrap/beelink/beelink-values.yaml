@@ -71,7 +71,7 @@ argo-cd:
           release: prometheus
 
   applicationSet:
-    enabled: false
+    enabled: true
     replicas: 1
     pdb:
       enabled: true
