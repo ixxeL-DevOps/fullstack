@@ -120,7 +120,7 @@ prometheus-blackbox-exporter:
 prometheus-pushgateway:
   image:
     repository: quay.io/prometheus/pushgateway
-    tag: v1.11.2
+    tag: v1.11.3
     pullPolicy: IfNotPresent
   ingress:
     enabled: true
