@@ -5,7 +5,7 @@ proxmox-csi-plugin:
       image:
         repository: ghcr.io/sergelogvinov/proxmox-csi-controller
         pullPolicy: IfNotPresent
-        tag: v0.19.0
+        tag: v0.19.1
     attacher:
       image:
         repository: registry.k8s.io/sig-storage/csi-attacher
@@ -20,13 +20,13 @@ proxmox-csi-plugin:
       image:
         repository: registry.k8s.io/sig-storage/csi-resizer
         pullPolicy: IfNotPresent
-        tag: v2.2.0
+        tag: v2.2.1
   node:
     plugin:
       image:
         repository: ghcr.io/sergelogvinov/proxmox-csi-node
         pullPolicy: IfNotPresent
-        tag: v0.19.0
+        tag: v0.19.1
     driverRegistrar:
       image:
         repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
