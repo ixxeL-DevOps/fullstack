@@ -32,7 +32,7 @@ komoplane:
 crossview:
   image:
     repository: ghcr.io/crossplane-contrib/crossview
-    tag: 'v4.4.0'
+    tag: 'v4.5.0'
     pullPolicy: IfNotPresent
 
   config:
