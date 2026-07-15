@@ -8,7 +8,7 @@ argo-cd:
     image:
       imagePullPolicy: IfNotPresent
       repository: quay.io/argoproj/argocd
-      tag: v3.4.4
+      tag: v3.4.5
     logging:
       format: text
       level: info
@@ -59,7 +59,7 @@ argo-cd:
         - name: argo-rollouts
           env:
             - name: EXTENSION_URL
-              value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.7/extension.tar
+              value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.4.0/extension.tar
               #      - name: EXTENSION_CHECKSUM_URL
               #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
 
