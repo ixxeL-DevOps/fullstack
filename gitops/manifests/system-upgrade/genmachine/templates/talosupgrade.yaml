@@ -7,7 +7,7 @@ metadata:
 spec:
   talos:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    version: v1.12.9
+    version: v1.12.10
   parallelism: 1
   policy:
     rebootMode: default
