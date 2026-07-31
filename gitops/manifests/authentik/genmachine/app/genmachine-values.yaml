@@ -60,6 +60,40 @@ authentik:
       password: file:///pgsql-creds/password
 
   server:
+    replicas: 2
+    deploymentStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+    pdb:
+      enabled: true
+      minAvailable: 1
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: authentik
+                  app.kubernetes.io/component: server
+              topologyKey: kubernetes.io/hostname
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: authentik
+            app.kubernetes.io/component: server
     ingress:
       enabled: true
       ingressClassName: traefik
@@ -78,6 +112,42 @@ authentik:
       # -- uses `server.service.servicePortHttps` instead of `server.service.servicePortHttp`
       https: false
 
+  worker:
+    replicas: 2
+    deploymentStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+    pdb:
+      enabled: true
+      minAvailable: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: authentik
+                  app.kubernetes.io/component: worker
+              topologyKey: kubernetes.io/hostname
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: authentik
+            app.kubernetes.io/component: worker
+
   postgresql:
     enabled: true
     image:
@@ -92,14 +162,3 @@ authentik:
         existingClaim: pvc-authentik-pgsql-data
         storageClass: proxmox-retain
         size: 8Gi
-  redis:
-    enabled: true
-    master:
-      persistence:
-        enabled: false
-        sizeLimit: ''
-        path: /data
-        storageClass: nfs-csi-delete
-        accessModes:
-          - ReadWriteOnce
-        size: 7Gi
