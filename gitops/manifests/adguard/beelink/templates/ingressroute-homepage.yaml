@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adguard-homepage-api
+  annotations:
+    cert-manager.io/cluster-issuer: fredcorp-ca
+    cert-manager.io/common-name: adguard-api.k0s-fullstack.fredcorp.com
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: adguard-api.k0s-fullstack.fredcorp.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: adguard-adguard-home-http
+                port:
+                  number: 80
+  tls:
+    - secretName: adguard-api-tls-cert
+      hosts:
+        - adguard-api.k0s-fullstack.fredcorp.com
