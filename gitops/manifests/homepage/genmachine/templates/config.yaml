@@ -146,7 +146,7 @@ data:
             description: DNS resolver
             widget:
               type: adguard
-              url: https://adguard.k0s-fullstack.fredcorp.com
+              url: https://adguard-api.k0s-fullstack.fredcorp.com
               username: "{{ "{{" }}HOMEPAGE_FILE_ADGUARD_USER{{ "}}" }}"
               password: "{{ "{{" }}HOMEPAGE_FILE_ADGUARD_PASSWORD{{ "}}" }}"
               fields: ["queries", "blocked", "filtered", "latency"]
