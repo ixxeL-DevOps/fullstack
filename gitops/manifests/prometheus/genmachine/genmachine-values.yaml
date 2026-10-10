@@ -4,7 +4,7 @@ kube-prometheus-stack:
     image:
       registry: quay.io
       repository: prometheus-operator/prometheus-operator
-      tag: v0.93.1
+      tag: v0.94.1
       pullPolicy: IfNotPresent
 
   prometheus:
@@ -13,7 +13,7 @@ kube-prometheus-stack:
       image:
         registry: quay.io
         repository: prometheus/prometheus
-        tag: v3.14.0
+        tag: v3.15.0
       retention: 7d
       scrapeInterval: '30s'
       logLevel: info
@@ -48,7 +48,7 @@ kube-prometheus-stack:
     image:
       registry: docker.io
       repository: grafana/grafana
-      tag: '12.4.9'
+      tag: '12.4.12'
       pullPolicy: IfNotPresent
     podAnnotations:
       reloader.stakater.com/auto: 'true'
@@ -120,7 +120,7 @@ prometheus-blackbox-exporter:
 prometheus-pushgateway:
   image:
     repository: quay.io/prometheus/pushgateway
-    tag: v1.11.3
+    tag: v1.11.4
     pullPolicy: IfNotPresent
   ingress:
     enabled: true
