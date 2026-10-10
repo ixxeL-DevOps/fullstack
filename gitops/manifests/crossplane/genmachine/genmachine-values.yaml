@@ -2,7 +2,7 @@
 crossplane:
   image:
     repository: xpkg.upbound.io/crossplane/crossplane
-    tag: 'v2.4.0'
+    tag: 'v2.4.2'
     pullPolicy: IfNotPresent
 
 komoplane:
@@ -32,7 +32,7 @@ komoplane:
 crossview:
   image:
     repository: ghcr.io/crossplane-contrib/crossview
-    tag: 'v4.5.0'
+    tag: 'v4.6.0'
     pullPolicy: IfNotPresent
 
   config:

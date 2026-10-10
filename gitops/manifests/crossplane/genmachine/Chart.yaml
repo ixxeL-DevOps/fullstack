@@ -4,11 +4,11 @@ name: crossplane
 version: 1.0.0
 dependencies:
   - name: crossplane
-    version: 2.4.0
+    version: 2.4.2
     repository: https://charts.crossplane.io/stable
   - name: komoplane
     version: 0.1.8
     repository: https://helm-charts.komodor.io
   - name: crossview
-    version: 4.5.0
+    version: 4.6.0
     repository: https://crossplane-contrib.github.io/crossview
