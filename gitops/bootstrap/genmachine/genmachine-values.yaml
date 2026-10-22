@@ -53,15 +53,15 @@ argo-cd:
         - name: extension-metrics
           env:
             - name: EXTENSION_URL
-              value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension.tar.gz
+              value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.1.0/extension.tar.gz
             - name: EXTENSION_CHECKSUM_URL
-              value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
+              value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.1.0/extension_checksums.txt
         - name: argo-rollouts
           env:
             - name: EXTENSION_URL
               value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.4.1/extension.tar
               #      - name: EXTENSION_CHECKSUM_URL
-              #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
+              #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.1.0/extension_checksums.txt
 
     metrics:
       enabled: true
