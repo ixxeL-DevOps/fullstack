@@ -79,7 +79,7 @@ authentik:
     enabled: true
     image:
       repository: library/postgres
-      tag: 17.12-bookworm
+      tag: 19.0-bookworm
     auth:
       username: authentik
       database: authentik
